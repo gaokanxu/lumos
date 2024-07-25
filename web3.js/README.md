@@ -1,53 +1,25 @@
-[![npm][npm-image]][npm-url]
-[![npm-downloads][npm-downloads-image]][npm-url]
-[![semantic-release][semantic-release-image]][semantic-release-url]
-<br />
-[![code-style-prettier][code-style-prettier-image]][code-style-prettier-url]
 
-[code-style-prettier-image]: https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square
-[code-style-prettier-url]: https://github.com/prettier/prettier
-[npm-downloads-image]: https://img.shields.io/npm/dm/@solana/web3.js.svg?style=flat
-[npm-image]: https://img.shields.io/npm/v/@solana/web3.js.svg?style=flat
-[npm-url]: https://www.npmjs.com/package/@solana/web3.js
-[semantic-release-image]: https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg
-[semantic-release-url]: https://github.com/semantic-release/semantic-release
+# Lumos JavaScript SDK
 
-# Solana JavaScript SDK
-
-Use this to interact with accounts and programs on the Solana network through the Solana [JSON RPC API](https://solana.com/docs/rpc).
+Use this to interact with accounts and programs on the Lumos network through the Lumos [JSON RPC API](https://lumos.uuhb.com/docs/rpc).
 
 ## Installation
 
 ### For use in Node.js or a web application
 
 ```
-$ npm install --save @solana/web3.js
+$ npm install --save @Lumos/web3.js
 ```
 
 ### For use in a browser, without a build system
 
 ```html
 <!-- Development (un-minified) -->
-<script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.js"></script>
+<script src="https://lumos.uuhb.com/lumos/web3.js@latest/lib/index.iife.js"></script>
 
 <!-- Production (minified) -->
-<script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.min.js"></script>
+<script src="https://lumos.uuhb.com/lumos/web3.js@latest/lib/index.iife.min.js"></script>
 ```
-
-## Documentation and examples
-
--   [The Solana Cookbook](https://solanacookbook.com/) has extensive task-based documentation using this library.
--   For more detail on individual functions, see the [latest API Documentation](https://solana-labs.github.io/solana-web3.js)
-
-## Getting help
-
-Have a question or a problem? Check the [Solana Stack Exchange](https://solana.stackexchange.com) to see if anyone else is having the same one. If not, [post a new question](https://solana.stackexchange.com/questions/ask).
-
-Include:
-
--   A detailed description of what you're trying to achieve
--   Source code, if possible
--   The text of any errors you encountered, with stacktraces if available
 
 ## Compatibility
 
@@ -65,7 +37,7 @@ This library requires a JavaScript runtime that supports [`BigInt`](https://deve
     -   Deno: >=1.0
     -   Node: >=10.4.0
 -   React Native:
-    -   \>=0.7.0 using the [Hermes](https://reactnative.dev/blog/2022/07/08/hermes-as-the-default) engine ([integration guide](https://solanacookbook.com/integrations/react-native.html#how-to-use-solana-web3-js-in-a-react-native-app)):
+    -   \>=0.7.0 using the [Hermes](https://reactnative.dev/blog/2022/07/08/hermes-as-the-default) engine ([integration guide](https://Lumoscookbook.com/integrations/react-native.html#how-to-use-Lumos-web3-js-in-a-react-native-app)):
 
 ## Development environment setup
 
@@ -116,7 +88,7 @@ $ npm run test:live-with-test-validator
 
 Cache build artifacts remotely so that you, others, and the CI server can take advantage of each others' build efforts.
 
-1. Log the Turborepo CLI into the Solana Vercel account
+1. Log the Turborepo CLI into the Lumos Vercel account
     ```shell
     pnpm turbo login
     ```
@@ -127,13 +99,13 @@ Cache build artifacts remotely so that you, others, and the CI server can take a
 
 ## Contributing
 
-If you found a bug or would like to request a feature, please [file an issue](https://github.com/solana-labs/solana-web3.js/issues/new). If, based on the discussion on an issue you would like to offer a code change, please make a [pull request](https://github.com/solana-labs/solana-web3.js/compare). If neither of these describes what you would like to contribute, read the [getting help](#getting-help) section above.
+If you found a bug or would like to request a feature, please [file an issue](https://github.com/Lumos-labs/Lumos-web3.js/issues/new). If, based on the discussion on an issue you would like to offer a code change, please make a [pull request](https://github.com/Lumos-labs/Lumos-web3.js/compare). If neither of these describes what you would like to contribute, read the [getting help](#getting-help) section above.
 
 ## Disclaimer
 
 All claims, content, designs, algorithms, estimates, roadmaps,
 specifications, and performance measurements described in this project
-are done with the Solana Foundation's ("SF") best efforts. It is up to
+are done with the Lumos Foundation's ("SF") best efforts. It is up to
 the reader to check and validate their accuracy and truthfulness.
 Furthermore nothing in this project constitutes a solicitation for
 investment.
@@ -141,7 +113,7 @@ investment.
 Any content produced by SF or developer resources that SF provides, are
 for educational and inspiration purposes only. SF does not encourage,
 induce or sanction the deployment, integration or use of any such
-applications (including the code comprising the Solana blockchain
+applications (including the code comprising the Lumos blockchain
 protocol) in violation of applicable laws or regulations and hereby
 prohibits any such deployment, integration or use. This includes use of
 any such applications by the reader (a) in violation of export control
@@ -158,14 +130,14 @@ prohibit U.S. persons (and other persons that are subject to such laws)
 from transacting with persons in certain countries and territories or
 that are on the SDN list. As a project based primarily on open-source
 software, it is possible that such sanctioned persons may nevertheless
-bypass prohibitions, obtain the code comprising the Solana blockchain
+bypass prohibitions, obtain the code comprising the Lumos blockchain
 protocol (or other project code or applications) and deploy, integrate,
 or otherwise use it. Accordingly, there is a risk to individuals that
-other persons using the Solana blockchain protocol may be sanctioned
+other persons using the Lumos blockchain protocol may be sanctioned
 persons and that transactions with such persons would be a violation of
 U.S. export controls and sanctions law. This risk applies to
 individuals, organizations, and other ecosystem participants that
-deploy, integrate, or use the Solana blockchain protocol code directly
-(e.g., as a node operator), and individuals that transact on the Solana
+deploy, integrate, or use the Lumos blockchain protocol code directly
+(e.g., as a node operator), and individuals that transact on the Lumos
 blockchain through light clients, third party interfaces, and/or wallet
 software.
