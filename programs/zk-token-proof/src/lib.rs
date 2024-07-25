@@ -2,13 +2,13 @@
 
 use {
     bytemuck::Pod,
-    solana_program_runtime::{declare_process_instruction, ic_msg, invoke_context::InvokeContext},
-    solana_sdk::{
+    lumos_program_runtime::{declare_process_instruction, ic_msg, invoke_context::InvokeContext},
+    lumos_sdk::{
         feature_set,
         instruction::{InstructionError, TRANSACTION_LEVEL_STACK_HEIGHT},
         system_program,
     },
-    solana_zk_token_sdk::{
+    lumos_zk_token_sdk::{
         zk_token_proof_instruction::*,
         zk_token_proof_program::id,
         zk_token_proof_state::{ProofContextState, ProofContextStateMeta},

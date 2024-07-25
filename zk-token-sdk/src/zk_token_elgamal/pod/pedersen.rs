@@ -1,6 +1,6 @@
 //! Plain Old Data type for the Pedersen commitment scheme.
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 use {
     crate::encryption::{elgamal::ElGamalError, pedersen as decoded},
     curve25519_dalek::ristretto::CompressedRistretto,
@@ -27,7 +27,7 @@ impl fmt::Debug for PedersenCommitment {
     }
 }
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 impl From<decoded::PedersenCommitment> for PedersenCommitment {
     fn from(decoded_commitment: decoded::PedersenCommitment) -> Self {
         Self(decoded_commitment.to_bytes())
@@ -35,14 +35,14 @@ impl From<decoded::PedersenCommitment> for PedersenCommitment {
 }
 
 // For proof verification, interpret pod::PedersenCommitment directly as CompressedRistretto
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 impl From<PedersenCommitment> for CompressedRistretto {
     fn from(pod_commitment: PedersenCommitment) -> Self {
         Self(pod_commitment.0)
     }
 }
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 impl TryFrom<PedersenCommitment> for decoded::PedersenCommitment {
     type Error = ElGamalError;
 

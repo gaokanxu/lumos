@@ -4,23 +4,23 @@ use {
     log::*,
     serde::{Deserialize, Serialize},
     serde_json::Result,
-    solana_bpf_loader_program::{
+    lumos_bpf_loader_program::{
         create_vm, load_program_from_bytes, serialization::serialize_parameters,
         syscalls::create_program_runtime_environment_v1,
     },
-    solana_cli_output::{OutputFormat, QuietDisplay, VerboseDisplay},
-    solana_ledger::{blockstore_options::AccessType, use_snapshot_archives_at_startup},
-    solana_program_runtime::{
+    lumos_cli_output::{OutputFormat, QuietDisplay, VerboseDisplay},
+    lumos_ledger::{blockstore_options::AccessType, use_snapshot_archives_at_startup},
+    lumos_program_runtime::{
         invoke_context::InvokeContext,
         loaded_programs::{LoadProgramMetrics, LoadedProgramType, DELAY_VISIBILITY_SLOT_OFFSET},
         with_mock_invoke_context,
     },
-    solana_rbpf::{
+    lumos_rbpf::{
         assembler::assemble, elf::Executable, static_analysis::Analysis,
         verifier::RequisiteVerifier,
     },
-    solana_runtime::bank::Bank,
-    solana_sdk::{
+    lumos_runtime::bank::Bank,
+    lumos_sdk::{
         account::AccountSharedData,
         account_utils::StateMut,
         bpf_loader_upgradeable::{self, UpgradeableLoaderState},
@@ -504,7 +504,7 @@ pub fn program(ledger_path: &Path, matches: &ArgMatches<'_>) {
     let program_index: u16 = instruction_accounts.len().try_into().unwrap();
     transaction_accounts.push((
         loader_id,
-        AccountSharedData::new(0, 0, &solana_sdk::native_loader::id()),
+        AccountSharedData::new(0, 0, &lumos_sdk::native_loader::id()),
     ));
     transaction_accounts.push((
         program_id, // ID of the loaded program. It can modify accounts with the same owner key

@@ -1,6 +1,6 @@
 use {
     clap::{Arg, ArgMatches},
-    solana_sdk::derivation_path::DerivationPath,
+    lumos_sdk::derivation_path::DerivationPath,
     std::error,
 };
 

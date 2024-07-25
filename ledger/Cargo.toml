@@ -1,7 +1,7 @@
 [package]
-name = "solana-ledger"
-description = "Solana ledger"
-documentation = "https://docs.rs/solana-ledger"
+name = "lumos-ledger"
+description = "Lumos ledger"
+documentation = "https://docs.rs/lumos-ledger"
 version = { workspace = true }
 authors = { workspace = true }
 repository = { workspace = true }
@@ -37,29 +37,29 @@ scopeguard = { workspace = true }
 serde = { workspace = true }
 serde_bytes = { workspace = true }
 sha2 = { workspace = true }
-solana-account-decoder = { workspace = true }
-solana-accounts-db = { workspace = true }
-solana-bpf-loader-program = { workspace = true }
-solana-cost-model = { workspace = true }
-solana-entry = { workspace = true }
-solana-frozen-abi = { workspace = true }
-solana-frozen-abi-macro = { workspace = true }
-solana-measure = { workspace = true }
-solana-metrics = { workspace = true }
-solana-perf = { workspace = true }
-solana-program-runtime = { workspace = true }
-solana-rayon-threadlimit = { workspace = true }
-solana-runtime = { workspace = true }
-solana-sdk = { workspace = true }
-solana-stake-program = { workspace = true }
-solana-storage-bigtable = { workspace = true }
-solana-storage-proto = { workspace = true }
-solana-svm = { workspace = true }
-solana-transaction-status = { workspace = true }
-solana-vote = { workspace = true }
-solana-vote-program = { workspace = true }
-spl-token = { workspace = true, features = ["no-entrypoint"] }
-spl-token-2022 = { workspace = true, features = ["no-entrypoint"] }
+lumos-account-decoder = { workspace = true }
+lumos-accounts-db = { workspace = true }
+lumos-bpf-loader-program = { workspace = true }
+lumos-cost-model = { workspace = true }
+lumos-entry = { workspace = true }
+lumos-frozen-abi = { workspace = true }
+lumos-frozen-abi-macro = { workspace = true }
+lumos-measure = { workspace = true }
+lumos-metrics = { workspace = true }
+lumos-perf = { workspace = true }
+lumos-program-runtime = { workspace = true }
+lumos-rayon-threadlimit = { workspace = true }
+lumos-runtime = { workspace = true }
+lumos-sdk = { workspace = true }
+lumos-stake-program = { workspace = true }
+lumos-storage-bigtable = { workspace = true }
+lumos-storage-proto = { workspace = true }
+lumos-svm = { workspace = true }
+lumos-transaction-status = { workspace = true }
+lumos-vote = { workspace = true }
+lumos-vote-program = { workspace = true }
+lpl-token = { workspace = true, features = ["no-entrypoint"] }
+lpl-token-2022 = { workspace = true, features = ["no-entrypoint"] }
 static_assertions = { workspace = true }
 strum = { workspace = true, features = ["derive"] }
 strum_macros = { workspace = true }
@@ -78,10 +78,10 @@ features = ["lz4"]
 
 [dev-dependencies]
 bs58 = { workspace = true }
-solana-account-decoder = { workspace = true }
-solana-logger = { workspace = true }
-solana-runtime = { workspace = true, features = ["dev-context-only-utils"] }
-spl-pod = { workspace = true }
+lumos-account-decoder = { workspace = true }
+lumos-logger = { workspace = true }
+lumos-runtime = { workspace = true, features = ["dev-context-only-utils"] }
+lpl-pod = { workspace = true }
 test-case = { workspace = true }
 
 [build-dependencies]
@@ -92,7 +92,7 @@ dev-context-only-utils = []
 
 [lib]
 crate-type = ["lib"]
-name = "solana_ledger"
+name = "lumos_ledger"
 
 [[bench]]
 name = "sigverify_shreds"

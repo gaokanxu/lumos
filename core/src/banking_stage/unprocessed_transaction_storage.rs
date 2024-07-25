@@ -17,13 +17,13 @@ use {
     },
     itertools::Itertools,
     min_max_heap::MinMaxHeap,
-    solana_measure::{measure, measure_us},
-    solana_runtime::bank::Bank,
-    solana_sdk::{
+    lumos_measure::{measure, measure_us},
+    lumos_runtime::bank::Bank,
+    lumos_sdk::{
         clock::FORWARD_TRANSACTIONS_TO_LEADER_AT_SLOT_OFFSET, feature_set::FeatureSet, hash::Hash,
         saturating_add_assign, transaction::SanitizedTransaction,
     },
-    solana_svm::transaction_error_metrics::TransactionErrorMetrics,
+    lumos_svm::transaction_error_metrics::TransactionErrorMetrics,
     std::{
         collections::HashMap,
         sync::{atomic::Ordering, Arc},
@@ -991,15 +991,15 @@ impl ThreadLocalUnprocessedPackets {
 mod tests {
     use {
         super::*,
-        solana_ledger::genesis_utils::{create_genesis_config, GenesisConfigInfo},
-        solana_perf::packet::{Packet, PacketFlags},
-        solana_sdk::{
+        lumos_ledger::genesis_utils::{create_genesis_config, GenesisConfigInfo},
+        lumos_perf::packet::{Packet, PacketFlags},
+        lumos_sdk::{
             hash::Hash,
             signature::{Keypair, Signer},
             system_transaction,
             transaction::Transaction,
         },
-        solana_vote_program::{
+        lumos_vote_program::{
             vote_state::VoteStateUpdate, vote_transaction::new_vote_state_update_transaction,
         },
         std::error::Error,
@@ -1058,7 +1058,7 @@ mod tests {
 
     #[test]
     fn test_filter_and_forward_with_account_limits() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let GenesisConfigInfo {
             genesis_config,
             mint_keypair,
@@ -1199,7 +1199,7 @@ mod tests {
     fn test_unprocessed_transaction_storage_insert() -> Result<(), Box<dyn Error>> {
         let keypair = Keypair::new();
         let vote_keypair = Keypair::new();
-        let pubkey = solana_sdk::pubkey::new_rand();
+        let pubkey = lumos_sdk::pubkey::new_rand();
 
         let small_transfer = Packet::from_data(
             None,
@@ -1263,7 +1263,7 @@ mod tests {
 
     #[test]
     fn test_prepare_packets_to_forward() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let GenesisConfigInfo {
             genesis_config,
             mint_keypair,

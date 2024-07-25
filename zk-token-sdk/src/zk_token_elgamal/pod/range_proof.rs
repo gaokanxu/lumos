@@ -1,6 +1,6 @@
 //! Plain Old Data types for range proofs.
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 use crate::{
     range_proof::{self as decoded, errors::RangeProofVerificationError},
     UNIT_LEN,
@@ -39,7 +39,7 @@ const RANGE_PROOF_U256_LEN: usize =
 #[repr(transparent)]
 pub struct RangeProofU64(pub [u8; RANGE_PROOF_U64_LEN]);
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 impl TryFrom<decoded::RangeProof> for RangeProofU64 {
     type Error = RangeProofVerificationError;
 
@@ -56,7 +56,7 @@ impl TryFrom<decoded::RangeProof> for RangeProofU64 {
     }
 }
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 impl TryFrom<RangeProofU64> for decoded::RangeProof {
     type Error = RangeProofVerificationError;
 
@@ -70,7 +70,7 @@ impl TryFrom<RangeProofU64> for decoded::RangeProof {
 #[repr(transparent)]
 pub struct RangeProofU128(pub [u8; RANGE_PROOF_U128_LEN]);
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 impl TryFrom<decoded::RangeProof> for RangeProofU128 {
     type Error = RangeProofVerificationError;
 
@@ -87,7 +87,7 @@ impl TryFrom<decoded::RangeProof> for RangeProofU128 {
     }
 }
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 impl TryFrom<RangeProofU128> for decoded::RangeProof {
     type Error = RangeProofVerificationError;
 
@@ -101,7 +101,7 @@ impl TryFrom<RangeProofU128> for decoded::RangeProof {
 #[repr(transparent)]
 pub struct RangeProofU256(pub [u8; RANGE_PROOF_U256_LEN]);
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 impl TryFrom<decoded::RangeProof> for RangeProofU256 {
     type Error = RangeProofVerificationError;
 
@@ -118,7 +118,7 @@ impl TryFrom<decoded::RangeProof> for RangeProofU256 {
     }
 }
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 impl TryFrom<RangeProofU256> for decoded::RangeProof {
     type Error = RangeProofVerificationError;
 
@@ -127,7 +127,7 @@ impl TryFrom<RangeProofU256> for decoded::RangeProof {
     }
 }
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 fn copy_range_proof_modulo_inner_product_proof(proof: &decoded::RangeProof, buf: &mut [u8]) {
     let mut chunks = buf.chunks_mut(UNIT_LEN);
     chunks.next().unwrap().copy_from_slice(proof.A.as_bytes());

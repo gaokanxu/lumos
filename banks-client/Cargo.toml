@@ -1,7 +1,7 @@
 [package]
-name = "solana-banks-client"
-description = "Solana banks client"
-documentation = "https://docs.rs/solana-banks-client"
+name = "lumos-banks-client"
+description = "Lumos banks client"
+documentation = "https://docs.rs/lumos-banks-client"
 version = { workspace = true }
 authors = { workspace = true }
 repository = { workspace = true }
@@ -12,21 +12,21 @@ edition = { workspace = true }
 [dependencies]
 borsh = { workspace = true }
 futures = { workspace = true }
-solana-banks-interface = { workspace = true }
-solana-program = { workspace = true }
-solana-sdk = { workspace = true }
+lumos-banks-interface = { workspace = true }
+lumos-program = { workspace = true }
+lumos-sdk = { workspace = true }
 tarpc = { workspace = true, features = ["full"] }
 thiserror = { workspace = true }
 tokio = { workspace = true, features = ["full"] }
 tokio-serde = { workspace = true, features = ["bincode"] }
 
 [dev-dependencies]
-solana-banks-server = { workspace = true }
-solana-runtime = { workspace = true, features = ["dev-context-only-utils"] }
+lumos-banks-server = { workspace = true }
+lumos-runtime = { workspace = true, features = ["dev-context-only-utils"] }
 
 [lib]
 crate-type = ["lib"]
-name = "solana_banks_client"
+name = "lumos_banks_client"
 
 [package.metadata.docs.rs]
 targets = ["x86_64-unknown-linux-gnu"]

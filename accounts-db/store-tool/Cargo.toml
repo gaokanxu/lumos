@@ -1,5 +1,5 @@
 [package]
-name = "solana-store-tool"
+name = "lumos-store-tool"
 description = "Tool to inspect append vecs"
 publish = false
 version = { workspace = true }
@@ -12,10 +12,10 @@ edition = { workspace = true }
 [dependencies]
 clap = { workspace = true }
 log = { workspace = true }
-solana-accounts-db = { workspace = true }
-solana-logger = { workspace = true }
-solana-sdk = { workspace = true }
-solana-version = { workspace = true }
+lumos-accounts-db = { workspace = true }
+lumos-logger = { workspace = true }
+lumos-sdk = { workspace = true }
+lumos-version = { workspace = true }
 
 [package.metadata.docs.rs]
 targets = ["x86_64-unknown-linux-gnu"]

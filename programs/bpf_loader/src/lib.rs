@@ -5,8 +5,8 @@ pub mod serialization;
 pub mod syscalls;
 
 use {
-    solana_measure::measure::Measure,
-    solana_program_runtime::{
+    lumos_measure::measure::Measure,
+    lumos_program_runtime::{
         ic_logger_msg, ic_msg,
         invoke_context::{BpfAllocator, InvokeContext, SerializedAccountMetadata, SyscallContext},
         loaded_programs::{
@@ -16,7 +16,7 @@ use {
         stable_log,
         sysvar_cache::get_sysvar_with_account_check,
     },
-    solana_rbpf::{
+    lumos_rbpf::{
         aligned_memory::AlignedMemory,
         declare_builtin_function,
         ebpf::{self, HOST_ALIGN, MM_HEAP_START},
@@ -27,7 +27,7 @@ use {
         verifier::RequisiteVerifier,
         vm::{ContextObject, EbpfVm},
     },
-    solana_sdk::{
+    lumos_sdk::{
         account::WritableAccount,
         bpf_loader, bpf_loader_deprecated,
         bpf_loader_upgradeable::{self, UpgradeableLoaderState},
@@ -272,11 +272,11 @@ macro_rules! create_vm {
         ));
         let mut allocations = None;
         let $vm = heap_cost_result.and_then(|_| {
-            let mut stack = solana_rbpf::aligned_memory::AlignedMemory::<
-                { solana_rbpf::ebpf::HOST_ALIGN },
+            let mut stack = lumos_rbpf::aligned_memory::AlignedMemory::<
+                { lumos_rbpf::ebpf::HOST_ALIGN },
             >::zero_filled(stack_size);
-            let mut heap = solana_rbpf::aligned_memory::AlignedMemory::<
-                { solana_rbpf::ebpf::HOST_ALIGN },
+            let mut heap = lumos_rbpf::aligned_memory::AlignedMemory::<
+                { lumos_rbpf::ebpf::HOST_ALIGN },
             >::zero_filled(usize::try_from(heap_size).unwrap());
             let vm = $crate::create_vm(
                 $program,
@@ -296,8 +296,8 @@ macro_rules! create_vm {
 macro_rules! mock_create_vm {
     ($vm:ident, $additional_regions:expr, $accounts_metadata:expr, $invoke_context:expr $(,)?) => {
         let loader = std::sync::Arc::new(BuiltinProgram::new_mock());
-        let function_registry = solana_rbpf::program::FunctionRegistry::default();
-        let executable = solana_rbpf::elf::Executable::<InvokeContext>::from_text_bytes(
+        let function_registry = lumos_rbpf::program::FunctionRegistry::default();
+        let executable = lumos_rbpf::elf::Executable::<InvokeContext>::from_text_bytes(
             &[0x95, 0, 0, 0, 0, 0, 0, 0],
             loader,
             SBPFVersion::V2,
@@ -305,7 +305,7 @@ macro_rules! mock_create_vm {
         )
         .unwrap();
         executable
-            .verify::<solana_rbpf::verifier::RequisiteVerifier>()
+            .verify::<lumos_rbpf::verifier::RequisiteVerifier>()
             .unwrap();
         $crate::create_vm!(
             $vm,
@@ -610,7 +610,7 @@ fn process_loader_upgradeable_instruction(
             let signers = [[new_program_id.as_ref(), &[bump_seed]]]
                 .iter()
                 .map(|seeds| Pubkey::create_program_address(seeds, caller_program_id))
-                .collect::<Result<Vec<Pubkey>, solana_sdk::pubkey::PubkeyError>>()?;
+                .collect::<Result<Vec<Pubkey>, lumos_sdk::pubkey::PubkeyError>>()?;
             invoke_context.native_invoke(instruction.into(), signers.as_slice())?;
 
             // Load and verify the program bits
@@ -1469,8 +1469,8 @@ fn execute<'a, 'b: 'a>(
 
 pub mod test_utils {
     use {
-        super::*, solana_program_runtime::loaded_programs::DELAY_VISIBILITY_SLOT_OFFSET,
-        solana_sdk::account::ReadableAccount,
+        super::*, lumos_program_runtime::loaded_programs::DELAY_VISIBILITY_SLOT_OFFSET,
+        lumos_sdk::account::ReadableAccount,
     };
 
     pub fn load_all_invoked_programs(invoke_context: &mut InvokeContext) {
@@ -1525,11 +1525,11 @@ mod tests {
         super::*,
         assert_matches::assert_matches,
         rand::Rng,
-        solana_program_runtime::{
+        lumos_program_runtime::{
             invoke_context::mock_process_instruction, with_mock_invoke_context,
         },
-        solana_rbpf::vm::ContextObject,
-        solana_sdk::{
+        lumos_rbpf::vm::ContextObject,
+        lumos_sdk::{
             account::{
                 create_account_shared_data_for_test as create_account_for_test, AccountSharedData,
                 ReadableAccount, WritableAccount,

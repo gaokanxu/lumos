@@ -1,17 +1,17 @@
 use {
-    solana_client::{
+    lumos_client::{
         nonblocking::tpu_client::TpuClient,
         send_and_confirm_transactions_in_parallel::{
             send_and_confirm_transactions_in_parallel_blocking, SendAndConfirmConfig,
         },
     },
-    solana_rpc_client::rpc_client::RpcClient,
-    solana_sdk::{
+    lumos_rpc_client::rpc_client::RpcClient,
+    lumos_sdk::{
         commitment_config::CommitmentConfig, message::Message, native_token::sol_to_lamports,
         pubkey::Pubkey, signature::Keypair, signer::Signer, system_instruction,
     },
-    solana_streamer::socket::SocketAddrSpace,
-    solana_test_validator::TestValidator,
+    lumos_streamer::socket::SocketAddrSpace,
+    lumos_test_validator::TestValidator,
     std::sync::Arc,
 };
 
@@ -32,20 +32,20 @@ fn create_messages(from: Pubkey, to: Pubkey) -> (Vec<Message>, f64) {
 
 #[test]
 fn test_send_and_confirm_transactions_in_parallel_without_tpu_client() {
-    solana_logger::setup();
+    lumos_logger::setup();
 
     let alice = Keypair::new();
     let test_validator =
         TestValidator::with_no_fees(alice.pubkey(), None, SocketAddrSpace::Unspecified);
 
-    let bob_pubkey = solana_sdk::pubkey::new_rand();
+    let bob_pubkey = lumos_sdk::pubkey::new_rand();
     let alice_pubkey = alice.pubkey();
 
     let rpc_client = Arc::new(RpcClient::new(test_validator.rpc_url()));
 
     assert_eq!(
-        rpc_client.get_version().unwrap().solana_core,
-        solana_version::semver!()
+        rpc_client.get_version().unwrap().lumos_core,
+        lumos_version::semver!()
     );
 
     let original_alice_balance = rpc_client.get_balance(&alice.pubkey()).unwrap();
@@ -82,20 +82,20 @@ fn test_send_and_confirm_transactions_in_parallel_without_tpu_client() {
 
 #[test]
 fn test_send_and_confirm_transactions_in_parallel_with_tpu_client() {
-    solana_logger::setup();
+    lumos_logger::setup();
 
     let alice = Keypair::new();
     let test_validator =
         TestValidator::with_no_fees(alice.pubkey(), None, SocketAddrSpace::Unspecified);
 
-    let bob_pubkey = solana_sdk::pubkey::new_rand();
+    let bob_pubkey = lumos_sdk::pubkey::new_rand();
     let alice_pubkey = alice.pubkey();
 
     let rpc_client = Arc::new(RpcClient::new(test_validator.rpc_url()));
 
     assert_eq!(
-        rpc_client.get_version().unwrap().solana_core,
-        solana_version::semver!()
+        rpc_client.get_version().unwrap().lumos_core,
+        lumos_version::semver!()
     );
 
     let original_alice_balance = rpc_client.get_balance(&alice.pubkey()).unwrap();
@@ -105,7 +105,7 @@ fn test_send_and_confirm_transactions_in_parallel_with_tpu_client() {
         "temp",
         rpc_client.get_inner_client().clone(),
         ws_url.as_str(),
-        solana_client::tpu_client::TpuClientConfig::default(),
+        lumos_client::tpu_client::TpuClientConfig::default(),
     );
     let tpu_client = rpc_client.runtime().block_on(tpu_client_fut).unwrap();
 

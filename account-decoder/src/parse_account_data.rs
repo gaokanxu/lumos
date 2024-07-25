@@ -7,7 +7,7 @@ use {
     },
     inflector::Inflector,
     serde_json::Value,
-    solana_sdk::{
+    lumos_sdk::{
         address_lookup_table, instruction::InstructionError, pubkey::Pubkey, stake, system_program,
         sysvar, vote,
     },
@@ -17,8 +17,8 @@ use {
 
 lazy_static! {
     static ref ADDRESS_LOOKUP_PROGRAM_ID: Pubkey = address_lookup_table::program::id();
-    static ref BPF_UPGRADEABLE_LOADER_PROGRAM_ID: Pubkey = solana_sdk::bpf_loader_upgradeable::id();
-    static ref CONFIG_PROGRAM_ID: Pubkey = solana_config_program::id();
+    static ref BPF_UPGRADEABLE_LOADER_PROGRAM_ID: Pubkey = lumos_sdk::bpf_loader_upgradeable::id();
+    static ref CONFIG_PROGRAM_ID: Pubkey = lumos_config_program::id();
     static ref STAKE_PROGRAM_ID: Pubkey = stake::program::id();
     static ref SYSTEM_PROGRAM_ID: Pubkey = system_program::id();
     static ref SYSVAR_PROGRAM_ID: Pubkey = sysvar::id();
@@ -126,7 +126,7 @@ pub fn parse_account_data(
 mod test {
     use {
         super::*,
-        solana_sdk::{
+        lumos_sdk::{
             nonce::{
                 state::{Data, Versions},
                 State,
@@ -140,8 +140,8 @@ mod test {
 
     #[test]
     fn test_parse_account_data() {
-        let account_pubkey = solana_sdk::pubkey::new_rand();
-        let other_program = solana_sdk::pubkey::new_rand();
+        let account_pubkey = lumos_sdk::pubkey::new_rand();
+        let other_program = lumos_sdk::pubkey::new_rand();
         let data = vec![0; 4];
         assert!(parse_account_data(&account_pubkey, &other_program, &data, None).is_err());
 

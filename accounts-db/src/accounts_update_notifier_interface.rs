@@ -1,6 +1,6 @@
 use {
     crate::account_storage::meta::StoredAccountMeta,
-    solana_sdk::{
+    lumos_sdk::{
         account::AccountSharedData, clock::Slot, pubkey::Pubkey, transaction::SanitizedTransaction,
     },
     std::sync::Arc,

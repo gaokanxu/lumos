@@ -58,8 +58,8 @@ impl<T: Default> Default for RecyclerX<T> {
 }
 
 #[cfg(RUSTC_WITH_SPECIALIZATION)]
-impl solana_frozen_abi::abi_example::AbiExample
-    for RecyclerX<crate::cuda_runtime::PinnedVec<solana_sdk::packet::Packet>>
+impl lumos_frozen_abi::abi_example::AbiExample
+    for RecyclerX<crate::cuda_runtime::PinnedVec<lumos_sdk::packet::Packet>>
 {
     fn example() -> Self {
         Self::default()

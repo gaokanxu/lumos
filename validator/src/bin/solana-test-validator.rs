@@ -3,19 +3,19 @@ use {
     crossbeam_channel::unbounded,
     itertools::Itertools,
     log::*,
-    solana_accounts_db::accounts_index::{AccountIndex, AccountSecondaryIndexes},
-    solana_clap_utils::{
+    lumos_accounts_db::accounts_index::{AccountIndex, AccountSecondaryIndexes},
+    lumos_clap_utils::{
         input_parsers::{pubkey_of, pubkeys_of, value_of},
         input_validators::normalize_to_url_if_moniker,
     },
-    solana_core::consensus::tower_storage::FileTowerStorage,
-    solana_faucet::faucet::run_local_faucet_with_port,
-    solana_rpc::{
+    lumos_core::consensus::tower_storage::FileTowerStorage,
+    lumos_faucet::faucet::run_local_faucet_with_port,
+    lumos_rpc::{
         rpc::{JsonRpcConfig, RpcBigtableConfig},
         rpc_pubsub_service::PubSubConfig,
     },
-    solana_rpc_client::rpc_client::RpcClient,
-    solana_sdk::{
+    lumos_rpc_client::rpc_client::RpcClient,
+    lumos_sdk::{
         account::AccountSharedData,
         clock::Slot,
         epoch_schedule::EpochSchedule,
@@ -26,9 +26,9 @@ use {
         signature::{read_keypair_file, write_keypair_file, Keypair, Signer},
         system_program,
     },
-    solana_streamer::socket::SocketAddrSpace,
-    solana_test_validator::*,
-    solana_validator::{
+    lumos_streamer::socket::SocketAddrSpace,
+    lumos_test_validator::*,
+    lumos_validator::{
         admin_rpc_service, cli, dashboard::Dashboard, ledger_lockfile, lock_ledger,
         println_name_value, redirect_stderr_to_file,
     },
@@ -52,7 +52,7 @@ enum Output {
 
 fn main() {
     let default_args = cli::DefaultTestArgs::new();
-    let version = solana_version::version!();
+    let version = lumos_version::version!();
     let matches = cli::test_app(version, &default_args).get_matches();
 
     let output = if matches.is_present("quiet") {
@@ -101,7 +101,7 @@ fn main() {
             exit(1);
         })
     }
-    solana_runtime::snapshot_utils::remove_tmp_snapshot_archives(&ledger_path);
+    lumos_runtime::snapshot_utils::remove_tmp_snapshot_archives(&ledger_path);
 
     let validator_log_symlink = ledger_path.join("validator.log");
 
@@ -129,16 +129,16 @@ fn main() {
     };
     let _logger_thread = redirect_stderr_to_file(logfile);
 
-    info!("{} {}", crate_name!(), solana_version::version!());
+    info!("{} {}", crate_name!(), lumos_version::version!());
     info!("Starting validator with: {:#?}", std::env::args_os());
-    solana_core::validator::report_target_features();
+    lumos_core::validator::report_target_features();
 
     // TODO: Ideally test-validator should *only* allow private addresses.
     let socket_addr_space = SocketAddrSpace::new(/*allow_private_addr=*/ true);
     let cli_config = if let Some(config_file) = matches.value_of("config_file") {
-        solana_cli_config::Config::load(config_file).unwrap_or_default()
+        lumos_cli_config::Config::load(config_file).unwrap_or_default()
     } else {
-        solana_cli_config::Config::default()
+        lumos_cli_config::Config::default()
     };
 
     let cluster_rpc_client = value_t!(matches, "json_rpc_url", String)
@@ -160,20 +160,20 @@ fn main() {
     let ticks_per_slot = value_t!(matches, "ticks_per_slot", u64).ok();
     let slots_per_epoch = value_t!(matches, "slots_per_epoch", Slot).ok();
     let gossip_host = matches.value_of("gossip_host").map(|gossip_host| {
-        solana_net_utils::parse_host(gossip_host).unwrap_or_else(|err| {
+        lumos_net_utils::parse_host(gossip_host).unwrap_or_else(|err| {
             eprintln!("Failed to parse --gossip-host: {err}");
             exit(1);
         })
     });
     let gossip_port = value_t!(matches, "gossip_port", u16).ok();
     let dynamic_port_range = matches.value_of("dynamic_port_range").map(|port_range| {
-        solana_net_utils::parse_port_range(port_range).unwrap_or_else(|| {
+        lumos_net_utils::parse_port_range(port_range).unwrap_or_else(|| {
             eprintln!("Failed to parse --dynamic-port-range");
             exit(1);
         })
     });
     let bind_address = matches.value_of("bind_address").map(|bind_address| {
-        solana_net_utils::parse_host(bind_address).unwrap_or_else(|err| {
+        lumos_net_utils::parse_host(bind_address).unwrap_or_else(|err| {
             eprintln!("Failed to parse --bind-address: {err}");
             exit(1);
         })
@@ -212,7 +212,7 @@ fn main() {
 
             upgradeable_programs_to_load.push(UpgradeableProgramInfo {
                 program_id: address,
-                loader: solana_sdk::bpf_loader_upgradeable::id(),
+                loader: lumos_sdk::bpf_loader_upgradeable::id(),
                 upgrade_authority: Pubkey::default(),
                 program_path,
             });
@@ -241,7 +241,7 @@ fn main() {
 
             upgradeable_programs_to_load.push(UpgradeableProgramInfo {
                 program_id: address,
-                loader: solana_sdk::bpf_loader_upgradeable::id(),
+                loader: lumos_sdk::bpf_loader_upgradeable::id(),
                 upgrade_authority: upgrade_authority_address,
                 program_path,
             });
@@ -374,7 +374,7 @@ fn main() {
     } else if random_mint {
         println_name_value(
             "\nNotice!",
-            "No wallet available. `solana airdrop` localnet SOL after creating one\n",
+            "No wallet available. `lumos airdrop` localnet SOL after creating one\n",
         );
     }
 

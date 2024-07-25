@@ -1,6 +1,6 @@
 [package]
-name = "solana-memory-management"
-description = "Solana memory management"
+name = "lumos-memory-management"
+description = "Lumos memory management"
 version = { workspace = true }
 authors = { workspace = true }
 repository = { workspace = true }

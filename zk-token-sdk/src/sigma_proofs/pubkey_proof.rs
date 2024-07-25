@@ -3,7 +3,7 @@
 //! The protocol guarantees computational soundness (by the hardness of discrete log) and perfect
 //! zero-knowledge in the random oracle model.
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 use {
     crate::{
         encryption::{
@@ -43,7 +43,7 @@ pub struct PubkeyValidityProof {
 }
 
 #[allow(non_snake_case)]
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 impl PubkeyValidityProof {
     /// Creates a public key validity proof.
     ///
@@ -140,7 +140,7 @@ impl PubkeyValidityProof {
 mod test {
     use {
         super::*,
-        solana_sdk::{pubkey::Pubkey, signature::Keypair},
+        lumos_sdk::{pubkey::Pubkey, signature::Keypair},
     };
 
     #[test]

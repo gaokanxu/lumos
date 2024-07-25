@@ -10,7 +10,7 @@
 //! the original Bulletproofs [paper](https://eprint.iacr.org/2017/1066) (Section 4.3).
 //!
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 use {
     crate::encryption::pedersen::{Pedersen, PedersenCommitment, PedersenOpening},
     curve25519_dalek::traits::MultiscalarMul,
@@ -66,7 +66,7 @@ impl RangeProof {
     ///
     /// The sum of the bit-lengths of the commitments amounts must be a power-of-two
     #[allow(clippy::many_single_char_names)]
-    #[cfg(not(target_os = "solana"))]
+    #[cfg(not(target_os = "lumos"))]
     pub fn new(
         amounts: Vec<u64>,
         bit_lengths: Vec<usize>,

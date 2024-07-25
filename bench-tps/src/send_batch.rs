@@ -2,9 +2,9 @@ use {
     crate::bench_tps_client::*,
     log::*,
     rayon::prelude::*,
-    solana_core::gen_keys::GenKeys,
-    solana_measure::measure::Measure,
-    solana_sdk::{
+    lumos_core::gen_keys::GenKeys,
+    lumos_measure::measure::Measure,
+    lumos_sdk::{
         commitment_config::CommitmentConfig,
         compute_budget::ComputeBudgetInstruction,
         hash::Hash,

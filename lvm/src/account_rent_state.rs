@@ -1,6 +1,6 @@
 use {
     log::*,
-    solana_sdk::{
+    lumos_sdk::{
         account::{AccountSharedData, ReadableAccount},
         pubkey::Pubkey,
         rent::Rent,
@@ -93,7 +93,7 @@ impl RentState {
         account_index: IndexOfAccount,
     ) -> Result<()> {
         Self::submit_rent_state_metrics(pre_rent_state, post_rent_state);
-        if !solana_sdk::incinerator::check_id(address)
+        if !lumos_sdk::incinerator::check_id(address)
             && !post_rent_state.transition_allowed_from(pre_rent_state)
         {
             debug!(
@@ -125,7 +125,7 @@ impl RentState {
 
 #[cfg(test)]
 mod tests {
-    use {super::*, solana_sdk::pubkey::Pubkey};
+    use {super::*, lumos_sdk::pubkey::Pubkey};
 
     #[test]
     fn test_from_account() {
@@ -271,7 +271,7 @@ mod tests {
         let result = RentState::check_rent_state_with_account(
             &pre_rent_state,
             &post_rent_state,
-            &solana_sdk::incinerator::id(),
+            &lumos_sdk::incinerator::id(),
             &AccountSharedData::default(),
             account_index,
         );

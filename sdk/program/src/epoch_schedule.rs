@@ -4,7 +4,7 @@
 //! [leader schedule][ls] is in effect. The epoch schedule determines the length
 //! of epochs, and the timing of the next leader-schedule selection.
 //!
-//! [ls]: https://docs.solanalabs.com/consensus/leader-rotation#leader-schedule-rotation
+//! [ls]: https://docs.lumoslabs.com/consensus/leader-rotation#leader-schedule-rotation
 //!
 //! The epoch schedule does not change during the life of a blockchain,
 //! though the length of an epoch does &mdash; during the initial launch of
@@ -12,7 +12,7 @@
 //! epochs increasing in slots until they last for [`DEFAULT_SLOTS_PER_EPOCH`].
 
 pub use crate::clock::{Epoch, Slot, DEFAULT_SLOTS_PER_EPOCH};
-use solana_sdk_macro::CloneZeroed;
+use lumos_sdk_macro::CloneZeroed;
 
 /// The default number of slots before an epoch starts to calculate the leader schedule.
 pub const DEFAULT_LEADER_SCHEDULE_SLOT_OFFSET: u64 = DEFAULT_SLOTS_PER_EPOCH;

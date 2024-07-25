@@ -4,8 +4,8 @@ use {
     chrono::{Local, NaiveDateTime, SecondsFormat, TimeZone, Utc},
     console::style,
     indicatif::{ProgressBar, ProgressStyle},
-    solana_cli_config::SettingType,
-    solana_sdk::{
+    lumos_cli_config::SettingType,
+    lumos_sdk::{
         clock::UnixTimestamp,
         hash::Hash,
         instruction::CompiledInstruction,
@@ -17,7 +17,7 @@ use {
         stake,
         transaction::{TransactionError, TransactionVersion, VersionedTransaction},
     },
-    solana_transaction_status::{
+    lumos_transaction_status::{
         Rewards, UiReturnDataEncoding, UiTransactionReturnData, UiTransactionStatusMeta,
     },
     spl_memo::{id as spl_memo_id, v1::id as spl_memo_v1_id},
@@ -441,9 +441,9 @@ fn write_instruction<'a, W: io::Write>(
 
     let mut raw = true;
     if let AccountKeyType::Known(program_pubkey) = program_pubkey {
-        if program_pubkey == &solana_vote_program::id() {
+        if program_pubkey == &lumos_vote_program::id() {
             if let Ok(vote_instruction) = limited_deserialize::<
-                solana_vote_program::vote_instruction::VoteInstruction,
+                lumos_vote_program::vote_instruction::VoteInstruction,
             >(&instruction.data)
             {
                 writeln!(w, "{prefix}  {vote_instruction:?}")?;
@@ -456,9 +456,9 @@ fn write_instruction<'a, W: io::Write>(
                 writeln!(w, "{prefix}  {stake_instruction:?}")?;
                 raw = false;
             }
-        } else if program_pubkey == &solana_sdk::system_program::id() {
+        } else if program_pubkey == &lumos_sdk::system_program::id() {
             if let Ok(system_instruction) = limited_deserialize::<
-                solana_sdk::system_instruction::SystemInstruction,
+                lumos_sdk::system_instruction::SystemInstruction,
             >(&instruction.data)
             {
                 writeln!(w, "{prefix}  {system_instruction:?}")?;
@@ -727,7 +727,7 @@ pub fn unix_timestamp_to_string(unix_timestamp: UnixTimestamp) -> String {
 mod test {
     use {
         super::*,
-        solana_sdk::{
+        lumos_sdk::{
             message::{
                 v0::{self, LoadedAddresses},
                 Message as LegacyMessage, MessageHeader, VersionedMessage,
@@ -737,7 +737,7 @@ mod test {
             transaction::Transaction,
             transaction_context::TransactionReturnData,
         },
-        solana_transaction_status::{Reward, RewardType, TransactionStatusMeta},
+        lumos_transaction_status::{Reward, RewardType, TransactionStatusMeta},
         std::io::BufWriter,
     };
 

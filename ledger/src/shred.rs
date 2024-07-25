@@ -60,9 +60,9 @@ use {
     rayon::ThreadPool,
     reed_solomon_erasure::Error::TooFewShardsPresent,
     serde::{Deserialize, Serialize},
-    solana_entry::entry::{create_ticks, Entry},
-    solana_perf::packet::Packet,
-    solana_sdk::{
+    lumos_entry::entry::{create_ticks, Entry},
+    lumos_perf::packet::Packet,
+    lumos_sdk::{
         clock::Slot,
         hash::{hashv, Hash},
         pubkey::Pubkey,
@@ -1167,7 +1167,7 @@ mod tests {
         bincode::serialized_size,
         rand::Rng,
         rand_chacha::{rand_core::SeedableRng, ChaChaRng},
-        solana_sdk::{shred_version, signature::Signer, signer::keypair::keypair_from_seed},
+        lumos_sdk::{shred_version, signature::Signer, signer::keypair::keypair_from_seed},
         test_case::test_case,
     };
 
@@ -1287,7 +1287,7 @@ mod tests {
 
     #[test]
     fn test_should_discard_shred() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let mut packet = Packet::default();
         let root = 1;
         let shred_version = 798;

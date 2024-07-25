@@ -1,17 +1,17 @@
 use {
     crate::rpc_subscriptions::{NotificationEntry, RpcNotification, TimestampedNotificationEntry},
     dashmap::{mapref::entry::Entry as DashEntry, DashMap},
-    solana_account_decoder::{UiAccountEncoding, UiDataSliceConfig},
-    solana_metrics::{CounterToken, TokenCounter},
-    solana_rpc_client_api::filter::RpcFilterType,
-    solana_runtime::{
+    lumos_account_decoder::{UiAccountEncoding, UiDataSliceConfig},
+    lumos_metrics::{CounterToken, TokenCounter},
+    lumos_rpc_client_api::filter::RpcFilterType,
+    lumos_runtime::{
         bank::{TransactionLogCollectorConfig, TransactionLogCollectorFilter},
         bank_forks::BankForks,
     },
-    solana_sdk::{
+    lumos_sdk::{
         clock::Slot, commitment_config::CommitmentConfig, pubkey::Pubkey, signature::Signature,
     },
-    solana_transaction_status::{TransactionDetails, UiTransactionEncoding},
+    lumos_transaction_status::{TransactionDetails, UiTransactionEncoding},
     std::{
         collections::hash_map::{Entry, HashMap},
         fmt,
@@ -593,8 +593,8 @@ mod tests {
     use {
         super::*,
         crate::rpc_pubsub_service::PubSubConfig,
-        solana_ledger::genesis_utils::{create_genesis_config, GenesisConfigInfo},
-        solana_runtime::bank::Bank,
+        lumos_ledger::genesis_utils::{create_genesis_config, GenesisConfigInfo},
+        lumos_runtime::bank::Bank,
         std::str::FromStr,
     };
 

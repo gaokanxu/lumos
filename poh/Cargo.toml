@@ -1,7 +1,7 @@
 [package]
-name = "solana-poh"
-description = "Solana PoH"
-documentation = "https://docs.rs/solana-poh"
+name = "lumos-poh"
+description = "Lumos PoH"
+documentation = "https://docs.rs/lumos-poh"
 version = { workspace = true }
 authors = { workspace = true }
 repository = { workspace = true }
@@ -13,29 +13,29 @@ edition = { workspace = true }
 core_affinity = { workspace = true }
 crossbeam-channel = { workspace = true }
 log = { workspace = true }
-solana-entry = { workspace = true }
-solana-ledger = { workspace = true }
-solana-measure = { workspace = true }
-solana-metrics = { workspace = true }
-solana-runtime = { workspace = true }
-solana-sdk = { workspace = true }
+lumos-entry = { workspace = true }
+lumos-ledger = { workspace = true }
+lumos-measure = { workspace = true }
+lumos-metrics = { workspace = true }
+lumos-runtime = { workspace = true }
+lumos-sdk = { workspace = true }
 thiserror = { workspace = true }
 
 [dev-dependencies]
 assert_matches = { workspace = true }
 bincode = { workspace = true }
 rand = { workspace = true }
-solana-logger = { workspace = true }
-solana-perf = { workspace = true }
-solana-poh = { path = ".", features = ["dev-context-only-utils"] }
-solana-runtime = { workspace = true, features = ["dev-context-only-utils"] }
+lumos-logger = { workspace = true }
+lumos-perf = { workspace = true }
+lumos-poh = { path = ".", features = ["dev-context-only-utils"] }
+lumos-runtime = { workspace = true, features = ["dev-context-only-utils"] }
 
 [features]
 dev-context-only-utils = []
 
 [lib]
 crate-type = ["lib"]
-name = "solana_poh"
+name = "lumos_poh"
 
 [[bench]]
 name = "poh"

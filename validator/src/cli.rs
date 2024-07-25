@@ -3,13 +3,13 @@ use {
         crate_description, crate_name, App, AppSettings, Arg, ArgGroup, ArgMatches, SubCommand,
     },
     log::warn,
-    solana_accounts_db::{
+    lumos_accounts_db::{
         accounts_db::{
             DEFAULT_ACCOUNTS_SHRINK_OPTIMIZE_TOTAL_SPACE, DEFAULT_ACCOUNTS_SHRINK_RATIO,
         },
         hardened_unpack::MAX_GENESIS_ARCHIVE_UNPACKED_SIZE,
     },
-    solana_clap_utils::{
+    lumos_clap_utils::{
         hidden_unless_forced,
         input_validators::{
             is_keypair, is_keypair_or_ask_keyword, is_parsable, is_pow2, is_pubkey,
@@ -19,17 +19,17 @@ use {
         },
         keypair::SKIP_SEED_PHRASE_VALIDATION_ARG,
     },
-    solana_core::{
+    lumos_core::{
         banking_trace::{DirByteLimit, BANKING_TRACE_DIR_DEFAULT_BYTE_LIMIT},
         validator::{BlockProductionMethod, BlockVerificationMethod},
     },
-    solana_faucet::faucet::{self, FAUCET_PORT},
-    solana_ledger::use_snapshot_archives_at_startup,
-    solana_net_utils::{MINIMUM_VALIDATOR_PORT_RANGE_WIDTH, VALIDATOR_PORT_RANGE},
-    solana_rayon_threadlimit::get_thread_count,
-    solana_rpc::{rpc::MAX_REQUEST_BODY_SIZE, rpc_pubsub_service::PubSubConfig},
-    solana_rpc_client_api::request::MAX_MULTIPLE_ACCOUNTS,
-    solana_runtime::{
+    lumos_faucet::faucet::{self, FAUCET_PORT},
+    lumos_ledger::use_snapshot_archives_at_startup,
+    lumos_net_utils::{MINIMUM_VALIDATOR_PORT_RANGE_WIDTH, VALIDATOR_PORT_RANGE},
+    lumos_rayon_threadlimit::get_thread_count,
+    lumos_rpc::{rpc::MAX_REQUEST_BODY_SIZE, rpc_pubsub_service::PubSubConfig},
+    lumos_rpc_client_api::request::MAX_MULTIPLE_ACCOUNTS,
+    lumos_runtime::{
         snapshot_bank_utils::{
             DEFAULT_FULL_SNAPSHOT_ARCHIVE_INTERVAL_SLOTS,
             DEFAULT_INCREMENTAL_SNAPSHOT_ARCHIVE_INTERVAL_SLOTS,
@@ -40,15 +40,15 @@ use {
             DEFAULT_MAX_INCREMENTAL_SNAPSHOT_ARCHIVES_TO_RETAIN, SUPPORTED_ARCHIVE_COMPRESSION,
         },
     },
-    solana_sdk::{
+    lumos_sdk::{
         clock::Slot, epoch_schedule::MINIMUM_SLOTS_PER_EPOCH, hash::Hash, quic::QUIC_PORT_OFFSET,
         rpc_port,
     },
-    solana_send_transaction_service::send_transaction_service::{
+    lumos_send_transaction_service::send_transaction_service::{
         self, MAX_BATCH_SEND_RATE_MS, MAX_TRANSACTION_BATCH_SIZE,
     },
-    solana_tpu_client::tpu_client::DEFAULT_TPU_CONNECTION_POOL_SIZE,
-    solana_unified_scheduler_pool::DefaultSchedulerPool,
+    lumos_tpu_client::tpu_client::DEFAULT_TPU_CONNECTION_POOL_SIZE,
+    lumos_unified_scheduler_pool::DefaultSchedulerPool,
     std::{path::PathBuf, str::FromStr},
 };
 
@@ -135,7 +135,7 @@ pub fn app<'a>(version: &'a str, default_args: &'a DefaultArgs) -> App<'a, 'a> {
                 .value_name("HOST:PORT")
                 .takes_value(true)
                 .multiple(true)
-                .validator(solana_net_utils::is_host_port)
+                .validator(lumos_net_utils::is_host_port)
                 .help("Rendezvous with the cluster at this gossip entrypoint"),
         )
         .arg(
@@ -288,7 +288,7 @@ pub fn app<'a>(version: &'a str, default_args: &'a DefaultArgs) -> App<'a, 'a> {
                 .long("rpc-faucet-address")
                 .value_name("HOST:PORT")
                 .takes_value(true)
-                .validator(solana_net_utils::is_host_port)
+                .validator(lumos_net_utils::is_host_port)
                 .help("Enable the JSON RPC 'requestAirdrop' API with this faucet address."),
         )
         .arg(
@@ -370,7 +370,7 @@ pub fn app<'a>(version: &'a str, default_args: &'a DefaultArgs) -> App<'a, 'a> {
                 .value_name("HOST:PORT")
                 .takes_value(true)
                 .multiple(true)
-                .validator(solana_net_utils::is_host_port)
+                .validator(lumos_net_utils::is_host_port)
                 .help("etcd gRPC endpoint to connect with"),
         )
         .arg(
@@ -418,7 +418,7 @@ pub fn app<'a>(version: &'a str, default_args: &'a DefaultArgs) -> App<'a, 'a> {
                 .long("gossip-host")
                 .value_name("HOST")
                 .takes_value(true)
-                .validator(solana_net_utils::is_host)
+                .validator(lumos_net_utils::is_host)
                 .help(
                     "Gossip DNS name or IP address for the validator to advertise in gossip \
                      [default: ask --entrypoint, or 127.0.0.1 when --entrypoint is not provided]",
@@ -430,7 +430,7 @@ pub fn app<'a>(version: &'a str, default_args: &'a DefaultArgs) -> App<'a, 'a> {
                 .alias("tpu-host-addr")
                 .value_name("HOST:PORT")
                 .takes_value(true)
-                .validator(solana_net_utils::is_host_port)
+                .validator(lumos_net_utils::is_host_port)
                 .help(
                     "Specify TPU address to advertise in gossip \
                      [default: ask --entrypoint or localhost when --entrypoint is not provided]",
@@ -441,7 +441,7 @@ pub fn app<'a>(version: &'a str, default_args: &'a DefaultArgs) -> App<'a, 'a> {
                 .long("public-tpu-forwards-address")
                 .value_name("HOST:PORT")
                 .takes_value(true)
-                .validator(solana_net_utils::is_host_port)
+                .validator(lumos_net_utils::is_host_port)
                 .help(
                     "Specify TPU Forwards address to advertise in gossip [default: ask \
                      --entrypoint or localhostwhen --entrypoint is not provided]",
@@ -453,7 +453,7 @@ pub fn app<'a>(version: &'a str, default_args: &'a DefaultArgs) -> App<'a, 'a> {
                 .value_name("HOST:PORT")
                 .takes_value(true)
                 .conflicts_with("private_rpc")
-                .validator(solana_net_utils::is_host_port)
+                .validator(lumos_net_utils::is_host_port)
                 .help(
                     "RPC address for the validator to advertise publicly in gossip. Useful for \
                      validators running behind a load balancer or proxy [default: use \
@@ -541,7 +541,7 @@ pub fn app<'a>(version: &'a str, default_args: &'a DefaultArgs) -> App<'a, 'a> {
                 .long("snapshot-packager-niceness-adjustment")
                 .value_name("ADJUSTMENT")
                 .takes_value(true)
-                .validator(solana_perf::thread::is_niceness_adjustment_valid)
+                .validator(lumos_perf::thread::is_niceness_adjustment_valid)
                 .default_value(&default_args.snapshot_packager_niceness_adjustment)
                 .help(
                     "Add this value to niceness of snapshot packager thread. Negative value \
@@ -896,7 +896,7 @@ pub fn app<'a>(version: &'a str, default_args: &'a DefaultArgs) -> App<'a, 'a> {
                 .long("bind-address")
                 .value_name("HOST")
                 .takes_value(true)
-                .validator(solana_net_utils::is_host)
+                .validator(lumos_net_utils::is_host)
                 .default_value(&default_args.bind_address)
                 .help("IP address to bind the validator ports"),
         )
@@ -905,7 +905,7 @@ pub fn app<'a>(version: &'a str, default_args: &'a DefaultArgs) -> App<'a, 'a> {
                 .long("rpc-bind-address")
                 .value_name("HOST")
                 .takes_value(true)
-                .validator(solana_net_utils::is_host)
+                .validator(lumos_net_utils::is_host)
                 .help(
                     "IP address to bind the RPC port [default: 127.0.0.1 if --private-rpc is \
                      present, otherwise use --bind-address]",
@@ -925,7 +925,7 @@ pub fn app<'a>(version: &'a str, default_args: &'a DefaultArgs) -> App<'a, 'a> {
                 .long("rpc-niceness-adjustment")
                 .value_name("ADJUSTMENT")
                 .takes_value(true)
-                .validator(solana_perf::thread::is_niceness_adjustment_valid)
+                .validator(lumos_perf::thread::is_niceness_adjustment_valid)
                 .default_value(&default_args.rpc_niceness_adjustment)
                 .help(
                     "Add this value to niceness of RPC threads. Negative value increases \
@@ -1170,7 +1170,7 @@ pub fn app<'a>(version: &'a str, default_args: &'a DefaultArgs) -> App<'a, 'a> {
                 .number_of_values(1)
                 .multiple(true)
                 .value_name("HOST:PORT")
-                .validator(solana_net_utils::is_host_port)
+                .validator(lumos_net_utils::is_host_port)
                 .help("Peer(s) to broadcast transactions to instead of the current leader")
         )
         .arg(
@@ -1207,7 +1207,7 @@ pub fn app<'a>(version: &'a str, default_args: &'a DefaultArgs) -> App<'a, 'a> {
         .arg(
             Arg::with_name("snapshot_archive_format")
                 .long("snapshot-archive-format")
-                .alias("snapshot-compression") // Legacy name used by Solana v1.5.x and older
+                .alias("snapshot-compression") // Legacy name used by Lumos v1.5.x and older
                 .possible_values(SUPPORTED_ARCHIVE_COMPRESSION)
                 .default_value(&default_args.snapshot_archive_format)
                 .value_name("ARCHIVE_TYPE")
@@ -1881,7 +1881,7 @@ pub fn app<'a>(version: &'a str, default_args: &'a DefaultArgs) -> App<'a, 'a> {
                         .long("tpu")
                         .value_name("HOST:PORT")
                         .takes_value(true)
-                        .validator(solana_net_utils::is_host_port)
+                        .validator(lumos_net_utils::is_host_port)
                         .help("TPU address to advertise in gossip"),
                 )
                 .arg(
@@ -1889,7 +1889,7 @@ pub fn app<'a>(version: &'a str, default_args: &'a DefaultArgs) -> App<'a, 'a> {
                         .long("tpu-forwards")
                         .value_name("HOST:PORT")
                         .takes_value(true)
-                        .validator(solana_net_utils::is_host_port)
+                        .validator(lumos_net_utils::is_host_port)
                         .help("TPU Forwards address to advertise in gossip"),
                 )
                 .group(
@@ -1978,7 +1978,7 @@ fn deprecated_arguments() -> Vec<DeprecatedArg> {
         .long("accountsdb-repl-bind-address")
         .value_name("HOST")
         .takes_value(true)
-        .validator(solana_net_utils::is_host)
+        .validator(lumos_net_utils::is_host)
         .help(
             "IP address to bind the AccountsDb Replication port [default: use \
                      --bind-address]",
@@ -2242,10 +2242,10 @@ impl DefaultArgs {
             rpc_threads: num_cpus::get().to_string(),
             rpc_niceness_adjustment: "0".to_string(),
             rpc_bigtable_timeout: "30".to_string(),
-            rpc_bigtable_instance_name: solana_storage_bigtable::DEFAULT_INSTANCE_NAME.to_string(),
-            rpc_bigtable_app_profile_id: solana_storage_bigtable::DEFAULT_APP_PROFILE_ID
+            rpc_bigtable_instance_name: lumos_storage_bigtable::DEFAULT_INSTANCE_NAME.to_string(),
+            rpc_bigtable_app_profile_id: lumos_storage_bigtable::DEFAULT_APP_PROFILE_ID
                 .to_string(),
-            rpc_bigtable_max_message_size: solana_storage_bigtable::DEFAULT_MAX_MESSAGE_SIZE
+            rpc_bigtable_max_message_size: lumos_storage_bigtable::DEFAULT_MAX_MESSAGE_SIZE
                 .to_string(),
             rpc_pubsub_worker_threads: "4".to_string(),
             rpc_pubsub_notification_threads: get_thread_count().to_string(),
@@ -2294,7 +2294,7 @@ pub fn port_validator(port: String) -> Result<(), String> {
 }
 
 pub fn port_range_validator(port_range: String) -> Result<(), String> {
-    if let Some((start, end)) = solana_net_utils::parse_port_range(&port_range) {
+    if let Some((start, end)) = lumos_net_utils::parse_port_range(&port_range) {
         if end - start < MINIMUM_VALIDATOR_PORT_RANGE_WIDTH {
             Err(format!(
                 "Port range is too small.  Try --dynamic-port-range {}-{}",
@@ -2320,7 +2320,7 @@ fn hash_validator(hash: String) -> Result<(), String> {
 /// Test validator
 
 pub fn test_app<'a>(version: &'a str, default_args: &'a DefaultTestArgs) -> App<'a, 'a> {
-    return App::new("solana-test-validator")
+    return App::new("lumos-test-validator")
         .about("Test Validator")
         .version(version)
         .arg({
@@ -2330,7 +2330,7 @@ pub fn test_app<'a>(version: &'a str, default_args: &'a DefaultTestArgs) -> App<
                 .value_name("PATH")
                 .takes_value(true)
                 .help("Configuration file to use");
-            if let Some(ref config_file) = *solana_cli_config::CONFIG_FILE {
+            if let Some(ref config_file) = *lumos_cli_config::CONFIG_FILE {
                 arg.default_value(config_file)
             } else {
                 arg
@@ -2344,7 +2344,7 @@ pub fn test_app<'a>(version: &'a str, default_args: &'a DefaultTestArgs) -> App<
                 .takes_value(true)
                 .validator(is_url_or_moniker)
                 .help(
-                    "URL for Solana's JSON RPC or moniker (or their first letter): \
+                    "URL for Lumos's JSON RPC or moniker (or their first letter): \
                      [mainnet-beta, testnet, devnet, localhost]",
                 ),
         )
@@ -2438,7 +2438,7 @@ pub fn test_app<'a>(version: &'a str, default_args: &'a DefaultTestArgs) -> App<
                 .value_name("INSTANCE_NAME")
                 .takes_value(true)
                 .hidden(hidden_unless_forced())
-                .default_value("solana-ledger")
+                .default_value("lumos-ledger")
                 .help("Name of BigTable instance to target"),
         )
         .arg(
@@ -2447,7 +2447,7 @@ pub fn test_app<'a>(version: &'a str, default_args: &'a DefaultTestArgs) -> App<
                 .value_name("APP_PROFILE_ID")
                 .takes_value(true)
                 .hidden(hidden_unless_forced())
-                .default_value(solana_storage_bigtable::DEFAULT_APP_PROFILE_ID)
+                .default_value(lumos_storage_bigtable::DEFAULT_APP_PROFILE_ID)
                 .help("Application profile id to use in Bigtable requests"),
         )
         .arg(
@@ -2498,7 +2498,7 @@ pub fn test_app<'a>(version: &'a str, default_args: &'a DefaultTestArgs) -> App<
                 .allow_hyphen_values(true)
                 .multiple(true)
                 .help(
-                    "Load an account from the provided JSON file (see `solana account --help` on \
+                    "Load an account from the provided JSON file (see `lumos account --help` on \
                      how to dump an account to file). Files are searched for relatively to CWD \
                      and tests/fixtures. If ADDRESS is omitted via the `-` placeholder, the one \
                      in the file will be used. If the ledger already exists then this parameter \
@@ -2584,7 +2584,7 @@ pub fn test_app<'a>(version: &'a str, default_args: &'a DefaultTestArgs) -> App<
                 .long("gossip-host")
                 .value_name("HOST")
                 .takes_value(true)
-                .validator(solana_net_utils::is_host)
+                .validator(lumos_net_utils::is_host)
                 .help(
                     "Gossip DNS name or IP address for the validator to advertise in gossip \
                      [default: 127.0.0.1]",
@@ -2603,7 +2603,7 @@ pub fn test_app<'a>(version: &'a str, default_args: &'a DefaultTestArgs) -> App<
                 .long("bind-address")
                 .value_name("HOST")
                 .takes_value(true)
-                .validator(solana_net_utils::is_host)
+                .validator(lumos_net_utils::is_host)
                 .default_value("0.0.0.0")
                 .help("IP address to bind the validator ports [default: 0.0.0.0]"),
         )
@@ -2771,7 +2771,7 @@ impl DefaultTestArgs {
             faucet_port: FAUCET_PORT.to_string(),
             /* 10,000 was derived empirically by watching the size
              * of the rocksdb/ directory self-limit itself to the
-             * 40MB-150MB range when running `solana-test-validator`
+             * 40MB-150MB range when running `lumos-test-validator`
              */
             limit_ledger_size: 10_000.to_string(),
             faucet_sol: (1_000_000.).to_string(),

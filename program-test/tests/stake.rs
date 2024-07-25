@@ -4,8 +4,8 @@ mod setup;
 
 use {
     setup::{setup_stake, setup_vote},
-    solana_program_test::ProgramTest,
-    solana_sdk::{
+    lumos_program_test::ProgramTest,
+    lumos_sdk::{
         instruction::InstructionError,
         signature::{Keypair, Signer},
         stake::{instruction as stake_instruction, instruction::StakeError},
@@ -56,7 +56,7 @@ async fn test_stake_redelegation_pending_activation(merge_flag: PendingStakeActi
         &[stake_instruction::withdraw(
             &stake_address,
             &user_keypair.pubkey(),
-            &solana_sdk::pubkey::new_rand(),
+            &lumos_sdk::pubkey::new_rand(),
             1,
             None,
         )],
@@ -156,7 +156,7 @@ async fn test_stake_redelegation_pending_activation(merge_flag: PendingStakeActi
         &[stake_instruction::withdraw(
             &stake_address2,
             &user_keypair.pubkey(),
-            &solana_sdk::pubkey::new_rand(),
+            &lumos_sdk::pubkey::new_rand(),
             1,
             None,
         )],

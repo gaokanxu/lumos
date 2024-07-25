@@ -30,15 +30,15 @@ use {
     },
     crossbeam_channel::{unbounded, Receiver, RecvTimeoutError, Sender},
     histogram::Histogram,
-    solana_client::connection_cache::ConnectionCache,
-    solana_gossip::cluster_info::ClusterInfo,
-    solana_ledger::blockstore_processor::TransactionStatusSender,
-    solana_measure::{measure, measure_us},
-    solana_perf::{data_budget::DataBudget, packet::PACKETS_PER_BATCH},
-    solana_poh::poh_recorder::{PohRecorder, TransactionRecorder},
-    solana_runtime::{bank_forks::BankForks, prioritization_fee_cache::PrioritizationFeeCache},
-    solana_sdk::timing::AtomicInterval,
-    solana_vote::vote_sender_types::ReplayVoteSender,
+    lumos_client::connection_cache::ConnectionCache,
+    lumos_gossip::cluster_info::ClusterInfo,
+    lumos_ledger::blockstore_processor::TransactionStatusSender,
+    lumos_measure::{measure, measure_us},
+    lumos_perf::{data_budget::DataBudget, packet::PACKETS_PER_BATCH},
+    lumos_poh::poh_recorder::{PohRecorder, TransactionRecorder},
+    lumos_runtime::{bank_forks::BankForks, prioritization_fee_cache::PrioritizationFeeCache},
+    lumos_sdk::timing::AtomicInterval,
+    lumos_vote::vote_sender_types::ReplayVoteSender,
     std::{
         cmp, env,
         sync::{
@@ -786,9 +786,9 @@ mod tests {
         crate::banking_trace::{BankingPacketBatch, BankingTracer},
         crossbeam_channel::{unbounded, Receiver},
         itertools::Itertools,
-        solana_entry::entry::{Entry, EntrySlice},
-        solana_gossip::cluster_info::Node,
-        solana_ledger::{
+        lumos_entry::entry::{Entry, EntrySlice},
+        lumos_gossip::cluster_info::Node,
+        lumos_ledger::{
             blockstore::Blockstore,
             genesis_utils::{
                 create_genesis_config, create_genesis_config_with_leader, GenesisConfigInfo,
@@ -796,15 +796,15 @@ mod tests {
             get_tmp_ledger_path_auto_delete,
             leader_schedule_cache::LeaderScheduleCache,
         },
-        solana_perf::packet::{to_packet_batches, PacketBatch},
-        solana_poh::{
+        lumos_perf::packet::{to_packet_batches, PacketBatch},
+        lumos_poh::{
             poh_recorder::{
                 create_test_recorder, PohRecorderError, Record, RecordTransactionsSummary,
             },
             poh_service::PohService,
         },
-        solana_runtime::{bank::Bank, genesis_utils::bootstrap_validator_stake_lamports},
-        solana_sdk::{
+        lumos_runtime::{bank::Bank, genesis_utils::bootstrap_validator_stake_lamports},
+        lumos_sdk::{
             hash::Hash,
             poh_config::PohConfig,
             pubkey::Pubkey,
@@ -812,8 +812,8 @@ mod tests {
             system_transaction,
             transaction::{SanitizedTransaction, Transaction},
         },
-        solana_streamer::socket::SocketAddrSpace,
-        solana_vote_program::{
+        lumos_streamer::socket::SocketAddrSpace,
+        lumos_vote_program::{
             vote_state::VoteStateUpdate, vote_transaction::new_vote_state_update_transaction,
         },
         std::{
@@ -883,7 +883,7 @@ mod tests {
 
     #[test]
     fn test_banking_stage_tick() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let GenesisConfigInfo {
             mut genesis_config, ..
         } = create_genesis_config(2);
@@ -960,7 +960,7 @@ mod tests {
     }
 
     fn test_banking_stage_entries_only(block_production_method: BlockProductionMethod) {
-        solana_logger::setup();
+        lumos_logger::setup();
         let GenesisConfigInfo {
             genesis_config,
             mint_keypair,
@@ -1013,16 +1013,16 @@ mod tests {
             bank.process_transaction(&fund_tx).unwrap();
 
             // good tx
-            let to = solana_sdk::pubkey::new_rand();
+            let to = lumos_sdk::pubkey::new_rand();
             let tx = system_transaction::transfer(&mint_keypair, &to, 1, start_hash);
 
             // good tx, but no verify
-            let to2 = solana_sdk::pubkey::new_rand();
+            let to2 = lumos_sdk::pubkey::new_rand();
             let tx_no_ver = system_transaction::transfer(&keypair, &to2, 2, start_hash);
 
             // bad tx, AccountNotFound
             let keypair = Keypair::new();
-            let to3 = solana_sdk::pubkey::new_rand();
+            let to3 = lumos_sdk::pubkey::new_rand();
             let tx_anf = system_transaction::transfer(&keypair, &to3, 1, start_hash);
 
             // send 'em over
@@ -1097,7 +1097,7 @@ mod tests {
 
     #[test]
     fn test_banking_stage_entryfication() {
-        solana_logger::setup();
+        lumos_logger::setup();
         // In this attack we'll demonstrate that a verifier can interpret the ledger
         // differently if either the server doesn't signal the ledger to add an
         // Entry OR if the verifier tries to parallelize across multiple Entries.
@@ -1212,7 +1212,7 @@ mod tests {
 
     #[test]
     fn test_bank_record_transactions() {
-        solana_logger::setup();
+        lumos_logger::setup();
 
         let GenesisConfigInfo {
             genesis_config,
@@ -1246,9 +1246,9 @@ mod tests {
                 .write()
                 .unwrap()
                 .set_bank_for_test(bank.clone());
-            let pubkey = solana_sdk::pubkey::new_rand();
+            let pubkey = lumos_sdk::pubkey::new_rand();
             let keypair2 = Keypair::new();
-            let pubkey2 = solana_sdk::pubkey::new_rand();
+            let pubkey2 = lumos_sdk::pubkey::new_rand();
 
             let txs = vec![
                 system_transaction::transfer(&mint_keypair, &pubkey, 1, genesis_config.hash())
@@ -1280,7 +1280,7 @@ mod tests {
     }
 
     pub(crate) fn create_slow_genesis_config(lamports: u64) -> GenesisConfigInfo {
-        create_slow_genesis_config_with_leader(lamports, &solana_sdk::pubkey::new_rand())
+        create_slow_genesis_config_with_leader(lamports, &lumos_sdk::pubkey::new_rand())
     }
 
     pub(crate) fn create_slow_genesis_config_with_leader(
@@ -1290,7 +1290,7 @@ mod tests {
         let mut config_info = create_genesis_config_with_leader(
             lamports,
             validator_pubkey,
-            // See solana_ledger::genesis_utils::create_genesis_config.
+            // See lumos_ledger::genesis_utils::create_genesis_config.
             bootstrap_validator_stake_lamports(),
         );
 
@@ -1306,7 +1306,7 @@ mod tests {
         let poh_recorder = poh_recorder.clone();
         let is_exited = poh_recorder.read().unwrap().is_exited.clone();
         let tick_producer = Builder::new()
-            .name("solana-simulate_poh".to_string())
+            .name("lumos-simulate_poh".to_string())
             .spawn(move || loop {
                 PohService::read_record_receiver_and_process(
                     &poh_recorder,
@@ -1322,7 +1322,7 @@ mod tests {
 
     #[test]
     fn test_unprocessed_transaction_storage_full_send() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let GenesisConfigInfo {
             genesis_config,
             mint_keypair,

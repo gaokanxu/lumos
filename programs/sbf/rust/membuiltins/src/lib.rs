@@ -1,12 +1,12 @@
 //! Test builtin mem functions
 
-#![cfg(target_os = "solana")]
+#![cfg(target_os = "lumos")]
 #![feature(rustc_private)]
 
 extern crate compiler_builtins;
 use {
-    solana_program::{custom_heap_default, custom_panic_default, entrypoint::SUCCESS},
-    solana_sbf_rust_mem::{run_mem_tests, MemOps},
+    lumos_program::{custom_heap_default, custom_panic_default, entrypoint::SUCCESS},
+    lumos_sbf_rust_mem::{run_mem_tests, MemOps},
 };
 
 #[no_mangle]

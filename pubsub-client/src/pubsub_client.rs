@@ -1,9 +1,9 @@
 //! A client for subscribing to messages from the RPC server.
 //!
-//! The [`PubsubClient`] implements [Solana WebSocket event
+//! The [`PubsubClient`] implements [Lumos WebSocket event
 //! subscriptions][spec].
 //!
-//! [spec]: https://solana.com/docs/rpc/websocket
+//! [spec]: https://lumos.com/docs/rpc/websocket
 //!
 //! This is a blocking API. For a non-blocking API use the asynchronous client
 //! in [`crate::nonblocking::pubsub_client`].
@@ -32,12 +32,12 @@
 //! By default the [`block_subscribe`] and [`vote_subscribe`] events are
 //! disabled on RPC nodes. They can be enabled by passing
 //! `--rpc-pubsub-enable-block-subscription` and
-//! `--rpc-pubsub-enable-vote-subscription` to `solana-validator`. When these
+//! `--rpc-pubsub-enable-vote-subscription` to `lumos-validator`. When these
 //! methods are disabled, the RPC server will return a "Method not found" error
 //! message.
 //!
-//! [`block_subscribe`]: https://docs.rs/solana-rpc/latest/solana_rpc/rpc_pubsub/trait.RpcSolPubSub.html#tymethod.block_subscribe
-//! [`vote_subscribe`]: https://docs.rs/solana-rpc/latest/solana_rpc/rpc_pubsub/trait.RpcSolPubSub.html#tymethod.vote_subscribe
+//! [`block_subscribe`]: https://docs.rs/lumos-rpc/latest/lumos_rpc/rpc_pubsub/trait.RpcSolPubSub.html#tymethod.block_subscribe
+//! [`vote_subscribe`]: https://docs.rs/lumos-rpc/latest/lumos_rpc/rpc_pubsub/trait.RpcSolPubSub.html#tymethod.vote_subscribe
 //!
 //! # Examples
 //!
@@ -46,14 +46,14 @@
 //!
 //! ```
 //! use anyhow::Result;
-//! use solana_sdk::commitment_config::CommitmentConfig;
-//! use solana_pubsub_client::pubsub_client::PubsubClient;
-//! use solana_rpc_client_api::config::RpcAccountInfoConfig;
-//! use solana_sdk::pubkey::Pubkey;
+//! use lumos_sdk::commitment_config::CommitmentConfig;
+//! use lumos_pubsub_client::pubsub_client::PubsubClient;
+//! use lumos_rpc_client_api::config::RpcAccountInfoConfig;
+//! use lumos_sdk::pubkey::Pubkey;
 //! use std::thread;
 //!
 //! fn get_account_updates(account_pubkey: Pubkey) -> Result<()> {
-//!     let url = "wss://api.devnet.solana.com/";
+//!     let url = "wss://api.devnet.lumos.com/";
 //!
 //!     let (mut account_subscription_client, account_subscription_receiver) =
 //!         PubsubClient::account_subscribe(
@@ -82,7 +82,7 @@
 //!     Ok(())
 //! }
 //! #
-//! # get_account_updates(solana_sdk::pubkey::new_rand());
+//! # get_account_updates(lumos_sdk::pubkey::new_rand());
 //! # Ok::<(), anyhow::Error>(())
 //! ```
 
@@ -96,8 +96,8 @@ use {
         value::Value::{Number, Object},
         Map, Value,
     },
-    solana_account_decoder::UiAccount,
-    solana_rpc_client_api::{
+    lumos_account_decoder::UiAccount,
+    lumos_rpc_client_api::{
         config::{
             RpcAccountInfoConfig, RpcBlockSubscribeConfig, RpcBlockSubscribeFilter,
             RpcProgramAccountsConfig, RpcSignatureSubscribeConfig, RpcTransactionLogsConfig,
@@ -109,7 +109,7 @@ use {
             RpcSignatureResult, RpcVote, SlotInfo, SlotUpdate,
         },
     },
-    solana_sdk::{clock::Slot, pubkey::Pubkey, signature::Signature},
+    lumos_sdk::{clock::Slot, pubkey::Pubkey, signature::Signature},
     std::{
         marker::PhantomData,
         net::TcpStream,
@@ -221,7 +221,7 @@ where
 
         if let Ok(json_msg) = serde_json::from_str::<Map<String, Value>>(message_text) {
             if let Some(Object(version_map)) = json_msg.get("result") {
-                if let Some(node_version) = version_map.get("solana-core") {
+                if let Some(node_version) = version_map.get("lumos-core") {
                     if let Some(node_version) = node_version.as_str() {
                         if let Ok(parsed) = semver::Version::parse(node_version) {
                             return Ok(parsed);
@@ -369,7 +369,7 @@ impl PubsubClient {
     ///
     /// This method corresponds directly to the [`accountSubscribe`] RPC method.
     ///
-    /// [`accountSubscribe`]: https://solana.com/docs/rpc/websocket/accountsubscribe
+    /// [`accountSubscribe`]: https://lumos.com/docs/rpc/websocket/accountsubscribe
     pub fn account_subscribe(
         url: &str,
         pubkey: &Pubkey,
@@ -416,13 +416,13 @@ impl PubsubClient {
     /// Receives messages of type [`RpcBlockUpdate`] when a block is confirmed or finalized.
     ///
     /// This method is disabled by default. It can be enabled by passing
-    /// `--rpc-pubsub-enable-block-subscription` to `solana-validator`.
+    /// `--rpc-pubsub-enable-block-subscription` to `lumos-validator`.
     ///
     /// # RPC Reference
     ///
     /// This method corresponds directly to the [`blockSubscribe`] RPC method.
     ///
-    /// [`blockSubscribe`]: https://solana.com/docs/rpc/websocket/blocksubscribe
+    /// [`blockSubscribe`]: https://lumos.com/docs/rpc/websocket/blocksubscribe
     pub fn block_subscribe(
         url: &str,
         filter: RpcBlockSubscribeFilter,
@@ -470,7 +470,7 @@ impl PubsubClient {
     ///
     /// This method corresponds directly to the [`logsSubscribe`] RPC method.
     ///
-    /// [`logsSubscribe`]: https://solana.com/docs/rpc/websocket/logssubscribe
+    /// [`logsSubscribe`]: https://lumos.com/docs/rpc/websocket/logssubscribe
     pub fn logs_subscribe(
         url: &str,
         filter: RpcTransactionLogsFilter,
@@ -519,7 +519,7 @@ impl PubsubClient {
     ///
     /// This method corresponds directly to the [`programSubscribe`] RPC method.
     ///
-    /// [`programSubscribe`]: https://solana.com/docs/rpc/websocket/programsubscribe
+    /// [`programSubscribe`]: https://lumos.com/docs/rpc/websocket/programsubscribe
     pub fn program_subscribe(
         url: &str,
         pubkey: &Pubkey,
@@ -578,13 +578,13 @@ impl PubsubClient {
     /// votes are observed prior to confirmation and may never be confirmed.
     ///
     /// This method is disabled by default. It can be enabled by passing
-    /// `--rpc-pubsub-enable-vote-subscription` to `solana-validator`.
+    /// `--rpc-pubsub-enable-vote-subscription` to `lumos-validator`.
     ///
     /// # RPC Reference
     ///
     /// This method corresponds directly to the [`voteSubscribe`] RPC method.
     ///
-    /// [`voteSubscribe`]: https://solana.com/docs/rpc/websocket/votesubscribe
+    /// [`voteSubscribe`]: https://lumos.com/docs/rpc/websocket/votesubscribe
     pub fn vote_subscribe(url: &str) -> Result<VoteSubscription, PubsubClientError> {
         let url = Url::parse(url)?;
         let socket = connect_with_retry(url)?;
@@ -623,13 +623,13 @@ impl PubsubClient {
     /// Receives messages of type [`Slot`] when a new [root] is set by the
     /// validator.
     ///
-    /// [root]: https://solana.com/docs/terminology#root
+    /// [root]: https://lumos.com/docs/terminology#root
     ///
     /// # RPC Reference
     ///
     /// This method corresponds directly to the [`rootSubscribe`] RPC method.
     ///
-    /// [`rootSubscribe`]: https://solana.com/docs/rpc/websocket/rootsubscribe
+    /// [`rootSubscribe`]: https://lumos.com/docs/rpc/websocket/rootsubscribe
     pub fn root_subscribe(url: &str) -> Result<RootSubscription, PubsubClientError> {
         let url = Url::parse(url)?;
         let socket = connect_with_retry(url)?;
@@ -675,7 +675,7 @@ impl PubsubClient {
     ///
     /// This method corresponds directly to the [`signatureSubscribe`] RPC method.
     ///
-    /// [`signatureSubscribe`]: https://solana.com/docs/rpc/websocket/signaturesubscribe
+    /// [`signatureSubscribe`]: https://lumos.com/docs/rpc/websocket/signaturesubscribe
     pub fn signature_subscribe(
         url: &str,
         signature: &Signature,
@@ -726,7 +726,7 @@ impl PubsubClient {
     ///
     /// This method corresponds directly to the [`slotSubscribe`] RPC method.
     ///
-    /// [`slotSubscribe`]: https://solana.com/docs/rpc/websocket/slotsubscribe
+    /// [`slotSubscribe`]: https://lumos.com/docs/rpc/websocket/slotsubscribe
     pub fn slot_subscribe(url: &str) -> Result<SlotsSubscription, PubsubClientError> {
         let url = Url::parse(url)?;
         let socket = connect_with_retry(url)?;
@@ -774,7 +774,7 @@ impl PubsubClient {
     ///
     /// This method corresponds directly to the [`slotUpdatesSubscribe`] RPC method.
     ///
-    /// [`slotUpdatesSubscribe`]: https://solana.com/docs/rpc/websocket/slotsupdatessubscribe
+    /// [`slotUpdatesSubscribe`]: https://lumos.com/docs/rpc/websocket/slotsupdatessubscribe
     pub fn slot_updates_subscribe(
         url: &str,
         handler: impl Fn(SlotUpdate) + Send + 'static,

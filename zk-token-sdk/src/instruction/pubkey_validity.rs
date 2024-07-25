@@ -5,7 +5,7 @@
 //! corresponding secret key). To generate the proof, a prover must provide the secret key for the
 //! public key.
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 use {
     crate::{
         encryption::elgamal::ElGamalKeypair,
@@ -47,7 +47,7 @@ pub struct PubkeyValidityProofContext {
     pub pubkey: pod::ElGamalPubkey, // 32 bytes
 }
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 impl PubkeyValidityData {
     pub fn new(keypair: &ElGamalKeypair) -> Result<Self, ProofGenerationError> {
         let pod_pubkey = pod::ElGamalPubkey(keypair.pubkey().to_bytes());
@@ -68,7 +68,7 @@ impl ZkProofData<PubkeyValidityProofContext> for PubkeyValidityData {
         &self.context
     }
 
-    #[cfg(not(target_os = "solana"))]
+    #[cfg(not(target_os = "lumos"))]
     fn verify_proof(&self) -> Result<(), ProofVerificationError> {
         let mut transcript = self.context.new_transcript();
         let pubkey = self.context.pubkey.try_into()?;
@@ -78,7 +78,7 @@ impl ZkProofData<PubkeyValidityProofContext> for PubkeyValidityData {
 }
 
 #[allow(non_snake_case)]
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 impl PubkeyValidityProofContext {
     fn new_transcript(&self) -> Transcript {
         let mut transcript = Transcript::new(b"PubkeyProof");

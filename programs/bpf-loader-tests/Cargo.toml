@@ -1,8 +1,8 @@
 # This package only exists to avoid circular dependencies during cargo publish:
-# solana-bpf-loader-program -> solana-program-test -> solana-bpf-loader-program
+# lumos-bpf-loader-program -> lumos-program-test -> lumos-bpf-loader-program
 
 [package]
-name = "solana-bpf-loader-program-tests"
+name = "lumos-bpf-loader-program-tests"
 publish = false
 version = { workspace = true }
 authors = { workspace = true }
@@ -14,9 +14,9 @@ edition = { workspace = true }
 [dev-dependencies]
 assert_matches = { workspace = true }
 bincode = { workspace = true }
-solana-bpf-loader-program = { workspace = true }
-solana-program-test = { workspace = true }
-solana-sdk = { workspace = true }
+lumos-bpf-loader-program = { workspace = true }
+lumos-program-test = { workspace = true }
+lumos-sdk = { workspace = true }
 
 [package.metadata.docs.rs]
 targets = ["x86_64-unknown-linux-gnu"]

@@ -1,7 +1,7 @@
 [package]
-name = "solana-send-transaction-service"
-description = "Solana send transaction service"
-documentation = "https://docs.rs/solana-send-transaction-service"
+name = "lumos-send-transaction-service"
+description = "Lumos send transaction service"
+documentation = "https://docs.rs/lumos-send-transaction-service"
 version = { workspace = true }
 authors = { workspace = true }
 repository = { workspace = true }
@@ -12,16 +12,16 @@ edition = { workspace = true }
 [dependencies]
 crossbeam-channel = { workspace = true }
 log = { workspace = true }
-solana-client = { workspace = true }
-solana-measure = { workspace = true }
-solana-metrics = { workspace = true }
-solana-runtime = { workspace = true }
-solana-sdk = { workspace = true }
-solana-tpu-client = { workspace = true }
+lumos-client = { workspace = true }
+lumos-measure = { workspace = true }
+lumos-metrics = { workspace = true }
+lumos-runtime = { workspace = true }
+lumos-sdk = { workspace = true }
+lumos-tpu-client = { workspace = true }
 
 [dev-dependencies]
-solana-logger = { workspace = true }
-solana-runtime = { workspace = true, features = ["dev-context-only-utils"] }
+lumos-logger = { workspace = true }
+lumos-runtime = { workspace = true, features = ["dev-context-only-utils"] }
 
 [package.metadata.docs.rs]
 targets = ["x86_64-unknown-linux-gnu"]

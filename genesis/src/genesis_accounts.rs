@@ -3,7 +3,7 @@ use {
         stakes::{create_and_add_stakes, StakerInfo},
         unlocks::UnlockInfo,
     },
-    solana_sdk::{
+    lumos_sdk::{
         genesis_config::{ClusterType, GenesisConfig},
         native_token::LAMPORTS_PER_SOL,
     },

@@ -3,7 +3,7 @@
 
 #[deprecated(
     since = "1.16.7",
-    note = "Please use `solana_sdk::stake::state::{DEFAULT_SLASH_PENALTY, DEFAULT_WARMUP_COOLDOWN_RATE}` instead"
+    note = "Please use `lumos_sdk::stake::state::{DEFAULT_SLASH_PENALTY, DEFAULT_WARMUP_COOLDOWN_RATE}` instead"
 )]
 pub use super::state::{DEFAULT_SLASH_PENALTY, DEFAULT_WARMUP_COOLDOWN_RATE};
 use serde_derive::{Deserialize, Serialize};
@@ -13,7 +13,7 @@ crate::declare_deprecated_id!("StakeConfig11111111111111111111111111111111");
 
 #[deprecated(
     since = "1.16.7",
-    note = "Please use `solana_sdk::stake::state::warmup_cooldown_rate()` instead"
+    note = "Please use `lumos_sdk::stake::state::warmup_cooldown_rate()` instead"
 )]
 #[derive(Serialize, Deserialize, Debug, PartialEq, Clone, Copy)]
 pub struct Config {

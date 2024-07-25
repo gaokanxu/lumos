@@ -80,10 +80,10 @@ use {
     seqlock::SeqLock,
     serde::{Deserialize, Serialize},
     smallvec::SmallVec,
-    solana_measure::{measure::Measure, measure_us},
-    solana_nohash_hasher::{IntMap, IntSet},
-    solana_rayon_threadlimit::get_thread_count,
-    solana_sdk::{
+    lumos_measure::{measure::Measure, measure_us},
+    lumos_nohash_hasher::{IntMap, IntSet},
+    lumos_rayon_threadlimit::get_thread_count,
+    lumos_sdk::{
         account::{Account, AccountSharedData, ReadableAccount, WritableAccount},
         clock::{BankId, Epoch, Slot},
         epoch_schedule::EpochSchedule,
@@ -2167,7 +2167,7 @@ pub fn make_min_priority_thread_pool() -> ThreadPool {
 }
 
 #[cfg(RUSTC_WITH_SPECIALIZATION)]
-impl solana_frozen_abi::abi_example::AbiExample for AccountsDb {
+impl lumos_frozen_abi::abi_example::AbiExample for AccountsDb {
     fn example() -> Self {
         let accounts_db = AccountsDb::new_single_for_tests();
         let key = Pubkey::default();
@@ -9340,7 +9340,7 @@ impl AccountsDb {
     ) {
         let ancestors = vec![(slot, 0)].into_iter().collect();
         for t in 0..num {
-            let pubkey = solana_sdk::pubkey::new_rand();
+            let pubkey = lumos_sdk::pubkey::new_rand();
             let account =
                 AccountSharedData::new((t + 1) as u64, space, AccountSharedData::default().owner());
             pubkeys.push(pubkey);
@@ -9348,9 +9348,9 @@ impl AccountsDb {
             self.store_for_tests(slot, &[(&pubkey, &account)]);
         }
         for t in 0..num_vote {
-            let pubkey = solana_sdk::pubkey::new_rand();
+            let pubkey = lumos_sdk::pubkey::new_rand();
             let account =
-                AccountSharedData::new((num + t + 1) as u64, space, &solana_vote_program::id());
+                AccountSharedData::new((num + t + 1) as u64, space, &lumos_vote_program::id());
             pubkeys.push(pubkey);
             let ancestors = vec![(slot, 0)].into_iter().collect();
             assert!(self.load_without_fixed_root(&ancestors, &pubkey).is_none());
@@ -9473,7 +9473,7 @@ pub mod test_utils {
         }
 
         for t in 0..num {
-            let pubkey = solana_sdk::pubkey::new_rand();
+            let pubkey = lumos_sdk::pubkey::new_rand();
             let account = AccountSharedData::new(
                 (t + 1) as u64,
                 data_size,
@@ -9512,7 +9512,7 @@ pub mod tests {
         assert_matches::assert_matches,
         itertools::Itertools,
         rand::{prelude::SliceRandom, thread_rng, Rng},
-        solana_sdk::{
+        lumos_sdk::{
             account::{
                 accounts_equal, Account, AccountSharedData, ReadableAccount, WritableAccount,
             },
@@ -9813,10 +9813,10 @@ pub mod tests {
         let owner = Pubkey::default();
         let data = Vec::new();
 
-        let pubkey = solana_sdk::pubkey::new_rand();
-        let pubkey2 = solana_sdk::pubkey::new_rand();
-        let pubkey3 = solana_sdk::pubkey::new_rand();
-        let pubkey4 = solana_sdk::pubkey::new_rand();
+        let pubkey = lumos_sdk::pubkey::new_rand();
+        let pubkey2 = lumos_sdk::pubkey::new_rand();
+        let pubkey3 = lumos_sdk::pubkey::new_rand();
+        let pubkey4 = lumos_sdk::pubkey::new_rand();
 
         let meta = StoredMeta {
             write_version_obsolete: 5,
@@ -10106,7 +10106,7 @@ pub mod tests {
 
     #[test]
     fn test_combine_multiple_slots_into_one_at_startup() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let (db, slot1) = create_db_with_storages_and_index(false, 2, None);
         let slot2 = slot1 + 1;
 
@@ -10179,7 +10179,7 @@ pub mod tests {
     #[test]
     #[should_panic(expected = "MismatchedAccountsHash")]
     fn test_accountsdb_scan_snapshot_stores_check_hash() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let accounts_db = AccountsDb::new_single_for_tests();
         let (storages, _raw_expected) = sample_storages_and_accounts(&accounts_db);
         let max_slot = storages.iter().map(|storage| storage.slot()).max().unwrap();
@@ -10238,7 +10238,7 @@ pub mod tests {
 
     #[test]
     fn test_accountsdb_scan_snapshot_stores() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let accounts_db = AccountsDb::new_single_for_tests();
         let (storages, raw_expected) = sample_storages_and_accounts(&accounts_db);
 
@@ -10501,7 +10501,7 @@ pub mod tests {
 
     #[test]
     fn test_accountsdb_calculate_accounts_hash_from_storages_simple() {
-        solana_logger::setup();
+        lumos_logger::setup();
 
         let (storages, _size, _slot_expected) = sample_storage();
         let db = AccountsDb::new_single_for_tests();
@@ -10519,7 +10519,7 @@ pub mod tests {
 
     #[test]
     fn test_accountsdb_calculate_accounts_hash_from_storages() {
-        solana_logger::setup();
+        lumos_logger::setup();
 
         let db = AccountsDb::new_single_for_tests();
         let (storages, raw_expected) = sample_storages_and_accounts(&db);
@@ -10586,7 +10586,7 @@ pub mod tests {
 
     #[test]
     fn test_accountsdb_scan_account_storage_no_bank() {
-        solana_logger::setup();
+        lumos_logger::setup();
 
         let expected = 1;
         let tf = crate::append_vec::test_utils::get_append_vec_path(
@@ -10600,7 +10600,7 @@ pub mod tests {
         data.accounts = av;
 
         let storage = Arc::new(data);
-        let pubkey = solana_sdk::pubkey::new_rand();
+        let pubkey = lumos_sdk::pubkey::new_rand();
         let acc = AccountSharedData::new(1, 48, AccountSharedData::default().owner());
         let mark_alive = false;
         append_single_account_with_default_hash(&storage, &pubkey, &acc, 1, mark_alive, None);
@@ -10702,7 +10702,7 @@ pub mod tests {
 
     #[test]
     fn test_accountsdb_scan_account_storage_no_bank_one_slot() {
-        solana_logger::setup();
+        lumos_logger::setup();
 
         let expected = 1;
         let tf = crate::append_vec::test_utils::get_append_vec_path(
@@ -10716,7 +10716,7 @@ pub mod tests {
         data.accounts = av;
 
         let storage = Arc::new(data);
-        let pubkey = solana_sdk::pubkey::new_rand();
+        let pubkey = lumos_sdk::pubkey::new_rand();
         let acc = AccountSharedData::new(1, 48, AccountSharedData::default().owner());
         let mark_alive = false;
         append_single_account_with_default_hash(&storage, &pubkey, &acc, 1, mark_alive, None);
@@ -10826,15 +10826,15 @@ pub mod tests {
 
     #[test]
     fn test_accountsdb_scan_multiple_account_storage_no_bank_one_slot() {
-        solana_logger::setup();
+        lumos_logger::setup();
 
         let slot_expected: Slot = 0;
         let tf = crate::append_vec::test_utils::get_append_vec_path(
             "test_accountsdb_scan_account_storage_no_bank",
         );
         let write_version1 = 0;
-        let pubkey1 = solana_sdk::pubkey::new_rand();
-        let pubkey2 = solana_sdk::pubkey::new_rand();
+        let pubkey1 = lumos_sdk::pubkey::new_rand();
+        let pubkey2 = lumos_sdk::pubkey::new_rand();
         let mark_alive = false;
         let storage =
             sample_storage_with_entries(&tf, write_version1, slot_expected, &pubkey1, mark_alive);
@@ -10902,7 +10902,7 @@ pub mod tests {
 
     #[test]
     fn test_accountsdb_add_root() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let db = AccountsDb::new_single_for_tests();
         let key = Pubkey::default();
         let account0 = AccountSharedData::new(1, 0, &key);
@@ -10918,7 +10918,7 @@ pub mod tests {
 
     #[test]
     fn test_accountsdb_latest_ancestor() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let db = AccountsDb::new_single_for_tests();
         let key = Pubkey::default();
         let account0 = AccountSharedData::new(1, 0, &key);
@@ -10954,7 +10954,7 @@ pub mod tests {
 
     #[test]
     fn test_accountsdb_latest_ancestor_with_root() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let db = AccountsDb::new_single_for_tests();
         let key = Pubkey::default();
         let account0 = AccountSharedData::new(1, 0, &key);
@@ -10980,7 +10980,7 @@ pub mod tests {
 
     #[test]
     fn test_accountsdb_root_one_slot() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let db = AccountsDb::new_single_for_tests();
 
         let key = Pubkey::default();
@@ -11075,7 +11075,7 @@ pub mod tests {
 
     #[test]
     fn test_accountsdb_count_stores() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let db = AccountsDb::new_single_for_tests();
 
         let mut pubkeys: Vec<Pubkey> = vec![];
@@ -11083,7 +11083,7 @@ pub mod tests {
         db.add_root_and_flush_write_cache(0);
         db.check_storage(0, 2);
 
-        let pubkey = solana_sdk::pubkey::new_rand();
+        let pubkey = lumos_sdk::pubkey::new_rand();
         let account = AccountSharedData::new(1, DEFAULT_FILE_SIZE as usize / 3, &pubkey);
         db.store_for_tests(1, &[(&pubkey, &account)]);
         db.store_for_tests(1, &[(&pubkeys[0], &account)]);
@@ -11251,7 +11251,7 @@ pub mod tests {
         };
         let mut keys = vec![];
         for i in 0..9 {
-            let key = solana_sdk::pubkey::new_rand();
+            let key = lumos_sdk::pubkey::new_rand();
             let account = AccountSharedData::new(i + 1, size as usize / 4, &key);
             accounts.store_for_tests(0, &[(&key, &account)]);
             keys.push(key);
@@ -11287,7 +11287,7 @@ pub mod tests {
             let accounts = AccountsDb::new_single_for_tests();
 
             let status = [AccountStorageStatus::Available, AccountStorageStatus::Full];
-            let pubkey1 = solana_sdk::pubkey::new_rand();
+            let pubkey1 = lumos_sdk::pubkey::new_rand();
             let account1 = AccountSharedData::new(1, DEFAULT_FILE_SIZE as usize / 2, &pubkey1);
             accounts.store_for_tests(0, &[(&pubkey1, &account1)]);
             if pass == 0 {
@@ -11298,7 +11298,7 @@ pub mod tests {
                 continue;
             }
 
-            let pubkey2 = solana_sdk::pubkey::new_rand();
+            let pubkey2 = lumos_sdk::pubkey::new_rand();
             let account2 = AccountSharedData::new(1, DEFAULT_FILE_SIZE as usize / 2, &pubkey2);
             accounts.store_for_tests(0, &[(&pubkey2, &account2)]);
 
@@ -11360,12 +11360,12 @@ pub mod tests {
 
     #[test]
     fn test_lazy_gc_slot() {
-        solana_logger::setup();
+        lumos_logger::setup();
         //This test is pedantic
         //A slot is purged when a non root bank is cleaned up.  If a slot is behind root but it is
         //not root, it means we are retaining dead banks.
         let accounts = AccountsDb::new_single_for_tests();
-        let pubkey = solana_sdk::pubkey::new_rand();
+        let pubkey = lumos_sdk::pubkey::new_rand();
         let account = AccountSharedData::new(1, 0, AccountSharedData::default().owner());
         //store an account
         accounts.store_for_tests(0, &[(&pubkey, &account)]);
@@ -11417,11 +11417,11 @@ pub mod tests {
 
     #[test]
     fn test_clean_zero_lamport_and_dead_slot() {
-        solana_logger::setup();
+        lumos_logger::setup();
 
         let accounts = AccountsDb::new_single_for_tests();
-        let pubkey1 = solana_sdk::pubkey::new_rand();
-        let pubkey2 = solana_sdk::pubkey::new_rand();
+        let pubkey1 = lumos_sdk::pubkey::new_rand();
+        let pubkey2 = lumos_sdk::pubkey::new_rand();
         let account = AccountSharedData::new(1, 1, AccountSharedData::default().owner());
         let zero_lamport_account =
             AccountSharedData::new(0, 0, AccountSharedData::default().owner());
@@ -11491,11 +11491,11 @@ pub mod tests {
 
     #[test]
     fn test_clean_multiple_zero_lamport_decrements_index_ref_count() {
-        solana_logger::setup();
+        lumos_logger::setup();
 
         let accounts = AccountsDb::new_single_for_tests();
-        let pubkey1 = solana_sdk::pubkey::new_rand();
-        let pubkey2 = solana_sdk::pubkey::new_rand();
+        let pubkey1 = lumos_sdk::pubkey::new_rand();
+        let pubkey2 = lumos_sdk::pubkey::new_rand();
         let zero_lamport_account =
             AccountSharedData::new(0, 0, AccountSharedData::default().owner());
 
@@ -11539,10 +11539,10 @@ pub mod tests {
 
     #[test]
     fn test_clean_zero_lamport_and_old_roots() {
-        solana_logger::setup();
+        lumos_logger::setup();
 
         let accounts = AccountsDb::new_single_for_tests();
-        let pubkey = solana_sdk::pubkey::new_rand();
+        let pubkey = lumos_sdk::pubkey::new_rand();
         let account = AccountSharedData::new(1, 0, AccountSharedData::default().owner());
         let zero_lamport_account =
             AccountSharedData::new(0, 0, AccountSharedData::default().owner());
@@ -11581,10 +11581,10 @@ pub mod tests {
 
     #[test]
     fn test_clean_old_with_normal_account() {
-        solana_logger::setup();
+        lumos_logger::setup();
 
         let accounts = AccountsDb::new_single_for_tests();
-        let pubkey = solana_sdk::pubkey::new_rand();
+        let pubkey = lumos_sdk::pubkey::new_rand();
         let account = AccountSharedData::new(1, 0, AccountSharedData::default().owner());
         //store an account
         accounts.store_for_tests(0, &[(&pubkey, &account)]);
@@ -11609,11 +11609,11 @@ pub mod tests {
 
     #[test]
     fn test_clean_old_with_zero_lamport_account() {
-        solana_logger::setup();
+        lumos_logger::setup();
 
         let accounts = AccountsDb::new_single_for_tests();
-        let pubkey1 = solana_sdk::pubkey::new_rand();
-        let pubkey2 = solana_sdk::pubkey::new_rand();
+        let pubkey1 = lumos_sdk::pubkey::new_rand();
+        let pubkey2 = lumos_sdk::pubkey::new_rand();
         let normal_account = AccountSharedData::new(1, 0, AccountSharedData::default().owner());
         let zero_account = AccountSharedData::new(0, 0, AccountSharedData::default().owner());
         //store an account
@@ -11643,14 +11643,14 @@ pub mod tests {
 
     #[test]
     fn test_clean_old_with_both_normal_and_zero_lamport_accounts() {
-        solana_logger::setup();
+        lumos_logger::setup();
 
         let mut accounts = AccountsDb {
             account_indexes: spl_token_mint_index_enabled(),
             ..AccountsDb::new_single_for_tests()
         };
-        let pubkey1 = solana_sdk::pubkey::new_rand();
-        let pubkey2 = solana_sdk::pubkey::new_rand();
+        let pubkey1 = lumos_sdk::pubkey::new_rand();
+        let pubkey2 = lumos_sdk::pubkey::new_rand();
 
         // Set up account to be added to secondary index
         let mint_key = Pubkey::new_unique();
@@ -11781,10 +11781,10 @@ pub mod tests {
 
     #[test]
     fn test_clean_max_slot_zero_lamport_account() {
-        solana_logger::setup();
+        lumos_logger::setup();
 
         let accounts = AccountsDb::new_single_for_tests();
-        let pubkey = solana_sdk::pubkey::new_rand();
+        let pubkey = lumos_sdk::pubkey::new_rand();
         let account = AccountSharedData::new(1, 0, AccountSharedData::default().owner());
         let zero_account = AccountSharedData::new(0, 0, AccountSharedData::default().owner());
 
@@ -11820,10 +11820,10 @@ pub mod tests {
 
     #[test]
     fn test_uncleaned_roots_with_account() {
-        solana_logger::setup();
+        lumos_logger::setup();
 
         let accounts = AccountsDb::new_single_for_tests();
-        let pubkey = solana_sdk::pubkey::new_rand();
+        let pubkey = lumos_sdk::pubkey::new_rand();
         let account = AccountSharedData::new(1, 0, AccountSharedData::default().owner());
         //store an account
         accounts.store_for_tests(0, &[(&pubkey, &account)]);
@@ -11840,7 +11840,7 @@ pub mod tests {
 
     #[test]
     fn test_uncleaned_roots_with_no_account() {
-        solana_logger::setup();
+        lumos_logger::setup();
 
         let accounts = AccountsDb::new_single_for_tests();
 
@@ -11862,17 +11862,17 @@ pub mod tests {
 
     #[test]
     fn test_accounts_db_purge_keep_live() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let some_lamport = 223;
         let zero_lamport = 0;
         let no_data = 0;
         let owner = *AccountSharedData::default().owner();
 
         let account = AccountSharedData::new(some_lamport, no_data, &owner);
-        let pubkey = solana_sdk::pubkey::new_rand();
+        let pubkey = lumos_sdk::pubkey::new_rand();
 
         let account2 = AccountSharedData::new(some_lamport, no_data, &owner);
-        let pubkey2 = solana_sdk::pubkey::new_rand();
+        let pubkey2 = lumos_sdk::pubkey::new_rand();
 
         let zero_lamport_account = AccountSharedData::new(zero_lamport, no_data, &owner);
 
@@ -11944,14 +11944,14 @@ pub mod tests {
 
     #[test]
     fn test_accounts_db_purge1() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let some_lamport = 223;
         let zero_lamport = 0;
         let no_data = 0;
         let owner = *AccountSharedData::default().owner();
 
         let account = AccountSharedData::new(some_lamport, no_data, &owner);
-        let pubkey = solana_sdk::pubkey::new_rand();
+        let pubkey = lumos_sdk::pubkey::new_rand();
 
         let zero_lamport_account = AccountSharedData::new(zero_lamport, no_data, &owner);
 
@@ -12018,7 +12018,7 @@ pub mod tests {
                 std::thread::Builder::new()
                     .name("account-writers".to_string())
                     .spawn(move || {
-                        let pubkey = solana_sdk::pubkey::new_rand();
+                        let pubkey = lumos_sdk::pubkey::new_rand();
                         let mut account = AccountSharedData::new(1, 0, &pubkey);
                         let mut i = 0;
                         loop {
@@ -12047,15 +12047,15 @@ pub mod tests {
 
     #[test]
     fn test_accountsdb_scan_accounts() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let db = AccountsDb::new_single_for_tests();
         let key = Pubkey::default();
-        let key0 = solana_sdk::pubkey::new_rand();
+        let key0 = lumos_sdk::pubkey::new_rand();
         let account0 = AccountSharedData::new(1, 0, &key);
 
         db.store_for_tests(0, &[(&key0, &account0)]);
 
-        let key1 = solana_sdk::pubkey::new_rand();
+        let key1 = lumos_sdk::pubkey::new_rand();
         let account1 = AccountSharedData::new(2, 0, &key);
         db.store_for_tests(1, &[(&key1, &account1)]);
 
@@ -12086,16 +12086,16 @@ pub mod tests {
 
     #[test]
     fn test_cleanup_key_not_removed() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let db = AccountsDb::new_single_for_tests();
 
         let key = Pubkey::default();
-        let key0 = solana_sdk::pubkey::new_rand();
+        let key0 = lumos_sdk::pubkey::new_rand();
         let account0 = AccountSharedData::new(1, 0, &key);
 
         db.store_for_tests(0, &[(&key0, &account0)]);
 
-        let key1 = solana_sdk::pubkey::new_rand();
+        let key1 = lumos_sdk::pubkey::new_rand();
         let account1 = AccountSharedData::new(2, 0, &key);
         db.store_for_tests(1, &[(&key1, &account1)]);
 
@@ -12121,7 +12121,7 @@ pub mod tests {
 
     #[test]
     fn test_store_large_account() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let db = AccountsDb::new_single_for_tests();
 
         let key = Pubkey::default();
@@ -12236,7 +12236,7 @@ pub mod tests {
 
     #[test]
     fn test_bank_hash_stats() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let db = AccountsDb::new_single_for_tests();
 
         let key = Pubkey::default();
@@ -12264,10 +12264,10 @@ pub mod tests {
     #[ignore]
     #[test]
     fn test_calculate_accounts_hash_check_hash_mismatch() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let db = AccountsDb::new_single_for_tests();
 
-        let key = solana_sdk::pubkey::new_rand();
+        let key = lumos_sdk::pubkey::new_rand();
         let some_data_len = 0;
         let some_slot: Slot = 0;
         let account = AccountSharedData::new(1, some_data_len, &key);
@@ -12327,10 +12327,10 @@ pub mod tests {
     #[ignore]
     #[test]
     fn test_calculate_accounts_hash_check_hash() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let db = AccountsDb::new_single_for_tests();
 
-        let key = solana_sdk::pubkey::new_rand();
+        let key = lumos_sdk::pubkey::new_rand();
         let some_data_len = 0;
         let some_slot: Slot = 0;
         let account = AccountSharedData::new(1, some_data_len, &key);
@@ -12368,10 +12368,10 @@ pub mod tests {
 
     #[test]
     fn test_verify_accounts_hash() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let db = AccountsDb::new_single_for_tests();
 
-        let key = solana_sdk::pubkey::new_rand();
+        let key = lumos_sdk::pubkey::new_rand();
         let some_data_len = 0;
         let some_slot: Slot = 0;
         let account = AccountSharedData::new(1, some_data_len, &key);
@@ -12416,10 +12416,10 @@ pub mod tests {
     #[test]
     fn test_verify_bank_capitalization() {
         for pass in 0..2 {
-            solana_logger::setup();
+            lumos_logger::setup();
             let db = AccountsDb::new_single_for_tests();
 
-            let key = solana_sdk::pubkey::new_rand();
+            let key = lumos_sdk::pubkey::new_rand();
             let some_data_len = 0;
             let some_slot: Slot = 0;
             let account = AccountSharedData::new(1, some_data_len, &key);
@@ -12444,12 +12444,12 @@ pub mod tests {
                 continue;
             }
 
-            let native_account_pubkey = solana_sdk::pubkey::new_rand();
+            let native_account_pubkey = lumos_sdk::pubkey::new_rand();
             db.store_for_tests(
                 some_slot,
                 &[(
                     &native_account_pubkey,
-                    &solana_sdk::native_loader::create_loadable_account_for_test("foo"),
+                    &lumos_sdk::native_loader::create_loadable_account_for_test("foo"),
                 )],
             );
             db.add_root_and_flush_write_cache(some_slot);
@@ -12469,7 +12469,7 @@ pub mod tests {
 
     #[test]
     fn test_verify_accounts_hash_no_account() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let db = AccountsDb::new_single_for_tests();
 
         let some_slot: Slot = 0;
@@ -12494,7 +12494,7 @@ pub mod tests {
 
     #[test]
     fn test_verify_accounts_hash_bad_account_hash() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let db = AccountsDb::new_single_for_tests();
 
         let key = Pubkey::default();
@@ -12534,15 +12534,15 @@ pub mod tests {
 
     #[test]
     fn test_storage_finder() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let db = AccountsDb {
             file_size: 16 * 1024,
             ..AccountsDb::new_single_for_tests()
         };
-        let key = solana_sdk::pubkey::new_rand();
+        let key = lumos_sdk::pubkey::new_rand();
         let lamports = 100;
         let data_len = 8190;
-        let account = AccountSharedData::new(lamports, data_len, &solana_sdk::pubkey::new_rand());
+        let account = AccountSharedData::new(lamports, data_len, &lumos_sdk::pubkey::new_rand());
         // pre-populate with a smaller empty store
         db.create_and_insert_store(1, 8192, "test_storage_finder");
         db.store_for_tests(1, &[(&key, &account)]);
@@ -12650,7 +12650,7 @@ pub mod tests {
     #[should_panic(expected = "double remove of account in slot: 0/store: 0!!")]
     fn test_storage_remove_account_double_remove() {
         let accounts = AccountsDb::new_single_for_tests();
-        let pubkey = solana_sdk::pubkey::new_rand();
+        let pubkey = lumos_sdk::pubkey::new_rand();
         let account = AccountSharedData::new(1, 0, AccountSharedData::default().owner());
         accounts.store_for_tests(0, &[(&pubkey, &account)]);
         accounts.add_root_and_flush_write_cache(0);
@@ -12768,7 +12768,7 @@ pub mod tests {
 
     #[test]
     fn test_full_clean_refcount() {
-        solana_logger::setup();
+        lumos_logger::setup();
 
         // Setup 3 scenarios which try to differentiate between pubkey1 being in an
         // Available slot or a Full slot which would cause a different reset behavior
@@ -12809,13 +12809,13 @@ pub mod tests {
 
     #[test]
     fn test_shrink_candidate_slots() {
-        solana_logger::setup();
+        lumos_logger::setup();
 
         let mut accounts = AccountsDb::new_single_for_tests();
 
         let pubkey_count = 30000;
         let pubkeys: Vec<_> = (0..pubkey_count)
-            .map(|_| solana_sdk::pubkey::new_rand())
+            .map(|_| lumos_sdk::pubkey::new_rand())
             .collect();
 
         let some_lamport = 223;
@@ -12871,7 +12871,7 @@ pub mod tests {
     #[test]
     fn test_select_candidates_by_total_usage_no_candidates() {
         // no input candidates -- none should be selected
-        solana_logger::setup();
+        lumos_logger::setup();
         let candidates = ShrinkCandidates::default();
         let db = AccountsDb::new_single_for_tests();
 
@@ -12885,7 +12885,7 @@ pub mod tests {
     #[test]
     fn test_select_candidates_by_total_usage_3_way_split_condition() {
         // three candidates, one selected for shrink, one is put back to the candidate list and one is ignored
-        solana_logger::setup();
+        lumos_logger::setup();
         let mut candidates = ShrinkCandidates::default();
         let db = AccountsDb::new_single_for_tests();
 
@@ -12958,7 +12958,7 @@ pub mod tests {
     #[test]
     fn test_select_candidates_by_total_usage_2_way_split_condition() {
         // three candidates, 2 are selected for shrink, one is ignored
-        solana_logger::setup();
+        lumos_logger::setup();
         let db = AccountsDb::new_single_for_tests();
         let mut candidates = ShrinkCandidates::default();
 
@@ -13024,7 +13024,7 @@ pub mod tests {
     #[test]
     fn test_select_candidates_by_total_usage_all_clean() {
         // 2 candidates, they must be selected to achieve the target alive ratio
-        solana_logger::setup();
+        lumos_logger::setup();
         let db = AccountsDb::new_single_for_tests();
         let mut candidates = ShrinkCandidates::default();
 
@@ -13101,7 +13101,7 @@ pub mod tests {
 
     #[test]
     fn test_delete_dependencies() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let accounts_index = AccountsIndex::<AccountInfo, AccountInfo>::default_for_tests();
         let key0 = Pubkey::new_from_array([0u8; 32]);
         let key1 = Pubkey::new_from_array([1u8; 32]);
@@ -13216,8 +13216,8 @@ pub mod tests {
 
     #[test]
     fn test_account_balance_for_capitalization_sysvar() {
-        let normal_sysvar = solana_sdk::account::create_account_for_test(
-            &solana_sdk::slot_history::SlotHistory::default(),
+        let normal_sysvar = lumos_sdk::account::create_account_for_test(
+            &lumos_sdk::slot_history::SlotHistory::default(),
         );
         assert_eq!(normal_sysvar.lamports(), 1);
     }
@@ -13225,7 +13225,7 @@ pub mod tests {
     #[test]
     fn test_account_balance_for_capitalization_native_program() {
         let normal_native_program =
-            solana_sdk::native_loader::create_loadable_account_for_test("foo");
+            lumos_sdk::native_loader::create_loadable_account_for_test("foo");
         assert_eq!(normal_native_program.lamports(), 1);
     }
 
@@ -13248,10 +13248,10 @@ pub mod tests {
 
     #[test]
     fn test_store_overhead() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let accounts = AccountsDb::new_single_for_tests();
         let account = AccountSharedData::default();
-        let pubkey = solana_sdk::pubkey::new_rand();
+        let pubkey = lumos_sdk::pubkey::new_rand();
         accounts.store_for_tests(0, &[(&pubkey, &account)]);
         accounts.add_root_and_flush_write_cache(0);
         let store = accounts.storage.get_slot_storage_entry(0).unwrap();
@@ -13262,15 +13262,15 @@ pub mod tests {
 
     #[test]
     fn test_store_clean_after_shrink() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let accounts = AccountsDb::new_single_for_tests();
         let epoch_schedule = EpochSchedule::default();
 
         let account = AccountSharedData::new(1, 16 * 4096, &Pubkey::default());
-        let pubkey1 = solana_sdk::pubkey::new_rand();
+        let pubkey1 = lumos_sdk::pubkey::new_rand();
         accounts.store_cached((0, &[(&pubkey1, &account)][..]), None);
 
-        let pubkey2 = solana_sdk::pubkey::new_rand();
+        let pubkey2 = lumos_sdk::pubkey::new_rand();
         accounts.store_cached((0, &[(&pubkey2, &account)][..]), None);
 
         let zero_account = AccountSharedData::new(0, 1, &Pubkey::default());
@@ -13333,7 +13333,7 @@ pub mod tests {
     #[test]
     #[should_panic(expected = "We've run out of storage ids!")]
     fn test_reuse_append_vec_id() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let db = AccountsDb::new_single_for_tests();
 
         let zero_lamport_account =
@@ -13450,9 +13450,9 @@ pub mod tests {
         let unrooted_slot = 4;
         let root5 = 5;
         let root6 = 6;
-        let unrooted_key = solana_sdk::pubkey::new_rand();
-        let key5 = solana_sdk::pubkey::new_rand();
-        let key6 = solana_sdk::pubkey::new_rand();
+        let unrooted_key = lumos_sdk::pubkey::new_rand();
+        let key5 = lumos_sdk::pubkey::new_rand();
+        let key6 = lumos_sdk::pubkey::new_rand();
         db.store_cached((unrooted_slot, &[(&unrooted_key, &account0)][..]), None);
         db.store_cached((root5, &[(&key5, &account0)][..]), None);
         db.store_cached((root6, &[(&key6, &account0)][..]), None);
@@ -14497,7 +14497,7 @@ pub mod tests {
 
     #[test]
     fn test_partial_clean() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let db = AccountsDb::new_single_for_tests();
         let account_key1 = Pubkey::new_unique();
         let account_key2 = Pubkey::new_unique();
@@ -14610,7 +14610,7 @@ pub mod tests {
     }
 
     fn do_test_load_account_and_cache_flush_race(with_retry: bool) {
-        solana_logger::setup();
+        lumos_logger::setup();
 
         let mut db = AccountsDb::new_single_for_tests();
         db.load_delay = RACY_SLEEP_MS;
@@ -14934,7 +14934,7 @@ pub mod tests {
 
     #[test]
     fn test_collect_uncleaned_slots_up_to_slot() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let db = AccountsDb::new_single_for_tests();
 
         let slot1 = 11;
@@ -14964,7 +14964,7 @@ pub mod tests {
 
     #[test]
     fn test_remove_uncleaned_slots_and_collect_pubkeys() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let db = AccountsDb::new_single_for_tests();
 
         let slot1 = 11;
@@ -15022,7 +15022,7 @@ pub mod tests {
 
     #[test]
     fn test_remove_uncleaned_slots_and_collect_pubkeys_up_to_slot() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let db = AccountsDb::new_single_for_tests();
 
         let slot1 = 11;
@@ -15062,7 +15062,7 @@ pub mod tests {
 
     #[test]
     fn test_shrink_productive() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let s1 = AccountStorageEntry::new(Path::new("."), 0, 0, 1024);
         let store = Arc::new(s1);
         assert!(!AccountsDb::is_shrinking_productive(0, &store));
@@ -15080,7 +15080,7 @@ pub mod tests {
 
     #[test]
     fn test_is_candidate_for_shrink() {
-        solana_logger::setup();
+        lumos_logger::setup();
 
         let mut accounts = AccountsDb::new_single_for_tests();
         let common_store_path = Path::new("");
@@ -15117,7 +15117,7 @@ pub mod tests {
     fn test_calculate_storage_count_and_alive_bytes() {
         let accounts = AccountsDb::new_single_for_tests();
         accounts.accounts_index.set_startup(Startup::Startup);
-        let shared_key = solana_sdk::pubkey::new_rand();
+        let shared_key = lumos_sdk::pubkey::new_rand();
         let account = AccountSharedData::new(1, 1, AccountSharedData::default().owner());
         let slot0 = 0;
 
@@ -15168,8 +15168,8 @@ pub mod tests {
     fn test_calculate_storage_count_and_alive_bytes_2_accounts() {
         let accounts = AccountsDb::new_single_for_tests();
         let keys = [
-            solana_sdk::pubkey::Pubkey::from([0; 32]),
-            solana_sdk::pubkey::Pubkey::from([255; 32]),
+            lumos_sdk::pubkey::Pubkey::from([0; 32]),
+            lumos_sdk::pubkey::Pubkey::from([255; 32]),
         ];
         accounts.accounts_index.set_startup(Startup::Startup);
 
@@ -15217,7 +15217,7 @@ pub mod tests {
         let accounts = AccountsDb::new_single_for_tests();
 
         // make sure we have storage 0
-        let shared_key = solana_sdk::pubkey::new_rand();
+        let shared_key = lumos_sdk::pubkey::new_rand();
         let account = AccountSharedData::new(1, 1, AccountSharedData::default().owner());
         let slot0 = 0;
         accounts.store_for_tests(slot0, &[(&shared_key, &account)]);
@@ -15262,9 +15262,9 @@ pub mod tests {
         let accounts = AccountsDb::new_single_for_tests();
 
         // Key shared between rooted and nonrooted slot
-        let shared_key = solana_sdk::pubkey::new_rand();
+        let shared_key = lumos_sdk::pubkey::new_rand();
         // Key to keep the storage entry for the unrooted slot alive
-        let unrooted_key = solana_sdk::pubkey::new_rand();
+        let unrooted_key = lumos_sdk::pubkey::new_rand();
         let slot0 = 0;
         let slot1 = 1;
 
@@ -15320,10 +15320,10 @@ pub mod tests {
     ///     - ensure Account1 *has* been purged
     #[test]
     fn test_clean_accounts_with_last_full_snapshot_slot() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let accounts_db = AccountsDb::new_single_for_tests();
-        let pubkey = solana_sdk::pubkey::new_rand();
-        let owner = solana_sdk::pubkey::new_rand();
+        let pubkey = lumos_sdk::pubkey::new_rand();
+        let owner = lumos_sdk::pubkey::new_rand();
         let space = 0;
 
         let slot1: Slot = 1;
@@ -15358,7 +15358,7 @@ pub mod tests {
 
     #[test]
     fn test_filter_zero_lamport_clean_for_incremental_snapshots() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let slot = 10;
 
         struct TestParameters {
@@ -15369,7 +15369,7 @@ pub mod tests {
 
         let do_test = |test_params: TestParameters| {
             let account_info = AccountInfo::new(StorageLocation::AppendVec(42, 128), 0);
-            let pubkey = solana_sdk::pubkey::new_rand();
+            let pubkey = lumos_sdk::pubkey::new_rand();
             let mut key_set = HashSet::default();
             key_set.insert(pubkey);
             let store_count = 0;
@@ -16025,7 +16025,7 @@ pub mod tests {
 
     #[test]
     fn test_split_storages_splitter_large_offset() {
-        solana_logger::setup();
+        lumos_logger::setup();
         // 1 full chunk - 1, mis-aligned by 2 at big offset
         // huge offset
         // we need ALL the chunks here
@@ -16192,7 +16192,7 @@ pub mod tests {
                 "test_accountsdb_scan_account_storage_no_bank",
             );
             let write_version1 = 0;
-            let pubkey1 = solana_sdk::pubkey::new_rand();
+            let pubkey1 = lumos_sdk::pubkey::new_rand();
             let mark_alive = false;
             let storage =
                 sample_storage_with_entries(&tf, write_version1, slot, &pubkey1, mark_alive);
@@ -16211,7 +16211,7 @@ pub mod tests {
             let mut hasher = hash_map::DefaultHasher::new();
             append_sample_data_to_storage(
                 &storage,
-                &solana_sdk::pubkey::new_rand(),
+                &lumos_sdk::pubkey::new_rand(),
                 write_version1,
                 false,
                 None,
@@ -16509,7 +16509,7 @@ pub mod tests {
 
     #[test]
     fn test_shrink_collect_simple() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let account_counts = [
             1,
             SHRINK_COLLECT_CHUNK_SIZE,
@@ -16520,7 +16520,7 @@ pub mod tests {
         let max_appended_accounts = 2;
         let max_num_accounts = *account_counts.iter().max().unwrap();
         let pubkeys = (0..(max_num_accounts + max_appended_accounts))
-            .map(|_| solana_sdk::pubkey::new_rand())
+            .map(|_| lumos_sdk::pubkey::new_rand())
             .collect::<Vec<_>>();
         // write accounts, maybe remove from index
         // check shrink_collect results
@@ -16703,7 +16703,7 @@ pub mod tests {
 
     #[test]
     fn test_combine_ancient_slots_empty() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let db = AccountsDb::new_single_for_tests();
         // empty slots
         db.combine_ancient_slots(Vec::default(), CAN_RANDOMLY_SHRINK_FALSE);
@@ -16785,7 +16785,7 @@ pub mod tests {
 
     #[test]
     fn test_shrink_ancient_overflow_with_min_size() {
-        solana_logger::setup();
+        lumos_logger::setup();
 
         let ideal_av_size = ancient_append_vecs::get_ancient_append_vec_capacity();
         let num_normal_slots = 2;
@@ -16931,7 +16931,7 @@ pub mod tests {
 
     #[test]
     fn test_shrink_ancient_overflow() {
-        solana_logger::setup();
+        lumos_logger::setup();
 
         let num_normal_slots = 2;
         // build an ancient append vec at slot 'ancient_slot'
@@ -17003,7 +17003,7 @@ pub mod tests {
 
     #[test]
     fn test_shrink_ancient() {
-        solana_logger::setup();
+        lumos_logger::setup();
 
         let num_normal_slots = 1;
         // build an ancient append vec at slot 'ancient_slot'
@@ -17091,7 +17091,7 @@ pub mod tests {
 
     #[test]
     fn test_combine_ancient_slots_append() {
-        solana_logger::setup();
+        lumos_logger::setup();
         // combine 2-4 slots into a single ancient append vec
         for num_normal_slots in 1..3 {
             // but some slots contain only dead accounts
@@ -17237,7 +17237,7 @@ pub mod tests {
             .unwrap_or(999);
         for (i, account_data_size) in account_data_sizes.iter().enumerate().take(num_slots) {
             let id = starting_id + (i as AppendVecId);
-            let pubkey1 = solana_sdk::pubkey::new_rand();
+            let pubkey1 = lumos_sdk::pubkey::new_rand();
             let storage = sample_storage_with_entries_id_fill_percentage(
                 tf,
                 write_version1,
@@ -17286,7 +17286,7 @@ pub mod tests {
             .unwrap_or(999);
         for i in 0..num_slots {
             let id = starting_id + (i as AppendVecId);
-            let pubkey1 = solana_sdk::pubkey::new_rand();
+            let pubkey1 = lumos_sdk::pubkey::new_rand();
             let storage = sample_storage_with_entries_id(
                 tf,
                 write_version1,
@@ -17313,7 +17313,7 @@ pub mod tests {
         num_slots: usize,
         account_data_size: Option<u64>,
     ) -> (AccountsDb, Slot) {
-        solana_logger::setup();
+        lumos_logger::setup();
 
         let db = AccountsDb::new_single_for_tests();
 
@@ -17334,7 +17334,7 @@ pub mod tests {
         num_slots: usize,
         account_data_size: Vec<u64>,
     ) -> (AccountsDb, Slot) {
-        solana_logger::setup();
+        lumos_logger::setup();
 
         let db = AccountsDb::new_single_for_tests();
 
@@ -17397,7 +17397,7 @@ pub mod tests {
 
     #[test]
     fn test_handle_dropped_roots_for_ancient() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let db = AccountsDb::new_single_for_tests();
         db.handle_dropped_roots_for_ancient(std::iter::empty::<Slot>());
         let slot0 = 0;
@@ -17418,7 +17418,7 @@ pub mod tests {
     #[test]
     #[should_panic(expected = "self.storage.remove")]
     fn test_handle_dropped_roots_for_ancient_assert() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let common_store_path = Path::new("");
         let store_file_size = 2 * PAGE_SIZE;
         let entry = Arc::new(AccountStorageEntry::new(
@@ -17436,14 +17436,14 @@ pub mod tests {
 
     #[test]
     fn test_should_move_to_ancient_append_vec() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let db = AccountsDb::new_single_for_tests();
         let slot5 = 5;
         let tf = crate::append_vec::test_utils::get_append_vec_path(
             "test_should_move_to_ancient_append_vec",
         );
         let write_version1 = 0;
-        let pubkey1 = solana_sdk::pubkey::new_rand();
+        let pubkey1 = lumos_sdk::pubkey::new_rand();
         let storage = sample_storage_with_entries(&tf, write_version1, slot5, &pubkey1, false);
         let mut current_ancient = CurrentAncientAppendVec::default();
 

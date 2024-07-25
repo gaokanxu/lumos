@@ -3,13 +3,13 @@ pub mod config_instruction;
 pub mod config_processor;
 pub mod date_instruction;
 
-pub use solana_sdk::config::program::id;
+pub use lumos_sdk::config::program::id;
 #[allow(deprecated)]
-use solana_sdk::stake::config::Config as StakeConfig;
+use lumos_sdk::stake::config::Config as StakeConfig;
 use {
     bincode::{deserialize, serialize, serialized_size},
     serde_derive::{Deserialize, Serialize},
-    solana_sdk::{
+    lumos_sdk::{
         account::{Account, AccountSharedData},
         pubkey::Pubkey,
         short_vec,
@@ -21,7 +21,7 @@ pub trait ConfigState: serde::Serialize + Default {
     fn max_space() -> u64;
 }
 
-// TODO move ConfigState into `solana_program` to implement trait locally
+// TODO move ConfigState into `lumos_program` to implement trait locally
 #[allow(deprecated)]
 impl ConfigState for StakeConfig {
     fn max_space() -> u64 {

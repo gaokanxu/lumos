@@ -1,5 +1,5 @@
 #![allow(clippy::arithmetic_side_effects)]
-pub use solana_test_validator as test_validator;
+pub use lumos_test_validator as test_validator;
 use {
     console::style,
     fd_lock::{RwLock, RwLockWriteGuard},
@@ -41,10 +41,10 @@ pub fn redirect_stderr_to_file(logfile: Option<String>) -> Option<JoinHandle<()>
         env::set_var("RUST_BACKTRACE", "1")
     }
 
-    let filter = "solana=info";
+    let filter = "lumos=info";
     match logfile {
         None => {
-            solana_logger::setup_with_default(filter);
+            lumos_logger::setup_with_default(filter);
             None
         }
         Some(logfile) => {
@@ -58,7 +58,7 @@ pub fn redirect_stderr_to_file(logfile: Option<String>) -> Option<JoinHandle<()>
                             exit(1);
                         });
 
-                solana_logger::setup_with_default(filter);
+                lumos_logger::setup_with_default(filter);
                 redirect_stderr(&logfile);
                 Some(
                     std::thread::Builder::new()
@@ -78,7 +78,7 @@ pub fn redirect_stderr_to_file(logfile: Option<String>) -> Option<JoinHandle<()>
             #[cfg(not(unix))]
             {
                 println!("logrotate is not supported on this platform");
-                solana_logger::setup_file_with_default(&logfile, filter);
+                lumos_logger::setup_file_with_default(&logfile, filter);
                 None
             }
         }

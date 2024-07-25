@@ -1,6 +1,6 @@
 [package]
-name = "solana-sbf-rust-sha"
-documentation = "https://docs.rs/solana-sbf-rust-sha"
+name = "lumos-sbf-rust-sha"
+documentation = "https://docs.rs/lumos-sbf-rust-sha"
 version = { workspace = true }
 description = { workspace = true }
 authors = { workspace = true }
@@ -11,7 +11,7 @@ edition = { workspace = true }
 
 [dependencies]
 blake3 = { workspace = true }
-solana-program = { workspace = true }
+lumos-program = { workspace = true }
 
 [lib]
 crate-type = ["cdylib"]

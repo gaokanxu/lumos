@@ -14,12 +14,12 @@ use {
         ThreadPool, ThreadPoolBuilder,
     },
     regex::Regex,
-    solana_accounts_db::{
+    lumos_accounts_db::{
         account_storage::{AccountStorageMap, AccountStorageReference},
         accounts_db::{AccountStorageEntry, AccountsDb, AppendVecId, AtomicAppendVecId},
         append_vec::AppendVec,
     },
-    solana_sdk::clock::Slot,
+    lumos_sdk::clock::Slot,
     std::{
         collections::HashMap,
         fs::File,
@@ -464,7 +464,7 @@ pub(crate) fn get_slot_and_append_vec_id(filename: &str) -> (Slot, usize) {
 mod tests {
     use {
         super::*, crate::snapshot_utils::SNAPSHOT_VERSION_FILENAME,
-        solana_accounts_db::append_vec::AppendVec,
+        lumos_accounts_db::append_vec::AppendVec,
     };
 
     #[test]

@@ -1,24 +1,24 @@
 use {
     crate::connection_cache::ConnectionCache,
-    solana_connection_cache::connection_cache::{
+    lumos_connection_cache::connection_cache::{
         ConnectionCache as BackendConnectionCache, ConnectionManager, ConnectionPool,
         NewConnectionConfig,
     },
-    solana_quic_client::{QuicConfig, QuicConnectionManager, QuicPool},
-    solana_rpc_client::rpc_client::RpcClient,
-    solana_sdk::{
+    lumos_quic_client::{QuicConfig, QuicConnectionManager, QuicPool},
+    lumos_rpc_client::rpc_client::RpcClient,
+    lumos_sdk::{
         message::Message,
         signers::Signers,
         transaction::{Transaction, TransactionError},
         transport::Result as TransportResult,
     },
-    solana_tpu_client::tpu_client::{Result, TpuClient as BackendTpuClient},
-    solana_udp_client::{UdpConfig, UdpConnectionManager, UdpPool},
+    lumos_tpu_client::tpu_client::{Result, TpuClient as BackendTpuClient},
+    lumos_udp_client::{UdpConfig, UdpConnectionManager, UdpPool},
     std::sync::Arc,
 };
 pub use {
     crate::nonblocking::tpu_client::TpuSenderError,
-    solana_tpu_client::tpu_client::{TpuClientConfig, DEFAULT_FANOUT_SLOTS, MAX_FANOUT_SLOTS},
+    lumos_tpu_client::tpu_client::{TpuClientConfig, DEFAULT_FANOUT_SLOTS, MAX_FANOUT_SLOTS},
 };
 
 pub type QuicTpuClient = TpuClient<QuicPool, QuicConnectionManager, QuicConfig>;

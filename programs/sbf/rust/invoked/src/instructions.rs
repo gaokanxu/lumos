@@ -1,6 +1,6 @@
 //! Example Rust-based SBF program that issues a cross-program-invocation
 
-use solana_program::{
+use lumos_program::{
     instruction::{AccountMeta, Instruction},
     pubkey::Pubkey,
 };

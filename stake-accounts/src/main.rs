@@ -10,10 +10,10 @@ use {
             resolve_command, AuthorizeArgs, Command, MoveArgs, NewArgs, RebaseArgs, SetLockupArgs,
         },
     },
-    solana_cli_config::Config,
-    solana_rpc_client::rpc_client::RpcClient,
-    solana_rpc_client_api::client_error::Error as ClientError,
-    solana_sdk::{
+    lumos_cli_config::Config,
+    lumos_rpc_client::rpc_client::RpcClient,
+    lumos_rpc_client_api::client_error::Error as ClientError,
+    lumos_sdk::{
         message::Message,
         native_token::lamports_to_sol,
         pubkey::Pubkey,
@@ -22,7 +22,7 @@ use {
         stake::{instruction::LockupArgs, state::Lockup},
         transaction::Transaction,
     },
-    solana_stake_program::stake_state,
+    lumos_stake_program::stake_state,
     std::{env, error::Error},
 };
 

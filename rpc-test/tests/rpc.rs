@@ -5,20 +5,20 @@ use {
     log::*,
     reqwest::{self, header::CONTENT_TYPE},
     serde_json::{json, Value},
-    solana_account_decoder::UiAccount,
-    solana_client::{
+    lumos_account_decoder::UiAccount,
+    lumos_client::{
         connection_cache::ConnectionCache,
         tpu_client::{TpuClient, TpuClientConfig},
     },
-    solana_pubsub_client::nonblocking::pubsub_client::PubsubClient,
-    solana_rpc_client::rpc_client::RpcClient,
-    solana_rpc_client_api::{
+    lumos_pubsub_client::nonblocking::pubsub_client::PubsubClient,
+    lumos_rpc_client::rpc_client::RpcClient,
+    lumos_rpc_client_api::{
         client_error::{ErrorKind as ClientErrorKind, Result as ClientResult},
         config::{RpcAccountInfoConfig, RpcSignatureSubscribeConfig},
         request::RpcError,
         response::{Response as RpcResponse, RpcSignatureResult, SlotUpdate},
     },
-    solana_sdk::{
+    lumos_sdk::{
         commitment_config::CommitmentConfig,
         hash::Hash,
         pubkey::Pubkey,
@@ -27,10 +27,10 @@ use {
         system_transaction,
         transaction::Transaction,
     },
-    solana_streamer::socket::SocketAddrSpace,
-    solana_test_validator::TestValidator,
-    solana_tpu_client::tpu_client::DEFAULT_TPU_CONNECTION_POOL_SIZE,
-    solana_transaction_status::TransactionStatus,
+    lumos_streamer::socket::SocketAddrSpace,
+    lumos_test_validator::TestValidator,
+    lumos_tpu_client::tpu_client::DEFAULT_TPU_CONNECTION_POOL_SIZE,
+    lumos_transaction_status::TransactionStatus,
     std::{
         collections::HashSet,
         net::UdpSocket,
@@ -68,14 +68,14 @@ fn post_rpc(request: Value, rpc_url: &str) -> Value {
 
 #[test]
 fn test_rpc_send_tx() {
-    solana_logger::setup();
+    lumos_logger::setup();
 
     let alice = Keypair::new();
     let test_validator =
         TestValidator::with_no_fees(alice.pubkey(), None, SocketAddrSpace::Unspecified);
     let rpc_url = test_validator.rpc_url();
 
-    let bob_pubkey = solana_sdk::pubkey::new_rand();
+    let bob_pubkey = lumos_sdk::pubkey::new_rand();
 
     let req = json_req!("getRecentBlockhash", json!([]));
     let json = post_rpc(req, &rpc_url);
@@ -104,7 +104,7 @@ fn test_rpc_send_tx() {
 
     let request = json_req!("getSignatureStatuses", [[signature]]);
 
-    for _ in 0..solana_sdk::clock::DEFAULT_TICKS_PER_SLOT {
+    for _ in 0..lumos_sdk::clock::DEFAULT_TICKS_PER_SLOT {
         let json = post_rpc(request.clone(), &rpc_url);
 
         let result: Option<TransactionStatus> =
@@ -122,8 +122,8 @@ fn test_rpc_send_tx() {
     assert!(confirmed_tx);
 
     use {
-        solana_account_decoder::UiAccountEncoding,
-        solana_rpc_client_api::config::RpcAccountInfoConfig,
+        lumos_account_decoder::UiAccountEncoding,
+        lumos_rpc_client_api::config::RpcAccountInfoConfig,
     };
     let config = RpcAccountInfoConfig {
         encoding: Some(UiAccountEncoding::Base64),
@@ -141,14 +141,14 @@ fn test_rpc_send_tx() {
 
 #[test]
 fn test_rpc_invalid_requests() {
-    solana_logger::setup();
+    lumos_logger::setup();
 
     let alice = Keypair::new();
     let test_validator =
         TestValidator::with_no_fees(alice.pubkey(), None, SocketAddrSpace::Unspecified);
     let rpc_url = test_validator.rpc_url();
 
-    let bob_pubkey = solana_sdk::pubkey::new_rand();
+    let bob_pubkey = lumos_sdk::pubkey::new_rand();
 
     // test invalid get_balance request
     let req = json_req!("getBalance", json!(["invalid9999"]));
@@ -174,7 +174,7 @@ fn test_rpc_invalid_requests() {
 
 #[test]
 fn test_rpc_slot_updates() {
-    solana_logger::setup();
+    lumos_logger::setup();
 
     let test_validator =
         TestValidator::with_no_fees(Pubkey::new_unique(), None, SocketAddrSpace::Unspecified);
@@ -242,7 +242,7 @@ fn test_rpc_slot_updates() {
 
 #[test]
 fn test_rpc_subscriptions() {
-    solana_logger::setup();
+    lumos_logger::setup();
 
     let alice = Keypair::new();
     let test_validator =
@@ -260,7 +260,7 @@ fn test_rpc_subscriptions() {
         .map(|_| {
             system_transaction::transfer(
                 &alice,
-                &solana_sdk::pubkey::new_rand(),
+                &lumos_sdk::pubkey::new_rand(),
                 transfer_amount,
                 recent_blockhash,
             )
@@ -514,7 +514,7 @@ fn test_tpu_send_transaction_with_quic() {
 
 #[test]
 fn deserialize_rpc_error() -> ClientResult<()> {
-    solana_logger::setup();
+    lumos_logger::setup();
 
     let alice = Keypair::new();
     let validator = TestValidator::with_no_fees(alice.pubkey(), None, SocketAddrSpace::Unspecified);

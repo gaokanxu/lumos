@@ -18,11 +18,11 @@ use {
     log::*,
     rand::{thread_rng, Rng},
     rayon::iter::{IntoParallelIterator, ParallelIterator},
-    solana_accounts_db::{
+    lumos_accounts_db::{
         accounts_db::CalcAccountsHashDataSource, accounts_hash::CalcAccountsHashConfig,
     },
-    solana_measure::{measure::Measure, measure_us},
-    solana_sdk::clock::{BankId, Slot},
+    lumos_measure::{measure::Measure, measure_us},
+    lumos_sdk::clock::{BankId, Slot},
     stats::StatsManager,
     std::{
         boxed::Box,
@@ -56,7 +56,7 @@ struct PrunedBankQueueLenReporter {
 
 impl PrunedBankQueueLenReporter {
     fn report(&self, q_len: usize) {
-        let now = solana_sdk::timing::timestamp();
+        let now = lumos_sdk::timing::timestamp();
         let last_report_time = self.last_report_time.load(Ordering::Acquire);
         if q_len > MAX_DROP_BANK_SIGNAL_QUEUE_SIZE
             && now.saturating_sub(last_report_time) > BANK_DROP_SIGNAL_CHANNEL_REPORT_INTERVAL
@@ -862,8 +862,8 @@ mod test {
         super::*,
         crate::{bank::epoch_accounts_hash_utils, genesis_utils::create_genesis_config},
         crossbeam_channel::unbounded,
-        solana_accounts_db::epoch_accounts_hash::EpochAccountsHash,
-        solana_sdk::{
+        lumos_accounts_db::epoch_accounts_hash::EpochAccountsHash,
+        lumos_sdk::{
             account::AccountSharedData, epoch_schedule::EpochSchedule, hash::Hash, pubkey::Pubkey,
         },
     };

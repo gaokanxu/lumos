@@ -1,5 +1,5 @@
 [package]
-name = "solana-transaction-dos"
+name = "lumos-transaction-dos"
 publish = false
 version = { workspace = true }
 authors = { workspace = true }
@@ -14,24 +14,24 @@ clap = { workspace = true }
 log = { workspace = true }
 rand = { workspace = true }
 rayon = { workspace = true }
-solana-clap-utils = { workspace = true }
-solana-cli = { workspace = true }
-solana-client = { workspace = true }
-solana-core = { workspace = true }
-solana-faucet = { workspace = true }
-solana-gossip = { workspace = true }
-solana-logger = { workspace = true }
-solana-measure = { workspace = true }
-solana-net-utils = { workspace = true }
-solana-rpc-client = { workspace = true }
-solana-runtime = { workspace = true }
-solana-sdk = { workspace = true }
-solana-streamer = { workspace = true }
-solana-transaction-status = { workspace = true }
-solana-version = { workspace = true }
+lumos-clap-utils = { workspace = true }
+lumos-cli = { workspace = true }
+lumos-client = { workspace = true }
+lumos-core = { workspace = true }
+lumos-faucet = { workspace = true }
+lumos-gossip = { workspace = true }
+lumos-logger = { workspace = true }
+lumos-measure = { workspace = true }
+lumos-net-utils = { workspace = true }
+lumos-rpc-client = { workspace = true }
+lumos-runtime = { workspace = true }
+lumos-sdk = { workspace = true }
+lumos-streamer = { workspace = true }
+lumos-transaction-status = { workspace = true }
+lumos-version = { workspace = true }
 
 [dev-dependencies]
-solana-local-cluster = { workspace = true }
+lumos-local-cluster = { workspace = true }
 
 [package.metadata.docs.rs]
 targets = ["x86_64-unknown-linux-gnu"]

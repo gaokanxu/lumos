@@ -1,8 +1,8 @@
 use {
-    solana_clap_utils::input_validators::normalize_to_url_if_moniker,
-    solana_cli_config::{Config, CONFIG_FILE},
-    solana_rpc_client::rpc_client::RpcClient,
-    solana_tokens::{arg_parser::parse_args, args::Command, commands, spl_token, stake},
+    lumos_clap_utils::input_validators::normalize_to_url_if_moniker,
+    lumos_cli_config::{Config, CONFIG_FILE},
+    lumos_rpc_client::rpc_client::RpcClient,
+    lumos_tokens::{arg_parser::parse_args, args::Command, commands, spl_token, stake},
     std::{
         env,
         error::Error,

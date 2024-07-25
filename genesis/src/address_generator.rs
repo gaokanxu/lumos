@@ -1,4 +1,4 @@
-use solana_sdk::pubkey::Pubkey;
+use lumos_sdk::pubkey::Pubkey;
 
 #[derive(Default)]
 pub struct AddressGenerator {

@@ -1,7 +1,7 @@
 use {
     crate::slot_status_notifier::SlotStatusNotifier,
     crossbeam_channel::Receiver,
-    solana_rpc::optimistically_confirmed_bank_tracker::SlotNotification,
+    lumos_rpc::optimistically_confirmed_bank_tracker::SlotNotification,
     std::{
         sync::{
             atomic::{AtomicBool, Ordering},

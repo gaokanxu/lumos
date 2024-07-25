@@ -146,7 +146,7 @@ impl VersionedMessage {
     pub fn hash_raw_message(message_bytes: &[u8]) -> Hash {
         use blake3::traits::digest::Digest;
         let mut hasher = blake3::Hasher::new();
-        hasher.update(b"solana-tx-message-v1");
+        hasher.update(b"lumos-tx-message-v1");
         hasher.update(message_bytes);
         Hash(hasher.finalize().into())
     }

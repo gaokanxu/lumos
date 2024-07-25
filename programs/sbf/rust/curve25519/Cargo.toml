@@ -1,6 +1,6 @@
 [package]
-name = "solana-sbf-rust-curve25519"
-documentation = "https://docs.rs/solana-sbf-rust-zktoken_crypto"
+name = "lumos-sbf-rust-curve25519"
+documentation = "https://docs.rs/lumos-sbf-rust-zktoken_crypto"
 version = { workspace = true }
 description = { workspace = true }
 authors = { workspace = true }
@@ -10,8 +10,8 @@ license = { workspace = true }
 edition = { workspace = true }
 
 [dependencies]
-solana-program = { workspace = true }
-solana-zk-token-sdk = { workspace = true }
+lumos-program = { workspace = true }
+lumos-zk-token-sdk = { workspace = true }
 
 [lib]
 crate-type = ["cdylib"]

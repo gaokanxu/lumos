@@ -1,4 +1,4 @@
-use {solana_ledger::blockstore::BlockstoreError, thiserror::Error};
+use {lumos_ledger::blockstore::BlockstoreError, thiserror::Error};
 
 pub type Result<T> = std::result::Result<T, LedgerToolError>;
 

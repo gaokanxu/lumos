@@ -2,18 +2,18 @@ use {
     bincode::{deserialize, serialize},
     crossbeam_channel::{unbounded, Receiver, Sender},
     futures::{future, prelude::stream::StreamExt},
-    solana_banks_interface::{
+    lumos_banks_interface::{
         Banks, BanksRequest, BanksResponse, BanksTransactionResultWithMetadata,
         BanksTransactionResultWithSimulation, TransactionConfirmationStatus, TransactionMetadata,
         TransactionSimulationDetails, TransactionStatus,
     },
-    solana_client::connection_cache::ConnectionCache,
-    solana_runtime::{
+    lumos_client::connection_cache::ConnectionCache,
+    lumos_runtime::{
         bank::{Bank, TransactionSimulationResult},
         bank_forks::BankForks,
         commitment::BlockCommitmentCache,
     },
-    solana_sdk::{
+    lumos_sdk::{
         account::Account,
         clock::Slot,
         commitment_config::CommitmentLevel,
@@ -25,11 +25,11 @@ use {
         signature::Signature,
         transaction::{self, MessageHash, SanitizedTransaction, VersionedTransaction},
     },
-    solana_send_transaction_service::{
+    lumos_send_transaction_service::{
         send_transaction_service::{SendTransactionService, TransactionInfo},
         tpu_info::NullTpuInfo,
     },
-    solana_svm::transaction_results::TransactionExecutionResult,
+    lumos_svm::transaction_results::TransactionExecutionResult,
     std::{
         io,
         net::{Ipv4Addr, SocketAddr},

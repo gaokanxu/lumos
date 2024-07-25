@@ -1,7 +1,7 @@
 [package]
-name = "solana-zk-keygen"
+name = "lumos-zk-keygen"
 description = """
-Solana privacy-related key generation utility
+Lumos privacy-related key generation utility
 
 The tool currently supports two types of encryption keys that are used in the SPL Token-2022 program:
   - ElGamal keypair that can be used for public key encryption
@@ -20,12 +20,12 @@ bs58 = { workspace = true }
 clap = { version = "3.1.5", features = ["cargo", "derive"] }
 dirs-next = { workspace = true }
 num_cpus = { workspace = true }
-solana-clap-v3-utils = { workspace = true }
-solana-cli-config = { workspace = true }
-solana-remote-wallet = { workspace = true, features = ["default"] }
-solana-sdk = { workspace = true }
-solana-version = { workspace = true }
-solana-zk-token-sdk = { workspace = true }
+lumos-clap-v3-utils = { workspace = true }
+lumos-cli-config = { workspace = true }
+lumos-remote-wallet = { workspace = true, features = ["default"] }
+lumos-sdk = { workspace = true }
+lumos-version = { workspace = true }
+lumos-zk-token-sdk = { workspace = true }
 thiserror = { workspace = true }
 tiny-bip39 = { workspace = true }
 
@@ -33,7 +33,7 @@ tiny-bip39 = { workspace = true }
 tempfile = { workspace = true }
 
 [[bin]]
-name = "solana-zk-keygen"
+name = "lumos-zk-keygen"
 path = "src/main.rs"
 
 [package.metadata.docs.rs]

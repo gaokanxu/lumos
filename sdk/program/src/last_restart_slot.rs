@@ -1,6 +1,6 @@
 //! Information about the last restart slot (hard fork).
 
-use {crate::clock::Slot, solana_sdk_macro::CloneZeroed};
+use {crate::clock::Slot, lumos_sdk_macro::CloneZeroed};
 
 #[repr(C)]
 #[derive(Serialize, Deserialize, Debug, CloneZeroed, PartialEq, Eq, Default)]

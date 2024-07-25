@@ -2,7 +2,7 @@ use {
     bzip2::bufread::BzDecoder,
     log::*,
     rand::{thread_rng, Rng},
-    solana_sdk::genesis_config::{GenesisConfig, DEFAULT_GENESIS_ARCHIVE, DEFAULT_GENESIS_FILE},
+    lumos_sdk::genesis_config::{GenesisConfig, DEFAULT_GENESIS_ARCHIVE, DEFAULT_GENESIS_FILE},
     std::{
         collections::HashMap,
         fs::{self, File},
@@ -608,7 +608,7 @@ mod tests {
 
     #[test]
     fn test_valid_snapshot_accounts() {
-        solana_logger::setup();
+        lumos_logger::setup();
         assert!(is_valid_snapshot_archive_entry(
             &["accounts", "0.0"],
             tar::EntryType::Regular

@@ -2,11 +2,11 @@ pub mod cluster_slots;
 use {
     cluster_slots::ClusterSlots,
     crossbeam_channel::{Receiver, RecvTimeoutError, Sender},
-    solana_gossip::cluster_info::ClusterInfo,
-    solana_ledger::blockstore::Blockstore,
-    solana_measure::measure::Measure,
-    solana_runtime::bank_forks::BankForks,
-    solana_sdk::clock::Slot,
+    lumos_gossip::cluster_info::ClusterInfo,
+    lumos_ledger::blockstore::Blockstore,
+    lumos_measure::measure::Measure,
+    lumos_runtime::bank_forks::BankForks,
+    lumos_sdk::clock::Slot,
     std::{
         sync::{
             atomic::{AtomicBool, Ordering},
@@ -182,9 +182,9 @@ impl ClusterSlotsService {
 mod test {
     use {
         super::*,
-        solana_gossip::{cluster_info::Node, crds_value::LowestSlot},
-        solana_sdk::signature::{Keypair, Signer},
-        solana_streamer::socket::SocketAddrSpace,
+        lumos_gossip::{cluster_info::Node, crds_value::LowestSlot},
+        lumos_sdk::signature::{Keypair, Signer},
+        lumos_streamer::socket::SocketAddrSpace,
     };
 
     #[test]

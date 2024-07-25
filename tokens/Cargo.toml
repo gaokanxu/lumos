@@ -1,7 +1,7 @@
 [package]
-name = "solana-tokens"
+name = "lumos-tokens"
 description = "Blockchain, Rebuilt for Scale"
-documentation = "https://docs.rs/solana-tokens"
+documentation = "https://docs.rs/lumos-tokens"
 version = { workspace = true }
 authors = { workspace = true }
 repository = { workspace = true }
@@ -19,23 +19,23 @@ indexmap = { workspace = true }
 indicatif = { workspace = true }
 pickledb = { workspace = true, features = ["yaml"] }
 serde = { workspace = true, features = ["derive"] }
-solana-account-decoder = { workspace = true }
-solana-clap-utils = { workspace = true }
-solana-cli-config = { workspace = true }
-solana-remote-wallet = { workspace = true, features = ["default"] }
-solana-rpc-client = { workspace = true, features = ["default"] }
-solana-rpc-client-api = { workspace = true }
-solana-sdk = { workspace = true }
-solana-transaction-status = { workspace = true }
-solana-version = { workspace = true }
-spl-associated-token-account = { workspace = true }
-spl-token = { workspace = true, features = ["no-entrypoint"] }
+lumos-account-decoder = { workspace = true }
+lumos-clap-utils = { workspace = true }
+lumos-cli-config = { workspace = true }
+lumos-remote-wallet = { workspace = true, features = ["default"] }
+lumos-rpc-client = { workspace = true, features = ["default"] }
+lumos-rpc-client-api = { workspace = true }
+lumos-sdk = { workspace = true }
+lumos-transaction-status = { workspace = true }
+lumos-version = { workspace = true }
+lpl-associated-token-account = { workspace = true }
+lpl-token = { workspace = true, features = ["no-entrypoint"] }
 tempfile = { workspace = true }
 thiserror = { workspace = true }
 
 [dev-dependencies]
 assert_matches = { workspace = true }
 bincode = { workspace = true }
-solana-logger = { workspace = true }
-solana-streamer = { workspace = true }
-solana-test-validator = { workspace = true }
+lumos-logger = { workspace = true }
+lumos-streamer = { workspace = true }
+lumos-test-validator = { workspace = true }

@@ -2,8 +2,8 @@ use {
     log::*,
     rand::{thread_rng, Rng},
     serde::Serialize,
-    solana_accounts_db::ancestors::Ancestors,
-    solana_sdk::{
+    lumos_accounts_db::ancestors::Ancestors,
+    lumos_sdk::{
         clock::{Slot, MAX_RECENT_BLOCKHASHES},
         hash::Hash,
     },
@@ -283,7 +283,7 @@ impl<T: Serialize + Clone> StatusCache<T> {
 mod tests {
     use {
         super::*,
-        solana_sdk::{hash::hash, signature::Signature},
+        lumos_sdk::{hash::hash, signature::Signature},
     };
 
     type BankStatusCache = StatusCache<()>;

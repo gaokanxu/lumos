@@ -3,8 +3,8 @@
 #![allow(unreachable_code)]
 #![allow(clippy::arithmetic_side_effects)]
 
-extern crate solana_program;
-use solana_program::{
+extern crate lumos_program;
+use lumos_program::{
     account_info::AccountInfo,
     bpf_loader,
     entrypoint_deprecated::ProgramResult,
@@ -38,7 +38,7 @@ fn custom_panic(info: &core::panic::PanicInfo<'_>) {
     msg!(&format!("{info}"));
 }
 
-solana_program::entrypoint_deprecated!(process_instruction);
+lumos_program::entrypoint_deprecated!(process_instruction);
 #[allow(clippy::unnecessary_wraps)]
 fn process_instruction(
     program_id: &Pubkey,
@@ -137,7 +137,7 @@ fn process_instruction(
 
             {
                 // Test - arch config
-                #[cfg(not(target_os = "solana"))]
+                #[cfg(not(target_os = "lumos"))]
                 panic!();
             }
         }

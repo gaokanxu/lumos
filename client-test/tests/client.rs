@@ -2,29 +2,29 @@ use {
     futures_util::StreamExt,
     rand::Rng,
     serde_json::{json, Value},
-    solana_ledger::{blockstore::Blockstore, get_tmp_ledger_path_auto_delete},
-    solana_pubsub_client::{nonblocking, pubsub_client::PubsubClient},
-    solana_rpc::{
+    lumos_ledger::{blockstore::Blockstore, get_tmp_ledger_path_auto_delete},
+    lumos_pubsub_client::{nonblocking, pubsub_client::PubsubClient},
+    lumos_rpc::{
         optimistically_confirmed_bank_tracker::OptimisticallyConfirmedBank,
         rpc::{create_test_transaction_entries, populate_blockstore_for_tests},
         rpc_pubsub_service::{PubSubConfig, PubSubService},
         rpc_subscriptions::RpcSubscriptions,
     },
-    solana_rpc_client::rpc_client::RpcClient,
-    solana_rpc_client_api::{
+    lumos_rpc_client::rpc_client::RpcClient,
+    lumos_rpc_client_api::{
         config::{
             RpcAccountInfoConfig, RpcBlockSubscribeConfig, RpcBlockSubscribeFilter,
             RpcProgramAccountsConfig,
         },
         response::SlotInfo,
     },
-    solana_runtime::{
+    lumos_runtime::{
         bank::Bank,
         bank_forks::BankForks,
         commitment::{BlockCommitmentCache, CommitmentSlots},
         genesis_utils::{create_genesis_config, GenesisConfigInfo},
     },
-    solana_sdk::{
+    lumos_sdk::{
         clock::Slot,
         commitment_config::{CommitmentConfig, CommitmentLevel},
         native_token::sol_to_lamports,
@@ -32,9 +32,9 @@ use {
         signature::{Keypair, Signer},
         system_program, system_transaction,
     },
-    solana_streamer::socket::SocketAddrSpace,
-    solana_test_validator::TestValidator,
-    solana_transaction_status::{
+    lumos_streamer::socket::SocketAddrSpace,
+    lumos_test_validator::TestValidator,
+    lumos_transaction_status::{
         BlockEncodingOptions, ConfirmedBlock, TransactionDetails, UiTransactionEncoding,
     },
     std::{
@@ -60,19 +60,19 @@ fn pubsub_addr() -> SocketAddr {
 
 #[test]
 fn test_rpc_client() {
-    solana_logger::setup();
+    lumos_logger::setup();
 
     let alice = Keypair::new();
     let test_validator =
         TestValidator::with_no_fees(alice.pubkey(), None, SocketAddrSpace::Unspecified);
 
-    let bob_pubkey = solana_sdk::pubkey::new_rand();
+    let bob_pubkey = lumos_sdk::pubkey::new_rand();
 
     let client = RpcClient::new(test_validator.rpc_url());
 
     assert_eq!(
-        client.get_version().unwrap().solana_core,
-        solana_version::semver!()
+        client.get_version().unwrap().lumos_core,
+        lumos_version::semver!()
     );
 
     assert!(client.get_account(&bob_pubkey).is_err());

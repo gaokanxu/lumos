@@ -5,9 +5,9 @@ use {
     },
     crossbeam_channel::Sender,
     log::error,
-    solana_ledger::{blockstore::Blockstore, leader_schedule_cache::LeaderScheduleCache},
-    solana_runtime::bank_forks::BankForks,
-    solana_sdk::{
+    lumos_ledger::{blockstore::Blockstore, leader_schedule_cache::LeaderScheduleCache},
+    lumos_runtime::bank_forks::BankForks,
+    lumos_sdk::{
         clock::{Epoch, Slot},
         feature_set,
         pubkey::Pubkey,
@@ -237,13 +237,13 @@ mod tests {
         },
         crossbeam_channel::unbounded,
         itertools::Itertools,
-        solana_ledger::{
+        lumos_ledger::{
             genesis_utils::{create_genesis_config_with_leader, GenesisConfigInfo},
             get_tmp_ledger_path_auto_delete,
             shred::Shredder,
         },
-        solana_runtime::{accounts_background_service::AbsRequestSender, bank::Bank},
-        solana_sdk::{
+        lumos_runtime::{accounts_background_service::AbsRequestSender, bank::Bank},
+        lumos_sdk::{
             signature::{Keypair, Signer},
             timing::timestamp,
         },
@@ -289,7 +289,7 @@ mod tests {
 
     #[test]
     fn test_handle_mixed_entries() {
-        solana_logger::setup();
+        lumos_logger::setup();
 
         let ledger_path = get_tmp_ledger_path_auto_delete!();
         let blockstore = Arc::new(Blockstore::open(ledger_path.path()).unwrap());
@@ -378,7 +378,7 @@ mod tests {
 
     #[test]
     fn test_reject_abuses() {
-        solana_logger::setup();
+        lumos_logger::setup();
 
         let ledger_path = get_tmp_ledger_path_auto_delete!();
         let blockstore = Arc::new(Blockstore::open(ledger_path.path()).unwrap());

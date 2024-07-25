@@ -6,11 +6,11 @@ use {
     log::*,
     rand::seq::IteratorRandom,
     serial_test::serial,
-    solana_accounts_db::{
+    lumos_accounts_db::{
         hardened_unpack::open_genesis_config, utils::create_accounts_run_and_snapshot_dirs,
     },
-    solana_client::thin_client::ThinClient,
-    solana_core::{
+    lumos_client::thin_client::ThinClient,
+    lumos_core::{
         consensus::{
             tower_storage::FileTowerStorage, Tower, SWITCH_FORK_THRESHOLD, VOTE_THRESHOLD_DEPTH,
         },
@@ -18,10 +18,10 @@ use {
         replay_stage::DUPLICATE_THRESHOLD,
         validator::{BlockProductionMethod, BlockVerificationMethod, ValidatorConfig},
     },
-    solana_download_utils::download_snapshot_archive,
-    solana_entry::entry::create_ticks,
-    solana_gossip::{contact_info::LegacyContactInfo, gossip_service::discover_cluster},
-    solana_ledger::{
+    lumos_download_utils::download_snapshot_archive,
+    lumos_entry::entry::create_ticks,
+    lumos_gossip::{contact_info::LegacyContactInfo, gossip_service::discover_cluster},
+    lumos_ledger::{
         ancestor_iterator::AncestorIterator,
         bank_forks_utils,
         blockstore::{entries_to_test_shreds, Blockstore},
@@ -30,7 +30,7 @@ use {
         shred::{ProcessShredsStats, ReedSolomonCache, Shred, Shredder},
         use_snapshot_archives_at_startup::UseSnapshotArchivesAtStartup,
     },
-    solana_local_cluster::{
+    lumos_local_cluster::{
         cluster::{Cluster, ClusterValidatorInfo},
         cluster_tests,
         integration_tests::{
@@ -46,16 +46,16 @@ use {
         local_cluster::{ClusterConfig, LocalCluster},
         validator_configs::*,
     },
-    solana_pubsub_client::pubsub_client::PubsubClient,
-    solana_rpc_client::rpc_client::RpcClient,
-    solana_rpc_client_api::{
+    lumos_pubsub_client::pubsub_client::PubsubClient,
+    lumos_rpc_client::rpc_client::RpcClient,
+    lumos_rpc_client_api::{
         config::{
             RpcBlockSubscribeConfig, RpcBlockSubscribeFilter, RpcProgramAccountsConfig,
             RpcSignatureSubscribeConfig,
         },
         response::RpcSignatureResult,
     },
-    solana_runtime::{
+    lumos_runtime::{
         commitment::VOTE_THRESHOLD_SIZE,
         snapshot_archive_info::SnapshotArchiveInfoGetter,
         snapshot_bank_utils,
@@ -63,7 +63,7 @@ use {
         snapshot_package::SnapshotKind,
         snapshot_utils::{self},
     },
-    solana_sdk::{
+    lumos_sdk::{
         account::AccountSharedData,
         client::{AsyncClient, SyncClient},
         clock::{self, Slot, DEFAULT_TICKS_PER_SLOT, MAX_PROCESSING_AGE},
@@ -78,13 +78,13 @@ use {
         system_program, system_transaction,
         vote::state::VoteStateUpdate,
     },
-    solana_streamer::socket::SocketAddrSpace,
-    solana_turbine::broadcast_stage::{
+    lumos_streamer::socket::SocketAddrSpace,
+    lumos_turbine::broadcast_stage::{
         broadcast_duplicates_run::{BroadcastDuplicatesConfig, ClusterPartition},
         BroadcastStageType,
     },
-    solana_vote::vote_parser,
-    solana_vote_program::{vote_state::MAX_LOCKOUT_HISTORY, vote_transaction},
+    lumos_vote::vote_parser,
+    lumos_vote_program::{vote_state::MAX_LOCKOUT_HISTORY, vote_transaction},
     std::{
         collections::{BTreeSet, HashMap, HashSet},
         fs,
@@ -103,7 +103,7 @@ use {
 
 #[test]
 fn test_local_cluster_start_and_exit() {
-    solana_logger::setup();
+    lumos_logger::setup();
     let num_nodes = 1;
     let cluster = LocalCluster::new_with_equal_stakes(
         num_nodes,
@@ -116,7 +116,7 @@ fn test_local_cluster_start_and_exit() {
 
 #[test]
 fn test_local_cluster_start_and_exit_with_config() {
-    solana_logger::setup();
+    lumos_logger::setup();
     const NUM_NODES: usize = 1;
     let mut config = ClusterConfig {
         validator_configs: make_identical_validator_configs(
@@ -137,7 +137,7 @@ fn test_local_cluster_start_and_exit_with_config() {
 #[test]
 #[serial]
 fn test_spend_and_verify_all_nodes_1() {
-    solana_logger::setup_with_default(RUST_LOG_FILTER);
+    lumos_logger::setup_with_default(RUST_LOG_FILTER);
     error!("test_spend_and_verify_all_nodes_1");
     let num_nodes = 1;
     let local = LocalCluster::new_with_equal_stakes(
@@ -159,7 +159,7 @@ fn test_spend_and_verify_all_nodes_1() {
 #[test]
 #[serial]
 fn test_spend_and_verify_all_nodes_2() {
-    solana_logger::setup_with_default(RUST_LOG_FILTER);
+    lumos_logger::setup_with_default(RUST_LOG_FILTER);
     error!("test_spend_and_verify_all_nodes_2");
     let num_nodes = 2;
     let local = LocalCluster::new_with_equal_stakes(
@@ -181,7 +181,7 @@ fn test_spend_and_verify_all_nodes_2() {
 #[test]
 #[serial]
 fn test_spend_and_verify_all_nodes_3() {
-    solana_logger::setup_with_default(RUST_LOG_FILTER);
+    lumos_logger::setup_with_default(RUST_LOG_FILTER);
     error!("test_spend_and_verify_all_nodes_3");
     let num_nodes = 3;
     let local = LocalCluster::new_with_equal_stakes(
@@ -204,7 +204,7 @@ fn test_spend_and_verify_all_nodes_3() {
 #[serial]
 #[ignore]
 fn test_local_cluster_signature_subscribe() {
-    solana_logger::setup_with_default(RUST_LOG_FILTER);
+    lumos_logger::setup_with_default(RUST_LOG_FILTER);
     let num_nodes = 2;
     let cluster = LocalCluster::new_with_equal_stakes(
         num_nodes,
@@ -234,7 +234,7 @@ fn test_local_cluster_signature_subscribe() {
 
     let mut transaction = system_transaction::transfer(
         &cluster.funding_keypair,
-        &solana_sdk::pubkey::new_rand(),
+        &lumos_sdk::pubkey::new_rand(),
         10,
         blockhash,
     );
@@ -286,7 +286,7 @@ fn test_local_cluster_signature_subscribe() {
 #[allow(unused_attributes)]
 #[ignore]
 fn test_spend_and_verify_all_nodes_env_num_nodes() {
-    solana_logger::setup_with_default(RUST_LOG_FILTER);
+    lumos_logger::setup_with_default(RUST_LOG_FILTER);
     let num_nodes: usize = std::env::var("NUM_NODES")
         .expect("please set environment variable NUM_NODES")
         .parse()
@@ -310,7 +310,7 @@ fn test_spend_and_verify_all_nodes_env_num_nodes() {
 #[test]
 #[serial]
 fn test_two_unbalanced_stakes() {
-    solana_logger::setup_with_default(RUST_LOG_FILTER);
+    lumos_logger::setup_with_default(RUST_LOG_FILTER);
     error!("test_two_unbalanced_stakes");
     let validator_config = ValidatorConfig::default_for_test();
     let num_ticks_per_second = 100;
@@ -346,7 +346,7 @@ fn test_two_unbalanced_stakes() {
 #[test]
 #[serial]
 fn test_forwarding() {
-    solana_logger::setup_with_default(RUST_LOG_FILTER);
+    lumos_logger::setup_with_default(RUST_LOG_FILTER);
     // Set up a cluster where one node is never the leader, so all txs sent to this node
     // will be have to be forwarded in order to be confirmed
     // Only ThreadLocalMultiIterator banking stage forwards transactions,
@@ -393,7 +393,7 @@ fn test_forwarding() {
 #[test]
 #[serial]
 fn test_restart_node() {
-    solana_logger::setup_with_default(RUST_LOG_FILTER);
+    lumos_logger::setup_with_default(RUST_LOG_FILTER);
     error!("test_restart_node");
     let slots_per_epoch = MINIMUM_SLOTS_PER_EPOCH * 2;
     let ticks_per_slot = 16;
@@ -436,7 +436,7 @@ fn test_restart_node() {
 #[test]
 #[serial]
 fn test_mainnet_beta_cluster_type() {
-    solana_logger::setup_with_default(RUST_LOG_FILTER);
+    lumos_logger::setup_with_default(RUST_LOG_FILTER);
 
     let mut config = ClusterConfig {
         cluster_type: ClusterType::MainnetBeta,
@@ -466,13 +466,13 @@ fn test_mainnet_beta_cluster_type() {
 
     // Programs that are available at epoch 0
     for program_id in [
-        &solana_config_program::id(),
-        &solana_sdk::system_program::id(),
-        &solana_sdk::stake::program::id(),
-        &solana_vote_program::id(),
-        &solana_sdk::bpf_loader_deprecated::id(),
-        &solana_sdk::bpf_loader::id(),
-        &solana_sdk::bpf_loader_upgradeable::id(),
+        &lumos_config_program::id(),
+        &lumos_sdk::system_program::id(),
+        &lumos_sdk::stake::program::id(),
+        &lumos_vote_program::id(),
+        &lumos_sdk::bpf_loader_deprecated::id(),
+        &lumos_sdk::bpf_loader::id(),
+        &lumos_sdk::bpf_loader_upgradeable::id(),
     ]
     .iter()
     {
@@ -504,7 +504,7 @@ fn test_mainnet_beta_cluster_type() {
 #[test]
 #[serial]
 fn test_snapshot_download() {
-    solana_logger::setup_with_default(RUST_LOG_FILTER);
+    lumos_logger::setup_with_default(RUST_LOG_FILTER);
     // First set up the cluster with 1 node
     let snapshot_interval_slots = 50;
     let num_account_paths = 3;
@@ -580,7 +580,7 @@ fn test_snapshot_download() {
 #[test]
 #[serial]
 fn test_incremental_snapshot_download() {
-    solana_logger::setup_with_default(RUST_LOG_FILTER);
+    lumos_logger::setup_with_default(RUST_LOG_FILTER);
     // First set up the cluster with 1 node
     let accounts_hash_interval = 3;
     let incremental_snapshot_interval = accounts_hash_interval * 3;
@@ -755,7 +755,7 @@ fn test_incremental_snapshot_download() {
 #[test]
 #[serial]
 fn test_incremental_snapshot_download_with_crossing_full_snapshot_interval_at_startup() {
-    solana_logger::setup_with_default(RUST_LOG_FILTER);
+    lumos_logger::setup_with_default(RUST_LOG_FILTER);
     // If these intervals change, also make sure to change the loop timers accordingly.
     let accounts_hash_interval = 3;
     let incremental_snapshot_interval = accounts_hash_interval * 3;
@@ -1249,7 +1249,7 @@ fn test_incremental_snapshot_download_with_crossing_full_snapshot_interval_at_st
 #[test]
 #[serial]
 fn test_snapshot_restart_tower() {
-    solana_logger::setup_with_default(RUST_LOG_FILTER);
+    lumos_logger::setup_with_default(RUST_LOG_FILTER);
     // First set up the cluster with 2 nodes
     let snapshot_interval_slots = 10;
     let num_account_paths = 2;
@@ -1323,7 +1323,7 @@ fn test_snapshot_restart_tower() {
 #[test]
 #[serial]
 fn test_snapshots_blockstore_floor() {
-    solana_logger::setup_with_default(RUST_LOG_FILTER);
+    lumos_logger::setup_with_default(RUST_LOG_FILTER);
     // First set up the cluster with 1 snapshotting leader
     let snapshot_interval_slots = 100;
     let num_account_paths = 4;
@@ -1431,7 +1431,7 @@ fn test_snapshots_blockstore_floor() {
 #[test]
 #[serial]
 fn test_snapshots_restart_validity() {
-    solana_logger::setup_with_default(RUST_LOG_FILTER);
+    lumos_logger::setup_with_default(RUST_LOG_FILTER);
     let snapshot_interval_slots = 100;
     let num_account_paths = 1;
     let mut snapshot_test_config =
@@ -1521,7 +1521,7 @@ fn test_snapshots_restart_validity() {
 #[allow(unused_attributes)]
 #[ignore]
 fn test_fail_entry_verification_leader() {
-    solana_logger::setup_with_default(RUST_LOG_FILTER);
+    lumos_logger::setup_with_default(RUST_LOG_FILTER);
     let leader_stake = (DUPLICATE_THRESHOLD * 100.0) as u64 + 1;
     let validator_stake1 = (100 - leader_stake) / 2;
     let validator_stake2 = 100 - leader_stake - validator_stake1;
@@ -1543,7 +1543,7 @@ fn test_fail_entry_verification_leader() {
 #[ignore]
 #[allow(unused_attributes)]
 fn test_fake_shreds_broadcast_leader() {
-    solana_logger::setup_with_default(RUST_LOG_FILTER);
+    lumos_logger::setup_with_default(RUST_LOG_FILTER);
     let node_stakes = vec![300, 100];
     let (cluster, _) = test_faulty_node(
         BroadcastStageType::BroadcastFakeShreds,
@@ -1560,7 +1560,7 @@ fn test_fake_shreds_broadcast_leader() {
 
 #[test]
 fn test_wait_for_max_stake() {
-    solana_logger::setup_with_default(RUST_LOG_FILTER);
+    lumos_logger::setup_with_default(RUST_LOG_FILTER);
     let validator_config = ValidatorConfig::default_for_test();
     let slots_per_epoch = MINIMUM_SLOTS_PER_EPOCH;
     let mut config = ClusterConfig {
@@ -1584,7 +1584,7 @@ fn test_wait_for_max_stake() {
 // Test that when a leader is leader for banks B_i..B_{i+n}, and B_i is not
 // votable, then B_{i+1} still chains to B_i
 fn test_no_voting() {
-    solana_logger::setup_with_default(RUST_LOG_FILTER);
+    lumos_logger::setup_with_default(RUST_LOG_FILTER);
     let validator_config = ValidatorConfig {
         voting_disabled: true,
         ..ValidatorConfig::default_for_test()
@@ -1624,7 +1624,7 @@ fn test_no_voting() {
 #[test]
 #[serial]
 fn test_optimistic_confirmation_violation_detection() {
-    solana_logger::setup_with_default(RUST_LOG_FILTER);
+    lumos_logger::setup_with_default(RUST_LOG_FILTER);
     // First set up the cluster with 2 nodes
     let slots_per_epoch = 2048;
     let node_stakes = vec![50 * DEFAULT_NODE_STAKE, 51 * DEFAULT_NODE_STAKE];
@@ -1763,7 +1763,7 @@ fn test_optimistic_confirmation_violation_detection() {
 #[test]
 #[serial]
 fn test_validator_saves_tower() {
-    solana_logger::setup_with_default(RUST_LOG_FILTER);
+    lumos_logger::setup_with_default(RUST_LOG_FILTER);
 
     let validator_config = ValidatorConfig {
         require_tower: true,
@@ -1907,7 +1907,7 @@ enum ClusterMode {
 }
 
 fn do_test_future_tower(cluster_mode: ClusterMode) {
-    solana_logger::setup_with_default(RUST_LOG_FILTER);
+    lumos_logger::setup_with_default(RUST_LOG_FILTER);
 
     // First set up the cluster with 4 nodes
     let slots_per_epoch = 2048;
@@ -2075,7 +2075,7 @@ fn restart_whole_cluster_after_hard_fork(
 
 #[test]
 fn test_hard_fork_invalidates_tower() {
-    solana_logger::setup_with_default(RUST_LOG_FILTER);
+    lumos_logger::setup_with_default(RUST_LOG_FILTER);
 
     // First set up the cluster with 2 nodes
     let slots_per_epoch = 2048;
@@ -2136,10 +2136,10 @@ fn test_hard_fork_invalidates_tower() {
     // persistent tower's lockout behavior...
     let hard_fork_slot = min_root - 5;
     let hard_fork_slots = Some(vec![hard_fork_slot]);
-    let mut hard_forks = solana_sdk::hard_forks::HardForks::default();
+    let mut hard_forks = lumos_sdk::hard_forks::HardForks::default();
     hard_forks.register(hard_fork_slot);
 
-    let expected_shred_version = solana_sdk::shred_version::compute_shred_version(
+    let expected_shred_version = lumos_sdk::shred_version::compute_shred_version(
         &cluster.lock().unwrap().genesis_config.hash(),
         Some(&hard_forks),
     );
@@ -2243,7 +2243,7 @@ fn create_snapshot_to_hard_fork(
 #[test]
 #[serial]
 fn test_hard_fork_with_gap_in_roots() {
-    solana_logger::setup_with_default(RUST_LOG_FILTER);
+    lumos_logger::setup_with_default(RUST_LOG_FILTER);
 
     // First set up the cluster with 2 nodes
     let slots_per_epoch = 2048;
@@ -2315,19 +2315,19 @@ fn test_hard_fork_with_gap_in_roots() {
     let mut hard_forks = HardForks::default();
     hard_forks.register(hard_fork_slot);
 
-    let expected_shred_version = solana_sdk::shred_version::compute_shred_version(
+    let expected_shred_version = lumos_sdk::shred_version::compute_shred_version(
         &cluster.lock().unwrap().genesis_config.hash(),
         Some(&hard_forks),
     );
 
     // create hard-forked snapshot only for validator a, emulating the manual cluster restart
-    // procedure with `solana-ledger-tool create-snapshot`
+    // procedure with `lumos-ledger-tool create-snapshot`
     let genesis_slot = 0;
     {
         let blockstore_a = Blockstore::open(&val_a_ledger_path).unwrap();
         create_snapshot_to_hard_fork(&blockstore_a, hard_fork_slot, vec![hard_fork_slot]);
 
-        // Intentionally make solana-validator unbootable by replaying blocks from the genesis to
+        // Intentionally make lumos-validator unbootable by replaying blocks from the genesis to
         // ensure the hard-forked snapshot is used always.  Otherwise, we couldn't create a gap
         // in the ledger roots column family reliably.
         // There was a bug which caused the hard-forked snapshot at an unrooted slot to forget
@@ -2410,7 +2410,7 @@ fn test_restart_tower_rollback() {
     // Test node crashing and failing to save its tower before restart
     // Cluster continues to make progress, this node is able to rejoin with
     // outdated tower post restart.
-    solana_logger::setup_with_default(RUST_LOG_FILTER);
+    lumos_logger::setup_with_default(RUST_LOG_FILTER);
 
     // First set up the cluster with 2 nodes
     let slots_per_epoch = 2048;
@@ -2597,7 +2597,7 @@ fn test_rpc_block_subscribe() {
             "ws://{}",
             // It is important that we subscribe to a non leader node as there
             // is a race condition which can cause leader nodes to not send
-            // BlockUpdate notifications properly. See https://github.com/solana-labs/solana/pull/34421
+            // BlockUpdate notifications properly. See https://github.com/lumos-labs/lumos/pull/34421
             &rpc_node_contact_info.rpc_pubsub().unwrap().to_string()
         ),
         RpcBlockSubscribeFilter::All,
@@ -2643,7 +2643,7 @@ fn test_rpc_block_subscribe() {
 #[serial]
 #[allow(unused_attributes)]
 fn test_oc_bad_signatures() {
-    solana_logger::setup_with_default(RUST_LOG_FILTER);
+    lumos_logger::setup_with_default(RUST_LOG_FILTER);
 
     let total_stake = 100 * DEFAULT_NODE_STAKE;
     let leader_stake = (total_stake as f64 * VOTE_THRESHOLD_SIZE) as u64;
@@ -3004,7 +3004,7 @@ fn setup_transfer_scan_threads(
 }
 
 fn run_test_load_program_accounts(scan_commitment: CommitmentConfig) {
-    solana_logger::setup_with_default(RUST_LOG_FILTER);
+    lumos_logger::setup_with_default(RUST_LOG_FILTER);
     // First set up the cluster with 2 nodes
     let slots_per_epoch = 2048;
     let node_stakes = vec![51 * DEFAULT_NODE_STAKE, 50 * DEFAULT_NODE_STAKE];
@@ -3122,7 +3122,7 @@ fn test_optimistic_confirmation_violation_without_tower() {
 //    `A` should not be able to generate a switching proof.
 //
 fn do_test_optimistic_confirmation_violation_with_or_without_tower(with_tower: bool) {
-    solana_logger::setup_with("info");
+    lumos_logger::setup_with("info");
 
     // First set up the cluster with 4 nodes
     let slots_per_epoch = 2048;
@@ -3456,7 +3456,7 @@ fn do_test_optimistic_confirmation_violation_with_or_without_tower(with_tower: b
 // stalling the network.
 
 fn test_fork_choice_refresh_old_votes() {
-    solana_logger::setup_with_default(RUST_LOG_FILTER);
+    lumos_logger::setup_with_default(RUST_LOG_FILTER);
     let max_switch_threshold_failure_pct = 1.0 - 2.0 * SWITCH_FORK_THRESHOLD;
     let total_stake = 100 * DEFAULT_NODE_STAKE;
     let max_failures_stake = (max_switch_threshold_failure_pct * total_stake as f64) as u64;
@@ -3784,7 +3784,7 @@ fn test_duplicate_shreds_broadcast_leader_ancestor_hashes() {
 }
 
 fn run_duplicate_shreds_broadcast_leader(vote_on_duplicate: bool) {
-    solana_logger::setup_with_default(RUST_LOG_FILTER);
+    lumos_logger::setup_with_default(RUST_LOG_FILTER);
     // Create 4 nodes:
     // 1) Bad leader sending different versions of shreds to both of the other nodes
     // 2) 1 node who's voting behavior in gossip
@@ -3957,7 +3957,7 @@ fn run_duplicate_shreds_broadcast_leader(vote_on_duplicate: bool) {
 #[serial]
 #[ignore]
 fn test_switch_threshold_uses_gossip_votes() {
-    solana_logger::setup_with_default(RUST_LOG_FILTER);
+    lumos_logger::setup_with_default(RUST_LOG_FILTER);
     let total_stake = 100 * DEFAULT_NODE_STAKE;
 
     // Minimum stake needed to generate a switching proof
@@ -4300,7 +4300,7 @@ fn test_cluster_partition_1_1_1() {
 #[test]
 #[serial]
 fn test_leader_failure_4() {
-    solana_logger::setup_with_default(RUST_LOG_FILTER);
+    lumos_logger::setup_with_default(RUST_LOG_FILTER);
     error!("test_leader_failure_4");
     let num_nodes = 4;
     let validator_config = ValidatorConfig {
@@ -4357,8 +4357,8 @@ fn test_leader_failure_4() {
 
 #[test]
 fn test_slot_hash_expiry() {
-    solana_logger::setup_with_default(RUST_LOG_FILTER);
-    solana_sdk::slot_hashes::set_entries_for_tests_only(64);
+    lumos_logger::setup_with_default(RUST_LOG_FILTER);
+    lumos_sdk::slot_hashes::set_entries_for_tests_only(64);
 
     let slots_per_epoch = 2048;
     let node_stakes = vec![60 * DEFAULT_NODE_STAKE, 40 * DEFAULT_NODE_STAKE];
@@ -4461,7 +4461,7 @@ fn test_slot_hash_expiry() {
 
     info!(
         "Run A on majority fork until it reaches slot hash expiry {}",
-        solana_sdk::slot_hashes::get_entries()
+        lumos_sdk::slot_hashes::get_entries()
     );
     let mut last_vote_on_a;
     // Keep A running for a while longer so the majority fork has some decent size
@@ -4469,7 +4469,7 @@ fn test_slot_hash_expiry() {
         last_vote_on_a =
             wait_for_last_vote_in_tower_to_land_in_ledger(&a_ledger_path, &a_pubkey).unwrap();
         if last_vote_on_a
-            >= common_ancestor_slot + 2 * (solana_sdk::slot_hashes::get_entries() as u64)
+            >= common_ancestor_slot + 2 * (lumos_sdk::slot_hashes::get_entries() as u64)
         {
             let blockstore = open_blockstore(&a_ledger_path);
             info!(
@@ -4572,8 +4572,8 @@ fn test_slot_hash_expiry() {
 #[test]
 #[serial]
 fn test_duplicate_with_pruned_ancestor() {
-    solana_logger::setup_with("info,solana_metrics=off");
-    solana_core::repair::duplicate_repair_status::set_ancestor_hash_repair_sample_size_for_tests_only(3);
+    lumos_logger::setup_with("info,lumos_metrics=off");
+    lumos_core::repair::duplicate_repair_status::set_ancestor_hash_repair_sample_size_for_tests_only(3);
 
     let majority_leader_stake = 10_000_000 * DEFAULT_NODE_STAKE;
     let minority_leader_stake = 2_000_000 * DEFAULT_NODE_STAKE;
@@ -4837,7 +4837,7 @@ fn test_duplicate_with_pruned_ancestor() {
 #[test]
 #[serial]
 fn test_boot_from_local_state() {
-    solana_logger::setup_with_default(RUST_LOG_FILTER);
+    lumos_logger::setup_with_default(RUST_LOG_FILTER);
     const FULL_SNAPSHOT_INTERVAL: Slot = 100;
     const INCREMENTAL_SNAPSHOT_INTERVAL: Slot = 10;
 
@@ -5166,7 +5166,7 @@ fn test_duplicate_shreds_switch_failure() {
         }
     }
 
-    solana_logger::setup_with_default(RUST_LOG_FILTER);
+    lumos_logger::setup_with_default(RUST_LOG_FILTER);
     let validator_keypairs = [
         "28bN3xyvrP4E8LwEgtLjhnkb7cY4amQb6DrYAbAYjgRV4GAGgkVM2K7wnxnAS7WDneuavza7x21MiafLu1HkwQt4",
         "2saHBBoTkLMmttmPQP8KfBkcCw45S5cwtV3wTdGCscRC8uxdgvHxpHiWXKx4LvJjNJtnNcbSv5NdheokFFqnNDt8",
@@ -5239,7 +5239,7 @@ fn test_duplicate_shreds_switch_failure() {
         // The ideal sequence of events for the `duplicate_fork_validator1_pubkey` validator would go:
         // 1. Vote for duplicate block `D`
         // 2. See `D` is duplicate, remove from fork choice and reset to ancestor `A`, potentially generating a fork off that ancestor
-        // 3. See `D` is duplicate confirmed, but because of the bug fixed by https://github.com/solana-labs/solana/pull/28172
+        // 3. See `D` is duplicate confirmed, but because of the bug fixed by https://github.com/lumos-labs/lumos/pull/28172
         // where we disallow resetting to a slot which matches the last vote slot, we still don't build off `D`,
         // and continue building on `A`.
         //
@@ -5509,11 +5509,11 @@ fn test_duplicate_shreds_switch_failure() {
 #[serial]
 fn test_randomly_mixed_block_verification_methods_between_bootstrap_and_not() {
     // tailored logging just to see two block verification methods are working correctly
-    solana_logger::setup_with_default(
-        "solana_metrics::metrics=warn,\
-         solana_core=warn,\
-         solana_runtime::installed_scheduler_pool=trace,\
-         solana_ledger::blockstore_processor=debug,\
+    lumos_logger::setup_with_default(
+        "lumos_metrics::metrics=warn,\
+         lumos_core=warn,\
+         lumos_runtime::installed_scheduler_pool=trace,\
+         lumos_ledger::blockstore_processor=debug,\
          info",
     );
 
@@ -5547,7 +5547,7 @@ fn test_randomly_mixed_block_verification_methods_between_bootstrap_and_not() {
 #[test]
 #[serial]
 fn test_invalid_forks_persisted_on_restart() {
-    solana_logger::setup_with("info,solana_metrics=off,solana_ledger=off");
+    lumos_logger::setup_with("info,lumos_metrics=off,lumos_ledger=off");
 
     let dup_slot = 10;
     let validator_keypairs = [
@@ -5628,7 +5628,7 @@ fn test_invalid_forks_persisted_on_restart() {
             cluster.genesis_config.hash(),
         );
         let last_hash = entries.last().unwrap().hash;
-        let version = solana_sdk::shred_version::version_from_hash(&last_hash);
+        let version = lumos_sdk::shred_version::version_from_hash(&last_hash);
         let dup_shreds = Shredder::new(dup_slot, parent, 0, version)
             .unwrap()
             .entries_to_shreds(

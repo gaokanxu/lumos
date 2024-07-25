@@ -2,7 +2,7 @@ use {
     jsonrpc_core::{ErrorCode, Result as JsonRpcResult},
     libloading::Library,
     log::*,
-    solana_geyser_plugin_interface::geyser_plugin_interface::GeyserPlugin,
+    lumos_geyser_plugin_interface::geyser_plugin_interface::GeyserPlugin,
     std::{
         ops::{Deref, DerefMut},
         path::Path,
@@ -443,7 +443,7 @@ mod tests {
             GeyserPluginManager, LoadedGeyserPlugin, TESTPLUGIN2_CONFIG, TESTPLUGIN_CONFIG,
         },
         libloading::Library,
-        solana_geyser_plugin_interface::geyser_plugin_interface::GeyserPlugin,
+        lumos_geyser_plugin_interface::geyser_plugin_interface::GeyserPlugin,
         std::sync::{Arc, RwLock},
     };
 

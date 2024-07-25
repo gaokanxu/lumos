@@ -1,7 +1,7 @@
 [package]
-name = "solana-vote"
-description = "Solana vote"
-documentation = "https://docs.rs/solana-vote"
+name = "lumos-vote"
+description = "Lumos vote"
+documentation = "https://docs.rs/lumos-vote"
 version = { workspace = true }
 authors = { workspace = true }
 repository = { workspace = true }
@@ -15,15 +15,15 @@ itertools = { workspace = true }
 log = { workspace = true }
 serde = { workspace = true, features = ["rc"] }
 serde_derive = { workspace = true }
-solana-frozen-abi = { workspace = true }
-solana-frozen-abi-macro = { workspace = true }
-solana-sdk = { workspace = true }
-solana-vote-program = { workspace = true }
+lumos-frozen-abi = { workspace = true }
+lumos-frozen-abi-macro = { workspace = true }
+lumos-sdk = { workspace = true }
+lumos-vote-program = { workspace = true }
 thiserror = { workspace = true }
 
 [lib]
 crate-type = ["lib"]
-name = "solana_vote"
+name = "lumos_vote"
 
 [dev-dependencies]
 bincode = { workspace = true }

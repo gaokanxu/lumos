@@ -4,24 +4,24 @@
 
 use {
     serde_json::Value,
-    solana_cli::{
+    lumos_cli::{
         cli::{process_command, CliCommand, CliConfig},
         program::{ProgramCliCommand, CLOSE_PROGRAM_WARNING},
         test_utils::wait_n_slots,
     },
-    solana_cli_output::{parse_sign_only_reply_string, OutputFormat},
-    solana_faucet::faucet::run_local_faucet,
-    solana_rpc_client::rpc_client::RpcClient,
-    solana_rpc_client_nonce_utils::blockhash_query::BlockhashQuery,
-    solana_sdk::{
+    lumos_cli_output::{parse_sign_only_reply_string, OutputFormat},
+    lumos_faucet::faucet::run_local_faucet,
+    lumos_rpc_client::rpc_client::RpcClient,
+    lumos_rpc_client_nonce_utils::blockhash_query::BlockhashQuery,
+    lumos_sdk::{
         account_utils::StateMut,
         bpf_loader_upgradeable::{self, UpgradeableLoaderState},
         commitment_config::CommitmentConfig,
         pubkey::Pubkey,
         signature::{Keypair, NullSigner, Signer},
     },
-    solana_streamer::socket::SocketAddrSpace,
-    solana_test_validator::TestValidator,
+    lumos_streamer::socket::SocketAddrSpace,
+    lumos_test_validator::TestValidator,
     std::{
         env,
         fs::File,
@@ -34,7 +34,7 @@ use {
 
 #[test]
 fn test_cli_program_deploy_non_upgradeable() {
-    solana_logger::setup();
+    lumos_logger::setup();
 
     let mut noop_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
     noop_path.push("tests");
@@ -215,7 +215,7 @@ fn test_cli_program_deploy_non_upgradeable() {
 
 #[test]
 fn test_cli_program_deploy_no_authority() {
-    solana_logger::setup();
+    lumos_logger::setup();
 
     let mut noop_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
     noop_path.push("tests");
@@ -303,7 +303,7 @@ fn test_cli_program_deploy_no_authority() {
 
 #[test]
 fn test_cli_program_deploy_with_authority() {
-    solana_logger::setup();
+    lumos_logger::setup();
 
     let mut noop_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
     noop_path.push("tests");
@@ -670,7 +670,7 @@ fn test_cli_program_deploy_with_authority() {
 
 #[test]
 fn test_cli_program_close_program() {
-    solana_logger::setup();
+    lumos_logger::setup();
 
     let mut noop_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
     noop_path.push("tests");
@@ -774,7 +774,7 @@ fn test_cli_program_close_program() {
 
 #[test]
 fn test_cli_program_extend_program() {
-    solana_logger::setup();
+    lumos_logger::setup();
 
     let mut noop_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
     noop_path.push("tests");
@@ -921,7 +921,7 @@ fn test_cli_program_extend_program() {
 
 #[test]
 fn test_cli_program_write_buffer() {
-    solana_logger::setup();
+    lumos_logger::setup();
 
     let mut noop_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
     noop_path.push("tests");
@@ -1260,7 +1260,7 @@ fn test_cli_program_write_buffer() {
 
 #[test]
 fn test_cli_program_set_buffer_authority() {
-    solana_logger::setup();
+    lumos_logger::setup();
 
     let mut noop_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
     noop_path.push("tests");
@@ -1412,7 +1412,7 @@ fn test_cli_program_set_buffer_authority() {
 
 #[test]
 fn test_cli_program_mismatch_buffer_authority() {
-    solana_logger::setup();
+    lumos_logger::setup();
 
     let mut noop_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
     noop_path.push("tests");
@@ -1512,7 +1512,7 @@ fn test_cli_program_mismatch_buffer_authority() {
 #[test_case(true; "offline signer will be fee payer")]
 #[test_case(false; "online signer will be fee payer")]
 fn test_cli_program_deploy_with_offline_signing(use_offline_signer_as_fee_payer: bool) {
-    solana_logger::setup();
+    lumos_logger::setup();
 
     let mut noop_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
     noop_path.push("tests");
@@ -1700,7 +1700,7 @@ fn test_cli_program_deploy_with_offline_signing(use_offline_signer_as_fee_payer:
 
 #[test]
 fn test_cli_program_show() {
-    solana_logger::setup();
+    lumos_logger::setup();
 
     let mut noop_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
     noop_path.push("tests");
@@ -1889,7 +1889,7 @@ fn test_cli_program_show() {
 
 #[test]
 fn test_cli_program_dump() {
-    solana_logger::setup();
+    lumos_logger::setup();
 
     let mut noop_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
     noop_path.push("tests");

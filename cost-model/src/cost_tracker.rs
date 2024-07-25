@@ -5,8 +5,8 @@
 //!
 use {
     crate::{block_cost_limits::*, transaction_cost::TransactionCost},
-    solana_metrics::datapoint_info,
-    solana_sdk::{
+    lumos_metrics::datapoint_info,
+    lumos_sdk::{
         clock::Slot, pubkey::Pubkey, saturating_add_assign, transaction::TransactionError,
     },
     std::{cmp::Ordering, collections::HashMap},
@@ -310,7 +310,7 @@ mod tests {
     use {
         super::*,
         crate::transaction_cost::*,
-        solana_sdk::{
+        lumos_sdk::{
             hash::Hash,
             signature::{Keypair, Signer},
             system_transaction,
@@ -318,7 +318,7 @@ mod tests {
                 MessageHash, SanitizedTransaction, SimpleAddressLoader, VersionedTransaction,
             },
         },
-        solana_vote_program::vote_transaction,
+        lumos_vote_program::vote_transaction,
         std::cmp,
     };
 
@@ -336,7 +336,7 @@ mod tests {
     }
 
     fn test_setup() -> (Keypair, Hash) {
-        solana_logger::setup();
+        lumos_logger::setup();
         (Keypair::new(), Hash::new_unique())
     }
 

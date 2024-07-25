@@ -188,7 +188,7 @@ impl ByteBlockReader {
 
 #[cfg(test)]
 mod tests {
-    use {super::*, solana_sdk::stake_history::Epoch};
+    use {super::*, lumos_sdk::stake_history::Epoch};
 
     fn read_type_unaligned<T>(buffer: &[u8], offset: usize) -> (T, usize) {
         let size = std::mem::size_of::<T>();

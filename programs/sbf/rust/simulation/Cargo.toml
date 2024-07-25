@@ -1,7 +1,7 @@
 [package]
-name = "solana-sbf-rust-simulation"
-description = "Solana SBF Program Simulation Differences"
-documentation = "https://docs.rs/solana-sbf-rust-simulation"
+name = "lumos-sbf-rust-simulation"
+description = "Lumos SBF Program Simulation Differences"
+documentation = "https://docs.rs/lumos-sbf-rust-simulation"
 version = { workspace = true }
 authors = { workspace = true }
 repository = { workspace = true }
@@ -13,13 +13,13 @@ edition = { workspace = true }
 test-bpf = []
 
 [dependencies]
-solana-program = { workspace = true }
+lumos-program = { workspace = true }
 
 [dev-dependencies]
-solana-logger = { workspace = true }
-solana-program-test = { workspace = true }
-solana-sdk = { workspace = true }
-solana-validator = { workspace = true }
+lumos-logger = { workspace = true }
+lumos-program-test = { workspace = true }
+lumos-sdk = { workspace = true }
+lumos-validator = { workspace = true }
 
 [lib]
 crate-type = ["cdylib", "lib"]

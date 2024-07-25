@@ -45,7 +45,7 @@ impl From<PodRistrettoPoint> for pod::DecryptHandle {
     }
 }
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 mod target_arch {
     use {
         super::pod,
@@ -81,7 +81,7 @@ mod target_arch {
     }
 }
 
-#[cfg(target_os = "solana")]
+#[cfg(target_os = "lumos")]
 #[allow(unused_variables)]
 mod target_arch {}
 

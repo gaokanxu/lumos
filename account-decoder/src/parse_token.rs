@@ -4,11 +4,11 @@ use {
         parse_token_extension::{parse_extension, UiExtension},
         StringAmount, StringDecimals,
     },
-    solana_sdk::pubkey::Pubkey,
+    lumos_sdk::pubkey::Pubkey,
     spl_token_2022::{
         extension::{BaseStateWithExtensions, StateWithExtensions},
         generic_token_account::GenericTokenAccount,
-        solana_program::{
+        lumos_program::{
             program_option::COption, program_pack::Pack, pubkey::Pubkey as SplTokenPubkey,
         },
         state::{Account, AccountState, Mint, Multisig},
@@ -27,7 +27,7 @@ pub fn is_known_spl_token_id(program_id: &Pubkey) -> bool {
 }
 
 // A helper function to convert spl_token::native_mint::id() as spl_sdk::pubkey::Pubkey to
-// solana_sdk::pubkey::Pubkey
+// lumos_sdk::pubkey::Pubkey
 #[deprecated(
     since = "1.16.0",
     note = "Pubkey conversions no longer needed. Please use spl_token::native_mint::id() directly"
@@ -45,13 +45,13 @@ pub fn spl_token_native_mint_program_id() -> Pubkey {
     spl_token::id()
 }
 
-// A helper function to convert a solana_sdk::pubkey::Pubkey to spl_sdk::pubkey::Pubkey
+// A helper function to convert a lumos_sdk::pubkey::Pubkey to spl_sdk::pubkey::Pubkey
 #[deprecated(since = "1.16.0", note = "Pubkey conversions no longer needed")]
 pub fn spl_token_pubkey(pubkey: &Pubkey) -> SplTokenPubkey {
     SplTokenPubkey::new_from_array(pubkey.to_bytes())
 }
 
-// A helper function to convert a spl_sdk::pubkey::Pubkey to solana_sdk::pubkey::Pubkey
+// A helper function to convert a spl_sdk::pubkey::Pubkey to lumos_sdk::pubkey::Pubkey
 #[deprecated(since = "1.16.0", note = "Pubkey conversions no longer needed")]
 pub fn pubkey_from_spl_token(pubkey: &SplTokenPubkey) -> Pubkey {
     Pubkey::new_from_array(pubkey.to_bytes())

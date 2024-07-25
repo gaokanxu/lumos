@@ -3,13 +3,13 @@
 extern crate test;
 
 use {
-    solana_perf::{packet::PacketBatchRecycler, recycler::Recycler},
+    lumos_perf::{packet::PacketBatchRecycler, recycler::Recycler},
     test::Bencher,
 };
 
 #[bench]
 fn bench_recycler(bencher: &mut Bencher) {
-    solana_logger::setup();
+    lumos_logger::setup();
 
     let recycler: PacketBatchRecycler = Recycler::default();
 

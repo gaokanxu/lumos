@@ -15,8 +15,8 @@ use {
     crossbeam_channel::{Receiver, Sender, TryRecvError},
     itertools::izip,
     prio_graph::{AccessKind, PrioGraph},
-    solana_measure::measure_us,
-    solana_sdk::{
+    lumos_measure::measure_us,
+    lumos_sdk::{
         pubkey::Pubkey, saturating_add_assign, slot_history::Slot,
         transaction::SanitizedTransaction,
     },
@@ -491,7 +491,7 @@ mod tests {
         crate::banking_stage::consumer::TARGET_NUM_TRANSACTIONS_PER_BATCH,
         crossbeam_channel::{unbounded, Receiver},
         itertools::Itertools,
-        solana_sdk::{
+        lumos_sdk::{
             compute_budget::ComputeBudgetInstruction, hash::Hash, message::Message, pubkey::Pubkey,
             signature::Keypair, signer::Signer, system_instruction, transaction::Transaction,
         },

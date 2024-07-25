@@ -1,15 +1,15 @@
-//! The base library for all Solana on-chain Rust programs.
+//! The base library for all Lumos on-chain Rust programs.
 //!
-//! All Solana Rust programs that run on-chain will link to this crate, which
-//! acts as a standard library for Solana programs. Solana programs also link to
+//! All Lumos Rust programs that run on-chain will link to this crate, which
+//! acts as a standard library for Lumos programs. Lumos programs also link to
 //! the [Rust standard library][std], though it is [modified][sstd] for the
-//! Solana runtime environment. While off-chain programs that interact with the
-//! Solana network _can_ link to this crate, they typically instead use the
-//! [`solana-sdk`] crate, which reexports all modules from `solana-program`.
+//! Lumos runtime environment. While off-chain programs that interact with the
+//! Lumos network _can_ link to this crate, they typically instead use the
+//! [`lumos-sdk`] crate, which reexports all modules from `lumos-program`.
 //!
 //! [std]: https://doc.rust-lang.org/stable/std/
-//! [sstd]: https://solana.com/docs/programs/lang-rust#restrictions
-//! [`solana-sdk`]: https://docs.rs/solana-sdk/latest/solana_sdk/
+//! [sstd]: https://lumos.com/docs/programs/lang-rust#restrictions
+//! [`lumos-sdk`]: https://docs.rs/lumos-sdk/latest/lumos_sdk/
 //!
 //! This library defines
 //!
@@ -22,7 +22,7 @@
 //!   [native programs][np],
 //! - [sysvar] accessors.
 //!
-//! [pe]: #defining-a-solana-program
+//! [pe]: #defining-a-lumos-program
 //! [cdt]: #core-data-types
 //! [logging]: crate::log
 //! [serialization]: #serialization
@@ -30,14 +30,14 @@
 //! [cpi]: #cross-program-instruction-execution
 //! [sysvar]: crate::sysvar
 //!
-//! Idiomatic examples of `solana-program` usage can be found in
-//! [the Solana Program Library][spl].
+//! Idiomatic examples of `lumos-program` usage can be found in
+//! [the Lumos Program Library][spl].
 //!
-//! [spl]: https://github.com/solana-labs/solana-program-library
+//! [spl]: https://github.com/lumos-labs/lumos-program-library
 //!
-//! # Defining a solana program
+//! # Defining a lumos program
 //!
-//! Solana program crates have some unique properties compared to typical Rust
+//! Lumos program crates have some unique properties compared to typical Rust
 //! programs:
 //!
 //! - They are often compiled for both on-chain use and off-chain use. This is
@@ -46,12 +46,12 @@
 //! - They do not define a `main` function, but instead define their entrypoint
 //!   with the [`entrypoint!`] macro.
 //! - They are compiled as the ["cdylib"] crate type for dynamic loading
-//!   by the Solana runtime.
+//!   by the Lumos runtime.
 //! - They run in a constrained VM environment, and while they do have access to
 //!   the [Rust standard library][std], many features of the standard library,
 //!   particularly related to OS services, will fail at runtime, will silently
 //!   do nothing, or are not defined. See the [restrictions to the Rust standard
-//!   library][sstd] in the Solana documentation for more.
+//!   library][sstd] in the Lumos documentation for more.
 //!
 //! [std]: https://doc.rust-lang.org/std/index.html
 //! ["cdylib"]: https://doc.rust-lang.org/reference/linkage.html
@@ -63,12 +63,12 @@
 //!
 //! [Cargo feature]: https://doc.rust-lang.org/cargo/reference/features.html
 //!
-//! The skeleton of a Solana program typically looks like:
+//! The skeleton of a Lumos program typically looks like:
 //!
 //! ```
 //! #[cfg(not(feature = "no-entrypoint"))]
 //! pub mod entrypoint {
-//!     use solana_program::{
+//!     use lumos_program::{
 //!         account_info::AccountInfo,
 //!         entrypoint,
 //!         entrypoint::ProgramResult,
@@ -100,34 +100,34 @@
 //! no-entrypoint = []
 //! ```
 //!
-//! Note that a Solana program must specify its crate-type as "cdylib", and
+//! Note that a Lumos program must specify its crate-type as "cdylib", and
 //! "cdylib" crates will automatically be discovered and built by the `cargo
-//! build-bpf` command. Solana programs also often have crate-type "rlib" so
+//! build-bpf` command. Lumos programs also often have crate-type "rlib" so
 //! they can be linked to other Rust crates.
 //!
 //! # On-chain vs. off-chain compilation targets
 //!
-//! Solana programs run on the [rbpf] VM, which implements a variant of the
+//! Lumos programs run on the [rbpf] VM, which implements a variant of the
 //! [eBPF] instruction set. Because this crate can be compiled for both on-chain
 //! and off-chain execution, the environments of which are significantly
 //! different, it extensively uses [conditional compilation][cc] to tailor its
 //! implementation to the environment. The `cfg` predicate used for identifying
-//! compilation for on-chain programs is `target_os = "solana"`, as in this
-//! example from the `solana-program` codebase that logs a message via a
+//! compilation for on-chain programs is `target_os = "lumos"`, as in this
+//! example from the `lumos-program` codebase that logs a message via a
 //! syscall when run on-chain, and via a library call when offchain:
 //!
-//! [rbpf]: https://github.com/solana-labs/rbpf
+//! [rbpf]: https://github.com/lumos-labs/rbpf
 //! [eBPF]: https://ebpf.io/
 //! [cc]: https://doc.rust-lang.org/reference/conditional-compilation.html
 //!
 //! ```
 //! pub fn sol_log(message: &str) {
-//!     #[cfg(target_os = "solana")]
+//!     #[cfg(target_os = "lumos")]
 //!     unsafe {
 //!         sol_log_(message.as_ptr(), message.len() as u64);
 //!     }
 //!
-//!     #[cfg(not(target_os = "solana"))]
+//!     #[cfg(not(target_os = "lumos"))]
 //!     program_stubs::sol_log(message);
 //! }
 //! # mod program_stubs {
@@ -138,42 +138,42 @@
 //! This `cfg` pattern is suitable as well for user code that needs to work both
 //! on-chain and off-chain.
 //!
-//! `solana-program` and `solana-sdk` were previously a single crate. Because of
-//! this history, and because of the dual-usage of `solana-program` for two
+//! `lumos-program` and `lumos-sdk` were previously a single crate. Because of
+//! this history, and because of the dual-usage of `lumos-program` for two
 //! different environments, it contains some features that are not available to
 //! on-chain programs at compile-time. It also contains some on-chain features
 //! that will fail in off-chain scenarios at runtime. This distinction is not
 //! well-reflected in the documentation.
 //!
-//! For a more complete description of Solana's implementation of eBPF and its
-//! limitations, see the main Solana documentation for [on-chain programs][ocp].
+//! For a more complete description of Lumos's implementation of eBPF and its
+//! limitations, see the main Lumos documentation for [on-chain programs][ocp].
 //!
-//! [ocp]: https://solana.com/docs/programs
+//! [ocp]: https://lumos.com/docs/programs
 //!
 //! # Core data types
 //!
-//! - [`Pubkey`] &mdash; The address of a [Solana account][acc]. Some account
+//! - [`Pubkey`] &mdash; The address of a [Lumos account][acc]. Some account
 //!   addresses are [ed25519] public keys, with corresponding secret keys that
 //!   are managed off-chain. Often, though, account addresses do not have
 //!   corresponding secret keys &mdash; as with [_program derived
 //!   addresses_][pdas] &mdash; or the secret key is not relevant to the
 //!   operation of a program, and may have even been disposed of. As running
-//!   Solana programs can not safely create or manage secret keys, the full
-//!   [`Keypair`] is not defined in `solana-program` but in `solana-sdk`.
+//!   Lumos programs can not safely create or manage secret keys, the full
+//!   [`Keypair`] is not defined in `lumos-program` but in `lumos-sdk`.
 //! - [`Hash`] &mdash; A cryptographic hash. Used to uniquely identify blocks,
 //!   and also for general purpose hashing.
-//! - [`AccountInfo`] &mdash; A description of a single Solana account. All accounts
+//! - [`AccountInfo`] &mdash; A description of a single Lumos account. All accounts
 //!   that might be accessed by a program invocation are provided to the program
 //!   entrypoint as `AccountInfo`.
 //! - [`Instruction`] &mdash; A directive telling the runtime to execute a program,
 //!   passing it a set of accounts and program-specific data.
 //! - [`ProgramError`] and [`ProgramResult`] &mdash; The error type that all programs
 //!   must return, reported to the runtime as a `u64`.
-//! - [`Sol`] &mdash; The Solana native token type, with conversions to and from
+//! - [`Sol`] &mdash; The Lumos native token type, with conversions to and from
 //!   [_lamports_], the smallest fractional unit of SOL, in the [`native_token`]
 //!   module.
 //!
-//! [acc]: https://solana.com/docs/core/accounts
+//! [acc]: https://lumos.com/docs/core/accounts
 //! [`Pubkey`]: pubkey::Pubkey
 //! [`Hash`]: hash::Hash
 //! [`Instruction`]: instruction::Instruction
@@ -181,18 +181,18 @@
 //! [`ProgramError`]: program_error::ProgramError
 //! [`ProgramResult`]: entrypoint::ProgramResult
 //! [ed25519]: https://ed25519.cr.yp.to/
-//! [`Keypair`]: https://docs.rs/solana-sdk/latest/solana_sdk/signer/keypair/struct.Keypair.html
+//! [`Keypair`]: https://docs.rs/lumos-sdk/latest/lumos_sdk/signer/keypair/struct.Keypair.html
 //! [SHA-256]: https://en.wikipedia.org/wiki/SHA-2
 //! [`Sol`]: native_token::Sol
-//! [_lamports_]: https://solana.com/docs/intro#what-are-sols
+//! [_lamports_]: https://lumos.com/docs/intro#what-are-sols
 //!
 //! # Serialization
 //!
-//! Within the Solana runtime, programs, and network, at least three different
-//! serialization formats are used, and `solana-program` provides access to
+//! Within the Lumos runtime, programs, and network, at least three different
+//! serialization formats are used, and `lumos-program` provides access to
 //! those needed by programs.
 //!
-//! In user-written Solana program code, serialization is primarily used for
+//! In user-written Lumos program code, serialization is primarily used for
 //! accessing [`AccountInfo`] data and [`Instruction`] data, both of which are
 //! program-specific binary data. Every program is free to decide their own
 //! serialization format, but data received from other sources &mdash;
@@ -202,7 +202,7 @@
 //! [`AccountInfo`]: account_info::AccountInfo
 //! [`Instruction`]: instruction::Instruction
 //!
-//! The three serialization formats in use in Solana are:
+//! The three serialization formats in use in Lumos are:
 //!
 //! - __[Borsh]__, a compact and well-specified format developed by the [NEAR]
 //!   project, suitable for use in protocol definitions and for archival storage.
@@ -210,7 +210,7 @@
 //!   and is recommended for all purposes.
 //!
 //!   Users need to import the [`borsh`] crate themselves &mdash; it is not
-//!   re-exported by `solana-program`, though this crate provides several useful
+//!   re-exported by `lumos-program`, though this crate provides several useful
 //!   utilities in its [`borsh` module][borshmod] that are not available in the
 //!   `borsh` library.
 //!
@@ -242,8 +242,8 @@
 //!   [Serde]: https://serde.rs/
 //!   [`Instruction::new_with_bincode`]: instruction::Instruction::new_with_bincode
 //!
-//! - __[`Pack`]__, a Solana-specific serialization API that is used by many
-//!   older programs in the [Solana Program Library][spl] to define their
+//! - __[`Pack`]__, a Lumos-specific serialization API that is used by many
+//!   older programs in the [Lumos Program Library][spl] to define their
 //!   account format. It is difficult to implement and does not define a
 //!   language-independent serialization format. It is not generally recommended
 //!   for new code.
@@ -260,7 +260,7 @@
 //!
 //! # Cross-program instruction execution
 //!
-//! Solana programs may call other programs, termed [_cross-program
+//! Lumos programs may call other programs, termed [_cross-program
 //! invocation_][cpi] (CPI), with the [`invoke`] and [`invoke_signed`]
 //! functions. When calling another program the caller must provide the
 //! [`Instruction`] to be invoked, as well as the [`AccountInfo`] for every
@@ -272,12 +272,12 @@
 //!
 //! [`invoke`]: program::invoke
 //! [`invoke_signed`]: program::invoke_signed
-//! [cpi]: https://solana.com/docs/core/cpi
+//! [cpi]: https://lumos.com/docs/core/cpi
 //!
 //! A simple example of transferring lamports via CPI:
 //!
 //! ```
-//! use solana_program::{
+//! use lumos_program::{
 //!     account_info::{next_account_info, AccountInfo},
 //!     entrypoint,
 //!     entrypoint::ProgramResult,
@@ -312,20 +312,20 @@
 //! }
 //! ```
 //!
-//! Solana also includes a mechanism to let programs control and sign for
+//! Lumos also includes a mechanism to let programs control and sign for
 //! accounts without needing to protect a corresponding secret key, called
 //! [_program derived addresses_][pdas]. PDAs are derived with the
 //! [`Pubkey::find_program_address`] function. With a PDA, a program can call
 //! `invoke_signed` to call another program while virtually "signing" for the
 //! PDA.
 //!
-//! [pdas]: https://solana.com/docs/core/cpi#program-derived-addresses
+//! [pdas]: https://lumos.com/docs/core/cpi#program-derived-addresses
 //! [`Pubkey::find_program_address`]: pubkey::Pubkey::find_program_address
 //!
 //! A simple example of creating an account for a PDA:
 //!
 //! ```
-//! use solana_program::{
+//! use lumos_program::{
 //!     account_info::{next_account_info, AccountInfo},
 //!     entrypoint,
 //!     entrypoint::ProgramResult,
@@ -388,19 +388,19 @@
 //!
 //! # Native programs
 //!
-//! Some solana programs are [_native programs_][np2], running native machine
+//! Some lumos programs are [_native programs_][np2], running native machine
 //! code that is distributed with the runtime, with well-known program IDs.
 //!
-//! [np2]: https://docs.solanalabs.com/runtime/programs
+//! [np2]: https://docs.lumoslabs.com/runtime/programs
 //!
 //! Some native programs can be [invoked][cpi] by other programs, but some can
 //! only be executed as "top-level" instructions included by off-chain clients
 //! in a [`Transaction`].
 //!
-//! [`Transaction`]: https://docs.rs/solana-sdk/latest/solana_sdk/transaction/struct.Transaction.html
+//! [`Transaction`]: https://docs.rs/lumos-sdk/latest/lumos_sdk/transaction/struct.Transaction.html
 //!
 //! This crate defines the program IDs for most native programs. Even though
-//! some native programs cannot be invoked by other programs, a Solana program
+//! some native programs cannot be invoked by other programs, a Lumos program
 //! may need access to their program IDs. For example, a program may need to
 //! verify that an ed25519 signature verification instruction was included in
 //! the same transaction as its own instruction. For many native programs, this
@@ -413,61 +413,61 @@
 //! While some native programs have been active since the genesis block, others
 //! are activated dynamically after a specific [slot], and some are not yet
 //! active. This documentation does not distinguish which native programs are
-//! active on any particular network. The `solana feature status` CLI command
+//! active on any particular network. The `lumos feature status` CLI command
 //! can help in determining active features.
 //!
-//! [slot]: https://solana.com/docs/terminology#slot
+//! [slot]: https://lumos.com/docs/terminology#slot
 //!
-//! Native programs important to Solana program authors include:
+//! Native programs important to Lumos program authors include:
 //!
 //! - __System Program__: Creates new accounts, allocates account data, assigns
 //!   accounts to owning programs, transfers lamports from System Program owned
 //!   accounts and pays transaction fees.
-//!   - ID: [`solana_program::system_program`]
-//!   - Instruction: [`solana_program::system_instruction`]
+//!   - ID: [`lumos_program::system_program`]
+//!   - Instruction: [`lumos_program::system_instruction`]
 //!   - Invokable by programs? yes
 //!
 //! - __Compute Budget Program__: Requests additional CPU or memory resources
 //!   for a transaction. This program does nothing when called from another
 //!   program.
-//!   - ID: [`solana_sdk::compute_budget`](https://docs.rs/solana-sdk/latest/solana_sdk/compute_budget/index.html)
-//!   - Instruction: [`solana_sdk::compute_budget`](https://docs.rs/solana-sdk/latest/solana_sdk/compute_budget/index.html)
+//!   - ID: [`lumos_sdk::compute_budget`](https://docs.rs/lumos-sdk/latest/lumos_sdk/compute_budget/index.html)
+//!   - Instruction: [`lumos_sdk::compute_budget`](https://docs.rs/lumos-sdk/latest/lumos_sdk/compute_budget/index.html)
 //!   - Invokable by programs? no
 //!
 //! - __ed25519 Program__: Verifies an ed25519 signature.
-//!   - ID: [`solana_program::ed25519_program`]
-//!   - Instruction: [`solana_sdk::ed25519_instruction`](https://docs.rs/solana-sdk/latest/solana_sdk/ed25519_instruction/index.html)
+//!   - ID: [`lumos_program::ed25519_program`]
+//!   - Instruction: [`lumos_sdk::ed25519_instruction`](https://docs.rs/lumos-sdk/latest/lumos_sdk/ed25519_instruction/index.html)
 //!   - Invokable by programs? no
 //!
 //! - __secp256k1 Program__: Verifies secp256k1 public key recovery operations.
-//!   - ID: [`solana_program::secp256k1_program`]
-//!   - Instruction: [`solana_sdk::secp256k1_instruction`](https://docs.rs/solana-sdk/latest/solana_sdk/secp256k1_instruction/index.html)
+//!   - ID: [`lumos_program::secp256k1_program`]
+//!   - Instruction: [`lumos_sdk::secp256k1_instruction`](https://docs.rs/lumos-sdk/latest/lumos_sdk/secp256k1_instruction/index.html)
 //!   - Invokable by programs? no
 //!
 //! - __BPF Loader__: Deploys, and executes immutable programs on the chain.
-//!   - ID: [`solana_program::bpf_loader`]
-//!   - Instruction: [`solana_program::loader_instruction`]
+//!   - ID: [`lumos_program::bpf_loader`]
+//!   - Instruction: [`lumos_program::loader_instruction`]
 //!   - Invokable by programs? yes
 //!
 //! - __Upgradable BPF Loader__: Deploys, upgrades, and executes upgradable
 //!   programs on the chain.
-//!   - ID: [`solana_program::bpf_loader_upgradeable`]
-//!   - Instruction: [`solana_program::loader_upgradeable_instruction`]
+//!   - ID: [`lumos_program::bpf_loader_upgradeable`]
+//!   - Instruction: [`lumos_program::loader_upgradeable_instruction`]
 //!   - Invokable by programs? yes
 //!
 //! - __Deprecated BPF Loader__: Deploys, and executes immutable programs on the
 //!   chain.
-//!   - ID: [`solana_program::bpf_loader_deprecated`]
-//!   - Instruction: [`solana_program::loader_instruction`]
+//!   - ID: [`lumos_program::bpf_loader_deprecated`]
+//!   - Instruction: [`lumos_program::loader_instruction`]
 //!   - Invokable by programs? yes
 //!
-//! [lut]: https://docs.solanalabs.com/proposals/versioned-transactions
+//! [lut]: https://docs.lumoslabs.com/proposals/versioned-transactions
 
 #![allow(incomplete_features)]
 #![cfg_attr(RUSTC_WITH_SPECIALIZATION, feature(specialization))]
 
-// Allows macro expansion of `use ::solana_program::*` to work within this crate
-extern crate self as solana_program;
+// Allows macro expansion of `use ::lumos_program::*` to work within this crate
+extern crate self as lumos_program;
 
 pub mod account_info;
 pub mod address_lookup_table;
@@ -537,36 +537,36 @@ pub mod wasm;
 
 #[deprecated(
     since = "1.17.0",
-    note = "Please use `solana_sdk::address_lookup_table::AddressLookupTableAccount` instead"
+    note = "Please use `lumos_sdk::address_lookup_table::AddressLookupTableAccount` instead"
 )]
 pub mod address_lookup_table_account {
     pub use crate::address_lookup_table::AddressLookupTableAccount;
 }
 
-#[cfg(target_os = "solana")]
-pub use solana_sdk_macro::wasm_bindgen_stub as wasm_bindgen;
+#[cfg(target_os = "lumos")]
+pub use lumos_sdk_macro::wasm_bindgen_stub as wasm_bindgen;
 /// Re-export of [wasm-bindgen].
 ///
 /// [wasm-bindgen]: https://rustwasm.github.io/docs/wasm-bindgen/
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 pub use wasm_bindgen::prelude::wasm_bindgen;
 
 /// The [config native program][np].
 ///
-/// [np]: https://docs.solanalabs.com/runtime/programs#config-program
+/// [np]: https://docs.lumoslabs.com/runtime/programs#config-program
 pub mod config {
     pub mod program {
         crate::declare_id!("Config1111111111111111111111111111111111111");
     }
 }
 
-/// A vector of Solana SDK IDs.
+/// A vector of Lumos SDK IDs.
 pub mod sdk_ids {
     use {
         crate::{
             address_lookup_table, bpf_loader, bpf_loader_deprecated, bpf_loader_upgradeable,
             config, ed25519_program, feature, incinerator, loader_v4, secp256k1_program,
-            solana_program::pubkey::Pubkey, stake, system_program, sysvar, vote,
+            lumos_program::pubkey::Pubkey, stake, system_program, sysvar, vote,
         },
         lazy_static::lazy_static,
     };
@@ -598,7 +598,7 @@ pub mod sdk_ids {
 }
 
 /// Same as [`declare_id`] except that it reports that this ID has been deprecated.
-pub use solana_sdk_macro::program_declare_deprecated_id as declare_deprecated_id;
+pub use lumos_sdk_macro::program_declare_deprecated_id as declare_deprecated_id;
 /// Convenience macro to declare a static public key and functions to interact with it.
 ///
 /// Input: a single literal base58 string representation of a program's ID.
@@ -609,10 +609,10 @@ pub use solana_sdk_macro::program_declare_deprecated_id as declare_deprecated_id
 /// # // wrapper is used so that the macro invocation occurs in the item position
 /// # // rather than in the statement position which isn't allowed.
 /// use std::str::FromStr;
-/// use solana_program::{declare_id, pubkey::Pubkey};
+/// use lumos_program::{declare_id, pubkey::Pubkey};
 ///
 /// # mod item_wrapper {
-/// #   use solana_program::declare_id;
+/// #   use lumos_program::declare_id;
 /// declare_id!("My11111111111111111111111111111111111111111");
 /// # }
 /// # use item_wrapper::id;
@@ -620,7 +620,7 @@ pub use solana_sdk_macro::program_declare_deprecated_id as declare_deprecated_id
 /// let my_id = Pubkey::from_str("My11111111111111111111111111111111111111111").unwrap();
 /// assert_eq!(id(), my_id);
 /// ```
-pub use solana_sdk_macro::program_declare_id as declare_id;
+pub use lumos_sdk_macro::program_declare_id as declare_id;
 /// Convenience macro to define a static public key.
 ///
 /// Input: a single literal base58 string representation of a Pubkey.
@@ -629,20 +629,20 @@ pub use solana_sdk_macro::program_declare_id as declare_id;
 ///
 /// ```
 /// use std::str::FromStr;
-/// use solana_program::{pubkey, pubkey::Pubkey};
+/// use lumos_program::{pubkey, pubkey::Pubkey};
 ///
 /// static ID: Pubkey = pubkey!("My11111111111111111111111111111111111111111");
 ///
 /// let my_id = Pubkey::from_str("My11111111111111111111111111111111111111111").unwrap();
 /// assert_eq!(ID, my_id);
 /// ```
-pub use solana_sdk_macro::program_pubkey as pubkey;
+pub use lumos_sdk_macro::program_pubkey as pubkey;
 
 #[macro_use]
 extern crate serde_derive;
 
 #[macro_use]
-extern crate solana_frozen_abi_macro;
+extern crate lumos_frozen_abi_macro;
 
 /// Convenience macro for doing integer division where the operation's safety
 /// can be checked at compile-time.
@@ -655,7 +655,7 @@ extern crate solana_frozen_abi_macro;
 /// Literal denominator div-by-zero fails:
 ///
 /// ```compile_fail
-/// # use solana_program::unchecked_div_by_const;
+/// # use lumos_program::unchecked_div_by_const;
 /// # fn main() {
 /// let _ = unchecked_div_by_const!(10, 0);
 /// # }
@@ -664,7 +664,7 @@ extern crate solana_frozen_abi_macro;
 /// Const denominator div-by-zero fails:
 ///
 /// ```compile_fail
-/// # use solana_program::unchecked_div_by_const;
+/// # use lumos_program::unchecked_div_by_const;
 /// # fn main() {
 /// const D: u64 = 0;
 /// let _ = unchecked_div_by_const!(10, D);
@@ -674,7 +674,7 @@ extern crate solana_frozen_abi_macro;
 /// Non-const denominator fails:
 ///
 /// ```compile_fail
-/// # use solana_program::unchecked_div_by_const;
+/// # use lumos_program::unchecked_div_by_const;
 /// # fn main() {
 /// let d = 0;
 /// let _ = unchecked_div_by_const!(10, d);
@@ -684,7 +684,7 @@ extern crate solana_frozen_abi_macro;
 /// Literal denominator div-by-zero fails:
 ///
 /// ```compile_fail
-/// # use solana_program::unchecked_div_by_const;
+/// # use lumos_program::unchecked_div_by_const;
 /// # fn main() {
 /// const N: u64 = 10;
 /// let _ = unchecked_div_by_const!(N, 0);
@@ -694,7 +694,7 @@ extern crate solana_frozen_abi_macro;
 /// Const denominator div-by-zero fails:
 ///
 /// ```compile_fail
-/// # use solana_program::unchecked_div_by_const;
+/// # use lumos_program::unchecked_div_by_const;
 /// # fn main() {
 /// const N: u64 = 10;
 /// const D: u64 = 0;
@@ -705,7 +705,7 @@ extern crate solana_frozen_abi_macro;
 /// Non-const denominator fails:
 ///
 /// ```compile_fail
-/// # use solana_program::unchecked_div_by_const;
+/// # use lumos_program::unchecked_div_by_const;
 /// # fn main() {
 /// # const N: u64 = 10;
 /// let d = 0;
@@ -716,7 +716,7 @@ extern crate solana_frozen_abi_macro;
 /// Literal denominator div-by-zero fails:
 ///
 /// ```compile_fail
-/// # use solana_program::unchecked_div_by_const;
+/// # use lumos_program::unchecked_div_by_const;
 /// # fn main() {
 /// let n = 10;
 /// let _ = unchecked_div_by_const!(n, 0);
@@ -726,7 +726,7 @@ extern crate solana_frozen_abi_macro;
 /// Const denominator div-by-zero fails:
 ///
 /// ```compile_fail
-/// # use solana_program::unchecked_div_by_const;
+/// # use lumos_program::unchecked_div_by_const;
 /// # fn main() {
 /// let n = 10;
 /// const D: u64 = 0;
@@ -737,7 +737,7 @@ extern crate solana_frozen_abi_macro;
 /// Non-const denominator fails:
 ///
 /// ```compile_fail
-/// # use solana_program::unchecked_div_by_const;
+/// # use lumos_program::unchecked_div_by_const;
 /// # fn main() {
 /// let n = 10;
 /// let d = 0;
@@ -763,11 +763,11 @@ macro_rules! unchecked_div_by_const {
 
 // This module is purposefully listed after all other exports: because of an
 // interaction within rustdoc between the reexports inside this module of
-// `solana_program`'s top-level modules, and `solana_sdk`'s glob re-export of
-// `solana_program`'s top-level modules, if this module is not lexically last
+// `lumos_program`'s top-level modules, and `lumos_sdk`'s glob re-export of
+// `lumos_program`'s top-level modules, if this module is not lexically last
 // rustdoc fails to generate documentation for the re-exports within
-// `solana_sdk`.
-#[cfg(not(target_os = "solana"))]
+// `lumos_sdk`.
+#[cfg(not(target_os = "lumos"))]
 pub mod example_mocks;
 
 #[cfg(test)]

@@ -7,7 +7,7 @@ use {
     dashmap::DashMap,
     rand::Rng,
     rayon::iter::{IntoParallelRefIterator, ParallelIterator},
-    solana_accounts_db::{
+    lumos_accounts_db::{
         accounts::{AccountAddressFilter, Accounts},
         accounts_db::{
             test_utils::create_test_accounts, AccountShrinkThreshold, AccountsDb,
@@ -16,7 +16,7 @@ use {
         accounts_index::{AccountSecondaryIndexes, ScanConfig},
         ancestors::Ancestors,
     },
-    solana_sdk::{
+    lumos_sdk::{
         account::{Account, AccountSharedData, ReadableAccount},
         genesis_config::ClusterType,
         hash::Hash,
@@ -79,7 +79,7 @@ fn bench_accounts_hash_bank_hash(bencher: &mut Bencher) {
 
 #[bench]
 fn bench_update_accounts_hash(bencher: &mut Bencher) {
-    solana_logger::setup();
+    lumos_logger::setup();
     let accounts_db = new_accounts_db(vec![PathBuf::from("update_accounts_hash")]);
     let accounts = Accounts::new(Arc::new(accounts_db));
     let mut pubkeys: Vec<Pubkey> = vec![];
@@ -94,7 +94,7 @@ fn bench_update_accounts_hash(bencher: &mut Bencher) {
 
 #[bench]
 fn bench_accounts_delta_hash(bencher: &mut Bencher) {
-    solana_logger::setup();
+    lumos_logger::setup();
     let accounts_db = new_accounts_db(vec![PathBuf::from("accounts_delta_hash")]);
     let accounts = Accounts::new(Arc::new(accounts_db));
     let mut pubkeys: Vec<Pubkey> = vec![];
@@ -106,13 +106,13 @@ fn bench_accounts_delta_hash(bencher: &mut Bencher) {
 
 #[bench]
 fn bench_delete_dependencies(bencher: &mut Bencher) {
-    solana_logger::setup();
+    lumos_logger::setup();
     let accounts_db = new_accounts_db(vec![PathBuf::from("accounts_delete_deps")]);
     let accounts = Accounts::new(Arc::new(accounts_db));
     let mut old_pubkey = Pubkey::default();
     let zero_account = AccountSharedData::new(0, 0, AccountSharedData::default().owner());
     for i in 0..1000 {
-        let pubkey = solana_sdk::pubkey::new_rand();
+        let pubkey = lumos_sdk::pubkey::new_rand();
         let account = AccountSharedData::new(i + 1, 0, AccountSharedData::default().owner());
         accounts.store_slow_uncached(i, &pubkey, &account);
         accounts.store_slow_uncached(i, &old_pubkey, &zero_account);
@@ -140,7 +140,7 @@ fn store_accounts_with_possible_contention<F: 'static>(
     let num_keys = 1000;
     let slot = 0;
 
-    let pubkeys: Vec<_> = std::iter::repeat_with(solana_sdk::pubkey::new_rand)
+    let pubkeys: Vec<_> = std::iter::repeat_with(lumos_sdk::pubkey::new_rand)
         .take(num_keys)
         .collect();
     let accounts_data: Vec<_> = std::iter::repeat(Account {
@@ -170,7 +170,7 @@ fn store_accounts_with_possible_contention<F: 'static>(
 
     let num_new_keys = 1000;
     bencher.iter(|| {
-        let new_pubkeys: Vec<_> = std::iter::repeat_with(solana_sdk::pubkey::new_rand)
+        let new_pubkeys: Vec<_> = std::iter::repeat_with(lumos_sdk::pubkey::new_rand)
             .take(num_new_keys)
             .collect();
         let new_storable_accounts: Vec<_> = new_pubkeys.iter().zip(accounts_data.iter()).collect();

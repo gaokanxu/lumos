@@ -1,5 +1,5 @@
 [package]
-name = "solana-banking-bench"
+name = "lumos-banking-bench"
 publish = false
 version = { workspace = true }
 authors = { workspace = true }
@@ -14,19 +14,19 @@ crossbeam-channel = { workspace = true }
 log = { workspace = true }
 rand = { workspace = true }
 rayon = { workspace = true }
-solana-client = { workspace = true }
-solana-core = { workspace = true }
-solana-gossip = { workspace = true }
-solana-ledger = { workspace = true }
-solana-logger = { workspace = true }
-solana-measure = { workspace = true }
-solana-perf = { workspace = true }
-solana-poh = { workspace = true, features = ["dev-context-only-utils"] }
-solana-runtime = { workspace = true, features = ["dev-context-only-utils"] }
-solana-sdk = { workspace = true }
-solana-streamer = { workspace = true }
-solana-tpu-client = { workspace = true }
-solana-version = { workspace = true }
+lumos-client = { workspace = true }
+lumos-core = { workspace = true }
+lumos-gossip = { workspace = true }
+lumos-ledger = { workspace = true }
+lumos-logger = { workspace = true }
+lumos-measure = { workspace = true }
+lumos-perf = { workspace = true }
+lumos-poh = { workspace = true, features = ["dev-context-only-utils"] }
+lumos-runtime = { workspace = true, features = ["dev-context-only-utils"] }
+lumos-sdk = { workspace = true }
+lumos-streamer = { workspace = true }
+lumos-tpu-client = { workspace = true }
+lumos-version = { workspace = true }
 
 [features]
 dev-context-only-utils = []

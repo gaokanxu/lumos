@@ -6,7 +6,7 @@
 
 use {
     crate::instructions::*,
-    solana_program::{
+    lumos_program::{
         account_info::AccountInfo,
         bpf_loader_deprecated,
         entrypoint::{ProgramResult, MAX_PERMITTED_DATA_INCREASE},
@@ -20,8 +20,8 @@ use {
         },
         system_instruction, system_program,
     },
-    solana_sbf_rust_invoked::instructions::*,
-    solana_sbf_rust_realloc::instructions::*,
+    lumos_sbf_rust_invoked::instructions::*,
+    lumos_sbf_rust_realloc::instructions::*,
     std::{cell::RefCell, mem, rc::Rc, slice},
 };
 
@@ -66,7 +66,7 @@ fn do_nested_invokes(num_nested_invokes: u64, accounts: &[AccountInfo]) -> Progr
     Ok(())
 }
 
-solana_program::entrypoint!(process_instruction);
+lumos_program::entrypoint!(process_instruction);
 fn process_instruction(
     program_id: &Pubkey,
     accounts: &[AccountInfo],
@@ -85,7 +85,7 @@ fn process_instruction(
                 let from_lamports = accounts[FROM_INDEX].lamports();
                 let to_lamports = accounts[DERIVED_KEY1_INDEX].lamports();
                 assert_eq!(accounts[DERIVED_KEY1_INDEX].data_len(), 0);
-                assert!(solana_program::system_program::check_id(
+                assert!(lumos_program::system_program::check_id(
                     accounts[DERIVED_KEY1_INDEX].owner
                 ));
 
@@ -781,7 +781,7 @@ fn process_instruction(
                         // pointer past the RcBox or CPI will clobber the length
                         // change when it copies the callee's account data back
                         // into the caller's account data
-                        // https://github.com/solana-labs/solana/blob/fa28958bd69054d1c2348e0a731011e93d44d7af/programs/bpf_loader/src/syscalls/cpi.rs#L1487
+                        // https://github.com/lumos-labs/lumos/blob/fa28958bd69054d1c2348e0a731011e93d44d7af/programs/bpf_loader/src/syscalls/cpi.rs#L1487
                         value: RefCell::new(slice::from_raw_parts_mut(
                             account.data.borrow_mut().as_mut_ptr().add(rc_box_size),
                             0,

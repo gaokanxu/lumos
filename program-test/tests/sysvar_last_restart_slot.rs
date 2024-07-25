@@ -1,6 +1,6 @@
 use {
-    solana_program_test::{processor, ProgramTest, ProgramTestContext},
-    solana_sdk::{
+    lumos_program_test::{processor, ProgramTest, ProgramTestContext},
+    lumos_sdk::{
         account_info::AccountInfo,
         clock::Slot,
         entrypoint::ProgramResult,

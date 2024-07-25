@@ -8,8 +8,8 @@ use {
         timings::{ExecuteDetailsTimings, ExecuteTimings},
     },
     serde::{Deserialize, Serialize},
-    solana_measure::measure::Measure,
-    solana_sdk::{
+    lumos_measure::measure::Measure,
+    lumos_sdk::{
         account::WritableAccount,
         feature_set::FeatureSet,
         hash::Hash,
@@ -27,7 +27,7 @@ use {
 pub struct MessageProcessor {}
 
 #[cfg(RUSTC_WITH_SPECIALIZATION)]
-impl ::solana_frozen_abi::abi_example::AbiExample for MessageProcessor {
+impl ::lumos_frozen_abi::abi_example::AbiExample for MessageProcessor {
     fn example() -> Self {
         // MessageProcessor's fields are #[serde(skip)]-ed and not Serialize
         // so, just rely on Default anyway.
@@ -177,7 +177,7 @@ mod tests {
             declare_process_instruction, loaded_programs::LoadedProgram,
             message_processor::MessageProcessor,
         },
-        solana_sdk::{
+        lumos_sdk::{
             account::{AccountSharedData, ReadableAccount},
             instruction::{AccountMeta, Instruction, InstructionError},
             message::{AccountKeys, Message},
@@ -462,11 +462,11 @@ mod tests {
         let mock_program_id = Pubkey::from([2u8; 32]);
         let accounts = vec![
             (
-                solana_sdk::pubkey::new_rand(),
+                lumos_sdk::pubkey::new_rand(),
                 AccountSharedData::new(100, 1, &mock_program_id),
             ),
             (
-                solana_sdk::pubkey::new_rand(),
+                lumos_sdk::pubkey::new_rand(),
                 AccountSharedData::new(0, 1, &mock_program_id),
             ),
             (

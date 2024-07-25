@@ -1,12 +1,12 @@
 use {
-    solana_gossip::cluster_info::ClusterInfo,
-    solana_runtime::{
+    lumos_gossip::cluster_info::ClusterInfo,
+    lumos_runtime::{
         snapshot_hash::{
             FullSnapshotHash, IncrementalSnapshotHash, SnapshotHash, StartingSnapshotHashes,
         },
         snapshot_package::SnapshotKind,
     },
-    solana_sdk::{clock::Slot, hash::Hash},
+    lumos_sdk::{clock::Slot, hash::Hash},
     std::sync::Arc,
 };
 

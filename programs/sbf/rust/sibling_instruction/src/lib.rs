@@ -2,7 +2,7 @@
 
 #![cfg(feature = "program")]
 
-use solana_program::{
+use lumos_program::{
     account_info::AccountInfo,
     entrypoint::ProgramResult,
     instruction::{
@@ -14,7 +14,7 @@ use solana_program::{
     pubkey::Pubkey,
 };
 
-solana_program::entrypoint!(process_instruction);
+lumos_program::entrypoint!(process_instruction);
 fn process_instruction(
     _program_id: &Pubkey,
     accounts: &[AccountInfo],

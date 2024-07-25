@@ -27,13 +27,13 @@ use {
         WriteBatch as RWriteBatch, DB,
     },
     serde::{de::DeserializeOwned, Serialize},
-    solana_accounts_db::hardened_unpack::UnpackError,
-    solana_sdk::{
+    lumos_accounts_db::hardened_unpack::UnpackError,
+    lumos_sdk::{
         clock::{Slot, UnixTimestamp},
         pubkey::Pubkey,
         signature::Signature,
     },
-    solana_storage_proto::convert::generated,
+    lumos_storage_proto::convert::generated,
     std::{
         collections::{HashMap, HashSet},
         ffi::{CStr, CString},
@@ -427,11 +427,11 @@ impl Rocks {
                 DB::open_cf_descriptors(&db_options, path, cf_descriptors)?
             }
             AccessType::Secondary => {
-                let secondary_path = path.join("solana-secondary");
+                let secondary_path = path.join("lumos-secondary");
                 info!(
                     "Opening Rocks with secondary (read only) access at: {secondary_path:?}. \
                     This secondary access could temporarily degrade other accesses, such as \
-                    by solana-validator"
+                    by lumos-validator"
                 );
                 DB::open_cf_descriptors_as_secondary(
                     &db_options,
@@ -2309,7 +2309,7 @@ pub mod tests {
 
     #[test]
     fn test_open_unknown_columns() {
-        solana_logger::setup();
+        lumos_logger::setup();
 
         let temp_dir = tempdir().unwrap();
         let db_path = temp_dir.path();

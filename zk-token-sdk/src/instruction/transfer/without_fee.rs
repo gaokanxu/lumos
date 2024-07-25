@@ -1,4 +1,4 @@
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 use {
     crate::{
         encryption::{
@@ -32,16 +32,16 @@ use {
     bytemuck::{Pod, Zeroable},
 };
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 const TRANSFER_SOURCE_AMOUNT_BITS: usize = 64;
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 const TRANSFER_AMOUNT_LO_BITS: usize = 16;
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 const TRANSFER_AMOUNT_LO_NEGATED_BITS: usize = 16;
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 const TRANSFER_AMOUNT_HI_BITS: usize = 32;
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 lazy_static::lazy_static! {
     pub static ref COMMITMENT_MAX: PedersenCommitment = Pedersen::encode((1_u64 <<
                                                                          TRANSFER_AMOUNT_LO_NEGATED_BITS) - 1);
@@ -87,7 +87,7 @@ pub struct TransferPubkeys {
     pub auditor: pod::ElGamalPubkey,
 }
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 impl TransferData {
     #[allow(clippy::too_many_arguments)]
     pub fn new(
@@ -246,7 +246,7 @@ impl ZkProofData<TransferProofContext> for TransferData {
         &self.context
     }
 
-    #[cfg(not(target_os = "solana"))]
+    #[cfg(not(target_os = "lumos"))]
     fn verify_proof(&self) -> Result<(), ProofVerificationError> {
         // generate transcript and append all public inputs
         let mut transcript = self.context.new_transcript();
@@ -272,7 +272,7 @@ impl ZkProofData<TransferProofContext> for TransferData {
 }
 
 #[allow(non_snake_case)]
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 impl TransferProofContext {
     fn new_transcript(&self) -> Transcript {
         let mut transcript = Transcript::new(b"transfer-proof");
@@ -305,7 +305,7 @@ pub struct TransferProof {
 }
 
 #[allow(non_snake_case)]
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 impl TransferProof {
     pub fn new(
         (transfer_amount_lo, transfer_amount_hi): (u64, u64),

@@ -2,7 +2,7 @@
 //!
 //! As returned by the [`getEpochInfo`] RPC method.
 //!
-//! [`getEpochInfo`]: https://solana.com/docs/rpc/http/getepochinfo
+//! [`getEpochInfo`]: https://lumos.com/docs/rpc/http/getepochinfo
 
 use crate::clock::{Epoch, Slot};
 

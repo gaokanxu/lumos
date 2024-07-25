@@ -1,16 +1,16 @@
 use {
     crate::bench_tps_client::{BenchTpsClient, BenchTpsError, Result},
-    solana_client::tpu_client::TpuClient,
-    solana_connection_cache::connection_cache::{
+    lumos_client::tpu_client::TpuClient,
+    lumos_connection_cache::connection_cache::{
         ConnectionManager, ConnectionPool, NewConnectionConfig,
     },
-    solana_rpc_client_api::config::RpcBlockConfig,
-    solana_sdk::{
+    lumos_rpc_client_api::config::RpcBlockConfig,
+    lumos_sdk::{
         account::Account, commitment_config::CommitmentConfig, epoch_info::EpochInfo, hash::Hash,
         message::Message, pubkey::Pubkey, signature::Signature, slot_history::Slot,
         transaction::Transaction,
     },
-    solana_transaction_status::UiConfirmedBlock,
+    lumos_transaction_status::UiConfirmedBlock,
 };
 
 impl<P, M, C> BenchTpsClient for TpuClient<P, M, C>

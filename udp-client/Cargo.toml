@@ -1,7 +1,7 @@
 [package]
-name = "solana-udp-client"
-description = "Solana UDP Client"
-documentation = "https://docs.rs/solana-udp-client"
+name = "lumos-udp-client"
+description = "Lumos UDP Client"
+documentation = "https://docs.rs/lumos-udp-client"
 version = { workspace = true }
 authors = { workspace = true }
 repository = { workspace = true }
@@ -11,9 +11,9 @@ edition = { workspace = true }
 
 [dependencies]
 async-trait = { workspace = true }
-solana-connection-cache = { workspace = true }
-solana-net-utils = { workspace = true }
-solana-sdk = { workspace = true }
-solana-streamer = { workspace = true }
+lumos-connection-cache = { workspace = true }
+lumos-net-utils = { workspace = true }
+lumos-sdk = { workspace = true }
+lumos-streamer = { workspace = true }
 thiserror = { workspace = true }
 tokio = { workspace = true, features = ["full"] }

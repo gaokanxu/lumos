@@ -1,7 +1,7 @@
 [package]
-name = "solana-wen-restart"
+name = "lumos-wen-restart"
 description = "Automatic repair and restart protocol"
-documentation = "https://github.com/solana-foundation/solana-improvement-documents/pull/46"
+documentation = "https://github.com/lumos-foundation/lumos-improvement-documents/pull/46"
 version = { workspace = true }
 authors = { workspace = true }
 repository = { workspace = true }
@@ -15,22 +15,22 @@ anyhow = { workspace = true }
 log = { workspace = true }
 prost = { workspace = true }
 prost-types = { workspace = true }
-solana-gossip = { workspace = true }
-solana-ledger = { workspace = true }
-solana-logger = { workspace = true }
-solana-program = { workspace = true }
-solana-runtime = { workspace = true }
-solana-sdk = { workspace = true }
-solana-vote-program = { workspace = true }
+lumos-gossip = { workspace = true }
+lumos-ledger = { workspace = true }
+lumos-logger = { workspace = true }
+lumos-program = { workspace = true }
+lumos-runtime = { workspace = true }
+lumos-sdk = { workspace = true }
+lumos-vote-program = { workspace = true }
 
 [dev-dependencies]
 assert_matches = { workspace = true }
 rand = { workspace = true }
 serial_test = { workspace = true }
-solana-accounts-db = { workspace = true }
-solana-entry = { workspace = true }
-solana-runtime = { workspace = true, features = ["dev-context-only-utils"] }
-solana-streamer = { workspace = true }
+lumos-accounts-db = { workspace = true }
+lumos-entry = { workspace = true }
+lumos-runtime = { workspace = true, features = ["dev-context-only-utils"] }
+lumos-streamer = { workspace = true }
 tempfile = { workspace = true }
 
 [build-dependencies]
@@ -43,7 +43,7 @@ rustc_version = { workspace = true }
 protobuf-src = { workspace = true }
 
 [lib]
-name = "solana_wen_restart"
+name = "lumos_wen_restart"
 
 [package.metadata.docs.rs]
 targets = ["x86_64-unknown-linux-gnu"]

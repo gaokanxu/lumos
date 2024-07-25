@@ -1,6 +1,6 @@
 //! Vote state
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 use bincode::deserialize;
 #[cfg(test)]
 use {
@@ -395,16 +395,16 @@ impl VoteState {
         3762 // see test_vote_state_size_of.
     }
 
-    // we retain bincode deserialize for not(target_os = "solana")
+    // we retain bincode deserialize for not(target_os = "lumos")
     // because the hand-written parser does not support V0_23_5
     pub fn deserialize(input: &[u8]) -> Result<Self, InstructionError> {
-        #[cfg(not(target_os = "solana"))]
+        #[cfg(not(target_os = "lumos"))]
         {
             deserialize::<VoteStateVersions>(input)
                 .map(|versioned| versioned.convert_to_current())
                 .map_err(|_| InstructionError::InvalidAccountData)
         }
-        #[cfg(target_os = "solana")]
+        #[cfg(target_os = "lumos")]
         {
             let mut vote_state = Self::default();
             Self::deserialize_into(input, &mut vote_state)?;
@@ -1409,7 +1409,7 @@ mod tests {
 
     #[test]
     fn test_minimum_balance() {
-        let rent = solana_program::rent::Rent::default();
+        let rent = lumos_program::rent::Rent::default();
         let minimum_balance = rent.minimum_balance(VoteState::size_of());
         // golden, may need updating when vote_state grows
         assert!(minimum_balance as f64 / 10f64.powf(9.0) < 0.04)

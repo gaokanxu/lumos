@@ -2,10 +2,10 @@ mod snapshot_gossip_manager;
 use {
     crossbeam_channel::{Receiver, Sender},
     snapshot_gossip_manager::SnapshotGossipManager,
-    solana_gossip::cluster_info::ClusterInfo,
-    solana_measure::measure_us,
-    solana_perf::thread::renice_this_thread,
-    solana_runtime::{
+    lumos_gossip::cluster_info::ClusterInfo,
+    lumos_measure::measure_us,
+    lumos_perf::thread::renice_this_thread,
+    lumos_runtime::{
         snapshot_archive_info::SnapshotArchiveInfoGetter,
         snapshot_config::SnapshotConfig,
         snapshot_hash::StartingSnapshotHashes,
@@ -194,14 +194,14 @@ mod tests {
     use {
         super::*,
         rand::seq::SliceRandom,
-        solana_runtime::{
+        lumos_runtime::{
             snapshot_archive_info::SnapshotArchiveInfo,
             snapshot_bank_utils,
             snapshot_hash::SnapshotHash,
             snapshot_package::{SnapshotKind, SnapshotPackage},
             snapshot_utils::{self, ArchiveFormat, SnapshotVersion},
         },
-        solana_sdk::{clock::Slot, genesis_config::GenesisConfig, hash::Hash},
+        lumos_sdk::{clock::Slot, genesis_config::GenesisConfig, hash::Hash},
         std::{
             fs::{self, remove_dir_all},
             path::{Path, PathBuf},

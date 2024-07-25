@@ -4,15 +4,15 @@ use {
     itertools::{izip, Itertools},
     rayon::{prelude::*, ThreadPool},
     sha2::{Digest, Sha512},
-    solana_metrics::inc_new_counter_debug,
-    solana_perf::{
+    lumos_metrics::inc_new_counter_debug,
+    lumos_perf::{
         cuda_runtime::PinnedVec,
         packet::{Packet, PacketBatch},
         perf_libs,
         recycler_cache::RecyclerCache,
         sigverify::{self, count_packets_in_batches, TxOffset},
     },
-    solana_sdk::{
+    lumos_sdk::{
         clock::Slot,
         hash::Hash,
         pubkey::Pubkey,
@@ -465,8 +465,8 @@ mod tests {
         assert_matches::assert_matches,
         rand::{seq::SliceRandom, Rng},
         rayon::ThreadPoolBuilder,
-        solana_entry::entry::Entry,
-        solana_sdk::{
+        lumos_entry::entry::Entry,
+        lumos_sdk::{
             hash,
             hash::Hash,
             signature::{Keypair, Signer},
@@ -477,7 +477,7 @@ mod tests {
     };
 
     fn run_test_sigverify_shred_cpu(slot: Slot) {
-        solana_logger::setup();
+        lumos_logger::setup();
         let mut packet = Packet::default();
         let mut shred = Shred::new_from_data(
             slot,
@@ -513,7 +513,7 @@ mod tests {
     }
 
     fn run_test_sigverify_shreds_cpu(thread_pool: &ThreadPool, slot: Slot) {
-        solana_logger::setup();
+        lumos_logger::setup();
         let mut batches = [PacketBatch::default()];
         let mut shred = Shred::new_from_data(
             slot,
@@ -557,7 +557,7 @@ mod tests {
     }
 
     fn run_test_sigverify_shreds_gpu(thread_pool: &ThreadPool, slot: Slot) {
-        solana_logger::setup();
+        lumos_logger::setup();
         let recycler_cache = RecyclerCache::default();
 
         let mut batches = [PacketBatch::default()];
@@ -608,7 +608,7 @@ mod tests {
     }
 
     fn run_test_sigverify_shreds_sign_gpu(thread_pool: &ThreadPool, slot: Slot) {
-        solana_logger::setup();
+        lumos_logger::setup();
         let recycler_cache = RecyclerCache::default();
 
         let num_packets = 32;
@@ -659,7 +659,7 @@ mod tests {
     }
 
     fn run_test_sigverify_shreds_sign_cpu(thread_pool: &ThreadPool, slot: Slot) {
-        solana_logger::setup();
+        lumos_logger::setup();
 
         let mut batches = [PacketBatch::default()];
         let keypair = Keypair::new();

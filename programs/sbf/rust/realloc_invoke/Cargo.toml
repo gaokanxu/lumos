@@ -1,6 +1,6 @@
 [package]
-name = "solana-sbf-rust-realloc-invoke"
-documentation = "https://docs.rs/solana-sbf-rust-realloc-invoke"
+name = "lumos-sbf-rust-realloc-invoke"
+documentation = "https://docs.rs/lumos-sbf-rust-realloc-invoke"
 version = { workspace = true }
 description = { workspace = true }
 authors = { workspace = true }
@@ -14,8 +14,8 @@ default = ["program"]
 program = []
 
 [dependencies]
-solana-program = { workspace = true }
-solana-sbf-rust-realloc = { workspace = true }
+lumos-program = { workspace = true }
+lumos-sbf-rust-realloc = { workspace = true }
 
 [lib]
 crate-type = ["lib", "cdylib"]

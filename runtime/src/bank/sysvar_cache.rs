@@ -1,6 +1,6 @@
 use {
-    super::Bank, solana_program_runtime::sysvar_cache::SysvarCache,
-    solana_sdk::account::ReadableAccount,
+    super::Bank, lumos_program_runtime::sysvar_cache::SysvarCache,
+    lumos_sdk::account::ReadableAccount,
 };
 
 impl Bank {
@@ -31,7 +31,7 @@ impl Bank {
 mod tests {
     use {
         super::*,
-        solana_sdk::{
+        lumos_sdk::{
             feature_set, genesis_config::create_genesis_config, pubkey::Pubkey,
             sysvar::epoch_rewards::EpochRewards,
         },

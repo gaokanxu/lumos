@@ -9,12 +9,12 @@
 //! determined with the [`getFeeForMessage`] RPC method. For additional context
 //! see the [Comprehensive Compute Fees proposal][ccf].
 //!
-//! [`getFeeForMessage`]: https://solana.com/docs/rpc/http/getfeeformessage
-//! [ccf]: https://docs.solanalabs.com/proposals/comprehensive-compute-fees
+//! [`getFeeForMessage`]: https://lumos.com/docs/rpc/http/getfeeformessage
+//! [ccf]: https://docs.lumoslabs.com/proposals/comprehensive-compute-fees
 //!
-//! See also the Solana [documentation on the recent blockhashes sysvar][sdoc].
+//! See also the Lumos [documentation on the recent blockhashes sysvar][sdoc].
 //!
-//! [sdoc]: https://docs.solanalabs.com/runtime/sysvars#recentblockhashes
+//! [sdoc]: https://docs.lumoslabs.com/runtime/sysvars#recentblockhashes
 
 #![allow(deprecated)]
 #![allow(clippy::arithmetic_side_effects)]

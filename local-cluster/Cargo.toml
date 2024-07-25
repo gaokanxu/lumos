@@ -1,7 +1,7 @@
 [package]
-name = "solana-local-cluster"
+name = "lumos-local-cluster"
 description = "Blockchain, Rebuilt for Scale"
-documentation = "https://docs.rs/solana-local-cluster"
+documentation = "https://docs.rs/lumos-local-cluster"
 version = { workspace = true }
 authors = { workspace = true }
 repository = { workspace = true }
@@ -15,27 +15,27 @@ itertools = { workspace = true }
 log = { workspace = true }
 rand = { workspace = true }
 rayon = { workspace = true }
-solana-accounts-db = { workspace = true }
-solana-client = { workspace = true }
-solana-config-program = { workspace = true }
-solana-core = { workspace = true }
-solana-entry = { workspace = true }
-solana-gossip = { workspace = true }
-solana-ledger = { workspace = true }
-solana-logger = { workspace = true }
-solana-pubsub-client = { workspace = true }
-solana-quic-client = { workspace = true }
-solana-rpc-client = { workspace = true }
-solana-rpc-client-api = { workspace = true }
-solana-runtime = { workspace = true }
-solana-sdk = { workspace = true }
-solana-stake-program = { workspace = true }
-solana-streamer = { workspace = true }
-solana-thin-client = { workspace = true }
-solana-tpu-client = { workspace = true }
-solana-turbine = { workspace = true }
-solana-vote = { workspace = true }
-solana-vote-program = { workspace = true }
+lumos-accounts-db = { workspace = true }
+lumos-client = { workspace = true }
+lumos-config-program = { workspace = true }
+lumos-core = { workspace = true }
+lumos-entry = { workspace = true }
+lumos-gossip = { workspace = true }
+lumos-ledger = { workspace = true }
+lumos-logger = { workspace = true }
+lumos-pubsub-client = { workspace = true }
+lumos-quic-client = { workspace = true }
+lumos-rpc-client = { workspace = true }
+lumos-rpc-client-api = { workspace = true }
+lumos-runtime = { workspace = true }
+lumos-sdk = { workspace = true }
+lumos-stake-program = { workspace = true }
+lumos-streamer = { workspace = true }
+lumos-thin-client = { workspace = true }
+lumos-tpu-client = { workspace = true }
+lumos-turbine = { workspace = true }
+lumos-vote = { workspace = true }
+lumos-vote-program = { workspace = true }
 static_assertions = { workspace = true }
 tempfile = { workspace = true }
 trees = { workspace = true }
@@ -45,8 +45,8 @@ assert_matches = { workspace = true }
 fs_extra = { workspace = true }
 gag = { workspace = true }
 serial_test = { workspace = true }
-solana-download-utils = { workspace = true }
-solana-ledger = { workspace = true, features = ["dev-context-only-utils"] }
+lumos-download-utils = { workspace = true }
+lumos-ledger = { workspace = true, features = ["dev-context-only-utils"] }
 
 [package.metadata.docs.rs]
 targets = ["x86_64-unknown-linux-gnu"]

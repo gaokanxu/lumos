@@ -4,12 +4,12 @@ use {
     },
     borsh::BorshDeserialize,
     serde_json::json,
-    solana_sdk::{instruction::CompiledInstruction, message::AccountKeys, pubkey::Pubkey},
+    lumos_sdk::{instruction::CompiledInstruction, message::AccountKeys, pubkey::Pubkey},
     spl_associated_token_account::instruction::AssociatedTokenAccountInstruction,
 };
 
 // A helper function to convert spl_associated_token_account::id() as spl_sdk::pubkey::Pubkey
-// to solana_sdk::pubkey::Pubkey
+// to lumos_sdk::pubkey::Pubkey
 pub fn spl_associated_token_id() -> Pubkey {
     Pubkey::new_from_array(spl_associated_token_account::id().to_bytes())
 }
@@ -94,7 +94,7 @@ mod test {
     use spl_associated_token_account::create_associated_token_account as create_associated_token_account_deprecated;
     use {
         super::*,
-        solana_sdk::{message::Message, sysvar},
+        lumos_sdk::{message::Message, sysvar},
         spl_associated_token_account::{
             get_associated_token_address, get_associated_token_address_with_program_id,
             instruction::{
@@ -121,7 +121,7 @@ mod test {
                 "account": associated_account_address.to_string(),
                 "wallet": wallet_address.to_string(),
                 "mint": mint.to_string(),
-                "systemProgram": solana_sdk::system_program::id().to_string(),
+                "systemProgram": lumos_sdk::system_program::id().to_string(),
                 "tokenProgram": spl_token::id().to_string(),
             }),
         };
@@ -184,7 +184,7 @@ mod test {
                     "account": associated_account_address.to_string(),
                     "wallet": wallet_address.to_string(),
                     "mint": mint.to_string(),
-                    "systemProgram": solana_sdk::system_program::id().to_string(),
+                    "systemProgram": lumos_sdk::system_program::id().to_string(),
                     "tokenProgram": token_program_id.to_string(),
                 })
             }
@@ -226,7 +226,7 @@ mod test {
                     "account": associated_account_address.to_string(),
                     "wallet": wallet_address.to_string(),
                     "mint": mint.to_string(),
-                    "systemProgram": solana_sdk::system_program::id().to_string(),
+                    "systemProgram": lumos_sdk::system_program::id().to_string(),
                     "tokenProgram": token_program_id.to_string(),
                 })
             }

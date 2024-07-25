@@ -3,7 +3,7 @@ extern crate test;
 
 use {
     rand::{thread_rng, Rng},
-    solana_accounts_db::{
+    lumos_accounts_db::{
         account_storage::meta::{
             StorableAccountsWithHashesAndWriteVersions, StoredAccountInfo, StoredMeta,
         },
@@ -13,7 +13,7 @@ use {
             AppendVec,
         },
     },
-    solana_sdk::{
+    lumos_sdk::{
         account::{AccountSharedData, ReadableAccount},
         clock::Slot,
         hash::Hash,

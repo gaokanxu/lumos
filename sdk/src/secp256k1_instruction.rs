@@ -1,6 +1,6 @@
 //! Instructions for the [secp256k1 native program][np].
 //!
-//! [np]: https://docs.solanalabs.com/runtime/programs#secp256k1-program
+//! [np]: https://docs.lumoslabs.com/runtime/programs#secp256k1-program
 //!
 //! _This module provides low-level cryptographic building blocks that must be
 //! used carefully to ensure proper security. Read this documentation and
@@ -23,12 +23,12 @@
 //! [`keccak`]: crate::keccak
 //!
 //! This instruction does not directly allow for key recovery as in Ethereum's
-//! [`ecrecover`] precompile. For that Solana provides the [`secp256k1_recover`]
+//! [`ecrecover`] precompile. For that Lumos provides the [`secp256k1_recover`]
 //! syscall.
 //!
 //! [secp256k1]: https://en.bitcoin.it/wiki/Secp256k1
-//! [`secp256k1_program`]: solana_program::secp256k1_program
-//! [`secp256k1_recover`]: solana_program::secp256k1_recover
+//! [`secp256k1_program`]: lumos_program::secp256k1_program
+//! [`secp256k1_recover`]: lumos_program::secp256k1_recover
 //! [`ecrecover`]: https://docs.soliditylang.org/en/v0.8.14/units-and-global-variables.html?highlight=ecrecover#mathematical-and-cryptographic-functions
 //!
 //! Use cases for the secp256k1 instruction include:
@@ -93,11 +93,11 @@
 //! signature, message, and Ethereum address data. This is the technique used by
 //! `new_secp256k1_instruction` for simple signature verification.
 //!
-//! The `solana_sdk` crate provides few APIs for building the instructions and
+//! The `lumos_sdk` crate provides few APIs for building the instructions and
 //! transactions necessary for properly using the secp256k1 native program.
 //! Many steps must be done manually.
 //!
-//! The `solana_program` crate provides no APIs to assist in interpreting
+//! The `lumos_program` crate provides no APIs to assist in interpreting
 //! the the secp256k1 instruction data. It must be done manually.
 //!
 //! The secp256k1 program is implemented with the [`libsecp256k1`] crate,
@@ -118,8 +118,8 @@
 //! The signature offset structure is defined by [`SecpSignatureOffsets`],
 //! and can be serialized to the correct format with [`bincode::serialize_into`].
 //! Note that the bincode format may not be stable,
-//! and callers should ensure they use the same version of `bincode` as the Solana SDK.
-//! This data structure is not provided to Solana programs,
+//! and callers should ensure they use the same version of `bincode` as the Lumos SDK.
+//! This data structure is not provided to Lumos programs,
 //! which are expected to interpret the signature offsets manually.
 //!
 //! [`bincode::serialize_into`]: https://docs.rs/bincode/1.3.3/bincode/fn.serialize_into.html
@@ -146,9 +146,9 @@
 //! a unique representation this can be the source of bugs, potentially with
 //! security implications.
 //!
-//! **The solana `secp256k1_recover` function does not prevent signature
+//! **The lumos `secp256k1_recover` function does not prevent signature
 //! malleability**. This is in contrast to the Bitcoin secp256k1 library, which
-//! does prevent malleability by default. Solana accepts signatures with `S`
+//! does prevent malleability by default. Lumos accepts signatures with `S`
 //! values that are either in the _high order_ or in the _low order_, and it
 //! is trivial to produce one from the other.
 //!
@@ -203,11 +203,11 @@
 //! # Examples
 //!
 //! Both of the following examples make use of the following module definition
-//! to parse the secp256k1 instruction data from within a Solana program.
+//! to parse the secp256k1 instruction data from within a Lumos program.
 //!
 //! ```no_run
 //! mod secp256k1_defs {
-//!     use solana_program::program_error::ProgramError;
+//!     use lumos_program::program_error::ProgramError;
 //!     use std::iter::Iterator;
 //!
 //!     pub const HASHED_PUBKEY_SERIALIZED_SIZE: usize = 20;
@@ -263,17 +263,17 @@
 //! calling [`new_secp256k1_instruction`] to sign a single message and build the
 //! corresponding secp256k1 instruction.
 //!
-//! This example has two components: a Solana program, and an RPC client that
+//! This example has two components: a Lumos program, and an RPC client that
 //! sends a transaction to call it. The RPC client will sign a single message,
-//! and the Solana program will introspect the secp256k1 instruction to verify
+//! and the Lumos program will introspect the secp256k1 instruction to verify
 //! that the signer matches a known authorized public key.
 //!
-//! The Solana program. Note that it uses `libsecp256k1` version 0.7.0 to parse
+//! The Lumos program. Note that it uses `libsecp256k1` version 0.7.0 to parse
 //! the secp256k1 signature to prevent malleability.
 //!
 //! ```no_run
 //! # mod secp256k1_defs {
-//! #     use solana_program::program_error::ProgramError;
+//! #     use lumos_program::program_error::ProgramError;
 //! #     use std::iter::Iterator;
 //! #
 //! #     pub const HASHED_PUBKEY_SERIALIZED_SIZE: usize = 20;
@@ -321,7 +321,7 @@
 //! #             }))
 //! #     }
 //! # }
-//! use solana_program::{
+//! use lumos_program::{
 //!     account_info::{next_account_info, AccountInfo},
 //!     entrypoint::ProgramResult,
 //!     msg,
@@ -382,7 +382,7 @@
 //!     assert_eq!(0, offsets.message_instruction_index);
 //!
 //!     // Reject high-s value signatures to prevent malleability.
-//!     // Solana does not do this itself.
+//!     // Lumos does not do this itself.
 //!     // This may or may not be necessary depending on use case.
 //!     {
 //!         let signature = &secp256k1_instr.data[offsets.signature_offset as usize
@@ -417,10 +417,10 @@
 //! The client program:
 //!
 //! ```no_run
-//! # use solana_sdk::example_mocks::solana_rpc_client;
+//! # use lumos_sdk::example_mocks::lumos_rpc_client;
 //! use anyhow::Result;
-//! use solana_rpc_client::rpc_client::RpcClient;
-//! use solana_sdk::{
+//! use lumos_rpc_client::rpc_client::RpcClient;
+//! use lumos_sdk::{
 //!     instruction::{AccountMeta, Instruction},
 //!     secp256k1_instruction,
 //!     signature::{Keypair, Signer},
@@ -465,28 +465,28 @@
 //! ## Example: Verifying multiple signatures in one instruction
 //!
 //! This examples demonstrates manually creating a secp256k1 instruction
-//! containing many signatures, and a Solana program that parses them all. This
+//! containing many signatures, and a Lumos program that parses them all. This
 //! example on its own has no practical purpose. It simply demonstrates advanced
 //! use of the secp256k1 program.
 //!
 //! Recall that the secp256k1 program will accept signatures, messages, and
 //! Ethereum addresses that reside in any instruction contained in the same
-//! transaction. In the _previous_ example, the Solana program asserted that all
+//! transaction. In the _previous_ example, the Lumos program asserted that all
 //! signatures, messages, and addresses were stored in the instruction at 0. In
-//! this next example the Solana program supports signatures, messages, and
+//! this next example the Lumos program supports signatures, messages, and
 //! addresses stored in any instruction. For simplicity the client still only
 //! stores signatures, messages, and addresses in a single instruction, the
 //! secp256k1 instruction. The code for storing this data across multiple
 //! instructions would be complex, and may not be necessary in practice.
 //!
-//! This example has two components: a Solana program, and an RPC client that
+//! This example has two components: a Lumos program, and an RPC client that
 //! sends a transaction to call it.
 //!
-//! The Solana program:
+//! The Lumos program:
 //!
 //! ```no_run
 //! # mod secp256k1_defs {
-//! #     use solana_program::program_error::ProgramError;
+//! #     use lumos_program::program_error::ProgramError;
 //! #     use std::iter::Iterator;
 //! #
 //! #     pub const HASHED_PUBKEY_SERIALIZED_SIZE: usize = 20;
@@ -534,7 +534,7 @@
 //! #             }))
 //! #     }
 //! # }
-//! use solana_program::{
+//! use lumos_program::{
 //!     account_info::{next_account_info, AccountInfo},
 //!     entrypoint::ProgramResult,
 //!     msg,
@@ -633,10 +633,10 @@
 //! The client program:
 //!
 //! ```no_run
-//! # use solana_sdk::example_mocks::solana_rpc_client;
+//! # use lumos_sdk::example_mocks::lumos_rpc_client;
 //! use anyhow::Result;
-//! use solana_rpc_client::rpc_client::RpcClient;
-//! use solana_sdk::{
+//! use lumos_rpc_client::rpc_client::RpcClient;
+//! use lumos_sdk::{
 //!     instruction::{AccountMeta, Instruction},
 //!     keccak,
 //!     secp256k1_instruction::{
@@ -758,7 +758,7 @@
 //!
 //!     let secp256k1_instr_data = make_secp256k1_instruction_data(&signatures, 0)?;
 //!     let secp256k1_instr = Instruction::new_with_bytes(
-//!         solana_sdk::secp256k1_program::ID,
+//!         lumos_sdk::secp256k1_program::ID,
 //!         &secp256k1_instr_data,
 //!         vec![],
 //!     );
@@ -897,7 +897,7 @@ pub fn new_secp256k1_instruction(
     bincode::serialize_into(writer, &offsets).unwrap();
 
     Instruction {
-        program_id: solana_sdk::secp256k1_program::id(),
+        program_id: lumos_sdk::secp256k1_program::id(),
         accounts: vec![],
         data: instruction_data,
     }
@@ -922,7 +922,7 @@ pub fn construct_eth_pubkey(
 /// the full slice of instruction datas for all instructions in the transaction,
 /// including the secp256k1 program's instruction data.
 ///
-/// `feature_set` is the set of active Solana features. It is used to enable or
+/// `feature_set` is the set of active Lumos features. It is used to enable or
 /// disable a few minor additional checks that were activated on chain
 /// subsequent to the addition of the secp256k1 native program. For many
 /// purposes passing `FeatureSet::all_enabled()` is reasonable.
@@ -1066,7 +1066,7 @@ pub mod test {
 
     #[test]
     fn test_invalid_offsets() {
-        solana_logger::setup();
+        lumos_logger::setup();
 
         let mut instruction_data = vec![0u8; DATA_START];
         let offsets = SecpSignatureOffsets::default();
@@ -1196,7 +1196,7 @@ pub mod test {
 
     #[test]
     fn test_count_is_zero_but_sig_data_exists() {
-        solana_logger::setup();
+        lumos_logger::setup();
 
         let mut instruction_data = vec![0u8; DATA_START];
         let offsets = SecpSignatureOffsets::default();
@@ -1213,7 +1213,7 @@ pub mod test {
 
     #[test]
     fn test_secp256k1() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let offsets = SecpSignatureOffsets::default();
         assert_eq!(
             bincode::serialized_size(&offsets).unwrap() as usize,
@@ -1249,7 +1249,7 @@ pub mod test {
     // Signatures are malleable.
     #[test]
     fn test_malleability() {
-        solana_logger::setup();
+        lumos_logger::setup();
 
         let secret_key = libsecp256k1::SecretKey::random(&mut thread_rng());
         let public_key = libsecp256k1::PublicKey::from_secret_key(&secret_key);

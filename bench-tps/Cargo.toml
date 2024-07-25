@@ -1,5 +1,5 @@
 [package]
-name = "solana-bench-tps"
+name = "lumos-bench-tps"
 publish = false
 version = { workspace = true }
 authors = { workspace = true }
@@ -16,36 +16,36 @@ rand = { workspace = true }
 rayon = { workspace = true }
 serde_json = { workspace = true }
 serde_yaml = { workspace = true }
-solana-clap-utils = { workspace = true }
-solana-cli-config = { workspace = true }
-solana-client = { workspace = true }
-solana-connection-cache = { workspace = true }
-solana-core = { workspace = true }
-solana-faucet = { workspace = true }
-solana-genesis = { workspace = true }
-solana-gossip = { workspace = true }
-solana-logger = { workspace = true }
-solana-measure = { workspace = true }
-solana-metrics = { workspace = true }
-solana-net-utils = { workspace = true }
-solana-rpc = { workspace = true }
-solana-rpc-client = { workspace = true }
-solana-rpc-client-api = { workspace = true }
-solana-rpc-client-nonce-utils = { workspace = true }
-solana-runtime = { workspace = true }
-solana-sdk = { workspace = true }
-solana-streamer = { workspace = true }
-solana-tpu-client = { workspace = true }
-solana-transaction-status = { workspace = true }
-solana-version = { workspace = true }
-spl-instruction-padding = { workspace = true }
+lumos-clap-utils = { workspace = true }
+lumos-cli-config = { workspace = true }
+lumos-client = { workspace = true }
+lumos-connection-cache = { workspace = true }
+lumos-core = { workspace = true }
+lumos-faucet = { workspace = true }
+lumos-genesis = { workspace = true }
+lumos-gossip = { workspace = true }
+lumos-logger = { workspace = true }
+lumos-measure = { workspace = true }
+lumos-metrics = { workspace = true }
+lumos-net-utils = { workspace = true }
+lumos-rpc = { workspace = true }
+lumos-rpc-client = { workspace = true }
+lumos-rpc-client-api = { workspace = true }
+lumos-rpc-client-nonce-utils = { workspace = true }
+lumos-runtime = { workspace = true }
+lumos-sdk = { workspace = true }
+lumos-streamer = { workspace = true }
+lumos-tpu-client = { workspace = true }
+lumos-transaction-status = { workspace = true }
+lumos-version = { workspace = true }
+lpl-instruction-padding = { workspace = true }
 thiserror = { workspace = true }
 
 [dev-dependencies]
 serial_test = { workspace = true }
-solana-local-cluster = { workspace = true }
-solana-runtime = { workspace = true, features = ["dev-context-only-utils"] }
-solana-test-validator = { workspace = true }
+lumos-local-cluster = { workspace = true }
+lumos-runtime = { workspace = true, features = ["dev-context-only-utils"] }
+lumos-test-validator = { workspace = true }
 tempfile = { workspace = true }
 
 [package.metadata.docs.rs]

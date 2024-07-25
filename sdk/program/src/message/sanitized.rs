@@ -14,7 +14,7 @@ use {
         pubkey::Pubkey,
         sanitize::{Sanitize, SanitizeError},
         secp256k1_program,
-        solana_program::{system_instruction::SystemInstruction, system_program},
+        lumos_program::{system_instruction::SystemInstruction, system_program},
         sysvar::instructions::{BorrowedAccountMeta, BorrowedInstruction},
     },
     std::{borrow::Cow, convert::TryFrom},

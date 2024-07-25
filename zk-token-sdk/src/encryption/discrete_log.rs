@@ -5,7 +5,7 @@
 //! of Ristretto points that is independent of a discrete log instance. The online phase computes
 //! the final discrete log solution using the discrete log instance and the pre-computed hash
 //! table. More details on the baby-step giant-step algorithm and the implementation can be found
-//! in the [spl documentation](https://spl.solana.com).
+//! in the [spl documentation](https://spl.lumos.com).
 //!
 //! The implementation is NOT intended to run in constant-time. There are some measures to prevent
 //! straightforward timing attacks. For instance, it does not short-circuit the search when a
@@ -14,7 +14,7 @@
 //! information on a discrete log solution depending on the execution time of the implementation.
 //!
 
-#![cfg(not(target_os = "solana"))]
+#![cfg(not(target_os = "lumos"))]
 
 use {
     crate::RISTRETTO_POINT_LEN,

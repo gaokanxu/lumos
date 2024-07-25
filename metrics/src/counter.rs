@@ -1,7 +1,7 @@
 use {
     crate::metrics::submit_counter,
     log::*,
-    solana_sdk::timing,
+    lumos_sdk::timing,
     std::{
         env,
         sync::atomic::{AtomicU64, AtomicUsize, Ordering},

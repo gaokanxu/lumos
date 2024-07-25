@@ -1,7 +1,7 @@
-//! Communication with a Solana node over RPC.
+//! Communication with a Lumos node over RPC.
 //!
-//! Software that interacts with the Solana blockchain, whether querying its
-//! state or submitting transactions, communicates with a Solana node over
+//! Software that interacts with the Lumos blockchain, whether querying its
+//! state or submitting transactions, communicates with a Lumos node over
 //! [JSON-RPC], using the [`RpcClient`] type.
 //!
 //! [JSON-RPC]: https://www.jsonrpc.org/specification
@@ -11,7 +11,7 @@
 
 pub use crate::mock_sender::Mocks;
 #[allow(deprecated)]
-use solana_rpc_client_api::deprecated_config::{
+use lumos_rpc_client_api::deprecated_config::{
     RpcConfirmedBlockConfig, RpcConfirmedTransactionConfig,
 };
 use {
@@ -23,17 +23,17 @@ use {
     },
     serde::Serialize,
     serde_json::Value,
-    solana_account_decoder::{
+    lumos_account_decoder::{
         parse_token::{UiTokenAccount, UiTokenAmount},
         UiAccount, UiAccountEncoding,
     },
-    solana_rpc_client_api::{
+    lumos_rpc_client_api::{
         client_error::{Error as ClientError, ErrorKind, Result as ClientResult},
         config::{RpcAccountInfoConfig, *},
         request::{RpcRequest, TokenAccountsFilter},
         response::*,
     },
-    solana_sdk::{
+    lumos_sdk::{
         account::{Account, ReadableAccount},
         clock::{Epoch, Slot, UnixTimestamp},
         commitment_config::CommitmentConfig,
@@ -47,7 +47,7 @@ use {
         signature::Signature,
         transaction::{self, uses_durable_nonce, Transaction, VersionedTransaction},
     },
-    solana_transaction_status::{
+    lumos_transaction_status::{
         EncodedConfirmedBlock, EncodedConfirmedTransactionWithStatusMeta, TransactionStatus,
         UiConfirmedBlock, UiTransactionEncoding,
     },
@@ -113,10 +113,10 @@ pub struct GetConfirmedSignaturesForAddress2Config {
     pub commitment: Option<CommitmentConfig>,
 }
 
-/// A client of a remote Solana node.
+/// A client of a remote Lumos node.
 ///
-/// `RpcClient` communicates with a Solana node over [JSON-RPC], with the
-/// [Solana JSON-RPC protocol][jsonprot]. It is the primary Rust interface for
+/// `RpcClient` communicates with a Lumos node over [JSON-RPC], with the
+/// [Lumos JSON-RPC protocol][jsonprot]. It is the primary Rust interface for
 /// querying and transacting with the network from external programs.
 ///
 /// This type builds on the underlying RPC protocol, adding extra features such
@@ -149,34 +149,34 @@ pub struct GetConfirmedSignaturesForAddress2Config {
 /// [`Processed`] commitment level. These exceptions are noted in the method
 /// documentation.
 ///
-/// [`Finalized`]: solana_sdk::commitment_config::CommitmentLevel::Finalized
-/// [`Processed`]: solana_sdk::commitment_config::CommitmentLevel::Processed
-/// [jsonprot]: https://solana.com/docs/rpc
+/// [`Finalized`]: lumos_sdk::commitment_config::CommitmentLevel::Finalized
+/// [`Processed`]: lumos_sdk::commitment_config::CommitmentLevel::Processed
+/// [jsonprot]: https://lumos.com/docs/rpc
 /// [JSON-RPC]: https://www.jsonrpc.org/specification
-/// [slots]: https://solana.com/docs/terminology#slot
-/// [cl]: https://solana.com/docs/rpc#configuring-state-commitment
+/// [slots]: https://lumos.com/docs/terminology#slot
+/// [cl]: https://lumos.com/docs/rpc#configuring-state-commitment
 ///
 /// # Errors
 ///
 /// Methods on `RpcClient` return
-/// [`client_error::Result`][solana_rpc_client_api::client_error::Result], and many of them
-/// return the [`RpcResult`][solana_rpc_client_api::response::RpcResult] typedef, which
-/// contains [`Response<T>`][solana_rpc_client_api::response::Response] on `Ok`. Both
+/// [`client_error::Result`][lumos_rpc_client_api::client_error::Result], and many of them
+/// return the [`RpcResult`][lumos_rpc_client_api::response::RpcResult] typedef, which
+/// contains [`Response<T>`][lumos_rpc_client_api::response::Response] on `Ok`. Both
 /// `client_error::Result` and [`RpcResult`] contain `ClientError` on error. In
 /// the case of `RpcResult`, the actual return value is in the
-/// [`value`][solana_rpc_client_api::response::Response::value] field, with RPC contextual
-/// information in the [`context`][solana_rpc_client_api::response::Response::context]
+/// [`value`][lumos_rpc_client_api::response::Response::value] field, with RPC contextual
+/// information in the [`context`][lumos_rpc_client_api::response::Response::context]
 /// field, so it is common for the value to be accessed with `?.value`, as in
 ///
 /// ```
-/// # use solana_sdk::system_transaction;
-/// # use solana_rpc_client_api::client_error::Error;
-/// # use solana_rpc_client::rpc_client::RpcClient;
-/// # use solana_sdk::signature::{Keypair, Signer};
-/// # use solana_sdk::hash::Hash;
+/// # use lumos_sdk::system_transaction;
+/// # use lumos_rpc_client_api::client_error::Error;
+/// # use lumos_rpc_client::rpc_client::RpcClient;
+/// # use lumos_sdk::signature::{Keypair, Signer};
+/// # use lumos_sdk::hash::Hash;
 /// # let rpc_client = RpcClient::new_mock("succeeds".to_string());
 /// # let key = Keypair::new();
-/// # let to = solana_sdk::pubkey::new_rand();
+/// # let to = lumos_sdk::pubkey::new_rand();
 /// # let lamports = 50;
 /// # let latest_blockhash = Hash::default();
 /// # let tx = system_transaction::transfer(&key, &to, lamports, latest_blockhash);
@@ -187,14 +187,14 @@ pub struct GetConfirmedSignaturesForAddress2Config {
 ///
 /// Requests may timeout, in which case they return a [`ClientError`] where the
 /// [`ClientErrorKind`] is [`ClientErrorKind::Reqwest`], and where the interior
-/// [`reqwest::Error`](solana_rpc_client_api::client_error::reqwest::Error)s
-/// [`is_timeout`](solana_rpc_client_api::client_error::reqwest::Error::is_timeout) method
+/// [`reqwest::Error`](lumos_rpc_client_api::client_error::reqwest::Error)s
+/// [`is_timeout`](lumos_rpc_client_api::client_error::reqwest::Error::is_timeout) method
 /// returns `true`. The default timeout is 30 seconds, and may be changed by
 /// calling an appropriate constructor with a `timeout` parameter.
 ///
-/// [`ClientError`]: solana_rpc_client_api::client_error::Error
-/// [`ClientErrorKind`]: solana_rpc_client_api::client_error::ErrorKind
-/// [`ClientErrorKind::Reqwest`]: solana_rpc_client_api::client_error::ErrorKind::Reqwest
+/// [`ClientError`]: lumos_rpc_client_api::client_error::Error
+/// [`ClientErrorKind`]: lumos_rpc_client_api::client_error::ErrorKind
+/// [`ClientErrorKind::Reqwest`]: lumos_rpc_client_api::client_error::ErrorKind::Reqwest
 pub struct RpcClient {
     rpc_client: Arc<nonblocking::rpc_client::RpcClient>,
     runtime: Option<tokio::runtime::Runtime>,
@@ -240,13 +240,13 @@ impl RpcClient {
     /// The client has a default timeout of 30 seconds, and a default [commitment
     /// level][cl] of [`Finalized`].
     ///
-    /// [cl]: https://solana.com/docs/rpc#configuring-state-commitment
-    /// [`Finalized`]: solana_sdk::commitment_config::CommitmentLevel::Finalized
+    /// [cl]: https://lumos.com/docs/rpc#configuring-state-commitment
+    /// [`Finalized`]: lumos_sdk::commitment_config::CommitmentLevel::Finalized
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
     /// let url = "http://localhost:8899".to_string();
     /// let client = RpcClient::new(url);
     /// ```
@@ -256,7 +256,7 @@ impl RpcClient {
 
     /// Create an HTTP `RpcClient` with specified [commitment level][cl].
     ///
-    /// [cl]: https://solana.com/docs/rpc#configuring-state-commitment
+    /// [cl]: https://lumos.com/docs/rpc#configuring-state-commitment
     ///
     /// The URL is an HTTP URL, usually for port 8899, as in
     /// "http://localhost:8899".
@@ -264,13 +264,13 @@ impl RpcClient {
     /// The client has a default timeout of 30 seconds, and a user-specified
     /// [`CommitmentLevel`] via [`CommitmentConfig`].
     ///
-    /// [`CommitmentLevel`]: solana_sdk::commitment_config::CommitmentLevel
+    /// [`CommitmentLevel`]: lumos_sdk::commitment_config::CommitmentLevel
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_sdk::commitment_config::CommitmentConfig;
-    /// # use solana_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_sdk::commitment_config::CommitmentConfig;
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
     /// let url = "http://localhost:8899".to_string();
     /// let commitment_config = CommitmentConfig::processed();
     /// let client = RpcClient::new_with_commitment(url, commitment_config);
@@ -290,14 +290,14 @@ impl RpcClient {
     /// The client has and a default [commitment level][cl] of
     /// [`Finalized`].
     ///
-    /// [cl]: https://solana.com/docs/rpc#configuring-state-commitment
-    /// [`Finalized`]: solana_sdk::commitment_config::CommitmentLevel::Finalized
+    /// [cl]: https://lumos.com/docs/rpc#configuring-state-commitment
+    /// [`Finalized`]: lumos_sdk::commitment_config::CommitmentLevel::Finalized
     ///
     /// # Examples
     ///
     /// ```
     /// # use std::time::Duration;
-    /// # use solana_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
     /// let url = "http://localhost::8899".to_string();
     /// let timeout = Duration::from_secs(1);
     /// let client = RpcClient::new_with_timeout(url, timeout);
@@ -311,7 +311,7 @@ impl RpcClient {
 
     /// Create an HTTP `RpcClient` with specified timeout and [commitment level][cl].
     ///
-    /// [cl]: https://solana.com/docs/rpc#configuring-state-commitment
+    /// [cl]: https://lumos.com/docs/rpc#configuring-state-commitment
     ///
     /// The URL is an HTTP URL, usually for port 8899, as in
     /// "http://localhost:8899".
@@ -320,8 +320,8 @@ impl RpcClient {
     ///
     /// ```
     /// # use std::time::Duration;
-    /// # use solana_rpc_client::rpc_client::RpcClient;
-    /// # use solana_sdk::commitment_config::CommitmentConfig;
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_sdk::commitment_config::CommitmentConfig;
     /// let url = "http://localhost::8899".to_string();
     /// let timeout = Duration::from_secs(1);
     /// let commitment_config = CommitmentConfig::processed();
@@ -344,7 +344,7 @@ impl RpcClient {
 
     /// Create an HTTP `RpcClient` with specified timeout and [commitment level][cl].
     ///
-    /// [cl]: https://solana.com/docs/rpc#configuring-state-commitment
+    /// [cl]: https://lumos.com/docs/rpc#configuring-state-commitment
     ///
     /// The URL is an HTTP URL, usually for port 8899, as in
     /// "http://localhost:8899".
@@ -361,8 +361,8 @@ impl RpcClient {
     ///
     /// ```
     /// # use std::time::Duration;
-    /// # use solana_rpc_client::rpc_client::RpcClient;
-    /// # use solana_sdk::commitment_config::CommitmentConfig;
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_sdk::commitment_config::CommitmentConfig;
     /// let url = "http://localhost::8899".to_string();
     /// let timeout = Duration::from_secs(1);
     /// let commitment_config = CommitmentConfig::processed();
@@ -396,7 +396,7 @@ impl RpcClient {
     /// tests.
     ///
     /// It is primarily for internal use, with limited customizability, and
-    /// behaviors determined by internal Solana test cases. New users should
+    /// behaviors determined by internal Lumos test cases. New users should
     /// consider implementing `RpcSender` themselves and constructing
     /// `RpcClient` with [`RpcClient::new_sender`] to get mock behavior.
     ///
@@ -423,14 +423,14 @@ impl RpcClient {
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
     /// // Create an `RpcClient` that always succeeds
     /// let url = "succeeds".to_string();
     /// let successful_client = RpcClient::new_mock(url);
     /// ```
     ///
     /// ```
-    /// # use solana_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
     /// // Create an `RpcClient` that always fails
     /// let url = "fails".to_string();
     /// let successful_client = RpcClient::new_mock(url);
@@ -449,7 +449,7 @@ impl RpcClient {
     /// tests.
     ///
     /// It is primarily for internal use, with limited customizability, and
-    /// behaviors determined by internal Solana test cases. New users should
+    /// behaviors determined by internal Lumos test cases. New users should
     /// consider implementing `RpcSender` themselves and constructing
     /// `RpcClient` with [`RpcClient::new_sender`] to get mock behavior.
     ///
@@ -485,11 +485,11 @@ impl RpcClient {
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::{
+    /// # use lumos_rpc_client_api::{
     /// #     request::RpcRequest,
     /// #     response::{Response, RpcResponseContext},
     /// # };
-    /// # use solana_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
     /// # use std::collections::HashMap;
     /// # use serde_json::json;
     /// // Create a mock with a custom response to the `GetBalance` request
@@ -516,14 +516,14 @@ impl RpcClient {
     /// The client has a default timeout of 30 seconds, and a default [commitment
     /// level][cl] of [`Finalized`].
     ///
-    /// [cl]: https://solana.com/docs/rpc#configuring-state-commitment
-    /// [`Finalized`]: solana_sdk::commitment_config::CommitmentLevel::Finalized
+    /// [cl]: https://lumos.com/docs/rpc#configuring-state-commitment
+    /// [`Finalized`]: lumos_sdk::commitment_config::CommitmentLevel::Finalized
     ///
     /// # Examples
     ///
     /// ```
     /// # use std::net::{Ipv4Addr, SocketAddr};
-    /// # use solana_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
     /// let addr = SocketAddr::from((Ipv4Addr::LOCALHOST, 8899));
     /// let client = RpcClient::new_socket(addr);
     /// ```
@@ -533,19 +533,19 @@ impl RpcClient {
 
     /// Create an HTTP `RpcClient` from a [`SocketAddr`] with specified [commitment level][cl].
     ///
-    /// [cl]: https://solana.com/docs/rpc#configuring-state-commitment
+    /// [cl]: https://lumos.com/docs/rpc#configuring-state-commitment
     ///
     /// The client has a default timeout of 30 seconds, and a user-specified
     /// [`CommitmentLevel`] via [`CommitmentConfig`].
     ///
-    /// [`CommitmentLevel`]: solana_sdk::commitment_config::CommitmentLevel
+    /// [`CommitmentLevel`]: lumos_sdk::commitment_config::CommitmentLevel
     ///
     /// # Examples
     ///
     /// ```
     /// # use std::net::{Ipv4Addr, SocketAddr};
-    /// # use solana_rpc_client::rpc_client::RpcClient;
-    /// # use solana_sdk::commitment_config::CommitmentConfig;
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_sdk::commitment_config::CommitmentConfig;
     /// let addr = SocketAddr::from((Ipv4Addr::LOCALHOST, 8899));
     /// let commitment_config = CommitmentConfig::processed();
     /// let client = RpcClient::new_socket_with_commitment(
@@ -564,15 +564,15 @@ impl RpcClient {
     ///
     /// The client has a default [commitment level][cl] of [`Finalized`].
     ///
-    /// [cl]: https://solana.com/docs/rpc#configuring-state-commitment
-    /// [`Finalized`]: solana_sdk::commitment_config::CommitmentLevel::Finalized
+    /// [cl]: https://lumos.com/docs/rpc#configuring-state-commitment
+    /// [`Finalized`]: lumos_sdk::commitment_config::CommitmentLevel::Finalized
     ///
     /// # Examples
     ///
     /// ```
     /// # use std::net::{Ipv4Addr, SocketAddr};
     /// # use std::time::Duration;
-    /// # use solana_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
     /// let addr = SocketAddr::from((Ipv4Addr::LOCALHOST, 8899));
     /// let timeout = Duration::from_secs(1);
     /// let client = RpcClient::new_socket_with_timeout(addr, timeout);
@@ -589,7 +589,7 @@ impl RpcClient {
 
     /// Get the configured default [commitment level][cl].
     ///
-    /// [cl]: https://solana.com/docs/rpc#configuring-state-commitment
+    /// [cl]: https://lumos.com/docs/rpc#configuring-state-commitment
     ///
     /// The commitment config may be specified during construction, and
     /// determines how thoroughly committed a transaction must be when waiting
@@ -597,7 +597,7 @@ impl RpcClient {
     /// specified, the default commitment level is
     /// [`Finalized`].
     ///
-    /// [`Finalized`]: solana_sdk::commitment_config::CommitmentLevel::Finalized
+    /// [`Finalized`]: lumos_sdk::commitment_config::CommitmentLevel::Finalized
     ///
     /// The default commitment level is overridden when calling methods that
     /// explicitly provide a [`CommitmentConfig`], like
@@ -611,7 +611,7 @@ impl RpcClient {
     /// Once this function returns successfully, the given transaction is
     /// guaranteed to be processed with the configured [commitment level][cl].
     ///
-    /// [cl]: https://solana.com/docs/rpc#configuring-state-commitment
+    /// [cl]: https://lumos.com/docs/rpc#configuring-state-commitment
     ///
     /// After sending the transaction, this method polls in a loop for the
     /// status of the transaction until it has ben confirmed.
@@ -631,26 +631,26 @@ impl RpcClient {
     /// containing an [`RpcResponseError`] with `code` set to
     /// [`JSON_RPC_SERVER_ERROR_NODE_UNHEALTHY`].
     ///
-    /// [`RpcError`]: solana_rpc_client_api::request::RpcError
-    /// [`RpcResponseError`]: solana_rpc_client_api::request::RpcError::RpcResponseError
-    /// [`JSON_RPC_SERVER_ERROR_TRANSACTION_SIGNATURE_VERIFICATION_FAILURE`]: solana_rpc_client_api::custom_error::JSON_RPC_SERVER_ERROR_TRANSACTION_SIGNATURE_VERIFICATION_FAILURE
-    /// [`JSON_RPC_SERVER_ERROR_SEND_TRANSACTION_PREFLIGHT_FAILURE`]: solana_rpc_client_api::custom_error::JSON_RPC_SERVER_ERROR_SEND_TRANSACTION_PREFLIGHT_FAILURE
-    /// [`JSON_RPC_SERVER_ERROR_NODE_UNHEALTHY`]: solana_rpc_client_api::custom_error::JSON_RPC_SERVER_ERROR_NODE_UNHEALTHY
+    /// [`RpcError`]: lumos_rpc_client_api::request::RpcError
+    /// [`RpcResponseError`]: lumos_rpc_client_api::request::RpcError::RpcResponseError
+    /// [`JSON_RPC_SERVER_ERROR_TRANSACTION_SIGNATURE_VERIFICATION_FAILURE`]: lumos_rpc_client_api::custom_error::JSON_RPC_SERVER_ERROR_TRANSACTION_SIGNATURE_VERIFICATION_FAILURE
+    /// [`JSON_RPC_SERVER_ERROR_SEND_TRANSACTION_PREFLIGHT_FAILURE`]: lumos_rpc_client_api::custom_error::JSON_RPC_SERVER_ERROR_SEND_TRANSACTION_PREFLIGHT_FAILURE
+    /// [`JSON_RPC_SERVER_ERROR_NODE_UNHEALTHY`]: lumos_rpc_client_api::custom_error::JSON_RPC_SERVER_ERROR_NODE_UNHEALTHY
     ///
     /// # RPC Reference
     ///
     /// This method is built on the [`sendTransaction`] RPC method, and the
     /// [`getLatestBlockhash`] RPC method.
     ///
-    /// [`sendTransaction`]: https://solana.com/docs/rpc/http/sendtransaction
-    /// [`getLatestBlockhash`]: https://solana.com/docs/rpc/http/getlatestblockhash
+    /// [`sendTransaction`]: https://lumos.com/docs/rpc/http/sendtransaction
+    /// [`getLatestBlockhash`]: https://lumos.com/docs/rpc/http/getlatestblockhash
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::client_error::Error;
-    /// # use solana_rpc_client::rpc_client::RpcClient;
-    /// # use solana_sdk::{
+    /// # use lumos_rpc_client_api::client_error::Error;
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_sdk::{
     /// #     signature::Signer,
     /// #     signature::Signature,
     /// #     signer::keypair::Keypair,
@@ -725,8 +725,8 @@ impl RpcClient {
     /// method.
     ///
     /// [`send_transaction_with_config`]: RpcClient::send_transaction_with_config
-    /// [`skip_preflight`]: solana_rpc_client_api::config::RpcSendTransactionConfig::skip_preflight
-    /// [`RpcSendTransactionConfig`]: solana_rpc_client_api::config::RpcSendTransactionConfig
+    /// [`skip_preflight`]: lumos_rpc_client_api::config::RpcSendTransactionConfig::skip_preflight
+    /// [`RpcSendTransactionConfig`]: lumos_rpc_client_api::config::RpcSendTransactionConfig
     /// [`send_and_confirm_transaction`]: RpcClient::send_and_confirm_transaction
     ///
     /// # Errors
@@ -744,24 +744,24 @@ impl RpcClient {
     /// containing an [`RpcResponseError`] with `code` set to
     /// [`JSON_RPC_SERVER_ERROR_NODE_UNHEALTHY`].
     ///
-    /// [`RpcError`]: solana_rpc_client_api::request::RpcError
-    /// [`RpcResponseError`]: solana_rpc_client_api::request::RpcError::RpcResponseError
-    /// [`JSON_RPC_SERVER_ERROR_TRANSACTION_SIGNATURE_VERIFICATION_FAILURE`]: solana_rpc_client_api::custom_error::JSON_RPC_SERVER_ERROR_TRANSACTION_SIGNATURE_VERIFICATION_FAILURE
-    /// [`JSON_RPC_SERVER_ERROR_SEND_TRANSACTION_PREFLIGHT_FAILURE`]: solana_rpc_client_api::custom_error::JSON_RPC_SERVER_ERROR_SEND_TRANSACTION_PREFLIGHT_FAILURE
-    /// [`JSON_RPC_SERVER_ERROR_NODE_UNHEALTHY`]: solana_rpc_client_api::custom_error::JSON_RPC_SERVER_ERROR_NODE_UNHEALTHY
+    /// [`RpcError`]: lumos_rpc_client_api::request::RpcError
+    /// [`RpcResponseError`]: lumos_rpc_client_api::request::RpcError::RpcResponseError
+    /// [`JSON_RPC_SERVER_ERROR_TRANSACTION_SIGNATURE_VERIFICATION_FAILURE`]: lumos_rpc_client_api::custom_error::JSON_RPC_SERVER_ERROR_TRANSACTION_SIGNATURE_VERIFICATION_FAILURE
+    /// [`JSON_RPC_SERVER_ERROR_SEND_TRANSACTION_PREFLIGHT_FAILURE`]: lumos_rpc_client_api::custom_error::JSON_RPC_SERVER_ERROR_SEND_TRANSACTION_PREFLIGHT_FAILURE
+    /// [`JSON_RPC_SERVER_ERROR_NODE_UNHEALTHY`]: lumos_rpc_client_api::custom_error::JSON_RPC_SERVER_ERROR_NODE_UNHEALTHY
     ///
     /// # RPC Reference
     ///
     /// This method is built on the [`sendTransaction`] RPC method.
     ///
-    /// [`sendTransaction`]: https://solana.com/docs/rpc/http/sendtransaction
+    /// [`sendTransaction`]: https://lumos.com/docs/rpc/http/sendtransaction
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::client_error::Error;
-    /// # use solana_rpc_client::rpc_client::RpcClient;
-    /// # use solana_sdk::{
+    /// # use lumos_rpc_client_api::client_error::Error;
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_sdk::{
     /// #     signature::Signer,
     /// #     signature::Signature,
     /// #     signer::keypair::Keypair,
@@ -799,8 +799,8 @@ impl RpcClient {
     /// method.
     ///
     /// [`send_transaction_with_config`]: RpcClient::send_transaction_with_config
-    /// [`skip_preflight`]: solana_rpc_client_api::config::RpcSendTransactionConfig::skip_preflight
-    /// [`RpcSendTransactionConfig`]: solana_rpc_client_api::config::RpcSendTransactionConfig
+    /// [`skip_preflight`]: lumos_rpc_client_api::config::RpcSendTransactionConfig::skip_preflight
+    /// [`RpcSendTransactionConfig`]: lumos_rpc_client_api::config::RpcSendTransactionConfig
     /// [`send_and_confirm_transaction`]: RpcClient::send_and_confirm_transaction
     ///
     /// # Errors
@@ -820,27 +820,27 @@ impl RpcClient {
     /// containing an [`RpcResponseError`] with `code` set to
     /// [`JSON_RPC_SERVER_ERROR_NODE_UNHEALTHY`].
     ///
-    /// [`RpcError`]: solana_rpc_client_api::request::RpcError
-    /// [`RpcResponseError`]: solana_rpc_client_api::request::RpcError::RpcResponseError
-    /// [`JSON_RPC_SERVER_ERROR_TRANSACTION_SIGNATURE_VERIFICATION_FAILURE`]: solana_rpc_client_api::custom_error::JSON_RPC_SERVER_ERROR_TRANSACTION_SIGNATURE_VERIFICATION_FAILURE
-    /// [`JSON_RPC_SERVER_ERROR_SEND_TRANSACTION_PREFLIGHT_FAILURE`]: solana_rpc_client_api::custom_error::JSON_RPC_SERVER_ERROR_SEND_TRANSACTION_PREFLIGHT_FAILURE
-    /// [`JSON_RPC_SERVER_ERROR_NODE_UNHEALTHY`]: solana_rpc_client_api::custom_error::JSON_RPC_SERVER_ERROR_NODE_UNHEALTHY
+    /// [`RpcError`]: lumos_rpc_client_api::request::RpcError
+    /// [`RpcResponseError`]: lumos_rpc_client_api::request::RpcError::RpcResponseError
+    /// [`JSON_RPC_SERVER_ERROR_TRANSACTION_SIGNATURE_VERIFICATION_FAILURE`]: lumos_rpc_client_api::custom_error::JSON_RPC_SERVER_ERROR_TRANSACTION_SIGNATURE_VERIFICATION_FAILURE
+    /// [`JSON_RPC_SERVER_ERROR_SEND_TRANSACTION_PREFLIGHT_FAILURE`]: lumos_rpc_client_api::custom_error::JSON_RPC_SERVER_ERROR_SEND_TRANSACTION_PREFLIGHT_FAILURE
+    /// [`JSON_RPC_SERVER_ERROR_NODE_UNHEALTHY`]: lumos_rpc_client_api::custom_error::JSON_RPC_SERVER_ERROR_NODE_UNHEALTHY
     ///
     /// # RPC Reference
     ///
     /// This method is built on the [`sendTransaction`] RPC method.
     ///
-    /// [`sendTransaction`]: https://solana.com/docs/rpc/http/sendtransaction
+    /// [`sendTransaction`]: https://lumos.com/docs/rpc/http/sendtransaction
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::{
+    /// # use lumos_rpc_client_api::{
     /// #     client_error::Error,
     /// #     config::RpcSendTransactionConfig,
     /// # };
-    /// # use solana_rpc_client::rpc_client::RpcClient;
-    /// # use solana_sdk::{
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_sdk::{
     /// #     signature::Signer,
     /// #     signature::Signature,
     /// #     signer::keypair::Keypair,
@@ -885,7 +885,7 @@ impl RpcClient {
     /// with the configured [commitment level][cl], which can be retrieved with
     /// the [`commitment`](RpcClient::commitment) method.
     ///
-    /// [cl]: https://solana.com/docs/rpc#configuring-state-commitment
+    /// [cl]: https://lumos.com/docs/rpc#configuring-state-commitment
     ///
     /// Note that this method does not wait for a transaction to be confirmed
     /// &mdash; it only checks whether a transaction has been confirmed. To
@@ -899,14 +899,14 @@ impl RpcClient {
     ///
     /// This method is built on the [`getSignatureStatuses`] RPC method.
     ///
-    /// [`getSignatureStatuses`]: https://solana.com/docs/rpc/http/getsignaturestatuses
+    /// [`getSignatureStatuses`]: https://lumos.com/docs/rpc/http/getsignaturestatuses
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::client_error::Error;
-    /// # use solana_rpc_client::rpc_client::RpcClient;
-    /// # use solana_sdk::{
+    /// # use lumos_rpc_client_api::client_error::Error;
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_sdk::{
     /// #     signature::Signer,
     /// #     signature::Signature,
     /// #     signer::keypair::Keypair,
@@ -938,7 +938,7 @@ impl RpcClient {
     /// Returns an [`RpcResult`] with value `true` if the given transaction
     /// succeeded and has been committed with the given [commitment level][cl].
     ///
-    /// [cl]: https://solana.com/docs/rpc#configuring-state-commitment
+    /// [cl]: https://lumos.com/docs/rpc#configuring-state-commitment
     ///
     /// Note that this method does not wait for a transaction to be confirmed
     /// &mdash; it only checks whether a transaction has been confirmed. To
@@ -952,14 +952,14 @@ impl RpcClient {
     ///
     /// This method is built on the [`getSignatureStatuses`] RPC method.
     ///
-    /// [`getSignatureStatuses`]: https://solana.com/docs/rpc/http/getsignaturestatuses
+    /// [`getSignatureStatuses`]: https://lumos.com/docs/rpc/http/getsignaturestatuses
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::client_error::Error;
-    /// # use solana_rpc_client::rpc_client::RpcClient;
-    /// # use solana_sdk::{
+    /// # use lumos_rpc_client_api::client_error::Error;
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_sdk::{
     /// #     commitment_config::CommitmentConfig,
     /// #     signature::Signer,
     /// #     signature::Signature,
@@ -1016,13 +1016,13 @@ impl RpcClient {
     /// [`RpcSimulateTransactionResult`] will be `Some`. Any logs emitted from
     /// the transaction are returned in the [`logs`] field.
     ///
-    /// [`err`]: solana_rpc_client_api::response::RpcSimulateTransactionResult::err
-    /// [`logs`]: solana_rpc_client_api::response::RpcSimulateTransactionResult::logs
+    /// [`err`]: lumos_rpc_client_api::response::RpcSimulateTransactionResult::err
+    /// [`logs`]: lumos_rpc_client_api::response::RpcSimulateTransactionResult::logs
     ///
     /// Simulating a transaction is similar to the ["preflight check"] that is
     /// run by default when sending a transaction.
     ///
-    /// ["preflight check"]: https://solana.com/docs/rpc/http/sendtransaction
+    /// ["preflight check"]: https://lumos.com/docs/rpc/http/sendtransaction
     ///
     /// By default, signatures are not verified during simulation. To verify
     /// signatures, call the [`simulate_transaction_with_config`] method, with
@@ -1030,23 +1030,23 @@ impl RpcClient {
     /// `true`.
     ///
     /// [`simulate_transaction_with_config`]: RpcClient::simulate_transaction_with_config
-    /// [`sig_verify`]: solana_rpc_client_api::config::RpcSimulateTransactionConfig::sig_verify
+    /// [`sig_verify`]: lumos_rpc_client_api::config::RpcSimulateTransactionConfig::sig_verify
     ///
     /// # RPC Reference
     ///
     /// This method is built on the [`simulateTransaction`] RPC method.
     ///
-    /// [`simulateTransaction`]: https://solana.com/docs/rpc/http/simulatetransaction
+    /// [`simulateTransaction`]: https://lumos.com/docs/rpc/http/simulatetransaction
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::{
+    /// # use lumos_rpc_client_api::{
     /// #     client_error::Error,
     /// #     response::RpcSimulateTransactionResult,
     /// # };
-    /// # use solana_rpc_client::rpc_client::RpcClient;
-    /// # use solana_sdk::{
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_sdk::{
     /// #     signature::Signer,
     /// #     signature::Signature,
     /// #     signer::keypair::Keypair,
@@ -1077,13 +1077,13 @@ impl RpcClient {
     /// [`RpcSimulateTransactionResult`] will be `Some`. Any logs emitted from
     /// the transaction are returned in the [`logs`] field.
     ///
-    /// [`err`]: solana_rpc_client_api::response::RpcSimulateTransactionResult::err
-    /// [`logs`]: solana_rpc_client_api::response::RpcSimulateTransactionResult::logs
+    /// [`err`]: lumos_rpc_client_api::response::RpcSimulateTransactionResult::err
+    /// [`logs`]: lumos_rpc_client_api::response::RpcSimulateTransactionResult::logs
     ///
     /// Simulating a transaction is similar to the ["preflight check"] that is
     /// run by default when sending a transaction.
     ///
-    /// ["preflight check"]: https://solana.com/docs/rpc/http/sendtransaction
+    /// ["preflight check"]: https://lumos.com/docs/rpc/http/sendtransaction
     ///
     /// By default, signatures are not verified during simulation. To verify
     /// signatures, call the [`simulate_transaction_with_config`] method, with
@@ -1091,7 +1091,7 @@ impl RpcClient {
     /// `true`.
     ///
     /// [`simulate_transaction_with_config`]: RpcClient::simulate_transaction_with_config
-    /// [`sig_verify`]: solana_rpc_client_api::config::RpcSimulateTransactionConfig::sig_verify
+    /// [`sig_verify`]: lumos_rpc_client_api::config::RpcSimulateTransactionConfig::sig_verify
     ///
     /// This method can additionally query information about accounts by
     /// including them in the [`accounts`] field of the
@@ -1099,25 +1099,25 @@ impl RpcClient {
     /// are reported in the [`accounts`][accounts2] field of the returned
     /// [`RpcSimulateTransactionResult`].
     ///
-    /// [`accounts`]: solana_rpc_client_api::config::RpcSimulateTransactionConfig::accounts
-    /// [accounts2]: solana_rpc_client_api::response::RpcSimulateTransactionResult::accounts
+    /// [`accounts`]: lumos_rpc_client_api::config::RpcSimulateTransactionConfig::accounts
+    /// [accounts2]: lumos_rpc_client_api::response::RpcSimulateTransactionResult::accounts
     ///
     /// # RPC Reference
     ///
     /// This method is built on the [`simulateTransaction`] RPC method.
     ///
-    /// [`simulateTransaction`]: https://solana.com/docs/rpc/http/simulatetransaction
+    /// [`simulateTransaction`]: https://lumos.com/docs/rpc/http/simulatetransaction
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::{
+    /// # use lumos_rpc_client_api::{
     /// #     client_error::Error,
     /// #     config::RpcSimulateTransactionConfig,
     /// #     response::RpcSimulateTransactionResult,
     /// # };
-    /// # use solana_rpc_client::rpc_client::RpcClient;
-    /// # use solana_sdk::{
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_sdk::{
     /// #     signature::Signer,
     /// #     signer::keypair::Keypair,
     /// #     hash::Hash,
@@ -1160,13 +1160,13 @@ impl RpcClient {
     ///
     /// This method corresponds directly to the [`getHighestSnapshotSlot`] RPC method.
     ///
-    /// [`getHighestSnapshotSlot`]: https://solana.com/docs/rpc/http/gethighestsnapshotslot
+    /// [`getHighestSnapshotSlot`]: https://lumos.com/docs/rpc/http/gethighestsnapshotslot
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::client_error::Error;
-    /// # use solana_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_rpc_client_api::client_error::Error;
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
     /// # let rpc_client = RpcClient::new_mock("succeeds".to_string());
     /// let snapshot_slot_info = rpc_client.get_highest_snapshot_slot()?;
     /// # Ok::<(), Error>(())
@@ -1186,7 +1186,7 @@ impl RpcClient {
 
     /// Check if a transaction has been processed with the default [commitment level][cl].
     ///
-    /// [cl]: https://solana.com/docs/rpc#configuring-state-commitment
+    /// [cl]: https://lumos.com/docs/rpc#configuring-state-commitment
     ///
     /// If the transaction has been processed with the default commitment level,
     /// then this method returns `Ok` of `Some`. If the transaction has not yet
@@ -1199,11 +1199,11 @@ impl RpcClient {
     /// and the transaction failed, this method returns `Ok(Some(Err(_)))`,
     /// where the interior error is type [`TransactionError`].
     ///
-    /// [`TransactionError`]: solana_sdk::transaction::TransactionError
+    /// [`TransactionError`]: lumos_sdk::transaction::TransactionError
     ///
     /// This function only searches a node's recent history, including all
     /// recent slots, plus up to
-    /// [`MAX_RECENT_BLOCKHASHES`][solana_sdk::clock::MAX_RECENT_BLOCKHASHES]
+    /// [`MAX_RECENT_BLOCKHASHES`][lumos_sdk::clock::MAX_RECENT_BLOCKHASHES]
     /// rooted slots. To search the full transaction history use the
     /// [`get_signature_status_with_commitment_and_history`][RpcClient::get_signature_status_with_commitment_and_history]
     /// method.
@@ -1212,14 +1212,14 @@ impl RpcClient {
     ///
     /// This method is built on the [`getSignatureStatuses`] RPC method.
     ///
-    /// [`getSignatureStatuses`]: https://solana.com/docs/rpc/http/getsignaturestatuses
+    /// [`getSignatureStatuses`]: https://lumos.com/docs/rpc/http/getsignaturestatuses
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::client_error::Error;
-    /// # use solana_rpc_client::rpc_client::RpcClient;
-    /// # use solana_sdk::{
+    /// # use lumos_rpc_client_api::client_error::Error;
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_sdk::{
     /// #     signature::Signer,
     /// #     signature::Signature,
     /// #     signer::keypair::Keypair,
@@ -1262,7 +1262,7 @@ impl RpcClient {
     ///
     /// This function only searches a node's recent history, including all
     /// recent slots, plus up to
-    /// [`MAX_RECENT_BLOCKHASHES`][solana_sdk::clock::MAX_RECENT_BLOCKHASHES]
+    /// [`MAX_RECENT_BLOCKHASHES`][lumos_sdk::clock::MAX_RECENT_BLOCKHASHES]
     /// rooted slots. To search the full transaction history use the
     /// [`get_signature_statuses_with_history`][RpcClient::get_signature_statuses_with_history]
     /// method.
@@ -1277,14 +1277,14 @@ impl RpcClient {
     ///
     /// This method corresponds directly to the [`getSignatureStatuses`] RPC method.
     ///
-    /// [`getSignatureStatuses`]: https://solana.com/docs/rpc/http/getsignaturestatuses
+    /// [`getSignatureStatuses`]: https://lumos.com/docs/rpc/http/getsignaturestatuses
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::client_error::Error;
-    /// # use solana_rpc_client::rpc_client::RpcClient;
-    /// # use solana_sdk::{
+    /// # use lumos_rpc_client_api::client_error::Error;
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_sdk::{
     /// #     signature::Signer,
     /// #     signature::Signature,
     /// #     signer::keypair::Keypair,
@@ -1352,14 +1352,14 @@ impl RpcClient {
     /// method, with the `searchTransactionHistory` configuration option set to
     /// `true`.
     ///
-    /// [`getSignatureStatuses`]: https://solana.com/docs/rpc/http/getsignaturestatuses
+    /// [`getSignatureStatuses`]: https://lumos.com/docs/rpc/http/getsignaturestatuses
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::client_error::Error;
-    /// # use solana_rpc_client::rpc_client::RpcClient;
-    /// # use solana_sdk::{
+    /// # use lumos_rpc_client_api::client_error::Error;
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_sdk::{
     /// #     signature::Signer,
     /// #     signature::Signature,
     /// #     signer::keypair::Keypair,
@@ -1387,7 +1387,7 @@ impl RpcClient {
 
     /// Check if a transaction has been processed with the given [commitment level][cl].
     ///
-    /// [cl]: https://solana.com/docs/rpc#configuring-state-commitment
+    /// [cl]: https://lumos.com/docs/rpc#configuring-state-commitment
     ///
     /// If the transaction has been processed with the given commitment level,
     /// then this method returns `Ok` of `Some`. If the transaction has not yet
@@ -1400,11 +1400,11 @@ impl RpcClient {
     /// and the transaction failed, this method returns `Ok(Some(Err(_)))`,
     /// where the interior error is type [`TransactionError`].
     ///
-    /// [`TransactionError`]: solana_sdk::transaction::TransactionError
+    /// [`TransactionError`]: lumos_sdk::transaction::TransactionError
     ///
     /// This function only searches a node's recent history, including all
     /// recent slots, plus up to
-    /// [`MAX_RECENT_BLOCKHASHES`][solana_sdk::clock::MAX_RECENT_BLOCKHASHES]
+    /// [`MAX_RECENT_BLOCKHASHES`][lumos_sdk::clock::MAX_RECENT_BLOCKHASHES]
     /// rooted slots. To search the full transaction history use the
     /// [`get_signature_status_with_commitment_and_history`][RpcClient::get_signature_status_with_commitment_and_history]
     /// method.
@@ -1413,14 +1413,14 @@ impl RpcClient {
     ///
     /// This method is built on the [`getSignatureStatuses`] RPC method.
     ///
-    /// [`getSignatureStatuses`]: https://solana.com/docs/rpc/http/getsignaturestatuses
+    /// [`getSignatureStatuses`]: https://lumos.com/docs/rpc/http/getsignaturestatuses
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::client_error::Error;
-    /// # use solana_rpc_client::rpc_client::RpcClient;
-    /// # use solana_sdk::{
+    /// # use lumos_rpc_client_api::client_error::Error;
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_sdk::{
     /// #     commitment_config::CommitmentConfig,
     /// #     signature::Signer,
     /// #     signature::Signature,
@@ -1454,7 +1454,7 @@ impl RpcClient {
 
     /// Check if a transaction has been processed with the given [commitment level][cl].
     ///
-    /// [cl]: https://solana.com/docs/rpc#configuring-state-commitment
+    /// [cl]: https://lumos.com/docs/rpc#configuring-state-commitment
     ///
     /// If the transaction has been processed with the given commitment level,
     /// then this method returns `Ok` of `Some`. If the transaction has not yet
@@ -1467,7 +1467,7 @@ impl RpcClient {
     /// and the transaction failed, this method returns `Ok(Some(Err(_)))`,
     /// where the interior error is type [`TransactionError`].
     ///
-    /// [`TransactionError`]: solana_sdk::transaction::TransactionError
+    /// [`TransactionError`]: lumos_sdk::transaction::TransactionError
     ///
     /// This method optionally searches a node's full ledger history and (if
     /// implemented) long-term storage.
@@ -1476,14 +1476,14 @@ impl RpcClient {
     ///
     /// This method is built on the [`getSignatureStatuses`] RPC method.
     ///
-    /// [`getSignatureStatuses`]: https://solana.com/docs/rpc/http/getsignaturestatuses
+    /// [`getSignatureStatuses`]: https://lumos.com/docs/rpc/http/getsignaturestatuses
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::client_error::Error;
-    /// # use solana_rpc_client::rpc_client::RpcClient;
-    /// # use solana_sdk::{
+    /// # use lumos_rpc_client_api::client_error::Error;
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_sdk::{
     /// #     commitment_config::CommitmentConfig,
     /// #     signature::Signer,
     /// #     signature::Signature,
@@ -1523,19 +1523,19 @@ impl RpcClient {
 
     /// Returns the slot that has reached the configured [commitment level][cl].
     ///
-    /// [cl]: https://solana.com/docs/rpc#configuring-state-commitment
+    /// [cl]: https://lumos.com/docs/rpc#configuring-state-commitment
     ///
     /// # RPC Reference
     ///
     /// This method corresponds directly to the [`getSlot`] RPC method.
     ///
-    /// [`getSlot`]: https://solana.com/docs/rpc/http/getslot
+    /// [`getSlot`]: https://lumos.com/docs/rpc/http/getslot
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::client_error::Error;
-    /// # use solana_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_rpc_client_api::client_error::Error;
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
     /// # let rpc_client = RpcClient::new_mock("succeeds".to_string());
     /// let slot = rpc_client.get_slot()?;
     /// # Ok::<(), Error>(())
@@ -1546,20 +1546,20 @@ impl RpcClient {
 
     /// Returns the slot that has reached the given [commitment level][cl].
     ///
-    /// [cl]: https://solana.com/docs/rpc#configuring-state-commitment
+    /// [cl]: https://lumos.com/docs/rpc#configuring-state-commitment
     ///
     /// # RPC Reference
     ///
     /// This method corresponds directly to the [`getSlot`] RPC method.
     ///
-    /// [`getSlot`]: https://solana.com/docs/rpc/http/getslot
+    /// [`getSlot`]: https://lumos.com/docs/rpc/http/getslot
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::client_error::Error;
-    /// # use solana_rpc_client::rpc_client::RpcClient;
-    /// # use solana_sdk::commitment_config::CommitmentConfig;
+    /// # use lumos_rpc_client_api::client_error::Error;
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_sdk::commitment_config::CommitmentConfig;
     /// # let rpc_client = RpcClient::new_mock("succeeds".to_string());
     /// let commitment_config = CommitmentConfig::processed();
     /// let slot = rpc_client.get_slot_with_commitment(commitment_config)?;
@@ -1574,19 +1574,19 @@ impl RpcClient {
 
     /// Returns the block height that has reached the configured [commitment level][cl].
     ///
-    /// [cl]: https://solana.com/docs/rpc#configuring-state-commitment
+    /// [cl]: https://lumos.com/docs/rpc#configuring-state-commitment
     ///
     /// # RPC Reference
     ///
     /// This method is corresponds directly to the [`getBlockHeight`] RPC method.
     ///
-    /// [`getBlockHeight`]: https://solana.com/docs/rpc/http/getblockheight
+    /// [`getBlockHeight`]: https://lumos.com/docs/rpc/http/getblockheight
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::client_error::Error;
-    /// # use solana_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_rpc_client_api::client_error::Error;
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
     /// # let rpc_client = RpcClient::new_mock("succeeds".to_string());
     /// let block_height = rpc_client.get_block_height()?;
     /// # Ok::<(), Error>(())
@@ -1597,20 +1597,20 @@ impl RpcClient {
 
     /// Returns the block height that has reached the given [commitment level][cl].
     ///
-    /// [cl]: https://solana.com/docs/rpc#configuring-state-commitment
+    /// [cl]: https://lumos.com/docs/rpc#configuring-state-commitment
     ///
     /// # RPC Reference
     ///
     /// This method is corresponds directly to the [`getBlockHeight`] RPC method.
     ///
-    /// [`getBlockHeight`]: https://solana.com/docs/rpc/http/getblockheight
+    /// [`getBlockHeight`]: https://lumos.com/docs/rpc/http/getblockheight
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::client_error::Error;
-    /// # use solana_rpc_client::rpc_client::RpcClient;
-    /// # use solana_sdk::commitment_config::CommitmentConfig;
+    /// # use lumos_rpc_client_api::client_error::Error;
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_sdk::commitment_config::CommitmentConfig;
     /// # let rpc_client = RpcClient::new_mock("succeeds".to_string());
     /// let commitment_config = CommitmentConfig::processed();
     /// let block_height = rpc_client.get_block_height_with_commitment(
@@ -1631,14 +1631,14 @@ impl RpcClient {
     ///
     /// This method corresponds directly to the [`getSlotLeaders`] RPC method.
     ///
-    /// [`getSlotLeaders`]: https://solana.com/docs/rpc/http/getslotleaders
+    /// [`getSlotLeaders`]: https://lumos.com/docs/rpc/http/getslotleaders
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::client_error::Error;
-    /// # use solana_rpc_client::rpc_client::RpcClient;
-    /// # use solana_sdk::slot_history::Slot;
+    /// # use lumos_rpc_client_api::client_error::Error;
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_sdk::slot_history::Slot;
     /// # let rpc_client = RpcClient::new_mock("succeeds".to_string());
     /// let start_slot = 1;
     /// let limit = 3;
@@ -1655,13 +1655,13 @@ impl RpcClient {
     ///
     /// This method corresponds directly to the [`getBlockProduction`] RPC method.
     ///
-    /// [`getBlockProduction`]: https://solana.com/docs/rpc/http/getblockproduction
+    /// [`getBlockProduction`]: https://lumos.com/docs/rpc/http/getblockproduction
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::client_error::Error;
-    /// # use solana_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_rpc_client_api::client_error::Error;
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
     /// # let rpc_client = RpcClient::new_mock("succeeds".to_string());
     /// let production = rpc_client.get_block_production()?;
     /// # Ok::<(), Error>(())
@@ -1676,17 +1676,17 @@ impl RpcClient {
     ///
     /// This method corresponds directly to the [`getBlockProduction`] RPC method.
     ///
-    /// [`getBlockProduction`]: https://solana.com/docs/rpc/http/getblockproduction
+    /// [`getBlockProduction`]: https://lumos.com/docs/rpc/http/getblockproduction
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::{
+    /// # use lumos_rpc_client_api::{
     /// #     client_error::Error,
     /// #     config::{RpcBlockProductionConfig, RpcBlockProductionConfigRange},
     /// # };
-    /// # use solana_rpc_client::rpc_client::RpcClient;
-    /// # use solana_sdk::{
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_sdk::{
     /// #     signature::Signer,
     /// #     signer::keypair::Keypair,
     /// #     commitment_config::CommitmentConfig,
@@ -1721,23 +1721,23 @@ impl RpcClient {
     ///
     /// This method uses the configured [commitment level].
     ///
-    /// [cl]: https://solana.com/docs/rpc#configuring-state-commitment
+    /// [cl]: https://lumos.com/docs/rpc#configuring-state-commitment
     ///
     /// # RPC Reference
     ///
     /// This method corresponds directly to the [`getStakeActivation`] RPC method.
     ///
-    /// [`getStakeActivation`]: https://solana.com/docs/rpc/http/getstakeactivation
+    /// [`getStakeActivation`]: https://lumos.com/docs/rpc/http/getstakeactivation
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::{
+    /// # use lumos_rpc_client_api::{
     /// #     client_error::Error,
     /// #     response::StakeActivationState,
     /// # };
-    /// # use solana_rpc_client::rpc_client::RpcClient;
-    /// # use solana_sdk::{
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_sdk::{
     /// #     signer::keypair::Keypair,
     /// #     signature::Signer,
     /// #     pubkey::Pubkey,
@@ -1800,19 +1800,19 @@ impl RpcClient {
     ///
     /// This method uses the configured [commitment level][cl].
     ///
-    /// [cl]: https://solana.com/docs/rpc#configuring-state-commitment
+    /// [cl]: https://lumos.com/docs/rpc#configuring-state-commitment
     ///
     /// # RPC Reference
     ///
     /// This method corresponds directly to the [`getSupply`] RPC method.
     ///
-    /// [`getSupply`]: https://solana.com/docs/rpc/http/getsupply
+    /// [`getSupply`]: https://lumos.com/docs/rpc/http/getsupply
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::client_error::Error;
-    /// # use solana_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_rpc_client_api::client_error::Error;
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
     /// # let rpc_client = RpcClient::new_mock("succeeds".to_string());
     /// let supply = rpc_client.supply()?;
     /// # Ok::<(), Error>(())
@@ -1827,14 +1827,14 @@ impl RpcClient {
     ///
     /// This method corresponds directly to the [`getSupply`] RPC method.
     ///
-    /// [`getSupply`]: https://solana.com/docs/rpc/http/getsupply
+    /// [`getSupply`]: https://lumos.com/docs/rpc/http/getsupply
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::client_error::Error;
-    /// # use solana_rpc_client::rpc_client::RpcClient;
-    /// # use solana_sdk::commitment_config::CommitmentConfig;
+    /// # use lumos_rpc_client_api::client_error::Error;
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_sdk::commitment_config::CommitmentConfig;
     /// # let rpc_client = RpcClient::new_mock("succeeds".to_string());
     /// let commitment_config = CommitmentConfig::processed();
     /// let supply = rpc_client.supply_with_commitment(
@@ -1856,17 +1856,17 @@ impl RpcClient {
     /// This method corresponds directly to the [`getLargestAccounts`] RPC
     /// method.
     ///
-    /// [`getLargestAccounts`]: https://solana.com/docs/rpc/http/getlargestaccounts
+    /// [`getLargestAccounts`]: https://lumos.com/docs/rpc/http/getlargestaccounts
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::{
+    /// # use lumos_rpc_client_api::{
     /// #     client_error::Error,
     /// #     config::{RpcLargestAccountsConfig, RpcLargestAccountsFilter},
     /// # };
-    /// # use solana_rpc_client::rpc_client::RpcClient;
-    /// # use solana_sdk::commitment_config::CommitmentConfig;
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_sdk::commitment_config::CommitmentConfig;
     /// # let rpc_client = RpcClient::new_mock("succeeds".to_string());
     /// let commitment_config = CommitmentConfig::processed();
     /// let config = RpcLargestAccountsConfig {
@@ -1888,20 +1888,20 @@ impl RpcClient {
     /// Returns the account info and associated stake for all the voting accounts
     /// that have reached the configured [commitment level][cl].
     ///
-    /// [cl]: https://solana.com/docs/rpc#configuring-state-commitment
+    /// [cl]: https://lumos.com/docs/rpc#configuring-state-commitment
     ///
     /// # RPC Reference
     ///
     /// This method corresponds directly to the [`getVoteAccounts`]
     /// RPC method.
     ///
-    /// [`getVoteAccounts`]: https://solana.com/docs/rpc/http/getvoteaccounts
+    /// [`getVoteAccounts`]: https://lumos.com/docs/rpc/http/getvoteaccounts
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::client_error::Error;
-    /// # use solana_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_rpc_client_api::client_error::Error;
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
     /// # let rpc_client = RpcClient::new_mock("succeeds".to_string());
     /// let accounts = rpc_client.get_vote_accounts()?;
     /// # Ok::<(), Error>(())
@@ -1913,20 +1913,20 @@ impl RpcClient {
     /// Returns the account info and associated stake for all the voting accounts
     /// that have reached the given [commitment level][cl].
     ///
-    /// [cl]: https://solana.com/docs/rpc#configuring-state-commitment
+    /// [cl]: https://lumos.com/docs/rpc#configuring-state-commitment
     ///
     /// # RPC Reference
     ///
     /// This method corresponds directly to the [`getVoteAccounts`] RPC method.
     ///
-    /// [`getVoteAccounts`]: https://solana.com/docs/rpc/http/getvoteaccounts
+    /// [`getVoteAccounts`]: https://lumos.com/docs/rpc/http/getvoteaccounts
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::client_error::Error;
-    /// # use solana_rpc_client::rpc_client::RpcClient;
-    /// # use solana_sdk::commitment_config::CommitmentConfig;
+    /// # use lumos_rpc_client_api::client_error::Error;
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_sdk::commitment_config::CommitmentConfig;
     /// # let rpc_client = RpcClient::new_mock("succeeds".to_string());
     /// let commitment_config = CommitmentConfig::processed();
     /// let accounts = rpc_client.get_vote_accounts_with_commitment(
@@ -1944,23 +1944,23 @@ impl RpcClient {
     /// Returns the account info and associated stake for all the voting accounts
     /// that have reached the given [commitment level][cl].
     ///
-    /// [cl]: https://solana.com/docs/rpc#configuring-state-commitment
+    /// [cl]: https://lumos.com/docs/rpc#configuring-state-commitment
     ///
     /// # RPC Reference
     ///
     /// This method corresponds directly to the [`getVoteAccounts`] RPC method.
     ///
-    /// [`getVoteAccounts`]: https://solana.com/docs/rpc/http/getvoteaccounts
+    /// [`getVoteAccounts`]: https://lumos.com/docs/rpc/http/getvoteaccounts
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::{
+    /// # use lumos_rpc_client_api::{
     /// #     client_error::Error,
     /// #     config::RpcGetVoteAccountsConfig,
     /// # };
-    /// # use solana_rpc_client::rpc_client::RpcClient;
-    /// # use solana_sdk::{
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_sdk::{
     /// #     signer::keypair::Keypair,
     /// #     signature::Signer,
     /// #     commitment_config::CommitmentConfig,
@@ -2002,13 +2002,13 @@ impl RpcClient {
     /// This method corresponds directly to the [`getClusterNodes`]
     /// RPC method.
     ///
-    /// [`getClusterNodes`]: https://solana.com/docs/rpc/http/getclusternodes
+    /// [`getClusterNodes`]: https://lumos.com/docs/rpc/http/getclusternodes
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::client_error::Error;
-    /// # use solana_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_rpc_client_api::client_error::Error;
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
     /// # let rpc_client = RpcClient::new_mock("succeeds".to_string());
     /// let cluster_nodes = rpc_client.get_cluster_nodes()?;
     /// # Ok::<(), Error>(())
@@ -2031,13 +2031,13 @@ impl RpcClient {
     /// This method corresponds directly to the [`getBlock`] RPC
     /// method.
     ///
-    /// [`getBlock`]: https://solana.com/docs/rpc/http/getblock
+    /// [`getBlock`]: https://lumos.com/docs/rpc/http/getblock
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::client_error::Error;
-    /// # use solana_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_rpc_client_api::client_error::Error;
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
     /// # let rpc_client = RpcClient::new_mock("succeeds".to_string());
     /// # let slot = rpc_client.get_slot()?;
     /// let block = rpc_client.get_block(slot)?;
@@ -2053,14 +2053,14 @@ impl RpcClient {
     ///
     /// This method corresponds directly to the [`getBlock`] RPC method.
     ///
-    /// [`getBlock`]: https://solana.com/docs/rpc/http/getblock
+    /// [`getBlock`]: https://lumos.com/docs/rpc/http/getblock
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::client_error::Error;
-    /// # use solana_rpc_client::rpc_client::RpcClient;
-    /// # use solana_transaction_status::UiTransactionEncoding;
+    /// # use lumos_rpc_client_api::client_error::Error;
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_transaction_status::UiTransactionEncoding;
     /// # let rpc_client = RpcClient::new_mock("succeeds".to_string());
     /// # let slot = rpc_client.get_slot()?;
     /// let encoding = UiTransactionEncoding::Base58;
@@ -2084,17 +2084,17 @@ impl RpcClient {
     ///
     /// This method corresponds directly to the [`getBlock`] RPC method.
     ///
-    /// [`getBlock`]: https://solana.com/docs/rpc/http/getblock
+    /// [`getBlock`]: https://lumos.com/docs/rpc/http/getblock
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::{
+    /// # use lumos_rpc_client_api::{
     /// #     config::RpcBlockConfig,
     /// #     client_error::Error,
     /// # };
-    /// # use solana_rpc_client::rpc_client::RpcClient;
-    /// # use solana_transaction_status::{
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_transaction_status::{
     /// #     TransactionDetails,
     /// #     UiTransactionEncoding,
     /// # };
@@ -2167,9 +2167,9 @@ impl RpcClient {
     ///
     /// This method uses the [`Finalized`] [commitment level][cl].
     ///
-    /// [`Finalized`]: solana_sdk::commitment_config::CommitmentLevel::Finalized
+    /// [`Finalized`]: lumos_sdk::commitment_config::CommitmentLevel::Finalized
     /// [`get_blocks_with_limit`]: RpcClient::get_blocks_with_limit.
-    /// [cl]: https://solana.com/docs/rpc#configuring-state-commitment
+    /// [cl]: https://lumos.com/docs/rpc#configuring-state-commitment
     ///
     /// # Errors
     ///
@@ -2181,14 +2181,14 @@ impl RpcClient {
     /// the remote node version is less than 1.7, in which case it maps to the
     /// [`getConfirmedBlocks`] RPC method.
     ///
-    /// [`getBlocks`]: https://solana.com/docs/rpc/http/getblocks
-    /// [`getConfirmedBlocks`]: https://solana.com/docs/rpc/deprecated/getconfirmedblocks
+    /// [`getBlocks`]: https://lumos.com/docs/rpc/http/getblocks
+    /// [`getConfirmedBlocks`]: https://lumos.com/docs/rpc/deprecated/getconfirmedblocks
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::client_error::Error;
-    /// # use solana_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_rpc_client_api::client_error::Error;
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
     /// # let rpc_client = RpcClient::new_mock("succeeds".to_string());
     /// // Get up to the first 10 blocks
     /// let start_slot = 0;
@@ -2208,7 +2208,7 @@ impl RpcClient {
     /// If `end_slot` is not provided, then the end slot is for the latest
     /// block with the given [commitment level][cl].
     ///
-    /// [cl]: https://solana.com/docs/rpc#configuring-state-commitment
+    /// [cl]: https://lumos.com/docs/rpc#configuring-state-commitment
     ///
     /// This method may not return blocks for the full range of slots if some
     /// slots do not have corresponding blocks. To simply get a specific number
@@ -2224,7 +2224,7 @@ impl RpcClient {
     /// This method returns an error if the given commitment level is below
     /// [`Confirmed`].
     ///
-    /// [`Confirmed`]: solana_sdk::commitment_config::CommitmentLevel::Confirmed
+    /// [`Confirmed`]: lumos_sdk::commitment_config::CommitmentLevel::Confirmed
     ///
     /// # RPC Reference
     ///
@@ -2232,15 +2232,15 @@ impl RpcClient {
     /// the remote node version is less than 1.7, in which case it maps to the
     /// [`getConfirmedBlocks`] RPC method.
     ///
-    /// [`getBlocks`]: https://solana.com/docs/rpc/http/getblocks
-    /// [`getConfirmedBlocks`]: https://solana.com/docs/rpc/deprecated/getconfirmedblocks
+    /// [`getBlocks`]: https://lumos.com/docs/rpc/http/getblocks
+    /// [`getConfirmedBlocks`]: https://lumos.com/docs/rpc/deprecated/getconfirmedblocks
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::client_error::Error;
-    /// # use solana_rpc_client::rpc_client::RpcClient;
-    /// # use solana_sdk::commitment_config::CommitmentConfig;
+    /// # use lumos_rpc_client_api::client_error::Error;
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_sdk::commitment_config::CommitmentConfig;
     /// # let rpc_client = RpcClient::new_mock("succeeds".to_string());
     /// // Get up to the first 10 blocks
     /// let start_slot = 0;
@@ -2272,7 +2272,7 @@ impl RpcClient {
     /// This method uses the [`Finalized`] [commitment level][cl].
     ///
     /// [`Finalized`]: CommitmentLevel::Finalized.
-    /// [cl]: https://solana.com/docs/rpc#configuring-state-commitment
+    /// [cl]: https://lumos.com/docs/rpc#configuring-state-commitment
     ///
     /// # Errors
     ///
@@ -2284,14 +2284,14 @@ impl RpcClient {
     /// method, unless the remote node version is less than 1.7, in which case
     /// it maps to the [`getConfirmedBlocksWithLimit`] RPC method.
     ///
-    /// [`getBlocksWithLimit`]: https://solana.com/docs/rpc/http/getblockswithlimit
-    /// [`getConfirmedBlocksWithLimit`]: https://solana.com/docs/rpc/deprecated/getconfirmedblockswithlimit
+    /// [`getBlocksWithLimit`]: https://lumos.com/docs/rpc/http/getblockswithlimit
+    /// [`getConfirmedBlocksWithLimit`]: https://lumos.com/docs/rpc/deprecated/getconfirmedblockswithlimit
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::client_error::Error;
-    /// # use solana_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_rpc_client_api::client_error::Error;
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
     /// # let rpc_client = RpcClient::new_mock("succeeds".to_string());
     /// // Get the first 10 blocks
     /// let start_slot = 0;
@@ -2312,8 +2312,8 @@ impl RpcClient {
     /// This method returns an error if the given [commitment level][cl] is below
     /// [`Confirmed`].
     ///
-    /// [cl]: https://solana.com/docs/rpc#configuring-state-commitment
-    /// [`Confirmed`]: solana_sdk::commitment_config::CommitmentLevel::Confirmed
+    /// [cl]: https://lumos.com/docs/rpc#configuring-state-commitment
+    /// [`Confirmed`]: lumos_sdk::commitment_config::CommitmentLevel::Confirmed
     ///
     /// # RPC Reference
     ///
@@ -2321,15 +2321,15 @@ impl RpcClient {
     /// method, unless the remote node version is less than 1.7, in which case
     /// it maps to the `getConfirmedBlocksWithLimit` RPC method.
     ///
-    /// [`getBlocksWithLimit`]: https://solana.com/docs/rpc/http/getblockswithlimit
-    /// [`getConfirmedBlocksWithLimit`]: https://solana.com/docs/rpc/deprecated/getconfirmedblockswithlimit
+    /// [`getBlocksWithLimit`]: https://lumos.com/docs/rpc/http/getblockswithlimit
+    /// [`getConfirmedBlocksWithLimit`]: https://lumos.com/docs/rpc/deprecated/getconfirmedblockswithlimit
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::client_error::Error;
-    /// # use solana_rpc_client::rpc_client::RpcClient;
-    /// # use solana_sdk::commitment_config::CommitmentConfig;
+    /// # use lumos_rpc_client_api::client_error::Error;
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_sdk::commitment_config::CommitmentConfig;
     /// # let rpc_client = RpcClient::new_mock("succeeds".to_string());
     /// // Get the first 10 blocks
     /// let start_slot = 0;
@@ -2427,21 +2427,21 @@ impl RpcClient {
     /// This method uses the [`Finalized`] [commitment level][cl].
     ///
     /// [`Finalized`]: CommitmentLevel::Finalized.
-    /// [cl]: https://solana.com/docs/rpc#configuring-state-commitment
+    /// [cl]: https://lumos.com/docs/rpc#configuring-state-commitment
     ///
     /// # RPC Reference
     ///
     /// This method corresponds directly to the [`getSignaturesForAddress`] RPC
     /// method.
     ///
-    /// [`getSignaturesForAddress`]: https://solana.com/docs/rpc/http/getsignaturesforaddress
+    /// [`getSignaturesForAddress`]: https://lumos.com/docs/rpc/http/getsignaturesforaddress
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::client_error::Error;
-    /// # use solana_rpc_client::rpc_client::RpcClient;
-    /// # use solana_sdk::{
+    /// # use lumos_rpc_client_api::client_error::Error;
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_sdk::{
     /// #     signature::Signer,
     /// #     signer::keypair::Keypair,
     /// #     system_transaction,
@@ -2467,22 +2467,22 @@ impl RpcClient {
     /// This method returns an error if the given [commitment level][cl] is below
     /// [`Confirmed`].
     ///
-    /// [cl]: https://solana.com/docs/rpc#configuring-state-commitment
-    /// [`Confirmed`]: solana_sdk::commitment_config::CommitmentLevel::Confirmed
+    /// [cl]: https://lumos.com/docs/rpc#configuring-state-commitment
+    /// [`Confirmed`]: lumos_sdk::commitment_config::CommitmentLevel::Confirmed
     ///
     /// # RPC Reference
     ///
     /// This method corresponds directly to the [`getSignaturesForAddress`] RPC
     /// method.
     ///
-    /// [`getSignaturesForAddress`]: https://solana.com/docs/rpc/http/getsignaturesforaddress
+    /// [`getSignaturesForAddress`]: https://lumos.com/docs/rpc/http/getsignaturesforaddress
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::client_error::Error;
-    /// # use solana_rpc_client::rpc_client::{GetConfirmedSignaturesForAddress2Config, RpcClient};
-    /// # use solana_sdk::{
+    /// # use lumos_rpc_client_api::client_error::Error;
+    /// # use lumos_rpc_client::rpc_client::{GetConfirmedSignaturesForAddress2Config, RpcClient};
+    /// # use lumos_sdk::{
     /// #     signature::Signer,
     /// #     signer::keypair::Keypair,
     /// #     system_transaction,
@@ -2549,8 +2549,8 @@ impl RpcClient {
     ///
     /// This method uses the [`Finalized`] [commitment level][cl].
     ///
-    /// [`Finalized`]: solana_sdk::commitment_config::CommitmentLevel::Finalized
-    /// [cl]: https://solana.com/docs/rpc#configuring-state-commitment
+    /// [`Finalized`]: lumos_sdk::commitment_config::CommitmentLevel::Finalized
+    /// [cl]: https://lumos.com/docs/rpc#configuring-state-commitment
     ///
     /// # RPC Reference
     ///
@@ -2558,21 +2558,21 @@ impl RpcClient {
     /// unless the remote node version is less than 1.7, in which case it maps
     /// to the [`getConfirmedTransaction`] RPC method.
     ///
-    /// [`getTransaction`]: https://solana.com/docs/rpc/http/gettransaction
-    /// [`getConfirmedTransaction`]: https://solana.com/docs/rpc/deprecated/getConfirmedTransaction
+    /// [`getTransaction`]: https://lumos.com/docs/rpc/http/gettransaction
+    /// [`getConfirmedTransaction`]: https://lumos.com/docs/rpc/deprecated/getConfirmedTransaction
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::client_error::Error;
-    /// # use solana_rpc_client::rpc_client::RpcClient;
-    /// # use solana_sdk::{
+    /// # use lumos_rpc_client_api::client_error::Error;
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_sdk::{
     /// #     signature::Signer,
     /// #     signature::Signature,
     /// #     signer::keypair::Keypair,
     /// #     system_transaction,
     /// # };
-    /// # use solana_transaction_status::UiTransactionEncoding;
+    /// # use lumos_transaction_status::UiTransactionEncoding;
     /// # let rpc_client = RpcClient::new_mock("succeeds".to_string());
     /// # let alice = Keypair::new();
     /// # let bob = Keypair::new();
@@ -2601,8 +2601,8 @@ impl RpcClient {
     /// This method returns an error if the given [commitment level][cl] is below
     /// [`Confirmed`].
     ///
-    /// [cl]: https://solana.com/docs/rpc#configuring-state-commitment
-    /// [`Confirmed`]: solana_sdk::commitment_config::CommitmentLevel::Confirmed
+    /// [cl]: https://lumos.com/docs/rpc#configuring-state-commitment
+    /// [`Confirmed`]: lumos_sdk::commitment_config::CommitmentLevel::Confirmed
     ///
     /// # RPC Reference
     ///
@@ -2610,25 +2610,25 @@ impl RpcClient {
     /// unless the remote node version is less than 1.7, in which case it maps
     /// to the [`getConfirmedTransaction`] RPC method.
     ///
-    /// [`getTransaction`]: https://solana.com/docs/rpc/http/gettransaction
-    /// [`getConfirmedTransaction`]: https://solana.com/docs/rpc/deprecated/getConfirmedTransaction
+    /// [`getTransaction`]: https://lumos.com/docs/rpc/http/gettransaction
+    /// [`getConfirmedTransaction`]: https://lumos.com/docs/rpc/deprecated/getConfirmedTransaction
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::{
+    /// # use lumos_rpc_client_api::{
     /// #     client_error::Error,
     /// #     config::RpcTransactionConfig,
     /// # };
-    /// # use solana_rpc_client::rpc_client::RpcClient;
-    /// # use solana_sdk::{
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_sdk::{
     /// #     signature::Signer,
     /// #     signature::Signature,
     /// #     signer::keypair::Keypair,
     /// #     system_transaction,
     /// #     commitment_config::CommitmentConfig,
     /// # };
-    /// # use solana_transaction_status::UiTransactionEncoding;
+    /// # use lumos_transaction_status::UiTransactionEncoding;
     /// # let rpc_client = RpcClient::new_mock("succeeds".to_string());
     /// # let alice = Keypair::new();
     /// # let bob = Keypair::new();
@@ -2689,13 +2689,13 @@ impl RpcClient {
     ///
     /// This method corresponds directly to the [`getBlockTime`] RPC method.
     ///
-    /// [`getBlockTime`]: https://solana.com/docs/rpc/http/getblocktime
+    /// [`getBlockTime`]: https://lumos.com/docs/rpc/http/getblocktime
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::client_error::Error;
-    /// # use solana_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_rpc_client_api::client_error::Error;
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
     /// # let rpc_client = RpcClient::new_mock("succeeds".to_string());
     /// // Get the time of the most recent finalized block
     /// let slot = rpc_client.get_slot()?;
@@ -2710,19 +2710,19 @@ impl RpcClient {
     ///
     /// This method uses the configured default [commitment level][cl].
     ///
-    /// [cl]: https://solana.com/docs/rpc#configuring-state-commitment
+    /// [cl]: https://lumos.com/docs/rpc#configuring-state-commitment
     ///
     /// # RPC Reference
     ///
     /// This method corresponds directly to the [`getEpochInfo`] RPC method.
     ///
-    /// [`getEpochInfo`]: https://solana.com/docs/rpc/http/getepochinfo
+    /// [`getEpochInfo`]: https://lumos.com/docs/rpc/http/getepochinfo
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::client_error::Error;
-    /// # use solana_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_rpc_client_api::client_error::Error;
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
     /// # let rpc_client = RpcClient::new_mock("succeeds".to_string());
     /// let epoch_info = rpc_client.get_epoch_info()?;
     /// # Ok::<(), Error>(())
@@ -2737,14 +2737,14 @@ impl RpcClient {
     ///
     /// This method corresponds directly to the [`getEpochInfo`] RPC method.
     ///
-    /// [`getEpochInfo`]: https://solana.com/docs/rpc/http/getepochinfo
+    /// [`getEpochInfo`]: https://lumos.com/docs/rpc/http/getepochinfo
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::client_error::Error;
-    /// # use solana_rpc_client::rpc_client::RpcClient;
-    /// # use solana_sdk::commitment_config::CommitmentConfig;
+    /// # use lumos_rpc_client_api::client_error::Error;
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_sdk::commitment_config::CommitmentConfig;
     /// # let rpc_client = RpcClient::new_mock("succeeds".to_string());
     /// let commitment_config = CommitmentConfig::confirmed();
     /// let epoch_info = rpc_client.get_epoch_info_with_commitment(
@@ -2763,20 +2763,20 @@ impl RpcClient {
     ///
     /// This method uses the configured default [commitment level][cl].
     ///
-    /// [cl]: https://solana.com/docs/rpc#configuring-state-commitment
+    /// [cl]: https://lumos.com/docs/rpc#configuring-state-commitment
     ///
     /// # RPC Reference
     ///
     /// This method corresponds directly to the [`getLeaderSchedule`] RPC method.
     ///
-    /// [`getLeaderSchedule`]: https://solana.com/docs/rpc/http/getleaderschedule
+    /// [`getLeaderSchedule`]: https://lumos.com/docs/rpc/http/getleaderschedule
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::client_error::Error;
-    /// # use solana_rpc_client::rpc_client::RpcClient;
-    /// # use solana_sdk::commitment_config::CommitmentConfig;
+    /// # use lumos_rpc_client_api::client_error::Error;
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_sdk::commitment_config::CommitmentConfig;
     /// # let rpc_client = RpcClient::new_mock("succeeds".to_string());
     /// # let slot = rpc_client.get_slot()?;
     /// let leader_schedule = rpc_client.get_leader_schedule(
@@ -2797,14 +2797,14 @@ impl RpcClient {
     ///
     /// This method corresponds directly to the [`getLeaderSchedule`] RPC method.
     ///
-    /// [`getLeaderSchedule`]: https://solana.com/docs/rpc/http/getleaderschedule
+    /// [`getLeaderSchedule`]: https://lumos.com/docs/rpc/http/getleaderschedule
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::client_error::Error;
-    /// # use solana_rpc_client::rpc_client::RpcClient;
-    /// # use solana_sdk::commitment_config::CommitmentConfig;
+    /// # use lumos_rpc_client_api::client_error::Error;
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_sdk::commitment_config::CommitmentConfig;
     /// # let rpc_client = RpcClient::new_mock("succeeds".to_string());
     /// # let slot = rpc_client.get_slot()?;
     /// let commitment_config = CommitmentConfig::processed();
@@ -2830,17 +2830,17 @@ impl RpcClient {
     ///
     /// This method corresponds directly to the [`getLeaderSchedule`] RPC method.
     ///
-    /// [`getLeaderSchedule`]: https://solana.com/docs/rpc/http/getleaderschedule
+    /// [`getLeaderSchedule`]: https://lumos.com/docs/rpc/http/getleaderschedule
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::{
+    /// # use lumos_rpc_client_api::{
     /// #     client_error::Error,
     /// #     config::RpcLeaderScheduleConfig,
     /// # };
-    /// # use solana_rpc_client::rpc_client::RpcClient;
-    /// # use solana_sdk::commitment_config::CommitmentConfig;
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_sdk::commitment_config::CommitmentConfig;
     /// # let rpc_client = RpcClient::new_mock("succeeds".to_string());
     /// # let slot = rpc_client.get_slot()?;
     /// # let validator_pubkey_str = "7AYmEYBBetok8h5L3Eo3vi3bDWnjNnaFbSXfSNYV5ewB".to_string();
@@ -2868,13 +2868,13 @@ impl RpcClient {
     ///
     /// This method corresponds directly to the [`getEpochSchedule`] RPC method.
     ///
-    /// [`getEpochSchedule`]: https://solana.com/docs/rpc/http/getepochschedule
+    /// [`getEpochSchedule`]: https://lumos.com/docs/rpc/http/getepochschedule
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::client_error::Error;
-    /// # use solana_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_rpc_client_api::client_error::Error;
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
     /// # let rpc_client = RpcClient::new_mock("succeeds".to_string());
     /// let epoch_schedule = rpc_client.get_epoch_schedule()?;
     /// # Ok::<(), Error>(())
@@ -2892,13 +2892,13 @@ impl RpcClient {
     ///
     /// This method corresponds directly to the [`getRecentPerformanceSamples`] RPC method.
     ///
-    /// [`getRecentPerformanceSamples`]: https://solana.com/docs/rpc/http/getrecentperformancesamples
+    /// [`getRecentPerformanceSamples`]: https://lumos.com/docs/rpc/http/getrecentperformancesamples
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::client_error::Error;
-    /// # use solana_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_rpc_client_api::client_error::Error;
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
     /// # let rpc_client = RpcClient::new_mock("succeeds".to_string());
     /// let limit = 10;
     /// let performance_samples = rpc_client.get_recent_performance_samples(
@@ -2924,14 +2924,14 @@ impl RpcClient {
     ///
     /// This method corresponds directly to the [`getRecentPrioritizationFees`] RPC method.
     ///
-    /// [`getRecentPrioritizationFees`]: https://solana.com/docs/rpc/http/getrecentprioritizationfees
+    /// [`getRecentPrioritizationFees`]: https://lumos.com/docs/rpc/http/getrecentprioritizationfees
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::client_error::Error;
-    /// # use solana_rpc_client::rpc_client::RpcClient;
-    /// # use solana_sdk::signature::{Keypair, Signer};
+    /// # use lumos_rpc_client_api::client_error::Error;
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_sdk::signature::{Keypair, Signer};
     /// # let rpc_client = RpcClient::new_mock("succeeds".to_string());
     /// # let alice = Keypair::new();
     /// # let bob = Keypair::new();
@@ -2954,13 +2954,13 @@ impl RpcClient {
     ///
     /// This method corresponds directly to the [`getIdentity`] RPC method.
     ///
-    /// [`getIdentity`]: https://solana.com/docs/rpc/http/getidentity
+    /// [`getIdentity`]: https://lumos.com/docs/rpc/http/getidentity
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::client_error::Error;
-    /// # use solana_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_rpc_client_api::client_error::Error;
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
     /// # let rpc_client = RpcClient::new_mock("succeeds".to_string());
     /// let identity = rpc_client.get_identity()?;
     /// # Ok::<(), Error>(())
@@ -2973,21 +2973,21 @@ impl RpcClient {
     ///
     /// This method uses the [`Finalized`] [commitment level][cl].
     ///
-    /// [`Finalized`]: solana_sdk::commitment_config::CommitmentLevel::Finalized
-    /// [cl]: https://solana.com/docs/rpc#configuring-state-commitment
+    /// [`Finalized`]: lumos_sdk::commitment_config::CommitmentLevel::Finalized
+    /// [cl]: https://lumos.com/docs/rpc#configuring-state-commitment
     ///
     /// # RPC Reference
     ///
     /// This method corresponds directly to the [`getInflationGovernor`] RPC
     /// method.
     ///
-    /// [`getInflationGovernor`]: https://solana.com/docs/rpc/http/getinflationgovernor
+    /// [`getInflationGovernor`]: https://lumos.com/docs/rpc/http/getinflationgovernor
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::client_error::Error;
-    /// # use solana_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_rpc_client_api::client_error::Error;
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
     /// # let rpc_client = RpcClient::new_mock("succeeds".to_string());
     /// let inflation_governor = rpc_client.get_inflation_governor()?;
     /// # Ok::<(), Error>(())
@@ -3002,13 +3002,13 @@ impl RpcClient {
     ///
     /// This method corresponds directly to the [`getInflationRate`] RPC method.
     ///
-    /// [`getInflationRate`]: https://solana.com/docs/rpc/http/getinflationrate
+    /// [`getInflationRate`]: https://lumos.com/docs/rpc/http/getinflationrate
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::client_error::Error;
-    /// # use solana_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_rpc_client_api::client_error::Error;
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
     /// # let rpc_client = RpcClient::new_mock("succeeds".to_string());
     /// let inflation_rate = rpc_client.get_inflation_rate()?;
     /// # Ok::<(), Error>(())
@@ -3021,20 +3021,20 @@ impl RpcClient {
     ///
     /// This method uses the configured [commitment level][cl].
     ///
-    /// [cl]: https://solana.com/docs/rpc#configuring-state-commitment
+    /// [cl]: https://lumos.com/docs/rpc#configuring-state-commitment
     ///
     /// # RPC Reference
     ///
     /// This method corresponds directly to the [`getInflationReward`] RPC method.
     ///
-    /// [`getInflationReward`]: https://solana.com/docs/rpc/http/getinflationreward
+    /// [`getInflationReward`]: https://lumos.com/docs/rpc/http/getinflationreward
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::client_error::Error;
-    /// # use solana_rpc_client::rpc_client::RpcClient;
-    /// # use solana_sdk::signature::{Keypair, Signer};
+    /// # use lumos_rpc_client_api::client_error::Error;
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_sdk::signature::{Keypair, Signer};
     /// # let rpc_client = RpcClient::new_mock("succeeds".to_string());
     /// # let epoch_info = rpc_client.get_epoch_info()?;
     /// # let epoch = epoch_info.epoch;
@@ -3055,24 +3055,24 @@ impl RpcClient {
         self.invoke((self.rpc_client.as_ref()).get_inflation_reward(addresses, epoch))
     }
 
-    /// Returns the current solana version running on the node.
+    /// Returns the current lumos version running on the node.
     ///
     /// # RPC Reference
     ///
     /// This method corresponds directly to the [`getVersion`] RPC method.
     ///
-    /// [`getVersion`]: https://solana.com/docs/rpc/http/getversion
+    /// [`getVersion`]: https://lumos.com/docs/rpc/http/getversion
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::client_error::Error;
-    /// # use solana_rpc_client::rpc_client::RpcClient;
-    /// # use solana_sdk::signature::{Keypair, Signer};
+    /// # use lumos_rpc_client_api::client_error::Error;
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_sdk::signature::{Keypair, Signer};
     /// # let rpc_client = RpcClient::new_mock("succeeds".to_string());
     /// let expected_version = semver::Version::new(1, 7, 0);
     /// let version = rpc_client.get_version()?;
-    /// let version = semver::Version::parse(&version.solana_core)?;
+    /// let version = semver::Version::parse(&version.lumos_core)?;
     /// assert!(version >= expected_version);
     /// # Ok::<(), Box<dyn std::error::Error>>(())
     /// ```
@@ -3090,13 +3090,13 @@ impl RpcClient {
     /// This method corresponds directly to the [`minimumLedgerSlot`] RPC
     /// method.
     ///
-    /// [`minimumLedgerSlot`]: https://solana.com/docs/rpc/http/minimumledgerslot
+    /// [`minimumLedgerSlot`]: https://lumos.com/docs/rpc/http/minimumledgerslot
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::client_error::Error;
-    /// # use solana_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_rpc_client_api::client_error::Error;
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
     /// # let rpc_client = RpcClient::new_mock("succeeds".to_string());
     /// let slot = rpc_client.minimum_ledger_slot()?;
     /// # Ok::<(), Error>(())
@@ -3109,7 +3109,7 @@ impl RpcClient {
     ///
     /// This method uses the configured [commitment level][cl].
     ///
-    /// [cl]: https://solana.com/docs/rpc#configuring-state-commitment
+    /// [cl]: https://lumos.com/docs/rpc#configuring-state-commitment
     ///
     /// To get multiple accounts at once, use the [`get_multiple_accounts`] method.
     ///
@@ -3121,21 +3121,21 @@ impl RpcClient {
     /// [`RpcError::ForUser`]. This is unlike [`get_account_with_commitment`],
     /// which returns `Ok(None)` if the account does not exist.
     ///
-    /// [`RpcError::ForUser`]: solana_rpc_client_api::request::RpcError::ForUser
+    /// [`RpcError::ForUser`]: lumos_rpc_client_api::request::RpcError::ForUser
     /// [`get_account_with_commitment`]: RpcClient::get_account_with_commitment
     ///
     /// # RPC Reference
     ///
     /// This method is built on the [`getAccountInfo`] RPC method.
     ///
-    /// [`getAccountInfo`]: https://solana.com/docs/rpc/http/getaccountinfo
+    /// [`getAccountInfo`]: https://lumos.com/docs/rpc/http/getaccountinfo
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::client_error::Error;
-    /// # use solana_rpc_client::rpc_client::{self, RpcClient};
-    /// # use solana_sdk::{
+    /// # use lumos_rpc_client_api::client_error::Error;
+    /// # use lumos_rpc_client::rpc_client::{self, RpcClient};
+    /// # use lumos_sdk::{
     /// #     signature::Signer,
     /// #     signer::keypair::Keypair,
     /// #     pubkey::Pubkey,
@@ -3163,14 +3163,14 @@ impl RpcClient {
     ///
     /// This method is built on the [`getAccountInfo`] RPC method.
     ///
-    /// [`getAccountInfo`]: https://solana.com/docs/rpc/http/getaccountinfo
+    /// [`getAccountInfo`]: https://lumos.com/docs/rpc/http/getaccountinfo
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::client_error::Error;
-    /// # use solana_rpc_client::rpc_client::{self, RpcClient};
-    /// # use solana_sdk::{
+    /// # use lumos_rpc_client_api::client_error::Error;
+    /// # use lumos_rpc_client::rpc_client::{self, RpcClient};
+    /// # use lumos_sdk::{
     /// #     signature::Signer,
     /// #     signer::keypair::Keypair,
     /// #     pubkey::Pubkey,
@@ -3210,23 +3210,23 @@ impl RpcClient {
     ///
     /// This method is built on the [`getAccountInfo`] RPC method.
     ///
-    /// [`getAccountInfo`]: https://solana.com/docs/rpc/http/getaccountinfo
+    /// [`getAccountInfo`]: https://lumos.com/docs/rpc/http/getaccountinfo
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::{
+    /// # use lumos_rpc_client_api::{
     /// #     config::RpcAccountInfoConfig,
     /// #     client_error::Error,
     /// # };
-    /// # use solana_rpc_client::rpc_client::{self, RpcClient};
-    /// # use solana_sdk::{
+    /// # use lumos_rpc_client::rpc_client::{self, RpcClient};
+    /// # use lumos_sdk::{
     /// #     signature::Signer,
     /// #     signer::keypair::Keypair,
     /// #     pubkey::Pubkey,
     /// #     commitment_config::CommitmentConfig,
     /// # };
-    /// # use solana_account_decoder::UiAccountEncoding;
+    /// # use lumos_account_decoder::UiAccountEncoding;
     /// # use std::str::FromStr;
     /// # let mocks = rpc_client::create_rpc_client_mocks();
     /// # let rpc_client = RpcClient::new_mock_with_mocks("succeeds".to_string(), mocks);
@@ -3259,13 +3259,13 @@ impl RpcClient {
     /// This method corresponds directly to the [`getMaxRetransmitSlot`] RPC
     /// method.
     ///
-    /// [`getMaxRetransmitSlot`]: https://solana.com/docs/rpc/http/getmaxretransmitslot
+    /// [`getMaxRetransmitSlot`]: https://lumos.com/docs/rpc/http/getmaxretransmitslot
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::client_error::Error;
-    /// # use solana_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_rpc_client_api::client_error::Error;
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
     /// # let rpc_client = RpcClient::new_mock("succeeds".to_string());
     /// let slot = rpc_client.get_max_retransmit_slot()?;
     /// # Ok::<(), Error>(())
@@ -3273,20 +3273,20 @@ impl RpcClient {
         self.invoke((self.rpc_client.as_ref()).get_max_retransmit_slot())
     }
 
-    /// Get the max slot seen from after [shred](https://solana.com/docs/terminology#shred) insert.
+    /// Get the max slot seen from after [shred](https://lumos.com/docs/terminology#shred) insert.
     ///
     /// # RPC Reference
     ///
     /// This method corresponds directly to the
     /// [`getMaxShredInsertSlot`] RPC method.
     ///
-    /// [`getMaxShredInsertSlot`]: https://solana.com/docs/rpc/http/getmaxshredinsertslot
+    /// [`getMaxShredInsertSlot`]: https://lumos.com/docs/rpc/http/getmaxshredinsertslot
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::client_error::Error;
-    /// # use solana_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_rpc_client_api::client_error::Error;
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
     /// # let rpc_client = RpcClient::new_mock("succeeds".to_string());
     /// let slot = rpc_client.get_max_shred_insert_slot()?;
     /// # Ok::<(), Error>(())
@@ -3298,20 +3298,20 @@ impl RpcClient {
     ///
     /// This method uses the configured [commitment level][cl].
     ///
-    /// [cl]: https://solana.com/docs/rpc#configuring-state-commitment
+    /// [cl]: https://lumos.com/docs/rpc#configuring-state-commitment
     ///
     /// # RPC Reference
     ///
     /// This method is built on the [`getMultipleAccounts`] RPC method.
     ///
-    /// [`getMultipleAccounts`]: https://solana.com/docs/rpc/http/getmultipleaccounts
+    /// [`getMultipleAccounts`]: https://lumos.com/docs/rpc/http/getmultipleaccounts
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::client_error::Error;
-    /// # use solana_rpc_client::rpc_client::RpcClient;
-    /// # use solana_sdk::{
+    /// # use lumos_rpc_client_api::client_error::Error;
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_sdk::{
     /// #     signature::Signer,
     /// #     signer::keypair::Keypair,
     /// # };
@@ -3332,14 +3332,14 @@ impl RpcClient {
     ///
     /// This method is built on the [`getMultipleAccounts`] RPC method.
     ///
-    /// [`getMultipleAccounts`]: https://solana.com/docs/rpc/http/getmultipleaccounts
+    /// [`getMultipleAccounts`]: https://lumos.com/docs/rpc/http/getmultipleaccounts
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::client_error::Error;
-    /// # use solana_rpc_client::rpc_client::RpcClient;
-    /// # use solana_sdk::{
+    /// # use lumos_rpc_client_api::client_error::Error;
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_sdk::{
     /// #     signature::Signer,
     /// #     signer::keypair::Keypair,
     /// #     commitment_config::CommitmentConfig,
@@ -3372,22 +3372,22 @@ impl RpcClient {
     ///
     /// This method is built on the [`getMultipleAccounts`] RPC method.
     ///
-    /// [`getMultipleAccounts`]: https://solana.com/docs/rpc/http/getmultipleaccounts
+    /// [`getMultipleAccounts`]: https://lumos.com/docs/rpc/http/getmultipleaccounts
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::{
+    /// # use lumos_rpc_client_api::{
     /// #     config::RpcAccountInfoConfig,
     /// #     client_error::Error,
     /// # };
-    /// # use solana_rpc_client::rpc_client::RpcClient;
-    /// # use solana_sdk::{
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_sdk::{
     /// #     signature::Signer,
     /// #     signer::keypair::Keypair,
     /// #     commitment_config::CommitmentConfig,
     /// # };
-    /// # use solana_account_decoder::UiAccountEncoding;
+    /// # use lumos_account_decoder::UiAccountEncoding;
     /// # let rpc_client = RpcClient::new_mock("succeeds".to_string());
     /// # let alice = Keypair::new();
     /// # let bob = Keypair::new();
@@ -3424,14 +3424,14 @@ impl RpcClient {
     ///
     /// This method is built on the [`getAccountInfo`] RPC method.
     ///
-    /// [`getAccountInfo`]: https://solana.com/docs/rpc/http/getaccountinfo
+    /// [`getAccountInfo`]: https://lumos.com/docs/rpc/http/getaccountinfo
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::client_error::Error;
-    /// # use solana_rpc_client::rpc_client::{self, RpcClient};
-    /// # use solana_sdk::{
+    /// # use lumos_rpc_client_api::client_error::Error;
+    /// # use lumos_rpc_client::rpc_client::{self, RpcClient};
+    /// # use lumos_sdk::{
     /// #     signature::Signer,
     /// #     signer::keypair::Keypair,
     /// #     pubkey::Pubkey,
@@ -3454,13 +3454,13 @@ impl RpcClient {
     /// This method corresponds directly to the
     /// [`getMinimumBalanceForRentExemption`] RPC method.
     ///
-    /// [`getMinimumBalanceForRentExemption`]: https://solana.com/docs/rpc/http/getminimumbalanceforrentexemption
+    /// [`getMinimumBalanceForRentExemption`]: https://lumos.com/docs/rpc/http/getminimumbalanceforrentexemption
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::client_error::Error;
-    /// # use solana_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_rpc_client_api::client_error::Error;
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
     /// # let rpc_client = RpcClient::new_mock("succeeds".to_string());
     /// let data_len = 300;
     /// let balance = rpc_client.get_minimum_balance_for_rent_exemption(data_len)?;
@@ -3474,20 +3474,20 @@ impl RpcClient {
     ///
     /// This method uses the configured [commitment level][cl].
     ///
-    /// [cl]: https://solana.com/docs/rpc#configuring-state-commitment
+    /// [cl]: https://lumos.com/docs/rpc#configuring-state-commitment
     ///
     /// # RPC Reference
     ///
     /// This method corresponds directly to the [`getBalance`] RPC method.
     ///
-    /// [`getBalance`]: https://solana.com/docs/rpc/http/getbalance
+    /// [`getBalance`]: https://lumos.com/docs/rpc/http/getbalance
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::client_error::Error;
-    /// # use solana_rpc_client::rpc_client::RpcClient;
-    /// # use solana_sdk::{
+    /// # use lumos_rpc_client_api::client_error::Error;
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_sdk::{
     /// #     signature::Signer,
     /// #     signer::keypair::Keypair,
     /// # };
@@ -3506,14 +3506,14 @@ impl RpcClient {
     ///
     /// This method corresponds directly to the [`getBalance`] RPC method.
     ///
-    /// [`getBalance`]: https://solana.com/docs/rpc/http/getbalance
+    /// [`getBalance`]: https://lumos.com/docs/rpc/http/getbalance
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::client_error::Error;
-    /// # use solana_rpc_client::rpc_client::RpcClient;
-    /// # use solana_sdk::{
+    /// # use lumos_rpc_client_api::client_error::Error;
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_sdk::{
     /// #     signature::Signer,
     /// #     signer::keypair::Keypair,
     /// #     commitment_config::CommitmentConfig,
@@ -3541,21 +3541,21 @@ impl RpcClient {
     ///
     /// This method uses the configured [commitment level][cl].
     ///
-    /// [cl]: https://solana.com/docs/rpc#configuring-state-commitment
+    /// [cl]: https://lumos.com/docs/rpc#configuring-state-commitment
     ///
     /// # RPC Reference
     ///
     /// This method corresponds directly to the [`getProgramAccounts`] RPC
     /// method.
     ///
-    /// [`getProgramAccounts`]: https://solana.com/docs/rpc/http/getprogramaccounts
+    /// [`getProgramAccounts`]: https://lumos.com/docs/rpc/http/getprogramaccounts
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::client_error::Error;
-    /// # use solana_rpc_client::rpc_client::RpcClient;
-    /// # use solana_sdk::{
+    /// # use lumos_rpc_client_api::client_error::Error;
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_sdk::{
     /// #     signature::Signer,
     /// #     signer::keypair::Keypair,
     /// # };
@@ -3574,23 +3574,23 @@ impl RpcClient {
     ///
     /// This method is built on the [`getProgramAccounts`] RPC method.
     ///
-    /// [`getProgramAccounts`]: https://solana.com/docs/rpc/http/getprogramaccounts
+    /// [`getProgramAccounts`]: https://lumos.com/docs/rpc/http/getprogramaccounts
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::{
+    /// # use lumos_rpc_client_api::{
     /// #     client_error::Error,
     /// #     config::{RpcAccountInfoConfig, RpcProgramAccountsConfig},
     /// #     filter::{MemcmpEncodedBytes, RpcFilterType, Memcmp},
     /// # };
-    /// # use solana_rpc_client::rpc_client::RpcClient;
-    /// # use solana_sdk::{
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_sdk::{
     /// #     signature::Signer,
     /// #     signer::keypair::Keypair,
     /// #     commitment_config::CommitmentConfig,
     /// # };
-    /// # use solana_account_decoder::{UiDataSliceConfig, UiAccountEncoding};
+    /// # use lumos_account_decoder::{UiDataSliceConfig, UiAccountEncoding};
     /// # let rpc_client = RpcClient::new_mock("succeeds".to_string());
     /// # let alice = Keypair::new();
     /// # let base64_bytes = "\
@@ -3637,13 +3637,13 @@ impl RpcClient {
     ///
     /// This method corresponds directly to the [`getStakeMinimumDelegation`] RPC method.
     ///
-    /// [`getStakeMinimumDelegation`]: https://solana.com/docs/rpc/http/getstakeminimumdelegation
+    /// [`getStakeMinimumDelegation`]: https://lumos.com/docs/rpc/http/getstakeminimumdelegation
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::client_error::Error;
-    /// # use solana_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_rpc_client_api::client_error::Error;
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
     /// # let rpc_client = RpcClient::new_mock("succeeds".to_string());
     /// let stake_minimum_delegation = rpc_client.get_stake_minimum_delegation()?;
     /// # Ok::<(), Error>(())
@@ -3658,14 +3658,14 @@ impl RpcClient {
     ///
     /// This method corresponds directly to the [`getStakeMinimumDelegation`] RPC method.
     ///
-    /// [`getStakeMinimumDelegation`]: https://solana.com/docs/rpc/http/getstakeminimumdelegation
+    /// [`getStakeMinimumDelegation`]: https://lumos.com/docs/rpc/http/getstakeminimumdelegation
     ///
     /// # Examples
     ///
     /// ```
-    /// # use solana_rpc_client_api::client_error::Error;
-    /// # use solana_rpc_client::rpc_client::RpcClient;
-    /// # use solana_sdk::commitment_config::CommitmentConfig;
+    /// # use lumos_rpc_client_api::client_error::Error;
+    /// # use lumos_rpc_client::rpc_client::RpcClient;
+    /// # use lumos_sdk::commitment_config::CommitmentConfig;
     /// # let rpc_client = RpcClient::new_mock("succeeds".to_string());
     /// let stake_minimum_delegation =
     /// rpc_client.get_stake_minimum_delegation_with_commitment(CommitmentConfig::confirmed())?;
@@ -4099,8 +4099,8 @@ mod tests {
         jsonrpc_core::{futures::prelude::*, Error, IoHandler, Params},
         jsonrpc_http_server::{AccessControlAllowOrigin, DomainsValidation, ServerBuilder},
         serde_json::{json, Number},
-        solana_rpc_client_api::client_error::ErrorKind,
-        solana_sdk::{
+        lumos_rpc_client_api::client_error::ErrorKind,
+        lumos_sdk::{
             instruction::InstructionError,
             signature::{Keypair, Signer},
             system_transaction,
@@ -4185,7 +4185,7 @@ mod tests {
         let rpc_client = RpcClient::new_mock("succeeds".to_string());
 
         let key = Keypair::new();
-        let to = solana_sdk::pubkey::new_rand();
+        let to = lumos_sdk::pubkey::new_rand();
         let blockhash = Hash::default();
         let tx = system_transaction::transfer(&key, &to, 50, blockhash);
 
@@ -4255,7 +4255,7 @@ mod tests {
         let rpc_client = RpcClient::new_mock("succeeds".to_string());
 
         let key = Keypair::new();
-        let to = solana_sdk::pubkey::new_rand();
+        let to = lumos_sdk::pubkey::new_rand();
         let blockhash = Hash::default();
         let tx = system_transaction::transfer(&key, &to, 50, blockhash);
         let result = rpc_client.send_and_confirm_transaction(&tx);

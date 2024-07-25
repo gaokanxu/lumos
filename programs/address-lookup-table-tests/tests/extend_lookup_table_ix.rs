@@ -3,8 +3,8 @@ use {
     common::{
         add_lookup_table_account, assert_ix_error, new_address_lookup_table, setup_test_context,
     },
-    solana_program_test::*,
-    solana_sdk::{
+    lumos_program_test::*,
+    lumos_sdk::{
         account::{ReadableAccount, WritableAccount},
         address_lookup_table::{
             instruction::extend_lookup_table,

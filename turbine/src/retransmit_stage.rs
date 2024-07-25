@@ -9,19 +9,19 @@ use {
     lru::LruCache,
     rand::Rng,
     rayon::{prelude::*, ThreadPool, ThreadPoolBuilder},
-    solana_gossip::{cluster_info::ClusterInfo, contact_info::Protocol},
-    solana_ledger::{
+    lumos_gossip::{cluster_info::ClusterInfo, contact_info::Protocol},
+    lumos_ledger::{
         leader_schedule_cache::LeaderScheduleCache,
         shred::{self, ShredId},
     },
-    solana_measure::measure::Measure,
-    solana_perf::deduper::Deduper,
-    solana_rayon_threadlimit::get_thread_count,
-    solana_rpc::{max_slots::MaxSlots, rpc_subscriptions::RpcSubscriptions},
-    solana_rpc_client_api::response::SlotUpdate,
-    solana_runtime::{bank::Bank, bank_forks::BankForks},
-    solana_sdk::{clock::Slot, pubkey::Pubkey, timing::timestamp},
-    solana_streamer::{
+    lumos_measure::measure::Measure,
+    lumos_perf::deduper::Deduper,
+    lumos_rayon_threadlimit::get_thread_count,
+    lumos_rpc::{max_slots::MaxSlots, rpc_subscriptions::RpcSubscriptions},
+    lumos_rpc_client_api::response::SlotUpdate,
+    lumos_runtime::{bank::Bank, bank_forks::BankForks},
+    lumos_sdk::{clock::Slot, pubkey::Pubkey, timing::timestamp},
+    lumos_streamer::{
         sendmmsg::{multi_target_send, SendPktsError},
         socket::SocketAddrSpace,
     },
@@ -602,7 +602,7 @@ mod tests {
         super::*,
         rand::SeedableRng,
         rand_chacha::ChaChaRng,
-        solana_ledger::shred::{Shred, ShredFlags},
+        lumos_ledger::shred::{Shred, ShredFlags},
     };
 
     #[test]

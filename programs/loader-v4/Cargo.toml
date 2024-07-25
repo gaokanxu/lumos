@@ -1,6 +1,6 @@
 [package]
-name = "solana-loader-v4-program"
-description = "Solana Loader v4"
+name = "lumos-loader-v4-program"
+description = "Lumos Loader v4"
 version = { workspace = true }
 authors = { workspace = true }
 repository = { workspace = true }
@@ -10,17 +10,17 @@ edition = { workspace = true }
 
 [dependencies]
 log = { workspace = true }
-solana-measure = { workspace = true }
-solana-program-runtime = { workspace = true }
-solana-sdk = { workspace = true }
-solana_rbpf = { workspace = true }
+lumos-measure = { workspace = true }
+lumos-program-runtime = { workspace = true }
+lumos-sdk = { workspace = true }
+lumos-rbpf = { workspace = true }
 
 [dev-dependencies]
 bincode = { workspace = true }
 
 [lib]
 crate-type = ["lib"]
-name = "solana_loader_v4_program"
+name = "lumos_loader_v4_program"
 
 [package.metadata.docs.rs]
 targets = ["x86_64-unknown-linux-gnu"]

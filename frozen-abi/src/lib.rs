@@ -1,8 +1,8 @@
 #![allow(incomplete_features)]
 #![cfg_attr(RUSTC_WITH_SPECIALIZATION, feature(specialization))]
 
-// Allows macro expansion of `use ::solana_frozen_abi::*` to work within this crate
-extern crate self as solana_frozen_abi;
+// Allows macro expansion of `use ::lumos_frozen_abi::*` to work within this crate
+extern crate self as lumos_frozen_abi;
 
 #[cfg(RUSTC_WITH_SPECIALIZATION)]
 pub mod abi_digester;
@@ -13,7 +13,7 @@ mod hash;
 
 #[cfg(RUSTC_WITH_SPECIALIZATION)]
 #[macro_use]
-extern crate solana_frozen_abi_macro;
+extern crate lumos_frozen_abi_macro;
 
 #[cfg(RUSTC_WITH_SPECIALIZATION)]
 #[cfg(test)]

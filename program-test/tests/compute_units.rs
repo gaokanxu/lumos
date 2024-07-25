@@ -1,6 +1,6 @@
 use {
-    solana_program_test::ProgramTest,
-    solana_sdk::{
+    lumos_program_test::ProgramTest,
+    lumos_sdk::{
         instruction::{AccountMeta, Instruction},
         pubkey::Pubkey,
         signature::{Keypair, Signer},

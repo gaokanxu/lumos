@@ -1,6 +1,6 @@
 use {
-    solana_measure::measure,
-    solana_sdk::{clock::Slot, pubkey::Pubkey, saturating_add_assign},
+    lumos_measure::measure,
+    lumos_sdk::{clock::Slot, pubkey::Pubkey, saturating_add_assign},
     std::collections::HashMap,
 };
 
@@ -266,11 +266,11 @@ impl PrioritizationFee {
 
 #[cfg(test)]
 mod tests {
-    use {super::*, solana_sdk::pubkey::Pubkey};
+    use {super::*, lumos_sdk::pubkey::Pubkey};
 
     #[test]
     fn test_update_prioritization_fee() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let write_account_a = Pubkey::new_unique();
         let write_account_b = Pubkey::new_unique();
         let write_account_c = Pubkey::new_unique();

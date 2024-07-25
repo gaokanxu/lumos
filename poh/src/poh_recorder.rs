@@ -11,20 +11,20 @@
 //! * recorded entry must be >= WorkingBank::min_tick_height && entry must be < WorkingBank::max_tick_height
 //!
 #[cfg(feature = "dev-context-only-utils")]
-use solana_ledger::genesis_utils::{create_genesis_config, GenesisConfigInfo};
+use lumos_ledger::genesis_utils::{create_genesis_config, GenesisConfigInfo};
 use {
     crate::{leader_bank_notifier::LeaderBankNotifier, poh_service::PohService},
     crossbeam_channel::{unbounded, Receiver, RecvTimeoutError, SendError, Sender, TrySendError},
     log::*,
-    solana_entry::{
+    lumos_entry::{
         entry::{hash_transactions, Entry},
         poh::Poh,
     },
-    solana_ledger::{blockstore::Blockstore, leader_schedule_cache::LeaderScheduleCache},
-    solana_measure::{measure, measure_us},
-    solana_metrics::poh_timing_point::{send_poh_timing_point, PohTimingSender, SlotPohTimingInfo},
-    solana_runtime::{bank::Bank, installed_scheduler_pool::BankWithScheduler},
-    solana_sdk::{
+    lumos_ledger::{blockstore::Blockstore, leader_schedule_cache::LeaderScheduleCache},
+    lumos_measure::{measure, measure_us},
+    lumos_metrics::poh_timing_point::{send_poh_timing_point, PohTimingSender, SlotPohTimingInfo},
+    lumos_runtime::{bank::Bank, installed_scheduler_pool::BankWithScheduler},
+    lumos_sdk::{
         clock::{Slot, NUM_CONSECUTIVE_LEADER_SLOTS},
         hash::Hash,
         poh_config::PohConfig,
@@ -580,7 +580,7 @@ impl PohRecorder {
                 SlotPohTimingInfo::new_slot_start_poh_time_point(
                     self.start_slot() + 1,
                     None,
-                    solana_sdk::timing::timestamp(),
+                    lumos_sdk::timing::timestamp(),
                 ),
             );
         }
@@ -628,7 +628,7 @@ impl PohRecorder {
                     SlotPohTimingInfo::new_slot_start_poh_time_point(
                         slot,
                         None,
-                        solana_sdk::timing::timestamp(),
+                        lumos_sdk::timing::timestamp(),
                     ),
                 );
             }
@@ -724,7 +724,7 @@ impl PohRecorder {
                         SlotPohTimingInfo::new_slot_end_poh_time_point(
                             self.slot_for_tick_height(self.tick_height),
                             None,
-                            solana_sdk::timing::timestamp(),
+                            lumos_sdk::timing::timestamp(),
                         ),
                     );
                 }
@@ -737,7 +737,7 @@ impl PohRecorder {
                         SlotPohTimingInfo::new_slot_start_poh_time_point(
                             self.slot_for_tick_height(self.tick_height),
                             None,
-                            solana_sdk::timing::timestamp(),
+                            lumos_sdk::timing::timestamp(),
                         ),
                     );
                 }
@@ -753,7 +753,7 @@ impl PohRecorder {
                 SlotPohTimingInfo::new_slot_end_poh_time_point(
                     slot,
                     None,
-                    solana_sdk::timing::timestamp(),
+                    lumos_sdk::timing::timestamp(),
                 ),
             );
         }
@@ -1111,11 +1111,11 @@ mod tests {
         super::*,
         bincode::serialize,
         crossbeam_channel::bounded,
-        solana_ledger::{
+        lumos_ledger::{
             blockstore::Blockstore, blockstore_meta::SlotMeta, get_tmp_ledger_path_auto_delete,
         },
-        solana_perf::test_tx::test_tx,
-        solana_sdk::{clock::DEFAULT_TICKS_PER_SLOT, hash::hash},
+        lumos_perf::test_tx::test_tx,
+        lumos_sdk::{clock::DEFAULT_TICKS_PER_SLOT, hash::hash},
     };
 
     #[test]
@@ -1676,7 +1676,7 @@ mod tests {
 
     #[test]
     fn test_reset_to_new_value() {
-        solana_logger::setup();
+        lumos_logger::setup();
 
         let ledger_path = get_tmp_ledger_path_auto_delete!();
         let blockstore = Blockstore::open(ledger_path.path())
@@ -1763,7 +1763,7 @@ mod tests {
 
     #[test]
     fn test_poh_recorder_record_sets_start_slot() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let ledger_path = get_tmp_ledger_path_auto_delete!();
         let blockstore = Blockstore::open(ledger_path.path())
             .expect("Expected to be able to open database ledger");
@@ -1811,7 +1811,7 @@ mod tests {
 
     #[test]
     fn test_reached_leader_tick() {
-        solana_logger::setup();
+        lumos_logger::setup();
 
         let ledger_path = get_tmp_ledger_path_auto_delete!();
         let blockstore = Blockstore::open(ledger_path.path())
@@ -1873,7 +1873,7 @@ mod tests {
 
     #[test]
     fn test_reached_leader_slot() {
-        solana_logger::setup();
+        lumos_logger::setup();
 
         let ledger_path = get_tmp_ledger_path_auto_delete!();
         let blockstore = Blockstore::open(ledger_path.path())

@@ -34,12 +34,12 @@
 //! on behalf of the caller, and a low-level API for when they have
 //! already been signed and verified.
 #[cfg(feature = "dev-context-only-utils")]
-use solana_accounts_db::accounts_db::{
+use lumos_accounts_db::accounts_db::{
     ACCOUNTS_DB_CONFIG_FOR_BENCHMARKS, ACCOUNTS_DB_CONFIG_FOR_TESTING,
 };
 #[allow(deprecated)]
-use solana_sdk::recent_blockhashes_account;
-pub use solana_sdk::reward_type::RewardType;
+use lumos_sdk::recent_blockhashes_account;
+pub use lumos_sdk::reward_type::RewardType;
 use {
     crate::{
         bank::metrics::*,
@@ -70,7 +70,7 @@ use {
         ThreadPool, ThreadPoolBuilder,
     },
     serde::Serialize,
-    solana_accounts_db::{
+    lumos_accounts_db::{
         accounts::{AccountAddressFilter, Accounts, PubkeyAccountSlot},
         accounts_db::{
             AccountShrinkThreshold, AccountStorageEntry, AccountsDb, AccountsDbConfig,
@@ -90,12 +90,12 @@ use {
         stake_rewards::StakeReward,
         storable_accounts::StorableAccounts,
     },
-    solana_bpf_loader_program::syscalls::create_program_runtime_environment_v1,
-    solana_cost_model::cost_tracker::CostTracker,
-    solana_loader_v4_program::create_program_runtime_environment_v2,
-    solana_measure::{measure, measure::Measure, measure_us},
-    solana_perf::perf_libs,
-    solana_program_runtime::{
+    lumos_bpf_loader_program::syscalls::create_program_runtime_environment_v1,
+    lumos_cost_model::cost_tracker::CostTracker,
+    lumos_loader_v4_program::create_program_runtime_environment_v2,
+    lumos_measure::{measure, measure::Measure, measure_us},
+    lumos_perf::perf_libs,
+    lumos_program_runtime::{
         compute_budget_processor::process_compute_budget_instructions,
         invoke_context::BuiltinFunctionWithContext,
         loaded_programs::{
@@ -105,7 +105,7 @@ use {
         runtime_config::RuntimeConfig,
         timings::{ExecuteTimingType, ExecuteTimings},
     },
-    solana_sdk::{
+    lumos_sdk::{
         account::{
             create_account_shared_data_with_fields as create_account, from_account, Account,
             AccountSharedData, InheritableAccountFields, ReadableAccount, WritableAccount,
@@ -159,11 +159,11 @@ use {
         },
         transaction_context::{TransactionAccount, TransactionReturnData},
     },
-    solana_stake_program::{
+    lumos_stake_program::{
         points::{InflationPointCalculationEvent, PointValue},
         stake_state::StakeStateV2,
     },
-    solana_svm::{
+    lumos_svm::{
         account_loader::{TransactionCheckResult, TransactionLoadResult},
         account_overrides::AccountOverrides,
         transaction_error_metrics::TransactionErrorMetrics,
@@ -175,9 +175,9 @@ use {
             TransactionExecutionDetails, TransactionExecutionResult, TransactionResults,
         },
     },
-    solana_system_program::{get_system_account_kind, SystemAccountKind},
-    solana_vote::vote_account::{VoteAccount, VoteAccounts, VoteAccountsHashMap},
-    solana_vote_program::vote_state::VoteState,
+    lumos_system_program::{get_system_account_kind, SystemAccountKind},
+    lumos_vote::vote_account::{VoteAccount, VoteAccounts, VoteAccountsHashMap},
+    lumos_vote_program::vote_state::VoteState,
     std::{
         borrow::Cow,
         collections::{HashMap, HashSet},
@@ -271,7 +271,7 @@ pub struct BankRc {
 }
 
 #[cfg(RUSTC_WITH_SPECIALIZATION)]
-use solana_frozen_abi::abi_example::AbiExample;
+use lumos_frozen_abi::abi_example::AbiExample;
 
 #[cfg(RUSTC_WITH_SPECIALIZATION)]
 impl AbiExample for BankRc {
@@ -1161,7 +1161,7 @@ impl Bank {
             1
         } else {
             const MAX_FACTOR_OF_REWARD_BLOCKS_IN_EPOCH: u64 = 10;
-            let num_chunks = solana_accounts_db::accounts_hash::AccountsHasher::div_ceil(
+            let num_chunks = lumos_accounts_db::accounts_hash::AccountsHasher::div_ceil(
                 total_stake_accounts,
                 self.partitioned_rewards_stake_account_stores_per_block() as usize,
             ) as u64;
@@ -1363,7 +1363,7 @@ impl Bank {
             let (_epoch, slot_index) = new.get_epoch_and_slot_index(new.slot());
             let slots_in_epoch = new.get_slots_in_epoch(new.epoch());
             let slots_in_recompilation_phase =
-                (solana_program_runtime::loaded_programs::MAX_LOADED_ENTRY_COUNT as u64)
+                (lumos_program_runtime::loaded_programs::MAX_LOADED_ENTRY_COUNT as u64)
                     .min(slots_in_epoch)
                     .checked_div(2)
                     .unwrap();
@@ -2633,7 +2633,7 @@ impl Bank {
         {
             let num_stake_delegations = stakes.stake_delegations().len();
             let min_stake_delegation =
-                solana_stake_program::get_minimum_delegation(&self.feature_set)
+                lumos_stake_program::get_minimum_delegation(&self.feature_set)
                     .max(LAMPORTS_PER_SOL);
 
             let (stake_delegations, filter_timer) = measure!(stakes
@@ -2687,7 +2687,7 @@ impl Bank {
         });
         // Obtain vote-accounts for unique voter pubkeys.
         let cached_vote_accounts = stakes.vote_accounts();
-        let solana_vote_program: Pubkey = solana_vote_program::id();
+        let lumos_vote_program: Pubkey = lumos_vote_program::id();
         let vote_accounts_cache_miss_count = AtomicUsize::default();
         let get_vote_account = |vote_pubkey: &Pubkey| -> Option<VoteAccount> {
             if let Some(vote_account) = cached_vote_accounts.get(vote_pubkey) {
@@ -2698,7 +2698,7 @@ impl Bank {
             // below is only for sanity check, and can be removed once
             // vote_accounts_cache_miss_count is shown to be always zero.
             let account = self.get_account_with_fixed_root(vote_pubkey)?;
-            if account.owner() == &solana_vote_program
+            if account.owner() == &lumos_vote_program
                 && VoteState::deserialize(account.data()).is_ok()
             {
                 vote_accounts_cache_miss_count.fetch_add(1, Relaxed);
@@ -2711,7 +2711,7 @@ impl Bank {
                 invalid_vote_keys.insert(vote_pubkey, InvalidCacheEntryReason::Missing);
                 return None;
             };
-            if vote_account.owner() != &solana_vote_program {
+            if vote_account.owner() != &lumos_vote_program {
                 invalid_vote_keys.insert(vote_pubkey, InvalidCacheEntryReason::WrongOwner);
                 return None;
             }
@@ -2743,7 +2743,7 @@ impl Bank {
             };
             if let Some(reward_calc_tracer) = reward_calc_tracer.as_ref() {
                 let delegation =
-                    InflationPointCalculationEvent::Delegation(delegation, solana_vote_program);
+                    InflationPointCalculationEvent::Delegation(delegation, lumos_vote_program);
                 let event = RewardCalculationEvent::Staking(stake_pubkey, &delegation);
                 reward_calc_tracer(&event);
             }
@@ -2996,7 +2996,7 @@ impl Bank {
             cached_vote_accounts,
         } = reward_calculate_params;
 
-        let solana_vote_program: Pubkey = solana_vote_program::id();
+        let lumos_vote_program: Pubkey = lumos_vote_program::id();
 
         let get_vote_account = |vote_pubkey: &Pubkey| -> Option<VoteAccount> {
             if let Some(vote_account) = cached_vote_accounts.get(vote_pubkey) {
@@ -3021,14 +3021,14 @@ impl Bank {
                     let Some(vote_account) = get_vote_account(&vote_pubkey) else {
                         return 0;
                     };
-                    if vote_account.owner() != &solana_vote_program {
+                    if vote_account.owner() != &lumos_vote_program {
                         return 0;
                     }
                     let Ok(vote_state) = vote_account.vote_state() else {
                         return 0;
                     };
 
-                    solana_stake_program::points::calculate_points(
+                    lumos_stake_program::points::calculate_points(
                         stake_account.stake_state(),
                         vote_state,
                         stake_history,
@@ -3065,7 +3065,7 @@ impl Bank {
                     delegations
                         .par_iter()
                         .map(|(_stake_pubkey, stake_account)| {
-                            solana_stake_program::points::calculate_points(
+                            lumos_stake_program::points::calculate_points(
                                 stake_account.stake_state(),
                                 vote_state,
                                 stake_history,
@@ -3101,7 +3101,7 @@ impl Bank {
             cached_vote_accounts,
         } = reward_calculate_params;
 
-        let solana_vote_program: Pubkey = solana_vote_program::id();
+        let lumos_vote_program: Pubkey = lumos_vote_program::id();
 
         let get_vote_account = |vote_pubkey: &Pubkey| -> Option<VoteAccount> {
             if let Some(vote_account) = cached_vote_accounts.get(vote_pubkey) {
@@ -3138,14 +3138,14 @@ impl Bank {
                         <(AccountSharedData, StakeStateV2)>::from(stake_account);
                     let vote_pubkey = delegation.voter_pubkey;
                     let vote_account = get_vote_account(&vote_pubkey)?;
-                    if vote_account.owner() != &solana_vote_program {
+                    if vote_account.owner() != &lumos_vote_program {
                         return None;
                     }
                     let vote_state = vote_account.vote_state().cloned().ok()?;
 
                     let pre_lamport = stake_account.lamports();
 
-                    let redeemed = solana_stake_program::rewards::redeem_rewards(
+                    let redeemed = lumos_stake_program::rewards::redeem_rewards(
                         rewarded_epoch,
                         stake_state,
                         &mut stake_account,
@@ -3193,7 +3193,7 @@ impl Bank {
                         });
                     } else {
                         debug!(
-                            "solana_stake_program::rewards::redeem_rewards() failed for {}: {:?}",
+                            "lumos_stake_program::rewards::redeem_rewards() failed for {}: {:?}",
                             stake_pubkey, redeemed
                         );
                     }
@@ -3264,7 +3264,7 @@ impl Bank {
                     });
                     let (mut stake_account, stake_state) =
                         <(AccountSharedData, StakeStateV2)>::from(stake_account);
-                    let redeemed = solana_stake_program::rewards::redeem_rewards(
+                    let redeemed = lumos_stake_program::rewards::redeem_rewards(
                         rewarded_epoch,
                         stake_state,
                         &mut stake_account,
@@ -3300,7 +3300,7 @@ impl Bank {
                         });
                     } else {
                         debug!(
-                            "solana_stake_program::rewards::redeem_rewards() failed for {}: {:?}",
+                            "lumos_stake_program::rewards::redeem_rewards() failed for {}: {:?}",
                             stake_pubkey, redeemed
                         );
                     }
@@ -4158,7 +4158,7 @@ impl Bank {
     }
 
     // gating this under #[cfg(feature = "dev-context-only-utils")] isn't easy due to
-    // solana-program-test's usage...
+    // lumos-program-test's usage...
     pub fn register_unique_recent_blockhash_for_test(&self) {
         self.register_recent_blockhash(
             &Hash::new_unique(),
@@ -5421,7 +5421,7 @@ impl Bank {
             // divide the range into num_threads smaller ranges and process in parallel
             // Note that 'pubkey_range_from_partition' cannot easily be re-used here to break the range smaller.
             // It has special handling of 0..0 and partition_count changes affect all ranges unevenly.
-            let num_threads = solana_accounts_db::accounts_db::quarter_thread_count() as u64;
+            let num_threads = lumos_accounts_db::accounts_db::quarter_thread_count() as u64;
             let sz = std::mem::size_of::<u64>();
             let start_prefix = accounts_partition::prefix_from_pubkey(subrange_full.start());
             let end_prefix_inclusive = accounts_partition::prefix_from_pubkey(subrange_full.end());
@@ -5624,7 +5624,7 @@ impl Bank {
     fn use_multi_epoch_collection_cycle(&self, epoch: Epoch) -> bool {
         // Force normal behavior, disabling multi epoch collection cycle for manual local testing
         #[cfg(not(test))]
-        if self.slot_count_per_normal_epoch() == solana_sdk::epoch_schedule::MINIMUM_SLOTS_PER_EPOCH
+        if self.slot_count_per_normal_epoch() == lumos_sdk::epoch_schedule::MINIMUM_SLOTS_PER_EPOCH
         {
             return false;
         }
@@ -5636,7 +5636,7 @@ impl Bank {
     pub(crate) fn use_fixed_collection_cycle(&self) -> bool {
         // Force normal behavior, disabling fixed collection cycle for manual local testing
         #[cfg(not(test))]
-        if self.slot_count_per_normal_epoch() == solana_sdk::epoch_schedule::MINIMUM_SLOTS_PER_EPOCH
+        if self.slot_count_per_normal_epoch() == lumos_sdk::epoch_schedule::MINIMUM_SLOTS_PER_EPOCH
         {
             return false;
         }
@@ -7569,7 +7569,7 @@ impl TransactionProcessingCallback for Bank {
     ) -> Result<()> {
         if self.get_reward_interval() == RewardInterval::InsideInterval
             && message.is_writable(account_index)
-            && solana_stake_program::check_id(account.owner())
+            && lumos_stake_program::check_id(account.owner())
         {
             error_counters.program_execution_temporarily_restricted += 1;
             Err(TransactionError::ProgramExecutionTemporarilyRestricted {
@@ -7950,13 +7950,13 @@ pub mod test_utils {
     use {
         super::Bank,
         crate::installed_scheduler_pool::BankWithScheduler,
-        solana_sdk::{
+        lumos_sdk::{
             account::{ReadableAccount, WritableAccount},
             hash::hashv,
             lamports::LamportsError,
             pubkey::Pubkey,
         },
-        solana_vote_program::vote_state::{self, BlockTimestamp, VoteStateVersions},
+        lumos_vote_program::vote_state::{self, BlockTimestamp, VoteStateVersions},
         std::sync::Arc,
     };
     pub fn goto_end_of_slot(bank: Arc<Bank>) {

@@ -3,7 +3,7 @@
 extern crate test;
 use {
     rand0_7::{thread_rng, Rng},
-    solana_sdk::{
+    lumos_sdk::{
         ed25519_instruction::new_ed25519_instruction,
         feature_set::FeatureSet,
         hash::Hash,

@@ -1,6 +1,6 @@
 use {
     crate::bank::StakeRewards,
-    solana_sdk::{epoch_rewards_hasher::EpochRewardsHasher, hash::Hash},
+    lumos_sdk::{epoch_rewards_hasher::EpochRewardsHasher, hash::Hash},
 };
 
 pub(crate) fn hash_rewards_into_partitions(
@@ -25,7 +25,7 @@ pub(crate) fn hash_rewards_into_partitions(
 
 #[cfg(test)]
 mod tests {
-    use {super::*, solana_accounts_db::stake_rewards::StakeReward, std::collections::HashMap};
+    use {super::*, lumos_accounts_db::stake_rewards::StakeReward, std::collections::HashMap};
 
     #[test]
     fn test_hash_rewards_into_partitions() {

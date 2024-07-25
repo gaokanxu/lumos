@@ -1,7 +1,7 @@
 //! The `tpu` module implements the Transaction Processing Unit, a
 //! multi-stage transaction processing pipeline in software.
 
-pub use solana_sdk::net::DEFAULT_TPU_COALESCE;
+pub use lumos_sdk::net::DEFAULT_TPU_COALESCE;
 use {
     crate::{
         banking_stage::BankingStage,
@@ -19,26 +19,26 @@ use {
     },
     bytes::Bytes,
     crossbeam_channel::{unbounded, Receiver},
-    solana_client::connection_cache::ConnectionCache,
-    solana_gossip::cluster_info::ClusterInfo,
-    solana_ledger::{
+    lumos_client::connection_cache::ConnectionCache,
+    lumos_gossip::cluster_info::ClusterInfo,
+    lumos_ledger::{
         blockstore::Blockstore, blockstore_processor::TransactionStatusSender,
         entry_notifier_service::EntryNotifierSender,
     },
-    solana_poh::poh_recorder::{PohRecorder, WorkingBankEntry},
-    solana_rpc::{
+    lumos_poh::poh_recorder::{PohRecorder, WorkingBankEntry},
+    lumos_rpc::{
         optimistically_confirmed_bank_tracker::BankNotificationSender,
         rpc_subscriptions::RpcSubscriptions,
     },
-    solana_runtime::{bank_forks::BankForks, prioritization_fee_cache::PrioritizationFeeCache},
-    solana_sdk::{clock::Slot, pubkey::Pubkey, quic::NotifyKeyUpdate, signature::Keypair},
-    solana_streamer::{
+    lumos_runtime::{bank_forks::BankForks, prioritization_fee_cache::PrioritizationFeeCache},
+    lumos_sdk::{clock::Slot, pubkey::Pubkey, quic::NotifyKeyUpdate, signature::Keypair},
+    lumos_streamer::{
         nonblocking::quic::DEFAULT_WAIT_FOR_CHUNK_TIMEOUT,
         quic::{spawn_server, SpawnServerResult, MAX_STAKED_CONNECTIONS, MAX_UNSTAKED_CONNECTIONS},
         streamer::StakedNodes,
     },
-    solana_turbine::broadcast_stage::{BroadcastStage, BroadcastStageType},
-    solana_vote::vote_sender_types::{ReplayVoteReceiver, ReplayVoteSender},
+    lumos_turbine::broadcast_stage::{BroadcastStage, BroadcastStageType},
+    lumos_vote::vote_sender_types::{ReplayVoteReceiver, ReplayVoteSender},
     std::{
         collections::HashMap,
         net::{SocketAddr, UdpSocket},

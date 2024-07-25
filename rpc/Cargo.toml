@@ -1,7 +1,7 @@
 [package]
-name = "solana-rpc"
-description = "Solana RPC"
-documentation = "https://docs.rs/solana-rpc"
+name = "lumos-rpc"
+description = "Lumos RPC"
+documentation = "https://docs.rs/lumos-rpc"
 version = { workspace = true }
 authors = { workspace = true }
 repository = { workspace = true }
@@ -29,33 +29,33 @@ serde = { workspace = true }
 serde_derive = { workspace = true }
 serde_json = { workspace = true }
 soketto = { workspace = true }
-solana-account-decoder = { workspace = true }
-solana-accounts-db = { workspace = true }
-solana-client = { workspace = true }
-solana-entry = { workspace = true }
-solana-faucet = { workspace = true }
-solana-gossip = { workspace = true }
-solana-ledger = { workspace = true }
-solana-measure = { workspace = true }
-solana-metrics = { workspace = true }
-solana-perf = { workspace = true }
-solana-poh = { workspace = true }
-solana-rayon-threadlimit = { workspace = true }
-solana-rpc-client-api = { workspace = true }
-solana-runtime = { workspace = true }
-solana-sdk = { workspace = true }
-solana-send-transaction-service = { workspace = true }
-solana-stake-program = { workspace = true }
-solana-storage-bigtable = { workspace = true }
-solana-streamer = { workspace = true }
-solana-svm = { workspace = true }
-solana-tpu-client = { workspace = true }
-solana-transaction-status = { workspace = true }
-solana-version = { workspace = true }
-solana-vote = { workspace = true }
-solana-vote-program = { workspace = true }
-spl-token = { workspace = true, features = ["no-entrypoint"] }
-spl-token-2022 = { workspace = true, features = ["no-entrypoint"] }
+lumos-account-decoder = { workspace = true }
+lumos-accounts-db = { workspace = true }
+lumos-client = { workspace = true }
+lumos-entry = { workspace = true }
+lumos-faucet = { workspace = true }
+lumos-gossip = { workspace = true }
+lumos-ledger = { workspace = true }
+lumos-measure = { workspace = true }
+lumos-metrics = { workspace = true }
+lumos-perf = { workspace = true }
+lumos-poh = { workspace = true }
+lumos-rayon-threadlimit = { workspace = true }
+lumos-rpc-client-api = { workspace = true }
+lumos-runtime = { workspace = true }
+lumos-sdk = { workspace = true }
+lumos-send-transaction-service = { workspace = true }
+lumos-stake-program = { workspace = true }
+lumos-storage-bigtable = { workspace = true }
+lumos-streamer = { workspace = true }
+lumos-svm = { workspace = true }
+lumos-tpu-client = { workspace = true }
+lumos-transaction-status = { workspace = true }
+lumos-version = { workspace = true }
+lumos-vote = { workspace = true }
+lumos-vote-program = { workspace = true }
+lpl-token = { workspace = true, features = ["no-entrypoint"] }
+lpl-token-2022 = { workspace = true, features = ["no-entrypoint"] }
 stream-cancel = { workspace = true }
 thiserror = { workspace = true }
 tokio = { workspace = true, features = ["full"] }
@@ -63,15 +63,15 @@ tokio-util = { workspace = true, features = ["codec", "compat"] }
 
 [dev-dependencies]
 serial_test = { workspace = true }
-solana-net-utils = { workspace = true }
-solana-runtime = { workspace = true, features = ["dev-context-only-utils"] }
-solana-stake-program = { workspace = true }
-spl-pod = { workspace = true }
+lumos-net-utils = { workspace = true }
+lumos-runtime = { workspace = true, features = ["dev-context-only-utils"] }
+lumos-stake-program = { workspace = true }
+lpl-pod = { workspace = true }
 symlink = { workspace = true }
 
 [lib]
 crate-type = ["lib"]
-name = "solana_rpc"
+name = "lumos_rpc"
 
 [package.metadata.docs.rs]
 targets = ["x86_64-unknown-linux-gnu"]

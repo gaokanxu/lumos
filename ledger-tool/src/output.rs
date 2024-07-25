@@ -5,23 +5,23 @@ use {
         ser::{Impossible, SerializeSeq, SerializeStruct, Serializer},
         Deserialize, Serialize,
     },
-    solana_account_decoder::{UiAccount, UiAccountData, UiAccountEncoding},
-    solana_accounts_db::accounts_index::ScanConfig,
-    solana_cli_output::{
+    lumos_account_decoder::{UiAccount, UiAccountData, UiAccountEncoding},
+    lumos_accounts_db::accounts_index::ScanConfig,
+    lumos_cli_output::{
         display::writeln_transaction, CliAccount, CliAccountNewConfig, OutputFormat, QuietDisplay,
         VerboseDisplay,
     },
-    solana_entry::entry::Entry,
-    solana_ledger::blockstore::Blockstore,
-    solana_runtime::bank::{Bank, TotalAccountsStats},
-    solana_sdk::{
+    lumos_entry::entry::Entry,
+    lumos_ledger::blockstore::Blockstore,
+    lumos_runtime::bank::{Bank, TotalAccountsStats},
+    lumos_sdk::{
         account::{AccountSharedData, ReadableAccount},
         clock::{Slot, UnixTimestamp},
         hash::Hash,
         native_token::lamports_to_sol,
         pubkey::Pubkey,
     },
-    solana_transaction_status::{
+    lumos_transaction_status::{
         EncodedConfirmedBlock, EncodedTransactionWithStatusMeta, EntrySummary, Rewards,
     },
     std::{
@@ -392,7 +392,7 @@ pub fn output_entry(
                     })
                     .map(|meta| meta.into());
 
-                solana_cli_output::display::println_transaction(
+                lumos_cli_output::display::println_transaction(
                     &transaction,
                     tx_status_meta.as_ref(),
                     "      ",
@@ -644,8 +644,8 @@ struct AccountsScanner {
 impl AccountsScanner {
     /// Returns true if this account should be included in the output
     fn should_process_account(&self, account: &AccountSharedData, pubkey: &Pubkey) -> bool {
-        solana_accounts_db::accounts::Accounts::is_loadable(account.lamports())
-            && (self.config.include_sysvars || !solana_sdk::sysvar::is_sysvar_id(pubkey))
+        lumos_accounts_db::accounts::Accounts::is_loadable(account.lamports())
+            && (self.config.include_sysvars || !lumos_sdk::sysvar::is_sysvar_id(pubkey))
     }
 
     fn maybe_output_account<S>(

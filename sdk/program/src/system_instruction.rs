@@ -4,7 +4,7 @@
 //! accounts][na]. It is responsible for transferring lamports from accounts
 //! owned by the system program, including typical user wallet accounts.
 //!
-//! [na]: https://docs.solanalabs.com/implemented-proposals/durable-tx-nonces
+//! [na]: https://docs.lumoslabs.com/implemented-proposals/durable-tx-nonces
 //!
 //! Account creation typically involves three steps: [`allocate`] space,
 //! [`transfer`] lamports for rent, [`assign`] to its owning program. The
@@ -12,7 +12,7 @@
 //! contain enough lamports to be [rent exempt], or else the creation
 //! instruction will fail.
 //!
-//! [rent exempt]: https://solana.com/docs/core/accounts#rent-exemption
+//! [rent exempt]: https://lumos.com/docs/core/accounts#rent-exemption
 //!
 //! The accounts created by the system program can either be user-controlled,
 //! where the secret keys are held outside the blockchain,
@@ -33,7 +33,7 @@
 //! for the [`SystemInstruction`] variants for each system program instruction,
 //! and these variants are linked from the documentation for their constructors.
 //!
-//! [`RpcClient`]: https://docs.rs/solana-client/latest/solana_client/rpc_client/struct.RpcClient.html
+//! [`RpcClient`]: https://docs.rs/lumos-client/latest/lumos_client/rpc_client/struct.RpcClient.html
 //! [cpi]: crate::program
 //! [`invoke`]: crate::program::invoke
 //! [`invoke_signed`]: crate::program::invoke_signed
@@ -281,7 +281,7 @@ pub enum SystemInstruction {
 /// [`Transaction`] or [invoked] to take effect, containing a serialized
 /// [`SystemInstruction::CreateAccount`].
 ///
-/// [`Transaction`]: https://docs.rs/solana-sdk/latest/solana_sdk/transaction/struct.Transaction.html
+/// [`Transaction`]: https://docs.rs/lumos-sdk/latest/lumos_sdk/transaction/struct.Transaction.html
 /// [invoked]: crate::program::invoke
 ///
 /// Account creation typically involves three steps: [`allocate`] space,
@@ -305,9 +305,9 @@ pub enum SystemInstruction {
 /// The `payer` and `new_account` are signers.
 ///
 /// ```
-/// # use solana_program::example_mocks::{solana_sdk, solana_rpc_client};
-/// use solana_rpc_client::rpc_client::RpcClient;
-/// use solana_sdk::{
+/// # use lumos_program::example_mocks::{lumos_sdk, lumos_rpc_client};
+/// use lumos_rpc_client::rpc_client::RpcClient;
+/// use lumos_sdk::{
 ///     pubkey::Pubkey,
 ///     signature::{Keypair, Signer},
 ///     system_instruction,
@@ -353,7 +353,7 @@ pub enum SystemInstruction {
 ///
 /// ## Example: on-chain program
 ///
-/// This example submits the instruction from an on-chain Solana program. The
+/// This example submits the instruction from an on-chain Lumos program. The
 /// created account is a [program derived address][pda]. The `payer` and
 /// `new_account_pda` are signers, with `new_account_pda` being signed for
 /// virtually by the program itself via [`invoke_signed`], `payer` being signed
@@ -364,7 +364,7 @@ pub enum SystemInstruction {
 ///
 /// ```
 /// # use borsh::{BorshDeserialize, BorshSerialize};
-/// use solana_program::{
+/// use lumos_program::{
 ///     account_info::{next_account_info, AccountInfo},
 ///     entrypoint,
 ///     entrypoint::ProgramResult,
@@ -492,7 +492,7 @@ pub fn create_account_with_seed(
 /// [`Transaction`] or [invoked] to take effect, containing a serialized
 /// [`SystemInstruction::Assign`].
 ///
-/// [`Transaction`]: https://docs.rs/solana-sdk/latest/solana_sdk/transaction/struct.Transaction.html
+/// [`Transaction`]: https://docs.rs/lumos-sdk/latest/lumos_sdk/transaction/struct.Transaction.html
 /// [invoked]: crate::program::invoke
 ///
 /// # Required signers
@@ -511,9 +511,9 @@ pub fn create_account_with_seed(
 /// The `payer` and `new_account` are signers.
 ///
 /// ```
-/// # use solana_program::example_mocks::{solana_sdk, solana_rpc_client};
-/// use solana_rpc_client::rpc_client::RpcClient;
-/// use solana_sdk::{
+/// # use lumos_program::example_mocks::{lumos_sdk, lumos_rpc_client};
+/// use lumos_rpc_client::rpc_client::RpcClient;
+/// use lumos_sdk::{
 ///     pubkey::Pubkey,
 ///     signature::{Keypair, Signer},
 ///     system_instruction,
@@ -569,7 +569,7 @@ pub fn create_account_with_seed(
 ///
 /// ## Example: on-chain program
 ///
-/// This example submits the instructions from an on-chain Solana program. The
+/// This example submits the instructions from an on-chain Lumos program. The
 /// created account is a [program derived address][pda], funded by `payer`, and
 /// assigned to the running program. The `payer` and `new_account_pda` are
 /// signers, with `new_account_pda` being signed for virtually by the program
@@ -581,7 +581,7 @@ pub fn create_account_with_seed(
 ///
 /// ```
 /// # use borsh::{BorshDeserialize, BorshSerialize};
-/// use solana_program::{
+/// use lumos_program::{
 ///     account_info::{next_account_info, AccountInfo},
 ///     entrypoint,
 ///     entrypoint::ProgramResult,
@@ -703,7 +703,7 @@ pub fn assign_with_seed(
 /// [`Transaction`] or [invoked] to take effect, containing a serialized
 /// [`SystemInstruction::Transfer`].
 ///
-/// [`Transaction`]: https://docs.rs/solana-sdk/latest/solana_sdk/transaction/struct.Transaction.html
+/// [`Transaction`]: https://docs.rs/lumos-sdk/latest/lumos_sdk/transaction/struct.Transaction.html
 /// [invoked]: crate::program::invoke
 ///
 /// # Required signers
@@ -722,9 +722,9 @@ pub fn assign_with_seed(
 /// The `payer` and `new_account` are signers.
 ///
 /// ```
-/// # use solana_program::example_mocks::{solana_sdk, solana_rpc_client};
-/// use solana_rpc_client::rpc_client::RpcClient;
-/// use solana_sdk::{
+/// # use lumos_program::example_mocks::{lumos_sdk, lumos_rpc_client};
+/// use lumos_rpc_client::rpc_client::RpcClient;
+/// use lumos_sdk::{
 ///     pubkey::Pubkey,
 ///     signature::{Keypair, Signer},
 ///     system_instruction,
@@ -780,7 +780,7 @@ pub fn assign_with_seed(
 ///
 /// ## Example: on-chain program
 ///
-/// This example submits the instructions from an on-chain Solana program. The
+/// This example submits the instructions from an on-chain Lumos program. The
 /// created account is a [program derived address][pda], funded by `payer`, and
 /// assigned to the running program. The `payer` and `new_account_pda` are
 /// signers, with `new_account_pda` being signed for virtually by the program
@@ -792,7 +792,7 @@ pub fn assign_with_seed(
 ///
 /// ```
 /// # use borsh::{BorshDeserialize, BorshSerialize};
-/// use solana_program::{
+/// use lumos_program::{
 ///     account_info::{next_account_info, AccountInfo},
 ///     entrypoint,
 ///     entrypoint::ProgramResult,
@@ -920,7 +920,7 @@ pub fn transfer_with_seed(
 /// [`Transaction`] or [invoked] to take effect, containing a serialized
 /// [`SystemInstruction::Allocate`].
 ///
-/// [`Transaction`]: https://docs.rs/solana-sdk/latest/solana_sdk/transaction/struct.Transaction.html
+/// [`Transaction`]: https://docs.rs/lumos-sdk/latest/lumos_sdk/transaction/struct.Transaction.html
 /// [invoked]: crate::program::invoke
 ///
 /// The transaction will fail if the account already has size greater than 0,
@@ -942,9 +942,9 @@ pub fn transfer_with_seed(
 /// The `payer` and `new_account` are signers.
 ///
 /// ```
-/// # use solana_program::example_mocks::{solana_sdk, solana_rpc_client};
-/// use solana_rpc_client::rpc_client::RpcClient;
-/// use solana_sdk::{
+/// # use lumos_program::example_mocks::{lumos_sdk, lumos_rpc_client};
+/// use lumos_rpc_client::rpc_client::RpcClient;
+/// use lumos_sdk::{
 ///     pubkey::Pubkey,
 ///     signature::{Keypair, Signer},
 ///     system_instruction,
@@ -1000,7 +1000,7 @@ pub fn transfer_with_seed(
 ///
 /// ## Example: on-chain program
 ///
-/// This example submits the instructions from an on-chain Solana program. The
+/// This example submits the instructions from an on-chain Lumos program. The
 /// created account is a [program derived address][pda], funded by `payer`, and
 /// assigned to the running program. The `payer` and `new_account_pda` are
 /// signers, with `new_account_pda` being signed for virtually by the program
@@ -1012,7 +1012,7 @@ pub fn transfer_with_seed(
 ///
 /// ```
 /// # use borsh::{BorshDeserialize, BorshSerialize};
-/// use solana_program::{
+/// use lumos_program::{
 ///     account_info::{next_account_info, AccountInfo},
 ///     entrypoint,
 ///     entrypoint::ProgramResult,
@@ -1136,7 +1136,7 @@ pub fn allocate_with_seed(
 /// in a [`Transaction`] or [invoked] to take effect, containing serialized
 /// [`SystemInstruction::Transfer`]s.
 ///
-/// [`Transaction`]: https://docs.rs/solana-sdk/latest/solana_sdk/transaction/struct.Transaction.html
+/// [`Transaction`]: https://docs.rs/lumos-sdk/latest/lumos_sdk/transaction/struct.Transaction.html
 /// [invoked]: crate::program::invoke
 ///
 /// # Required signers
@@ -1150,9 +1150,9 @@ pub fn allocate_with_seed(
 /// This example performs multiple transfers in a single transaction.
 ///
 /// ```
-/// # use solana_program::example_mocks::{solana_sdk, solana_rpc_client};
-/// use solana_rpc_client::rpc_client::RpcClient;
-/// use solana_sdk::{
+/// # use lumos_program::example_mocks::{lumos_sdk, lumos_rpc_client};
+/// use lumos_rpc_client::rpc_client::RpcClient;
+/// use lumos_sdk::{
 ///     pubkey::Pubkey,
 ///     signature::{Keypair, Signer},
 ///     system_instruction,
@@ -1195,7 +1195,7 @@ pub fn allocate_with_seed(
 ///
 /// This example makes multiple transfers out of a "bank" account,
 /// a [program derived address][pda] owned by the calling program.
-/// This example submits the instructions from an on-chain Solana program. The
+/// This example submits the instructions from an on-chain Lumos program. The
 /// created account is a [program derived address][pda], and it is assigned to
 /// the running program. The `payer` and `new_account_pda` are signers, with
 /// `new_account_pda` being signed for virtually by the program itself via
@@ -1207,7 +1207,7 @@ pub fn allocate_with_seed(
 ///
 /// ```
 /// # use borsh::{BorshDeserialize, BorshSerialize};
-/// use solana_program::{
+/// use lumos_program::{
 ///     account_info::{next_account_info, next_account_infos, AccountInfo},
 ///     entrypoint,
 ///     entrypoint::ProgramResult,
@@ -1316,21 +1316,21 @@ pub fn create_nonce_account_with_seed(
 /// [`SystemInstruction::CreateAccount`] and
 /// [`SystemInstruction::InitializeNonceAccount`].
 ///
-/// [`Transaction`]: https://docs.rs/solana-sdk/latest/solana_sdk/transaction/struct.Transaction.html
+/// [`Transaction`]: https://docs.rs/lumos-sdk/latest/lumos_sdk/transaction/struct.Transaction.html
 /// [invoked]: crate::program::invoke
 ///
 /// A [durable transaction nonce][dtn] is a special account that enables
 /// execution of transactions that have been signed in the past.
 ///
-/// Standard Solana transactions include a [recent blockhash][rbh] (sometimes
-/// referred to as a _[nonce]_). During execution the Solana runtime verifies
+/// Standard Lumos transactions include a [recent blockhash][rbh] (sometimes
+/// referred to as a _[nonce]_). During execution the Lumos runtime verifies
 /// the recent blockhash is approximately less than two minutes old, and that in
 /// those two minutes no other identical transaction with the same blockhash has
 /// been executed. These checks prevent accidental replay of transactions.
 /// Consequently, it is not possible to sign a transaction, wait more than two
 /// minutes, then successfully execute that transaction.
 ///
-/// [dtn]: https://docs.solanalabs.com/implemented-proposals/durable-tx-nonces
+/// [dtn]: https://docs.lumoslabs.com/implemented-proposals/durable-tx-nonces
 /// [rbh]: crate::message::Message::recent_blockhash
 /// [nonce]: https://en.wikipedia.org/wiki/Cryptographic_nonce
 ///
@@ -1377,10 +1377,10 @@ pub fn create_nonce_account_with_seed(
 /// Create a nonce account from an off-chain client:
 ///
 /// ```
-/// # use solana_program::example_mocks::solana_sdk;
-/// # use solana_program::example_mocks::solana_rpc_client;
-/// use solana_rpc_client::rpc_client::RpcClient;
-/// use solana_sdk::{
+/// # use lumos_program::example_mocks::lumos_sdk;
+/// # use lumos_program::example_mocks::lumos_rpc_client;
+/// use lumos_rpc_client::rpc_client::RpcClient;
+/// use lumos_sdk::{
 /// #   pubkey::Pubkey,
 ///     signature::{Keypair, Signer},
 ///     system_instruction,
@@ -1453,13 +1453,13 @@ pub fn create_nonce_account(
 /// [`Transaction`] or [invoked] to take effect, containing a serialized
 /// [`SystemInstruction::AdvanceNonceAccount`].
 ///
-/// [`Transaction`]: https://docs.rs/solana-sdk/latest/solana_sdk/transaction/struct.Transaction.html
+/// [`Transaction`]: https://docs.rs/lumos-sdk/latest/lumos_sdk/transaction/struct.Transaction.html
 /// [invoked]: crate::program::invoke
 ///
 /// Every transaction that relies on a durable transaction nonce must contain a
 /// [`SystemInstruction::AdvanceNonceAccount`] instruction as the first
 /// instruction in the [`Message`], as created by this function. When included
-/// in the first position, the Solana runtime recognizes the transaction as one
+/// in the first position, the Lumos runtime recognizes the transaction as one
 /// that relies on a durable transaction nonce and processes it accordingly. The
 /// [`Message::new_with_nonce`] function can be used to construct a `Message` in
 /// the correct format without calling `advance_nonce_account` directly.
@@ -1469,7 +1469,7 @@ pub fn create_nonce_account(
 /// setting it to a recent blockhash, the value of the nonce must be retrieved
 /// and deserialized from the nonce account, and that value specified as the
 /// "recent blockhash". A nonce account can be deserialized with the
-/// [`solana_rpc_client_nonce_utils::data_from_account`][dfa] function.
+/// [`lumos_rpc_client_nonce_utils::data_from_account`][dfa] function.
 ///
 /// For further description of durable transaction nonces see
 /// [`create_nonce_account`].
@@ -1477,7 +1477,7 @@ pub fn create_nonce_account(
 /// [`Message`]: crate::message::Message
 /// [`Message::new_with_nonce`]: crate::message::Message::new_with_nonce
 /// [`recent_blockhash`]: crate::message::Message::recent_blockhash
-/// [dfa]: https://docs.rs/solana-rpc-client-nonce-utils/latest/solana_rpc_client_nonce_utils/fn.data_from_account.html
+/// [dfa]: https://docs.rs/lumos-rpc-client-nonce-utils/latest/lumos_rpc_client_nonce_utils/fn.data_from_account.html
 ///
 /// # Required signers
 ///
@@ -1488,18 +1488,18 @@ pub fn create_nonce_account(
 /// Create and sign a transaction with a durable nonce:
 ///
 /// ```
-/// # use solana_program::example_mocks::solana_sdk;
-/// # use solana_program::example_mocks::solana_rpc_client;
-/// # use solana_program::example_mocks::solana_rpc_client_nonce_utils;
-/// use solana_rpc_client::rpc_client::RpcClient;
-/// use solana_sdk::{
+/// # use lumos_program::example_mocks::lumos_sdk;
+/// # use lumos_program::example_mocks::lumos_rpc_client;
+/// # use lumos_program::example_mocks::lumos_rpc_client_nonce_utils;
+/// use lumos_rpc_client::rpc_client::RpcClient;
+/// use lumos_sdk::{
 ///     message::Message,
 ///     pubkey::Pubkey,
 ///     signature::{Keypair, Signer},
 ///     system_instruction,
 ///     transaction::Transaction,
 /// };
-/// # use solana_sdk::account::Account;
+/// # use lumos_sdk::account::Account;
 /// use std::path::Path;
 /// use anyhow::Result;
 /// # use anyhow::anyhow;
@@ -1542,12 +1542,12 @@ pub fn create_nonce_account(
 ///     # client.set_get_account_response(*nonce_account_pubkey, Account {
 ///     #   lamports: 1,
 ///     #   data: vec![0],
-///     #   owner: solana_sdk::system_program::ID,
+///     #   owner: lumos_sdk::system_program::ID,
 ///     #   executable: false,
 ///     #   rent_epoch: 1,
 ///     # });
 ///     let nonce_account = client.get_account(nonce_account_pubkey)?;
-///     let nonce_data = solana_rpc_client_nonce_utils::data_from_account(&nonce_account)?;
+///     let nonce_data = lumos_rpc_client_nonce_utils::data_from_account(&nonce_account)?;
 ///     let blockhash = nonce_data.blockhash();
 ///
 ///     tx.try_sign(&[payer], blockhash)?;
@@ -1590,7 +1590,7 @@ pub fn advance_nonce_account(nonce_pubkey: &Pubkey, authorized_pubkey: &Pubkey) 
 /// [`Transaction`] or [invoked] to take effect, containing a serialized
 /// [`SystemInstruction::WithdrawNonceAccount`].
 ///
-/// [`Transaction`]: https://docs.rs/solana-sdk/latest/solana_sdk/transaction/struct.Transaction.html
+/// [`Transaction`]: https://docs.rs/lumos-sdk/latest/lumos_sdk/transaction/struct.Transaction.html
 /// [invoked]: crate::program::invoke
 ///
 /// Withdrawing the entire balance of a nonce account will cause the runtime to
@@ -1601,7 +1601,7 @@ pub fn advance_nonce_account(nonce_pubkey: &Pubkey, authorized_pubkey: &Pubkey) 
 /// would leave the nonce account with a balance less than required for rent
 /// exemption, but also greater than zero, then the transaction will fail.
 ///
-/// [rent exemption]: https://solana.com/docs/core/accounts#rent-exemption
+/// [rent exemption]: https://lumos.com/docs/core/accounts#rent-exemption
 ///
 /// This constructor creates a [`SystemInstruction::WithdrawNonceAccount`]
 /// instruction.
@@ -1613,10 +1613,10 @@ pub fn advance_nonce_account(nonce_pubkey: &Pubkey, authorized_pubkey: &Pubkey) 
 /// # Examples
 ///
 /// ```
-/// # use solana_program::example_mocks::solana_sdk;
-/// # use solana_program::example_mocks::solana_rpc_client;
-/// use solana_rpc_client::rpc_client::RpcClient;
-/// use solana_sdk::{
+/// # use lumos_program::example_mocks::lumos_sdk;
+/// # use lumos_program::example_mocks::lumos_rpc_client;
+/// use lumos_rpc_client::rpc_client::RpcClient;
+/// use lumos_sdk::{
 ///     pubkey::Pubkey,
 ///     signature::{Keypair, Signer},
 ///     system_instruction,
@@ -1683,7 +1683,7 @@ pub fn withdraw_nonce_account(
 /// [`Transaction`] or [invoked] to take effect, containing a serialized
 /// [`SystemInstruction::AuthorizeNonceAccount`].
 ///
-/// [`Transaction`]: https://docs.rs/solana-sdk/latest/solana_sdk/transaction/struct.Transaction.html
+/// [`Transaction`]: https://docs.rs/lumos-sdk/latest/lumos_sdk/transaction/struct.Transaction.html
 /// [invoked]: crate::program::invoke
 ///
 /// This constructor creates a [`SystemInstruction::AuthorizeNonceAccount`]
@@ -1696,10 +1696,10 @@ pub fn withdraw_nonce_account(
 /// # Examples
 ///
 /// ```
-/// # use solana_program::example_mocks::solana_sdk;
-/// # use solana_program::example_mocks::solana_rpc_client;
-/// use solana_rpc_client::rpc_client::RpcClient;
-/// use solana_sdk::{
+/// # use lumos_program::example_mocks::lumos_sdk;
+/// # use lumos_program::example_mocks::lumos_rpc_client;
+/// use lumos_rpc_client::rpc_client::RpcClient;
+/// use lumos_sdk::{
 ///     pubkey::Pubkey,
 ///     signature::{Keypair, Signer},
 ///     system_instruction,

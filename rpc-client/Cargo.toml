@@ -1,7 +1,7 @@
 [package]
-name = "solana-rpc-client"
-description = "Solana RPC Client"
-documentation = "https://docs.rs/solana-rpc-client"
+name = "lumos-rpc-client"
+description = "Lumos RPC Client"
+documentation = "https://docs.rs/lumos-rpc-client"
 version = { workspace = true }
 authors = { workspace = true }
 repository = { workspace = true }
@@ -21,12 +21,12 @@ semver = { workspace = true }
 serde = { workspace = true }
 serde_derive = { workspace = true }
 serde_json = { workspace = true }
-solana-account-decoder = { workspace = true }
-solana-rpc-client-api = { workspace = true }
-solana-sdk = { workspace = true }
-solana-transaction-status = { workspace = true }
-solana-version = { workspace = true }
-solana-vote-program = { workspace = true }
+lumos-account-decoder = { workspace = true }
+lumos-rpc-client-api = { workspace = true }
+lumos-sdk = { workspace = true }
+lumos-transaction-status = { workspace = true }
+lumos-version = { workspace = true }
+lumos-vote-program = { workspace = true }
 tokio = { workspace = true, features = ["full"] }
 
 [dev-dependencies]

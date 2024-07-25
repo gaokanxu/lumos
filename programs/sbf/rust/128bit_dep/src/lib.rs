@@ -1,8 +1,8 @@
-//! Solana Rust-based SBF program utility functions and types
+//! Lumos Rust-based SBF program utility functions and types
 
 #![allow(clippy::arithmetic_side_effects)]
 
-extern crate solana_program;
+extern crate lumos_program;
 
 pub fn uadd(x: u128, y: u128) -> u128 {
     x + y

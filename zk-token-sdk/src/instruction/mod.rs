@@ -1,6 +1,6 @@
 //! The instruction data types for the [`ZK Token proof`] instruction.
 //!
-//! [`ZK Token proof`]: https://docs.solanalabs.com/runtime/zk-token-proof
+//! [`ZK Token proof`]: https://docs.lumoslabs.com/runtime/zk-token-proof
 
 pub mod batched_grouped_ciphertext_validity;
 pub mod batched_range_proof;
@@ -15,7 +15,7 @@ pub mod transfer;
 pub mod withdraw;
 pub mod zero_balance;
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 use crate::errors::ProofVerificationError;
 use num_derive::{FromPrimitive, ToPrimitive};
 pub use {
@@ -75,6 +75,6 @@ pub trait ZkProofData<T: Pod> {
 
     fn context_data(&self) -> &T;
 
-    #[cfg(not(target_os = "solana"))]
+    #[cfg(not(target_os = "lumos"))]
     fn verify_proof(&self) -> Result<(), ProofVerificationError>;
 }

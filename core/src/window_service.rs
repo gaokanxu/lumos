@@ -19,22 +19,22 @@ use {
     },
     crossbeam_channel::{unbounded, Receiver, RecvTimeoutError, Sender},
     rayon::{prelude::*, ThreadPool},
-    solana_gossip::cluster_info::ClusterInfo,
-    solana_ledger::{
+    lumos_gossip::cluster_info::ClusterInfo,
+    lumos_ledger::{
         blockstore::{Blockstore, BlockstoreInsertionMetrics, PossibleDuplicateShred},
         leader_schedule_cache::LeaderScheduleCache,
         shred::{self, Nonce, ReedSolomonCache, Shred},
     },
-    solana_measure::measure::Measure,
-    solana_metrics::inc_new_counter_error,
-    solana_perf::packet::{Packet, PacketBatch},
-    solana_rayon_threadlimit::get_thread_count,
-    solana_runtime::bank_forks::BankForks,
-    solana_sdk::{
+    lumos_measure::measure::Measure,
+    lumos_metrics::inc_new_counter_error,
+    lumos_perf::packet::{Packet, PacketBatch},
+    lumos_rayon_threadlimit::get_thread_count,
+    lumos_runtime::bank_forks::BankForks,
+    lumos_sdk::{
         clock::{Slot, DEFAULT_MS_PER_SLOT},
         feature_set,
     },
-    solana_turbine::cluster_nodes,
+    lumos_turbine::cluster_nodes,
     std::{
         cmp::Reverse,
         collections::{HashMap, HashSet},
@@ -240,7 +240,7 @@ fn verify_repair(
                 .register_response(
                     repair_meta.nonce,
                     shred,
-                    solana_sdk::timing::timestamp(),
+                    lumos_sdk::timing::timestamp(),
                     |_| (),
                 )
                 .is_some()
@@ -457,7 +457,7 @@ impl WindowService {
         bank_forks: Arc<RwLock<BankForks>>,
     ) -> JoinHandle<()> {
         let handle_error = || {
-            inc_new_counter_error!("solana-check-duplicate-error", 1, 1);
+            inc_new_counter_error!("lumos-check-duplicate-error", 1, 1);
         };
         Builder::new()
             .name("solWinCheckDup".to_string())
@@ -491,7 +491,7 @@ impl WindowService {
         accept_repairs_only: bool,
     ) -> JoinHandle<()> {
         let handle_error = || {
-            inc_new_counter_error!("solana-window-insert-error", 1, 1);
+            inc_new_counter_error!("lumos-window-insert-error", 1, 1);
         };
         let thread_pool = rayon::ThreadPoolBuilder::new()
             .num_threads(get_thread_count().min(8))
@@ -569,21 +569,21 @@ mod test {
     use {
         super::*,
         crate::repair::serve_repair::ShredRepairType,
-        solana_entry::entry::{create_ticks, Entry},
-        solana_gossip::contact_info::ContactInfo,
-        solana_ledger::{
+        lumos_entry::entry::{create_ticks, Entry},
+        lumos_gossip::contact_info::ContactInfo,
+        lumos_ledger::{
             blockstore::{make_many_slot_entries, Blockstore},
             genesis_utils::create_genesis_config,
             get_tmp_ledger_path_auto_delete,
             shred::{ProcessShredsStats, Shredder},
         },
-        solana_runtime::bank::Bank,
-        solana_sdk::{
+        lumos_runtime::bank::Bank,
+        lumos_sdk::{
             hash::Hash,
             signature::{Keypair, Signer},
             timing::timestamp,
         },
-        solana_streamer::socket::SocketAddrSpace,
+        lumos_streamer::socket::SocketAddrSpace,
     };
 
     fn local_entries_to_shred(
@@ -747,7 +747,7 @@ mod test {
 
     #[test]
     fn test_prune_shreds() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let shred = Shred::new_from_parity_shard(
             5,   // slot
             5,   // index

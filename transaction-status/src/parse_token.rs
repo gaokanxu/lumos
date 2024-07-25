@@ -9,15 +9,15 @@ use {
         permanent_delegate::*, reallocate::*, transfer_fee::*, transfer_hook::*,
     },
     serde_json::{json, Map, Value},
-    solana_account_decoder::parse_token::{token_amount_to_ui_amount, UiAccountState},
-    solana_sdk::{
+    lumos_account_decoder::parse_token::{token_amount_to_ui_amount, UiAccountState},
+    lumos_sdk::{
         instruction::{AccountMeta, CompiledInstruction, Instruction},
         message::AccountKeys,
     },
     spl_token_2022::{
         extension::ExtensionType,
         instruction::{AuthorityType, TokenInstruction},
-        solana_program::{
+        lumos_program::{
             instruction::Instruction as SplTokenInstruction, program_option::COption,
             pubkey::Pubkey,
         },
@@ -847,7 +847,7 @@ fn map_coption_pubkey(pubkey: COption<Pubkey>) -> Option<String> {
 mod test {
     use {
         super::*,
-        solana_sdk::{message::Message, pubkey::Pubkey},
+        lumos_sdk::{message::Message, pubkey::Pubkey},
         spl_token_2022::instruction::*,
         std::iter::repeat_with,
     };
@@ -856,7 +856,7 @@ mod test {
         let mint_pubkey = Pubkey::new_unique();
         let mint_authority = Pubkey::new_unique();
         let freeze_authority = Pubkey::new_unique();
-        let rent_sysvar = solana_sdk::sysvar::rent::id();
+        let rent_sysvar = lumos_sdk::sysvar::rent::id();
 
         // Test InitializeMint variations
         let initialize_mint_ix = initialize_mint(
@@ -1758,14 +1758,14 @@ mod test {
                 info: json!({
                    "payer": payer.to_string(),
                    "nativeMint": spl_token_2022::native_mint::id().to_string(),
-                   "systemProgram": solana_sdk::system_program::id().to_string(),
+                   "systemProgram": lumos_sdk::system_program::id().to_string(),
                 })
             }
         );
     }
 
     fn test_token_ix_not_enough_keys(program_id: &Pubkey) {
-        let keys: Vec<Pubkey> = repeat_with(solana_sdk::pubkey::new_rand).take(10).collect();
+        let keys: Vec<Pubkey> = repeat_with(lumos_sdk::pubkey::new_rand).take(10).collect();
 
         // Test InitializeMint variations
         let initialize_mint_ix =

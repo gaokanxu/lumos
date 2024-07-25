@@ -5,7 +5,7 @@ use {
         storable_accounts::StorableAccounts,
         tiered_storage::hot::{HotAccount, HotAccountMeta},
     },
-    solana_sdk::{account::ReadableAccount, hash::Hash, pubkey::Pubkey, stake_history::Epoch},
+    lumos_sdk::{account::ReadableAccount, hash::Hash, pubkey::Pubkey, stake_history::Epoch},
     std::{borrow::Borrow, marker::PhantomData},
 };
 

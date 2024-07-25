@@ -1,10 +1,10 @@
 use {
-    solana_client::{thin_client::ThinClient, tpu_client::QuicTpuClient},
-    solana_core::validator::{Validator, ValidatorConfig},
-    solana_gossip::{cluster_info::Node, contact_info::ContactInfo},
-    solana_ledger::shred::Shred,
-    solana_sdk::{commitment_config::CommitmentConfig, pubkey::Pubkey, signature::Keypair},
-    solana_streamer::socket::SocketAddrSpace,
+    lumos_client::{thin_client::ThinClient, tpu_client::QuicTpuClient},
+    lumos_core::validator::{Validator, ValidatorConfig},
+    lumos_gossip::{cluster_info::Node, contact_info::ContactInfo},
+    lumos_ledger::shred::Shred,
+    lumos_sdk::{commitment_config::CommitmentConfig, pubkey::Pubkey, signature::Keypair},
+    lumos_streamer::socket::SocketAddrSpace,
     std::{io::Result, path::PathBuf, sync::Arc},
 };
 

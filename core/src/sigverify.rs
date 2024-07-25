@@ -4,7 +4,7 @@
 //! to the GPU.
 //!
 
-pub use solana_perf::sigverify::{
+pub use lumos_perf::sigverify::{
     count_packets_in_batches, ed25519_verify_cpu, ed25519_verify_disabled, init, TxOffset,
 };
 use {
@@ -12,8 +12,8 @@ use {
         banking_trace::{BankingPacketBatch, BankingPacketSender},
         sigverify_stage::{SigVerifier, SigVerifyServiceError},
     },
-    solana_perf::{cuda_runtime::PinnedVec, packet::PacketBatch, recycler::Recycler, sigverify},
-    solana_sdk::{packet::Packet, saturating_add_assign},
+    lumos_perf::{cuda_runtime::PinnedVec, packet::PacketBatch, recycler::Recycler, sigverify},
+    lumos_sdk::{packet::Packet, saturating_add_assign},
 };
 
 #[derive(Debug, Default, Clone, PartialEq, Eq, Serialize, Deserialize, AbiExample)]

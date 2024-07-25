@@ -1,7 +1,7 @@
 //! Stats for Accounts Background Services
 
 use {
-    solana_metrics::datapoint_info,
+    lumos_metrics::datapoint_info,
     std::time::{Duration, Instant},
 };
 

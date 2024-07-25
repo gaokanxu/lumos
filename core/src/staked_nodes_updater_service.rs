@@ -1,7 +1,7 @@
 use {
-    solana_runtime::bank_forks::BankForks,
-    solana_sdk::pubkey::Pubkey,
-    solana_streamer::streamer::StakedNodes,
+    lumos_runtime::bank_forks::BankForks,
+    lumos_sdk::pubkey::Pubkey,
+    lumos_streamer::streamer::StakedNodes,
     std::{
         collections::HashMap,
         sync::{

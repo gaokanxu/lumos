@@ -680,7 +680,7 @@ mod tests {
         // impl AbiExample for its private type:
         // thread '...TestFlags_frozen_abi...' panicked at ...:
         //   derive or implement AbiExample/AbiEnumVisitor for
-        //   solana_frozen_abi::abi_digester::tests::_::InternalBitFlags
+        //   lumos_frozen_abi::abi_digester::tests::_::InternalBitFlags
         impl EvenAsOpaque for TestFlags {
             const TYPE_NAME_MATCHER: &'static str = "::_::InternalBitFlags";
         }

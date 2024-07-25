@@ -1,13 +1,13 @@
-//! A future Solana message format.
+//! A future Lumos message format.
 //!
 //! This crate defines two versions of `Message` in their own modules:
-//! [`legacy`] and [`v0`]. `legacy` is the current version as of Solana 1.10.0.
+//! [`legacy`] and [`v0`]. `legacy` is the current version as of Lumos 1.10.0.
 //! `v0` is a [future message format] that encodes more account keys into a
 //! transaction than the legacy format.
 //!
 //! [`legacy`]: crate::message::legacy
 //! [`v0`]: crate::message::v0
-//! [future message format]: https://docs.solanalabs.com/proposals/versioned-transactions
+//! [future message format]: https://docs.lumoslabs.com/proposals/versioned-transactions
 
 use crate::{
     address_lookup_table_account::AddressLookupTableAccount,
@@ -42,7 +42,7 @@ pub struct MessageAddressTableLookup {
     pub readonly_indexes: Vec<u8>,
 }
 
-/// A Solana transaction message (v0).
+/// A Lumos transaction message (v0).
 ///
 /// This message format supports succinct account loading with
 /// on-chain address lookup tables.
@@ -179,23 +179,23 @@ impl Message {
     ///
     /// # Examples
     ///
-    /// This example uses the [`solana_rpc_client`], [`solana_sdk`], and [`anyhow`] crates.
+    /// This example uses the [`lumos_rpc_client`], [`lumos_sdk`], and [`anyhow`] crates.
     ///
-    /// [`solana_rpc_client`]: https://docs.rs/solana-rpc-client
-    /// [`solana_sdk`]: https://docs.rs/solana-sdk
+    /// [`lumos_rpc_client`]: https://docs.rs/lumos-rpc-client
+    /// [`lumos_sdk`]: https://docs.rs/lumos-sdk
     /// [`anyhow`]: https://docs.rs/anyhow
     ///
     /// ```
-    /// # use solana_program::example_mocks::{
-    /// #     solana_rpc_client,
-    /// #     solana_sdk,
+    /// # use lumos_program::example_mocks::{
+    /// #     lumos_rpc_client,
+    /// #     lumos_sdk,
     /// # };
     /// # use std::borrow::Cow;
-    /// # use solana_sdk::account::Account;
+    /// # use lumos_sdk::account::Account;
     /// use anyhow::Result;
-    /// use solana_rpc_client::rpc_client::RpcClient;
-    /// use solana_program::address_lookup_table::{self, state::{AddressLookupTable, LookupTableMeta}};
-    /// use solana_sdk::{
+    /// use lumos_rpc_client::rpc_client::RpcClient;
+    /// use lumos_program::address_lookup_table::{self, state::{AddressLookupTable, LookupTableMeta}};
+    /// use lumos_sdk::{
     ///      address_lookup_table_account::AddressLookupTableAccount,
     ///      instruction::{AccountMeta, Instruction},
     ///      message::{VersionedMessage, v0},

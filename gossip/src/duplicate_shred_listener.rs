@@ -72,9 +72,9 @@ mod tests {
             cluster_info::Node, duplicate_shred::tests::new_rand_shred,
             duplicate_shred_listener::DuplicateShredHandlerTrait,
         },
-        solana_ledger::shred::Shredder,
-        solana_sdk::signature::{Keypair, Signer},
-        solana_streamer::socket::SocketAddrSpace,
+        lumos_ledger::shred::Shredder,
+        lumos_sdk::signature::{Keypair, Signer},
+        lumos_streamer::socket::SocketAddrSpace,
         std::sync::{
             atomic::{AtomicU32, Ordering},
             Arc,

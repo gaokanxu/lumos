@@ -1,5 +1,5 @@
 use {
-    solana_sdk::{message::SanitizedMessage, pubkey::Pubkey},
+    lumos_sdk::{message::SanitizedMessage, pubkey::Pubkey},
     std::collections::HashSet,
 };
 
@@ -84,9 +84,9 @@ impl ReadWriteAccountSet {
 mod tests {
     use {
         super::ReadWriteAccountSet,
-        solana_ledger::genesis_utils::GenesisConfigInfo,
-        solana_runtime::{bank::Bank, genesis_utils::create_genesis_config},
-        solana_sdk::{
+        lumos_ledger::genesis_utils::GenesisConfigInfo,
+        lumos_runtime::{bank::Bank, genesis_utils::create_genesis_config},
+        lumos_sdk::{
             account::AccountSharedData,
             address_lookup_table::{
                 self,

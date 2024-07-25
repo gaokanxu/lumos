@@ -1,7 +1,7 @@
 use {
     crate::{StoredExtendedRewards, StoredTransactionStatusMeta},
-    solana_account_decoder::parse_token::{real_number_string_trimmed, UiTokenAmount},
-    solana_sdk::{
+    lumos_account_decoder::parse_token::{real_number_string_trimmed, UiTokenAmount},
+    lumos_sdk::{
         hash::Hash,
         instruction::{CompiledInstruction, InstructionError},
         message::{
@@ -14,7 +14,7 @@ use {
         transaction::{Transaction, TransactionError, VersionedTransaction},
         transaction_context::TransactionReturnData,
     },
-    solana_transaction_status::{
+    lumos_transaction_status::{
         ConfirmedBlock, EntrySummary, InnerInstruction, InnerInstructions, Reward, RewardType,
         TransactionByAddrInfo, TransactionStatusMeta, TransactionTokenBalance,
         TransactionWithStatusMeta, VersionedConfirmedBlock, VersionedTransactionWithStatusMeta,
@@ -29,7 +29,7 @@ use {
 pub mod generated {
     include!(concat!(
         env!("OUT_DIR"),
-        "/solana.storage.confirmed_block.rs"
+        "/lumos.storage.confirmed_block.rs"
     ));
 }
 
@@ -37,13 +37,13 @@ pub mod generated {
 pub mod tx_by_addr {
     include!(concat!(
         env!("OUT_DIR"),
-        "/solana.storage.transaction_by_addr.rs"
+        "/lumos.storage.transaction_by_addr.rs"
     ));
 }
 
 #[allow(clippy::derive_partial_eq_without_eq)]
 pub mod entries {
-    include!(concat!(env!("OUT_DIR"), "/solana.storage.entries.rs"));
+    include!(concat!(env!("OUT_DIR"), "/lumos.storage.entries.rs"));
 }
 
 impl From<Vec<Reward>> for generated::Rewards {

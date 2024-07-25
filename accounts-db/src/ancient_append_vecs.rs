@@ -19,8 +19,8 @@ use {
     },
     rand::{thread_rng, Rng},
     rayon::prelude::{IntoParallelIterator, IntoParallelRefIterator, ParallelIterator},
-    solana_measure::measure_us,
-    solana_sdk::{account::ReadableAccount, clock::Slot, saturating_add_assign},
+    lumos_measure::measure_us,
+    lumos_sdk::{account::ReadableAccount, clock::Slot, saturating_add_assign},
     std::{
         collections::HashMap,
         num::NonZeroU64,
@@ -991,7 +991,7 @@ pub mod tests {
             append_vec::{aligned_stored_size, AppendVec, AppendVecStoredAccountMeta},
             storable_accounts::StorableAccountsBySlot,
         },
-        solana_sdk::{
+        lumos_sdk::{
             account::{AccountSharedData, ReadableAccount, WritableAccount},
             hash::Hash,
             pubkey::Pubkey,
@@ -1136,7 +1136,7 @@ pub mod tests {
         // n slots
         // m accounts per slot
         // divide into different ideal sizes so that we combine multiple slots sometimes and combine partial slots
-        solana_logger::setup();
+        lumos_logger::setup();
         let total_accounts_per_storage = 10;
         let account_size = 184;
         for num_slots in 0..4 {
@@ -1169,7 +1169,7 @@ pub mod tests {
                     .map(|storage| {
                         (0..(total_accounts_per_storage - 1))
                             .map(|_| {
-                                let pk = solana_sdk::pubkey::new_rand();
+                                let pk = lumos_sdk::pubkey::new_rand();
                                 let mut account = account_template.clone();
                                 account.set_lamports(lamports);
                                 lamports += 1;
@@ -1241,7 +1241,7 @@ pub mod tests {
         // each account has different size
         // divide into different ideal sizes so that we combine multiple slots sometimes and combine partial slots
         // compare at end that all accounts are in result exactly once
-        solana_logger::setup();
+        lumos_logger::setup();
         let total_accounts_per_storage = 10;
         let account_size = 184;
         for num_slots in 0..4 {
@@ -1277,7 +1277,7 @@ pub mod tests {
                     .map(|storage| {
                         (0..(total_accounts_per_storage - 1))
                             .map(|_| {
-                                let pk = solana_sdk::pubkey::new_rand();
+                                let pk = lumos_sdk::pubkey::new_rand();
                                 let mut account = account_template.clone();
                                 account.set_data((0..data_size).map(|x| (x % 256) as u8).collect());
                                 data_size += 1;
@@ -1515,7 +1515,7 @@ pub mod tests {
 
                             if add_dead_account {
                                 storages.iter().for_each(|storage| {
-                                    let pk = solana_sdk::pubkey::new_rand();
+                                    let pk = lumos_sdk::pubkey::new_rand();
                                     let alive = false;
                                     let write_version = 0;
                                     append_single_account_with_default_hash(
@@ -1651,7 +1651,7 @@ pub mod tests {
                 .iter()
                 .map(|store| db.get_unique_accounts_from_storage(store))
                 .collect::<Vec<_>>();
-            let pk_with_1_ref = solana_sdk::pubkey::new_rand();
+            let pk_with_1_ref = lumos_sdk::pubkey::new_rand();
             let slot1 = slots.start;
             let account_with_2_refs = original_results
                 .first()
@@ -1831,7 +1831,7 @@ pub mod tests {
                 .map(|store| db.get_unique_accounts_from_storage(store))
                 .collect::<Vec<_>>();
             let storage = storages.first().unwrap().clone();
-            let pk_with_1_ref = solana_sdk::pubkey::new_rand();
+            let pk_with_1_ref = lumos_sdk::pubkey::new_rand();
             let slot1 = slots.start;
             let account_with_2_refs = original_results
                 .first()
@@ -3026,7 +3026,7 @@ pub mod tests {
         // NOTE: The recycler has been removed.  Creating this many extra storages is no longer
         // necessary, but also does no harm either.
         const MAX_RECYCLE_STORES: usize = 1000;
-        solana_logger::setup();
+        lumos_logger::setup();
 
         // When we pack ancient append vecs, the packed append vecs are recycled first if possible. This means they aren't dropped directly.
         // This test tests that we are releasing Arc refcounts for storages when we pack them into ancient append vecs.
@@ -3266,7 +3266,7 @@ pub mod tests {
         let empty_account = AccountSharedData::default();
         for count in 0..3 {
             let unrefed_pubkeys = (0..count)
-                .map(|_| solana_sdk::pubkey::new_rand())
+                .map(|_| lumos_sdk::pubkey::new_rand())
                 .collect::<Vec<_>>();
             // how many of `many_ref_accounts` should be found in the index with ref_count=1
             let mut expected_ref_counts = HashMap::<Pubkey, u64>::default();

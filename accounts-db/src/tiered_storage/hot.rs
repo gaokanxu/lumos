@@ -22,7 +22,7 @@ use {
     bytemuck::{Pod, Zeroable},
     memmap2::{Mmap, MmapOptions},
     modular_bitfield::prelude::*,
-    solana_sdk::{
+    lumos_sdk::{
         account::ReadableAccount, pubkey::Pubkey, rent_collector::RENT_EXEMPT_RENT_EPOCH,
         stake_history::Epoch,
     },
@@ -720,7 +720,7 @@ pub mod tests {
         assert_matches::assert_matches,
         memoffset::offset_of,
         rand::{seq::SliceRandom, Rng},
-        solana_sdk::{
+        lumos_sdk::{
             account::ReadableAccount, hash::Hash, pubkey::Pubkey, slot_history::Slot,
             stake_history::Epoch,
         },

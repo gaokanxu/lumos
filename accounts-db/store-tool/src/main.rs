@@ -1,10 +1,10 @@
 use {
     clap::{crate_description, crate_name, value_t, value_t_or_exit, App, Arg},
     log::*,
-    solana_accounts_db::{
+    lumos_accounts_db::{
         account_storage::meta::StoredAccountMeta, accounts_hash::AccountHash, append_vec::AppendVec,
     },
-    solana_sdk::{
+    lumos_sdk::{
         account::{AccountSharedData, ReadableAccount},
         hash::Hash,
         pubkey::Pubkey,
@@ -13,10 +13,10 @@ use {
 };
 
 fn main() {
-    solana_logger::setup_with_default("solana=info");
+    lumos_logger::setup_with_default("lumos=info");
     let matches = App::new(crate_name!())
         .about(crate_description!())
-        .version(solana_version::version!())
+        .version(lumos_version::version!())
         .arg(
             Arg::with_name("file")
                 .long("file")

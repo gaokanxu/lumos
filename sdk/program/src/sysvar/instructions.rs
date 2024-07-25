@@ -5,7 +5,7 @@
 //! introspection][in], which is required for correctly interoperating with
 //! native programs like the [secp256k1] and [ed25519] programs.
 //!
-//! [in]: https://docs.solanalabs.com/implemented-proposals/instruction_introspection
+//! [in]: https://docs.lumoslabs.com/implemented-proposals/instruction_introspection
 //! [secp256k1]: crate::secp256k1_program
 //! [ed25519]: crate::ed25519_program
 //!
@@ -16,16 +16,16 @@
 //!
 //! [`Sysvar`]: crate::sysvar::Sysvar
 //!
-//! See also the Solana [documentation on the instructions sysvar][sdoc].
+//! See also the Lumos [documentation on the instructions sysvar][sdoc].
 //!
-//! [sdoc]: https://docs.solanalabs.com/runtime/sysvars#instructions
+//! [sdoc]: https://docs.lumoslabs.com/runtime/sysvars#instructions
 //!
 //! # Examples
 //!
 //! For a complete example of how the instructions sysvar is used see the
-//! documentation for [`secp256k1_instruction`] in the `solana-sdk` crate.
+//! documentation for [`secp256k1_instruction`] in the `lumos-sdk` crate.
 //!
-//! [`secp256k1_instruction`]: https://docs.rs/solana-sdk/latest/solana_sdk/secp256k1_instruction/index.html
+//! [`secp256k1_instruction`]: https://docs.rs/lumos-sdk/latest/lumos_sdk/secp256k1_instruction/index.html
 
 #![allow(clippy::arithmetic_side_effects)]
 
@@ -37,7 +37,7 @@ use crate::{
     sanitize::SanitizeError,
     serialize_utils::{read_pubkey, read_slice, read_u16, read_u8},
 };
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 use {
     crate::serialize_utils::{append_slice, append_u16, append_u8},
     bitflags::bitflags,
@@ -59,8 +59,8 @@ crate::declare_sysvar_id!("Sysvar1nstructions1111111111111111111111111", Instruc
 
 /// Construct the account data for the instructions sysvar.
 ///
-/// This function is used by the runtime and not available to Solana programs.
-#[cfg(not(target_os = "solana"))]
+/// This function is used by the runtime and not available to Lumos programs.
+#[cfg(not(target_os = "lumos"))]
 pub fn construct_instructions_data(instructions: &[BorrowedInstruction]) -> Vec<u8> {
     let mut data = serialize_instructions(instructions);
     // add room for current instruction index.
@@ -72,7 +72,7 @@ pub fn construct_instructions_data(instructions: &[BorrowedInstruction]) -> Vec<
 /// Borrowed version of `AccountMeta`.
 ///
 /// This struct is used by the runtime when constructing the sysvar. It is not
-/// useful to Solana programs.
+/// useful to Lumos programs.
 pub struct BorrowedAccountMeta<'a> {
     pub pubkey: &'a Pubkey,
     pub is_signer: bool,
@@ -82,14 +82,14 @@ pub struct BorrowedAccountMeta<'a> {
 /// Borrowed version of `Instruction`.
 ///
 /// This struct is used by the runtime when constructing the sysvar. It is not
-/// useful to Solana programs.
+/// useful to Lumos programs.
 pub struct BorrowedInstruction<'a> {
     pub program_id: &'a Pubkey,
     pub accounts: Vec<BorrowedAccountMeta<'a>>,
     pub data: &'a [u8],
 }
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 bitflags! {
     struct InstructionsSysvarAccountMeta: u8 {
         const IS_SIGNER = 0b00000001;
@@ -110,7 +110,7 @@ bitflags! {
 //   35..67 - program_id
 //   67..69 - data len - u16
 //   69..data_len - data
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 fn serialize_instructions(instructions: &[BorrowedInstruction]) -> Vec<u8> {
     // 64 bytes is a reasonable guess, calculating exactly is slower in benchmarks
     let mut data = Vec::with_capacity(instructions.len() * (32 * 2));

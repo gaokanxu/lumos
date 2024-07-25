@@ -2,7 +2,7 @@ mod encryption;
 mod with_fee;
 mod without_fee;
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 use {
     crate::{
         encryption::{
@@ -13,7 +13,7 @@ use {
     },
     curve25519_dalek::scalar::Scalar,
 };
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 pub use {
     encryption::{FeeEncryption, TransferAmountCiphertext},
     with_fee::TransferWithFeePubkeys,
@@ -24,7 +24,7 @@ pub use {
     without_fee::{TransferData, TransferProofContext},
 };
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 #[derive(Debug, Copy, Clone)]
 pub enum Role {
     Source,
@@ -37,7 +37,7 @@ pub enum Role {
 ///  - the `bit_length` low bits of `amount` interpreted as u64
 ///  - the (64 - `bit_length`) high bits of `amount` interpreted as u64
 #[deprecated(since = "1.18.0", note = "please use `try_split_u64` instead")]
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 pub fn split_u64(amount: u64, bit_length: usize) -> (u64, u64) {
     if bit_length == 64 {
         (amount, 0)
@@ -51,7 +51,7 @@ pub fn split_u64(amount: u64, bit_length: usize) -> (u64, u64) {
 /// Takes in a 64-bit number `amount` and a bit length `bit_length`. It returns:
 /// - the `bit_length` low bits of `amount` interpretted as u64
 /// - the `(64 - bit_length)` high bits of `amount` interpretted as u64
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 pub fn try_split_u64(amount: u64, bit_length: usize) -> Result<(u64, u64), InstructionError> {
     match bit_length {
         0 => Ok((0, amount)),
@@ -72,7 +72,7 @@ pub fn try_split_u64(amount: u64, bit_length: usize) -> Result<(u64, u64), Instr
 }
 
 #[deprecated(since = "1.18.0", note = "please use `try_combine_lo_hi_u64` instead")]
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 pub fn combine_lo_hi_u64(amount_lo: u64, amount_hi: u64, bit_length: usize) -> u64 {
     if bit_length == 64 {
         amount_lo
@@ -83,7 +83,7 @@ pub fn combine_lo_hi_u64(amount_lo: u64, amount_hi: u64, bit_length: usize) -> u
 
 /// Combine two numbers that are interpretted as the low and high bits of a target number. The
 /// `bit_length` parameter specifies the number of bits that `amount_hi` is to be shifted by.
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 pub fn try_combine_lo_hi_u64(
     amount_lo: u64,
     amount_hi: u64,
@@ -104,7 +104,7 @@ pub fn try_combine_lo_hi_u64(
     }
 }
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 fn try_combine_lo_hi_ciphertexts(
     ciphertext_lo: &ElGamalCiphertext,
     ciphertext_hi: &ElGamalCiphertext,
@@ -122,7 +122,7 @@ fn try_combine_lo_hi_ciphertexts(
     since = "1.18.0",
     note = "please use `try_combine_lo_hi_commitments` instead"
 )]
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 pub fn combine_lo_hi_commitments(
     comm_lo: &PedersenCommitment,
     comm_hi: &PedersenCommitment,
@@ -132,7 +132,7 @@ pub fn combine_lo_hi_commitments(
     comm_lo + comm_hi * &Scalar::from(two_power)
 }
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 pub fn try_combine_lo_hi_commitments(
     comm_lo: &PedersenCommitment,
     comm_hi: &PedersenCommitment,
@@ -150,7 +150,7 @@ pub fn try_combine_lo_hi_commitments(
     since = "1.18.0",
     note = "please use `try_combine_lo_hi_openings` instead"
 )]
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 pub fn combine_lo_hi_openings(
     opening_lo: &PedersenOpening,
     opening_hi: &PedersenOpening,
@@ -160,7 +160,7 @@ pub fn combine_lo_hi_openings(
     opening_lo + opening_hi * &Scalar::from(two_power)
 }
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 pub fn try_combine_lo_hi_openings(
     opening_lo: &PedersenOpening,
     opening_hi: &PedersenOpening,

@@ -7,8 +7,8 @@ use {
     pem::Pem,
     quinn::{Endpoint, IdleTimeout, ServerConfig},
     rustls::{server::ClientCertVerified, Certificate, DistinguishedName},
-    solana_perf::packet::PacketBatch,
-    solana_sdk::{
+    lumos_perf::packet::PacketBatch,
+    lumos_sdk::{
         packet::PACKET_DATA_SIZE,
         quic::{NotifyKeyUpdate, QUIC_MAX_TIMEOUT, QUIC_MAX_UNSTAKED_CONCURRENT_STREAMS},
         signature::Keypair,
@@ -485,7 +485,7 @@ mod test {
         super::*,
         crate::nonblocking::quic::{test::*, DEFAULT_WAIT_FOR_CHUNK_TIMEOUT},
         crossbeam_channel::unbounded,
-        solana_sdk::net::DEFAULT_TPU_COALESCE,
+        lumos_sdk::net::DEFAULT_TPU_COALESCE,
         std::net::SocketAddr,
     };
 
@@ -532,7 +532,7 @@ mod test {
 
     #[test]
     fn test_quic_timeout() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let (t, exit, receiver, server_address) = setup_quic_server();
         let runtime = rt("solQuicTestRt".to_string());
         runtime.block_on(check_timeout(receiver, server_address));
@@ -542,7 +542,7 @@ mod test {
 
     #[test]
     fn test_quic_server_block_multiple_connections() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let (t, exit, _receiver, server_address) = setup_quic_server();
 
         let runtime = rt("solQuicTestRt".to_string());
@@ -553,7 +553,7 @@ mod test {
 
     #[test]
     fn test_quic_server_multiple_streams() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let s = UdpSocket::bind("127.0.0.1:0").unwrap();
         let exit = Arc::new(AtomicBool::new(false));
         let (sender, receiver) = unbounded();
@@ -588,7 +588,7 @@ mod test {
 
     #[test]
     fn test_quic_server_multiple_writes() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let (t, exit, receiver, server_address) = setup_quic_server();
 
         let runtime = rt("solQuicTestRt".to_string());
@@ -599,7 +599,7 @@ mod test {
 
     #[test]
     fn test_quic_server_unstaked_node_connect_failure() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let s = UdpSocket::bind("127.0.0.1:0").unwrap();
         let exit = Arc::new(AtomicBool::new(false));
         let (sender, _) = unbounded();

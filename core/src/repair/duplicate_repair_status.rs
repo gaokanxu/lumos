@@ -1,6 +1,6 @@
 use {
-    solana_ledger::blockstore::Blockstore,
-    solana_sdk::{clock::Slot, hash::Hash, pubkey::Pubkey, timing::timestamp},
+    lumos_ledger::blockstore::Blockstore,
+    lumos_sdk::{clock::Slot, hash::Hash, pubkey::Pubkey, timing::timestamp},
     std::{
         collections::HashMap,
         net::SocketAddr,
@@ -528,7 +528,7 @@ pub mod tests {
     use {
         super::*,
         rand::{self, seq::SliceRandom, thread_rng},
-        solana_ledger::get_tmp_ledger_path_auto_delete,
+        lumos_ledger::get_tmp_ledger_path_auto_delete,
         std::{collections::BTreeMap, net::IpAddr},
         tempfile::TempDir,
         trees::tr,

@@ -1,4 +1,4 @@
-//! Solana precompiled programs.
+//! Lumos precompiled programs.
 
 #![cfg(feature = "full")]
 

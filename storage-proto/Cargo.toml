@@ -1,7 +1,7 @@
 [package]
-name = "solana-storage-proto"
-description = "Solana Storage Protobuf Definitions"
-documentation = "https://docs.rs/solana-storage-proto"
+name = "lumos-storage-proto"
+description = "Lumos Storage Protobuf Definitions"
+documentation = "https://docs.rs/lumos-storage-proto"
 version = { workspace = true }
 authors = { workspace = true }
 repository = { workspace = true }
@@ -14,16 +14,16 @@ bincode = { workspace = true }
 bs58 = { workspace = true }
 prost = { workspace = true }
 serde = { workspace = true }
-solana-account-decoder = { workspace = true }
-solana-sdk = { workspace = true }
-solana-transaction-status = { workspace = true }
+lumos-account-decoder = { workspace = true }
+lumos-sdk = { workspace = true }
+lumos-transaction-status = { workspace = true }
 
 [dev-dependencies]
 enum-iterator = { workspace = true }
 
 [lib]
 crate-type = ["lib"]
-name = "solana_storage_proto"
+name = "lumos_storage_proto"
 
 [package.metadata.docs.rs]
 targets = ["x86_64-unknown-linux-gnu"]

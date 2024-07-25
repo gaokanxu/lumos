@@ -1,7 +1,7 @@
 [package]
-name = "solana-stake-program"
-description = "Solana Stake program"
-documentation = "https://docs.rs/solana-stake-program"
+name = "lumos-stake-program"
+description = "Lumos Stake program"
+documentation = "https://docs.rs/lumos-stake-program"
 version = { workspace = true }
 authors = { workspace = true }
 repository = { workspace = true }
@@ -12,15 +12,15 @@ edition = { workspace = true }
 [dependencies]
 bincode = { workspace = true }
 log = { workspace = true }
-solana-config-program = { workspace = true }
-solana-program-runtime = { workspace = true }
-solana-sdk = { workspace = true }
-solana-vote-program = { workspace = true }
+lumos-config-program = { workspace = true }
+lumos-program-runtime = { workspace = true }
+lumos-sdk = { workspace = true }
+lumos-vote-program = { workspace = true }
 
 [dev-dependencies]
 assert_matches = { workspace = true }
 proptest = { workspace = true }
-solana-logger = { workspace = true }
+lumos-logger = { workspace = true }
 test-case = { workspace = true }
 
 [build-dependencies]
@@ -28,7 +28,7 @@ rustc_version = { workspace = true }
 
 [lib]
 crate-type = ["lib"]
-name = "solana_stake_program"
+name = "lumos_stake_program"
 
 [package.metadata.docs.rs]
 targets = ["x86_64-unknown-linux-gnu"]

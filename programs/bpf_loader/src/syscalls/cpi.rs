@@ -2,12 +2,12 @@ use {
     super::*,
     crate::serialization::account_data_region_memory_state,
     scopeguard::defer,
-    solana_program_runtime::invoke_context::SerializedAccountMetadata,
-    solana_rbpf::{
+    lumos_program_runtime::invoke_context::SerializedAccountMetadata,
+    lumos_rbpf::{
         ebpf,
         memory_region::{MemoryRegion, MemoryState},
     },
-    solana_sdk::{
+    lumos_sdk::{
         feature_set::enable_bpf_loader_set_authority_checked_ix,
         stable_layout::stable_instruction::StableInstruction,
         syscalls::{
@@ -1580,13 +1580,13 @@ mod tests {
         super::*,
         crate::mock_create_vm,
         assert_matches::assert_matches,
-        solana_program_runtime::{
+        lumos_program_runtime::{
             invoke_context::SerializedAccountMetadata, with_mock_invoke_context,
         },
-        solana_rbpf::{
+        lumos_rbpf::{
             ebpf::MM_INPUT_START, memory_region::MemoryRegion, program::SBPFVersion, vm::Config,
         },
-        solana_sdk::{
+        lumos_sdk::{
             account::{Account, AccountSharedData, ReadableAccount},
             clock::Epoch,
             feature_set::bpf_account_data_direct_mapping,

@@ -2,11 +2,11 @@ use {
     log::*,
     rand::{thread_rng, Rng},
     rayon::prelude::*,
-    solana_accounts_db::{
+    lumos_accounts_db::{
         accounts_db::{AccountsDb, LoadHint},
         ancestors::Ancestors,
     },
-    solana_sdk::{
+    lumos_sdk::{
         account::{AccountSharedData, ReadableAccount, WritableAccount},
         clock::Slot,
         pubkey::Pubkey,
@@ -24,7 +24,7 @@ use {
 
 #[test]
 fn test_shrink_and_clean() {
-    solana_logger::setup();
+    lumos_logger::setup();
 
     // repeat the whole test scenario
     for _ in 0..5 {
@@ -49,7 +49,7 @@ fn test_shrink_and_clean() {
         for current_slot in 0..100 {
             while alive_accounts.len() <= 10 {
                 alive_accounts.push((
-                    solana_sdk::pubkey::new_rand(),
+                    lumos_sdk::pubkey::new_rand(),
                     AccountSharedData::new(thread_rng().gen_range(0..50), 0, &owner),
                 ));
             }
@@ -79,7 +79,7 @@ fn test_shrink_and_clean() {
 
 #[test]
 fn test_bad_bank_hash() {
-    solana_logger::setup();
+    lumos_logger::setup();
     let db = AccountsDb::new_single_for_tests();
 
     let some_slot: Slot = 0;
@@ -87,7 +87,7 @@ fn test_bad_bank_hash() {
     let mut accounts_keys: Vec<_> = (0..max_accounts)
         .into_par_iter()
         .map(|_| {
-            let key = solana_sdk::pubkey::new_rand();
+            let key = lumos_sdk::pubkey::new_rand();
             let lamports = thread_rng().gen_range(0..100);
             let some_data_len = thread_rng().gen_range(0..1000);
             let account = AccountSharedData::new(lamports, some_data_len, &key);

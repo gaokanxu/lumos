@@ -1,6 +1,6 @@
 use {
     serde::{Deserialize, Serialize},
-    solana_accounts_db::accounts_db::AccountStorageEntry,
+    lumos_accounts_db::accounts_db::AccountStorageEntry,
 };
 
 /// The serialized AppendVecId type is fixed as usize
@@ -37,4 +37,4 @@ impl From<&AccountStorageEntry> for SerializableAccountStorageEntry {
 }
 
 #[cfg(RUSTC_WITH_SPECIALIZATION)]
-impl solana_frozen_abi::abi_example::IgnoreAsHelper for SerializableAccountStorageEntry {}
+impl lumos_frozen_abi::abi_example::IgnoreAsHelper for SerializableAccountStorageEntry {}

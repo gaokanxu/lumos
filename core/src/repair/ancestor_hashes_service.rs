@@ -20,14 +20,14 @@ use {
     bincode::serialize,
     crossbeam_channel::{unbounded, Receiver, RecvTimeoutError, Sender},
     dashmap::{mapref::entry::Entry::Occupied, DashMap},
-    solana_gossip::{cluster_info::ClusterInfo, contact_info::Protocol, ping_pong::Pong},
-    solana_ledger::blockstore::Blockstore,
-    solana_perf::{
+    lumos_gossip::{cluster_info::ClusterInfo, contact_info::Protocol, ping_pong::Pong},
+    lumos_ledger::blockstore::Blockstore,
+    lumos_perf::{
         packet::{deserialize_from_with_limit, Packet, PacketBatch},
         recycler::Recycler,
     },
-    solana_runtime::bank::Bank,
-    solana_sdk::{
+    lumos_runtime::bank::Bank,
+    lumos_sdk::{
         clock::{Slot, DEFAULT_MS_PER_SLOT},
         genesis_config::ClusterType,
         pubkey::Pubkey,
@@ -35,7 +35,7 @@ use {
         signer::keypair::Keypair,
         timing::timestamp,
     },
-    solana_streamer::streamer::{self, PacketBatchReceiver, StreamerReceiveStats},
+    lumos_streamer::streamer::{self, PacketBatchReceiver, StreamerReceiveStats},
     std::{
         collections::HashSet,
         io::{Cursor, Read},
@@ -915,20 +915,20 @@ mod test {
             },
             vote_simulator::VoteSimulator,
         },
-        solana_gossip::{
+        lumos_gossip::{
             cluster_info::{ClusterInfo, Node},
             contact_info::{ContactInfo, Protocol},
         },
-        solana_ledger::{
+        lumos_ledger::{
             blockstore::make_many_slot_entries, get_tmp_ledger_path,
             get_tmp_ledger_path_auto_delete, shred::Nonce,
         },
-        solana_runtime::{accounts_background_service::AbsRequestSender, bank_forks::BankForks},
-        solana_sdk::{
+        lumos_runtime::{accounts_background_service::AbsRequestSender, bank_forks::BankForks},
+        lumos_sdk::{
             hash::Hash,
             signature::{Keypair, Signer},
         },
-        solana_streamer::socket::SocketAddrSpace,
+        lumos_streamer::socket::SocketAddrSpace,
         std::collections::HashMap,
         trees::tr,
     };

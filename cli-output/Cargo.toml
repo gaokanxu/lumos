@@ -1,7 +1,7 @@
 [package]
-name = "solana-cli-output"
+name = "lumos-cli-output"
 description = "Blockchain, Rebuilt for Scale"
-documentation = "https://docs.rs/solana-cli-output"
+documentation = "https://docs.rs/lumos-cli-output"
 version = { workspace = true }
 authors = { workspace = true }
 repository = { workspace = true }
@@ -21,14 +21,14 @@ pretty-hex = { workspace = true }
 semver = { workspace = true }
 serde = { workspace = true }
 serde_json = { workspace = true }
-solana-account-decoder = { workspace = true }
-solana-clap-utils = { workspace = true }
-solana-cli-config = { workspace = true }
-solana-rpc-client-api = { workspace = true }
-solana-sdk = { workspace = true }
-solana-transaction-status = { workspace = true }
-solana-vote-program = { workspace = true }
-spl-memo = { workspace = true, features = ["no-entrypoint"] }
+lumos-account-decoder = { workspace = true }
+lumos-clap-utils = { workspace = true }
+lumos-cli-config = { workspace = true }
+lumos-rpc-client-api = { workspace = true }
+lumos-sdk = { workspace = true }
+lumos-transaction-status = { workspace = true }
+lumos-vote-program = { workspace = true }
+lpl-memo = { workspace = true, features = ["no-entrypoint"] }
 
 [dev-dependencies]
 ed25519-dalek = { workspace = true }

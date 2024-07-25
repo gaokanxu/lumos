@@ -7,7 +7,7 @@ use {
     crossbeam_channel::unbounded,
     log::*,
     rand::{seq::SliceRandom, thread_rng},
-    solana_accounts_db::{
+    lumos_accounts_db::{
         accounts_db::{AccountShrinkThreshold, AccountsDb, AccountsDbConfig, CreateAncientStorage},
         accounts_index::{
             AccountIndex, AccountSecondaryIndexes, AccountSecondaryIndexesIncludeExclude,
@@ -16,8 +16,8 @@ use {
         partitioned_rewards::TestPartitionedEpochRewards,
         utils::{create_all_accounts_run_and_snapshot_dirs, create_and_canonicalize_directories},
     },
-    solana_clap_utils::input_parsers::{keypair_of, keypairs_of, pubkey_of, value_of},
-    solana_core::{
+    lumos_clap_utils::input_parsers::{keypair_of, keypairs_of, pubkey_of, value_of},
+    lumos_core::{
         banking_trace::DISABLED_BAKING_TRACE_DIR,
         consensus::tower_storage,
         system_monitor_service::SystemMonitorService,
@@ -27,8 +27,8 @@ use {
             ValidatorConfig, ValidatorStartProgress,
         },
     },
-    solana_gossip::{cluster_info::Node, legacy_contact_info::LegacyContactInfo as ContactInfo},
-    solana_ledger::{
+    lumos_gossip::{cluster_info::Node, legacy_contact_info::LegacyContactInfo as ContactInfo},
+    lumos_ledger::{
         blockstore_cleanup_service::{DEFAULT_MAX_LEDGER_SHREDS, DEFAULT_MIN_MAX_LEDGER_SHREDS},
         blockstore_options::{
             BlockstoreCompressionType, BlockstoreRecoveryMode, LedgerColumnOptions,
@@ -36,31 +36,31 @@ use {
         },
         use_snapshot_archives_at_startup::{self, UseSnapshotArchivesAtStartup},
     },
-    solana_perf::recycler::enable_recycler_warming,
-    solana_poh::poh_service,
-    solana_program_runtime::runtime_config::RuntimeConfig,
-    solana_rpc::{
+    lumos_perf::recycler::enable_recycler_warming,
+    lumos_poh::poh_service,
+    lumos_program_runtime::runtime_config::RuntimeConfig,
+    lumos_rpc::{
         rpc::{JsonRpcConfig, RpcBigtableConfig},
         rpc_pubsub_service::PubSubConfig,
     },
-    solana_rpc_client::rpc_client::RpcClient,
-    solana_rpc_client_api::config::RpcLeaderScheduleConfig,
-    solana_runtime::{
+    lumos_rpc_client::rpc_client::RpcClient,
+    lumos_rpc_client_api::config::RpcLeaderScheduleConfig,
+    lumos_runtime::{
         snapshot_bank_utils::DISABLED_SNAPSHOT_ARCHIVE_INTERVAL,
         snapshot_config::{SnapshotConfig, SnapshotUsage},
         snapshot_utils::{self, ArchiveFormat, SnapshotVersion},
     },
-    solana_sdk::{
+    lumos_sdk::{
         clock::{Slot, DEFAULT_S_PER_SLOT},
         commitment_config::CommitmentConfig,
         hash::Hash,
         pubkey::Pubkey,
         signature::{read_keypair, Keypair, Signer},
     },
-    solana_send_transaction_service::send_transaction_service,
-    solana_streamer::socket::SocketAddrSpace,
-    solana_tpu_client::tpu_client::DEFAULT_TPU_ENABLE_UDP,
-    solana_validator::{
+    lumos_send_transaction_service::send_transaction_service,
+    lumos_streamer::socket::SocketAddrSpace,
+    lumos_tpu_client::tpu_client::DEFAULT_TPU_ENABLE_UDP,
+    lumos_validator::{
         admin_rpc_service,
         admin_rpc_service::{load_staked_nodes_overrides, StakedNodesOverrides},
         bootstrap,
@@ -427,7 +427,7 @@ fn get_cluster_shred_version(entrypoints: &[SocketAddr]) -> Option<u16> {
         index.into_iter().map(|i| &entrypoints[i])
     };
     for entrypoint in entrypoints {
-        match solana_net_utils::get_cluster_shred_version(entrypoint) {
+        match lumos_net_utils::get_cluster_shred_version(entrypoint) {
             Err(err) => eprintln!("get_cluster_shred_version failed: {entrypoint}, {err}"),
             Ok(0) => eprintln!("zero shred-version from entrypoint: {entrypoint}"),
             Ok(shred_version) => {
@@ -460,8 +460,8 @@ fn configure_banking_trace_dir_byte_limit(
 
 pub fn main() {
     let default_args = DefaultArgs::new();
-    let solana_version = solana_version::version!();
-    let cli_app = app(solana_version, &default_args);
+    let lumos_version = lumos_version::version!();
+    let cli_app = app(lumos_version, &default_args);
     let matches = cli_app.get_matches();
     warn_for_deprecated_arguments(&matches);
 
@@ -867,7 +867,7 @@ pub fn main() {
         ("set-public-address", Some(subcommand_matches)) => {
             let parse_arg_addr = |arg_name: &str, arg_long: &str| -> Option<SocketAddr> {
                 subcommand_matches.value_of(arg_name).map(|host_port| {
-                    solana_net_utils::parse_host_port(host_port).unwrap_or_else(|err| {
+                    lumos_net_utils::parse_host_port(host_port).unwrap_or_else(|err| {
                         eprintln!(
                             "Failed to parse --{arg_long} address. It must be in the HOST:PORT \
                              format. {err}"
@@ -917,7 +917,7 @@ pub fn main() {
         let logfile = matches
             .value_of("logfile")
             .map(|s| s.into())
-            .unwrap_or_else(|| format!("solana-validator-{}.log", identity_keypair.pubkey()));
+            .unwrap_or_else(|| format!("lumos-validator-{}.log", identity_keypair.pubkey()));
 
         if logfile == "-" {
             None
@@ -929,16 +929,16 @@ pub fn main() {
     let use_progress_bar = logfile.is_none();
     let _logger_thread = redirect_stderr_to_file(logfile);
 
-    info!("{} {}", crate_name!(), solana_version);
+    info!("{} {}", crate_name!(), lumos_version);
     info!("Starting validator with: {:#?}", std::env::args_os());
 
     let cuda = matches.is_present("cuda");
     if cuda {
-        solana_perf::perf_libs::init_cuda();
+        lumos_perf::perf_libs::init_cuda();
         enable_recycler_warming();
     }
 
-    solana_core::validator::report_target_features();
+    lumos_core::validator::report_target_features();
 
     let authorized_voter_keypairs = keypairs_of(&matches, "authorized_voter_keypairs")
         .map(|keypairs| keypairs.into_iter().map(Arc::new).collect())
@@ -1056,13 +1056,13 @@ pub fn main() {
         "--gossip-validator",
     );
 
-    let bind_address = solana_net_utils::parse_host(matches.value_of("bind_address").unwrap())
+    let bind_address = lumos_net_utils::parse_host(matches.value_of("bind_address").unwrap())
         .expect("invalid bind_address");
     let rpc_bind_address = if matches.is_present("rpc_bind_address") {
-        solana_net_utils::parse_host(matches.value_of("rpc_bind_address").unwrap())
+        lumos_net_utils::parse_host(matches.value_of("rpc_bind_address").unwrap())
             .expect("invalid rpc_bind_address")
     } else if private_rpc {
-        solana_net_utils::parse_host("127.0.0.1").unwrap()
+        lumos_net_utils::parse_host("127.0.0.1").unwrap()
     } else {
         bind_address
     };
@@ -1101,7 +1101,7 @@ pub fn main() {
         .unwrap_or_default()
         .into_iter()
         .map(|entrypoint| {
-            solana_net_utils::parse_host_port(&entrypoint).unwrap_or_else(|e| {
+            lumos_net_utils::parse_host_port(&entrypoint).unwrap_or_else(|e| {
                 eprintln!("failed to parse entrypoint address: {e}");
                 exit(1);
             })
@@ -1312,7 +1312,7 @@ pub fn main() {
         .values_of("rpc_send_transaction_tpu_peer")
         .map(|values| {
             values
-                .map(solana_net_utils::parse_host_port)
+                .map(lumos_net_utils::parse_host_port)
                 .collect::<Result<Vec<SocketAddr>, String>>()
         })
         .transpose()
@@ -1349,7 +1349,7 @@ pub fn main() {
                 || matches.is_present("enable_extended_tx_metadata_storage"),
             rpc_bigtable_config,
             faucet_addr: matches.value_of("rpc_faucet_addr").map(|address| {
-                solana_net_utils::parse_host_port(address).expect("failed to parse faucet address")
+                lumos_net_utils::parse_host_port(address).expect("failed to parse faucet address")
             }),
             full_api,
             obsolete_v1_7_api: matches.is_present("obsolete_v1_7_rpc_api"),
@@ -1381,7 +1381,7 @@ pub fn main() {
                 SocketAddr::new(rpc_bind_address, rpc_port + 1),
                 // If additional ports are added, +2 needs to be skipped to avoid a conflict with
                 // the websocket port (which is +2) in web3.js This odd port shifting is tracked at
-                // https://github.com/solana-labs/solana/issues/12250
+                // https://github.com/lumos-labs/lumos/issues/12250
             )
         }),
         pubsub_config: PubSubConfig {
@@ -1482,7 +1482,7 @@ pub fn main() {
     });
 
     let dynamic_port_range =
-        solana_net_utils::parse_port_range(matches.value_of("dynamic_port_range").unwrap())
+        lumos_net_utils::parse_port_range(matches.value_of("dynamic_port_range").unwrap())
             .expect("invalid dynamic_port_range");
 
     let account_paths: Vec<PathBuf> =
@@ -1726,7 +1726,7 @@ pub fn main() {
     };
 
     let public_rpc_addr = matches.value_of("public_rpc_addr").map(|addr| {
-        solana_net_utils::parse_host_port(addr).unwrap_or_else(|e| {
+        lumos_net_utils::parse_host_port(addr).unwrap_or_else(|e| {
             eprintln!("failed to parse public rpc address: {e}");
             exit(1);
         })
@@ -1736,7 +1736,7 @@ pub fn main() {
         if SystemMonitorService::check_os_network_limits() {
             info!("OS network limits test passed.");
         } else {
-            eprintln!("OS network limit test failed. See: https://docs.solanalabs.com/operations/guides/validator-start#system-tuning");
+            eprintln!("OS network limit test failed. See: https://docs.lumoslabs.com/operations/guides/validator-start#system-tuning");
             exit(1);
         }
     }
@@ -1771,7 +1771,7 @@ pub fn main() {
     let gossip_host: IpAddr = matches
         .value_of("gossip_host")
         .map(|gossip_host| {
-            solana_net_utils::parse_host(gossip_host).unwrap_or_else(|err| {
+            lumos_net_utils::parse_host(gossip_host).unwrap_or_else(|err| {
                 eprintln!("Failed to parse --gossip-host: {err}");
                 exit(1);
             })
@@ -1787,7 +1787,7 @@ pub fn main() {
                         "Contacting {} to determine the validator's public IP address",
                         entrypoint_addr
                     );
-                    solana_net_utils::get_public_ip_addr(entrypoint_addr).map_or_else(
+                    lumos_net_utils::get_public_ip_addr(entrypoint_addr).map_or_else(
                         |err| {
                             eprintln!(
                                 "Failed to contact cluster entrypoint {entrypoint_addr}: {err}"
@@ -1810,7 +1810,7 @@ pub fn main() {
     let gossip_addr = SocketAddr::new(
         gossip_host,
         value_t!(matches, "gossip_port", u16).unwrap_or_else(|_| {
-            solana_net_utils::find_available_port_in_range(bind_address, (0, 1)).unwrap_or_else(
+            lumos_net_utils::find_available_port_in_range(bind_address, (0, 1)).unwrap_or_else(
                 |err| {
                     eprintln!("Unable to find an available gossip port: {err}");
                     exit(1);
@@ -1820,7 +1820,7 @@ pub fn main() {
     );
 
     let public_tpu_addr = matches.value_of("public_tpu_addr").map(|public_tpu_addr| {
-        solana_net_utils::parse_host_port(public_tpu_addr).unwrap_or_else(|err| {
+        lumos_net_utils::parse_host_port(public_tpu_addr).unwrap_or_else(|err| {
             eprintln!("Failed to parse --public-tpu-address: {err}");
             exit(1);
         })
@@ -1830,7 +1830,7 @@ pub fn main() {
         matches
             .value_of("public_tpu_forwards_addr")
             .map(|public_tpu_forwards_addr| {
-                solana_net_utils::parse_host_port(public_tpu_forwards_addr).unwrap_or_else(|err| {
+                lumos_net_utils::parse_host_port(public_tpu_forwards_addr).unwrap_or_else(|err| {
                     eprintln!("Failed to parse --public-tpu-forwards-address: {err}");
                     exit(1);
                 })
@@ -1886,9 +1886,9 @@ pub fn main() {
         }
     }
 
-    solana_metrics::set_host_id(identity_keypair.pubkey().to_string());
-    solana_metrics::set_panic_hook("validator", Some(String::from(solana_version)));
-    solana_entry::entry::init_poh();
+    lumos_metrics::set_host_id(identity_keypair.pubkey().to_string());
+    lumos_metrics::set_panic_hook("validator", Some(String::from(lumos_version)));
+    lumos_entry::entry::init_poh();
     snapshot_utils::remove_tmp_snapshot_archives(&full_snapshot_archives_dir);
     snapshot_utils::remove_tmp_snapshot_archives(&incremental_snapshot_archives_dir);
 

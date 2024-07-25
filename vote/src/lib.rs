@@ -10,4 +10,4 @@ pub mod vote_transaction;
 extern crate serde_derive;
 
 #[macro_use]
-extern crate solana_frozen_abi_macro;
+extern crate lumos_frozen_abi_macro;

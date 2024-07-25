@@ -1,4 +1,4 @@
-use solana_program_runtime::declare_process_instruction;
+use lumos_program_runtime::declare_process_instruction;
 
 pub const DEFAULT_COMPUTE_UNITS: u64 = 150;
 

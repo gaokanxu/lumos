@@ -1,9 +1,9 @@
 use {
-    solana_sdk::{
+    lumos_sdk::{
         clock::{Slot, UnixTimestamp},
         hash::Hash,
     },
-    solana_vote_program::vote_state::{Vote, VoteStateUpdate},
+    lumos_vote_program::vote_state::{Vote, VoteStateUpdate},
 };
 
 #[derive(Debug, PartialEq, Eq, Clone)]

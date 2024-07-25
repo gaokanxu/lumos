@@ -8,9 +8,9 @@
 //! The protocol guarantees computational soundness (by the hardness of discrete log) and perfect
 //! zero-knowledge in the random oracle model.
 //!
-//! [`ZK Token proof program`]: https://docs.solanalabs.com/runtime/zk-token-proof
+//! [`ZK Token proof program`]: https://docs.lumoslabs.com/runtime/zk-token-proof
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 use {
     crate::{
         encryption::pedersen::{PedersenCommitment, PedersenOpening, G, H},
@@ -52,7 +52,7 @@ pub struct FeeSigmaProof {
 }
 
 #[allow(non_snake_case, dead_code)]
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 impl FeeSigmaProof {
     /// Creates a fee sigma proof assuming that the committed fee is greater than the maximum fee
     /// bound.

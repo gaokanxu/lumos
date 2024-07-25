@@ -173,7 +173,7 @@ impl PoseidonHash {
 /// # Examples
 ///
 /// ```rust
-/// use solana_program::poseidon::{hashv, Endianness, Parameters};
+/// use lumos_program::poseidon::{hashv, Endianness, Parameters};
 ///
 /// # fn test() {
 /// let input1 = [1u8; 32];
@@ -208,7 +208,7 @@ pub fn hashv(
 ) -> Result<PoseidonHash, PoseidonSyscallError> {
     // Perform the calculation inline, calling this from within a program is
     // not supported.
-    #[cfg(not(target_os = "solana"))]
+    #[cfg(not(target_os = "lumos"))]
     {
         use {
             ark_bn254::Fr,
@@ -252,7 +252,7 @@ pub fn hashv(
         Ok(PoseidonHash(res))
     }
     // Call via a system call to perform the calculation.
-    #[cfg(target_os = "solana")]
+    #[cfg(target_os = "lumos")]
     {
         let mut hash_result = [0; HASH_BYTES];
         let result = unsafe {
@@ -278,7 +278,7 @@ pub fn hashv(
 /// # Examples
 ///
 /// ```rust
-/// use solana_program::poseidon::{hash, Endianness, Parameters};
+/// use lumos_program::poseidon::{hash, Endianness, Parameters};
 ///
 /// # fn test() {
 /// let input = [1u8; 32];

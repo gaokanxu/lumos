@@ -1,6 +1,6 @@
 [package]
-name = "solana-sbf-rust-invoked"
-documentation = "https://docs.rs/solana-sbf-rust-invoked"
+name = "lumos-sbf-rust-invoked"
+documentation = "https://docs.rs/lumos-sbf-rust-invoked"
 version = { workspace = true }
 description = { workspace = true }
 authors = { workspace = true }
@@ -14,7 +14,7 @@ default = ["program"]
 program = []
 
 [dependencies]
-solana-program = { workspace = true }
+lumos-program = { workspace = true }
 
 [lib]
 crate-type = ["lib", "cdylib"]

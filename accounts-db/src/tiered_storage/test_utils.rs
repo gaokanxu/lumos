@@ -7,7 +7,7 @@ use {
         accounts_hash::AccountHash,
         tiered_storage::owners::OWNER_NO_OWNER,
     },
-    solana_sdk::{
+    lumos_sdk::{
         account::{Account, AccountSharedData, ReadableAccount},
         hash::Hash,
         pubkey::Pubkey,

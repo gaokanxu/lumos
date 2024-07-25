@@ -1,12 +1,12 @@
 use {
     crate::crds_value::sanitize_wallclock,
     itertools::Itertools,
-    solana_ledger::{
+    lumos_ledger::{
         blockstore::BlockstoreError,
         blockstore_meta::{DuplicateSlotProof, ErasureMeta},
         shred::{self, Shred, ShredType},
     },
-    solana_sdk::{
+    lumos_sdk::{
         clock::Slot,
         pubkey::Pubkey,
         sanitize::{Sanitize, SanitizeError},
@@ -151,7 +151,7 @@ where
     // erasure sets. However this is not technically exhaustive, as any 2 shreds with
     // different but overlapping erasure sets can be considered duplicate and need not be
     // a part of the same fec set. Further work to enhance detection is planned in
-    // https://github.com/solana-labs/solana/issues/33037
+    // https://github.com/lumos-labs/lumos/issues/33037
     if shred1.fec_set_index() == shred2.fec_set_index()
         && !ErasureMeta::check_erasure_consistency(shred1, shred2)
     {
@@ -286,9 +286,9 @@ pub(crate) mod tests {
     use {
         super::*,
         rand::Rng,
-        solana_entry::entry::Entry,
-        solana_ledger::shred::{ProcessShredsStats, ReedSolomonCache, Shredder},
-        solana_sdk::{
+        lumos_entry::entry::Entry,
+        lumos_ledger::shred::{ProcessShredsStats, ReedSolomonCache, Shredder},
+        lumos_sdk::{
             hash::Hash,
             signature::{Keypair, Signer},
             system_transaction,

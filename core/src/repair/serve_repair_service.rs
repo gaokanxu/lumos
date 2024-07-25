@@ -1,9 +1,9 @@
 use {
     crate::repair::{quic_endpoint::RemoteRequest, serve_repair::ServeRepair},
     crossbeam_channel::{unbounded, Receiver, Sender},
-    solana_ledger::blockstore::Blockstore,
-    solana_perf::{packet::PacketBatch, recycler::Recycler},
-    solana_streamer::{
+    lumos_ledger::blockstore::Blockstore,
+    lumos_perf::{packet::PacketBatch, recycler::Recycler},
+    lumos_streamer::{
         socket::SocketAddrSpace,
         streamer::{self, StreamerReceiveStats},
     },

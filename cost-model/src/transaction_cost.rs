@@ -1,4 +1,4 @@
-use {crate::block_cost_limits, solana_sdk::pubkey::Pubkey};
+use {crate::block_cost_limits, lumos_sdk::pubkey::Pubkey};
 
 /// TransactionCost is used to represent resources required to process
 /// a transaction, denominated in CU (eg. Compute Units).
@@ -23,7 +23,7 @@ impl TransactionCost {
             Self::SimpleVote { .. } => {
                 const _: () = assert!(
                     SIMPLE_VOTE_USAGE_COST
-                        == solana_vote_program::vote_processor::DEFAULT_COMPUTE_UNITS
+                        == lumos_vote_program::vote_processor::DEFAULT_COMPUTE_UNITS
                             + block_cost_limits::SIGNATURE_COST
                             + 2 * block_cost_limits::WRITE_LOCK_UNITS
                             + 8
@@ -37,7 +37,7 @@ impl TransactionCost {
 
     pub fn programs_execution_cost(&self) -> u64 {
         match self {
-            Self::SimpleVote { .. } => solana_vote_program::vote_processor::DEFAULT_COMPUTE_UNITS,
+            Self::SimpleVote { .. } => lumos_vote_program::vote_processor::DEFAULT_COMPUTE_UNITS,
             Self::Transaction(usage_cost) => usage_cost.programs_execution_cost,
         }
     }
@@ -199,19 +199,19 @@ mod tests {
     use {
         super::*,
         crate::cost_model::CostModel,
-        solana_sdk::{
+        lumos_sdk::{
             feature_set::FeatureSet,
             hash::Hash,
             message::SimpleAddressLoader,
             signer::keypair::Keypair,
             transaction::{MessageHash, SanitizedTransaction, VersionedTransaction},
         },
-        solana_vote_program::vote_transaction,
+        lumos_vote_program::vote_transaction,
     };
 
     #[test]
     fn test_vote_transaction_cost() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let node_keypair = Keypair::new();
         let vote_keypair = Keypair::new();
         let auth_keypair = Keypair::new();

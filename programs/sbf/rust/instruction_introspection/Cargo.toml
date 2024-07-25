@@ -1,6 +1,6 @@
 [package]
-name = "solana-sbf-rust-instruction-introspection"
-documentation = "https://docs.rs/solana-sbf-rust-instruction-introspection"
+name = "lumos-sbf-rust-instruction-introspection"
+documentation = "https://docs.rs/lumos-sbf-rust-instruction-introspection"
 version = { workspace = true }
 description = { workspace = true }
 authors = { workspace = true }
@@ -10,7 +10,7 @@ license = { workspace = true }
 edition = { workspace = true }
 
 [dependencies]
-solana-program = { workspace = true }
+lumos-program = { workspace = true }
 
 [lib]
 crate-type = ["cdylib"]

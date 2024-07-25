@@ -9,7 +9,7 @@ mod sigma_proofs;
 use {
     crate::zk_token_proof_instruction::ProofType,
     num_traits::{FromPrimitive, ToPrimitive},
-    solana_program::instruction::InstructionError,
+    lumos_program::instruction::InstructionError,
     thiserror::Error,
 };
 pub use {

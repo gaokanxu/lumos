@@ -8,12 +8,12 @@ use {
     crate::{
         broadcast_stage::broadcast_utils::UnfinishedSlotInfo, cluster_nodes::ClusterNodesCache,
     },
-    solana_entry::entry::Entry,
-    solana_ledger::{
+    lumos_entry::entry::Entry,
+    lumos_ledger::{
         blockstore,
         shred::{shred_code, ProcessShredsStats, ReedSolomonCache, Shred, ShredFlags, Shredder},
     },
-    solana_sdk::{
+    lumos_sdk::{
         genesis_config::ClusterType,
         hash::Hash,
         signature::Keypair,
@@ -135,7 +135,7 @@ impl StandardBroadcastRun {
             None => {
                 // If the blockstore has shreds for the slot, it should not
                 // recreate the slot:
-                // https://github.com/solana-labs/solana/blob/92a0b310c/ledger/src/leader_schedule_cache.rs##L139-L148
+                // https://github.com/lumos-labs/lumos/blob/92a0b310c/ledger/src/leader_schedule_cache.rs##L139-L148
                 if let Some(slot_meta) = blockstore.meta(slot).unwrap() {
                     if slot_meta.received > 0 || slot_meta.consumed > 0 {
                         process_stats.num_extant_slots += 1;
@@ -286,11 +286,11 @@ impl StandardBroadcastRun {
         // that the leader started this block. This must be done before the
         // blocks are sent out over the wire, so that the slots we have already
         // sent a shred for are skipped (even if the node reboots):
-        // https://github.com/solana-labs/solana/blob/92a0b310c/ledger/src/leader_schedule_cache.rs#L139-L148
+        // https://github.com/lumos-labs/lumos/blob/92a0b310c/ledger/src/leader_schedule_cache.rs#L139-L148
         // preventing the node from broadcasting duplicate blocks:
-        // https://github.com/solana-labs/solana/blob/92a0b310c/turbine/src/broadcast_stage/standard_broadcast_run.rs#L132-L142
+        // https://github.com/lumos-labs/lumos/blob/92a0b310c/turbine/src/broadcast_stage/standard_broadcast_run.rs#L132-L142
         // By contrast Self::insert skips the 1st data shred with index zero:
-        // https://github.com/solana-labs/solana/blob/92a0b310c/turbine/src/broadcast_stage/standard_broadcast_run.rs#L367-L373
+        // https://github.com/lumos-labs/lumos/blob/92a0b310c/turbine/src/broadcast_stage/standard_broadcast_run.rs#L367-L373
         if let Some(shred) = data_shreds.first() {
             if shred.index() == 0 {
                 blockstore
@@ -386,7 +386,7 @@ impl StandardBroadcastRun {
         let insert_shreds_start = Instant::now();
         let mut shreds = Arc::try_unwrap(shreds).unwrap_or_else(|shreds| (*shreds).clone());
         // The first data shred is inserted synchronously.
-        // https://github.com/solana-labs/solana/blob/92a0b310c/turbine/src/broadcast_stage/standard_broadcast_run.rs#L268-L283
+        // https://github.com/lumos-labs/lumos/blob/92a0b310c/turbine/src/broadcast_stage/standard_broadcast_run.rs#L268-L283
         if let Some(shred) = shreds.first() {
             if shred.is_data() && shred.index() == 0 {
                 shreds.swap_remove(0);
@@ -536,19 +536,19 @@ mod test {
     use {
         super::*,
         rand::Rng,
-        solana_entry::entry::create_ticks,
-        solana_gossip::cluster_info::{ClusterInfo, Node},
-        solana_ledger::{
+        lumos_entry::entry::create_ticks,
+        lumos_gossip::cluster_info::{ClusterInfo, Node},
+        lumos_ledger::{
             blockstore::Blockstore, genesis_utils::create_genesis_config, get_tmp_ledger_path,
             get_tmp_ledger_path_auto_delete, shred::max_ticks_per_n_shreds,
         },
-        solana_runtime::bank::Bank,
-        solana_sdk::{
+        lumos_runtime::bank::Bank,
+        lumos_sdk::{
             genesis_config::GenesisConfig,
             hash::Hash,
             signature::{Keypair, Signer},
         },
-        solana_streamer::socket::SocketAddrSpace,
+        lumos_streamer::socket::SocketAddrSpace,
         std::{ops::Deref, sync::Arc, time::Duration},
     };
 
@@ -853,11 +853,11 @@ mod test {
 
     #[test]
     fn entries_to_shreds_max() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let keypair = Keypair::new();
         let mut bs = StandardBroadcastRun::new(0);
         bs.current_slot_and_parent = Some((1, 0));
-        let entries = create_ticks(10_000, 1, solana_sdk::hash::Hash::default());
+        let entries = create_ticks(10_000, 1, lumos_sdk::hash::Hash::default());
 
         let ledger_path = get_tmp_ledger_path_auto_delete!();
         let blockstore = Arc::new(

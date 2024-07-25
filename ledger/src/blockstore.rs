@@ -33,17 +33,17 @@ use {
     rand::Rng,
     rayon::iter::{IntoParallelIterator, ParallelIterator},
     rocksdb::{DBRawIterator, LiveFile},
-    solana_accounts_db::hardened_unpack::{
+    lumos_accounts_db::hardened_unpack::{
         unpack_genesis_archive, MAX_GENESIS_ARCHIVE_UNPACKED_SIZE,
     },
-    solana_entry::entry::{create_ticks, Entry},
-    solana_measure::measure::Measure,
-    solana_metrics::{
+    lumos_entry::entry::{create_ticks, Entry},
+    lumos_measure::measure::Measure,
+    lumos_metrics::{
         datapoint_debug, datapoint_error,
         poh_timing_point::{send_poh_timing_point, PohTimingSender, SlotPohTimingInfo},
     },
-    solana_runtime::bank::Bank,
-    solana_sdk::{
+    lumos_runtime::bank::Bank,
+    lumos_sdk::{
         account::ReadableAccount,
         address_lookup_table::state::AddressLookupTable,
         clock::{Slot, UnixTimestamp, DEFAULT_TICKS_PER_SECOND},
@@ -54,8 +54,8 @@ use {
         timing::timestamp,
         transaction::{SanitizedVersionedTransaction, VersionedTransaction},
     },
-    solana_storage_proto::{StoredExtendedRewards, StoredTransactionStatusMeta},
-    solana_transaction_status::{
+    lumos_storage_proto::{StoredExtendedRewards, StoredTransactionStatusMeta},
+    lumos_transaction_status::{
         ConfirmedTransactionStatusWithSignature, ConfirmedTransactionWithStatusMeta, Rewards,
         TransactionStatusMeta, TransactionWithStatusMeta, VersionedConfirmedBlock,
         VersionedConfirmedBlockWithEntries, VersionedTransactionWithStatusMeta,
@@ -173,7 +173,7 @@ pub struct InsertResults {
 /// these sets by inserting shreds via direct or indirect calls to
 /// [`Blockstore::insert_shreds_handle_duplicate()`].
 ///
-/// `solana_core::completed_data_sets_service::CompletedDataSetsService` is the main receiver of
+/// `lumos_core::completed_data_sets_service::CompletedDataSetsService` is the main receiver of
 /// `CompletedDataSetInfo`.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct CompletedDataSetInfo {
@@ -1732,7 +1732,7 @@ impl Blockstore {
                 SlotPohTimingInfo::new_slot_full_poh_time_point(
                     slot,
                     Some(self.max_root()),
-                    solana_sdk::timing::timestamp(),
+                    lumos_sdk::timing::timestamp(),
                 ),
             );
         }
@@ -2233,7 +2233,7 @@ impl Blockstore {
                     .into_iter()
                     .flat_map(|entry| {
                         if populate_entries {
-                            entries.push(solana_transaction_status::EntrySummary {
+                            entries.push(lumos_transaction_status::EntrySummary {
                                 num_hashes: entry.num_hashes,
                                 hash: entry.hash,
                                 num_transactions: entry.transactions.len() as u64,
@@ -2334,7 +2334,7 @@ impl Blockstore {
         }
 
         // If present, delete dummy entries inserted by old software
-        // https://github.com/solana-labs/solana/blob/bc2b372/ledger/src/blockstore.rs#L2130-L2137
+        // https://github.com/lumos-labs/lumos/blob/bc2b372/ledger/src/blockstore.rs#L2130-L2137
         let transaction_status_dummy_key = cf::TransactionStatus::as_index(2);
         if self
             .transaction_status_cf
@@ -3500,7 +3500,7 @@ impl Blockstore {
 
     #[deprecated(
         since = "1.18.0",
-        note = "Please use `solana_ledger::blockstore::Blockstore::max_root()` instead"
+        note = "Please use `lumos_ledger::blockstore::Blockstore::max_root()` instead"
     )]
     pub fn last_root(&self) -> Slot {
         self.max_root()
@@ -3706,7 +3706,7 @@ impl Blockstore {
     /// [`cf::Orphans`].
     ///
     /// For more information about the chaining, check the previous discussion here:
-    /// https://github.com/solana-labs/solana/pull/2253
+    /// https://github.com/lumos-labs/lumos/pull/2253
     ///
     /// Arguments:
     /// - `db`: the blockstore db that stores both shreds and their metadata.
@@ -4234,7 +4234,7 @@ pub fn create_new_ledger(
     let hashes_per_tick = genesis_config.poh_config.hashes_per_tick.unwrap_or(0);
     let entries = create_ticks(ticks_per_slot, hashes_per_tick, genesis_config.hash());
     let last_hash = entries.last().unwrap().hash;
-    let version = solana_sdk::shred_version::version_from_hash(&last_hash);
+    let version = lumos_sdk::shred_version::version_from_hash(&last_hash);
 
     let shredder = Shredder::new(0, 0, 0, version).unwrap();
     let (shreds, _) = shredder.entries_to_shreds(
@@ -4693,7 +4693,7 @@ fn adjust_ulimit_nofile(enforce_ulimit_nofile: bool) -> Result<()> {
     // usually not enough
     // AppendVecs and disk Account Index are also heavy users of mmapped files.
     // This should be kept in sync with published validator instructions.
-    // https://docs.solanalabs.com/operations/guides/validator-start#increased-memory-mapped-files-limit
+    // https://docs.lumoslabs.com/operations/guides/validator-start#increased-memory-mapped-files-limit
     let desired_nofile = 1_000_000;
 
     fn get_nofile() -> libc::rlimit {
@@ -4748,10 +4748,10 @@ pub mod tests {
         bincode::serialize,
         crossbeam_channel::unbounded,
         rand::{seq::SliceRandom, thread_rng},
-        solana_account_decoder::parse_token::UiTokenAmount,
-        solana_entry::entry::{next_entry, next_entry_mut},
-        solana_runtime::bank::{Bank, RewardType},
-        solana_sdk::{
+        lumos_account_decoder::parse_token::UiTokenAmount,
+        lumos_entry::entry::{next_entry, next_entry_mut},
+        lumos_runtime::bank::{Bank, RewardType},
+        lumos_sdk::{
             clock::{DEFAULT_MS_PER_SLOT, DEFAULT_TICKS_PER_SLOT},
             hash::{self, hash, Hash},
             instruction::CompiledInstruction,
@@ -4762,8 +4762,8 @@ pub mod tests {
             transaction::{Transaction, TransactionError},
             transaction_context::TransactionReturnData,
         },
-        solana_storage_proto::convert::generated,
-        solana_transaction_status::{
+        lumos_storage_proto::convert::generated,
+        lumos_transaction_status::{
             InnerInstruction, InnerInstructions, Reward, Rewards, TransactionTokenBalance,
         },
         std::{cmp::Ordering, thread::Builder, time::Duration},
@@ -4776,9 +4776,9 @@ pub mod tests {
         for x in 0..num_entries {
             let transaction = Transaction::new_with_compiled_instructions(
                 &[&Keypair::new()],
-                &[solana_sdk::pubkey::new_rand()],
+                &[lumos_sdk::pubkey::new_rand()],
                 Hash::default(),
-                vec![solana_sdk::pubkey::new_rand()],
+                vec![lumos_sdk::pubkey::new_rand()],
                 vec![CompiledInstruction::new(1, &(), vec![0])],
             );
             entries.push(next_entry_mut(&mut Hash::default(), 0, vec![transaction]));
@@ -4805,7 +4805,7 @@ pub mod tests {
 
     #[test]
     fn test_create_new_ledger() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let mint_total = 1_000_000_000_000;
         let GenesisConfigInfo { genesis_config, .. } = create_genesis_config(mint_total);
         let (ledger_path, _blockhash) = create_new_tmp_ledger_auto_delete!(&genesis_config);
@@ -4822,7 +4822,7 @@ pub mod tests {
 
     #[test]
     fn test_create_new_ledger_with_options_fifo() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let mint_total = 1_000_000_000_000;
         let GenesisConfigInfo { genesis_config, .. } = create_genesis_config(mint_total);
         let (ledger_path, _blockhash) = create_new_tmp_ledger_fifo_auto_delete!(&genesis_config);
@@ -4884,7 +4884,7 @@ pub mod tests {
 
     #[test]
     fn test_write_entries() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let ledger_path = get_tmp_ledger_path_auto_delete!();
         let blockstore = Blockstore::open(ledger_path.path()).unwrap();
 
@@ -5747,7 +5747,7 @@ pub mod tests {
 
     #[test]
     fn test_handle_chaining_missing_slots() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let ledger_path = get_tmp_ledger_path_auto_delete!();
         let blockstore = Blockstore::open(ledger_path.path()).unwrap();
 
@@ -5812,7 +5812,7 @@ pub mod tests {
     #[test]
     #[allow(clippy::cognitive_complexity)]
     pub fn test_forward_chaining_is_connected() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let ledger_path = get_tmp_ledger_path_auto_delete!();
         let blockstore = Blockstore::open(ledger_path.path()).unwrap();
 
@@ -5899,7 +5899,7 @@ pub mod tests {
                 .collect::<Vec<_>>()
         }
 
-        solana_logger::setup();
+        lumos_logger::setup();
         let ledger_path = get_tmp_ledger_path_auto_delete!();
         let blockstore = Blockstore::open(ledger_path.path()).unwrap();
 
@@ -5988,7 +5988,7 @@ pub mod tests {
 
     #[test]
     fn test_set_and_chain_connected_on_root_and_next_slots() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let ledger_path = get_tmp_ledger_path_auto_delete!();
         let blockstore = Blockstore::open(ledger_path.path()).unwrap();
 
@@ -6733,7 +6733,7 @@ pub mod tests {
 
     #[test]
     fn test_should_insert_data_shred() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let (mut shreds, _) = make_slot_entries(0, 0, 200, /*merkle_variant:*/ false);
         let ledger_path = get_tmp_ledger_path_auto_delete!();
         let blockstore = Blockstore::open(ledger_path.path()).unwrap();
@@ -7395,7 +7395,7 @@ pub mod tests {
 
     #[test]
     fn test_insert_multiple_is_last() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let (shreds, _) = make_slot_entries(0, 0, 18, /*merkle_variant:*/ true);
         let num_shreds = shreds.len() as u64;
         let ledger_path = get_tmp_ledger_path_auto_delete!();
@@ -7939,7 +7939,7 @@ pub mod tests {
 
         // insert value
         let status = TransactionStatusMeta {
-            status: solana_sdk::transaction::Result::<()>::Err(TransactionError::AccountNotFound),
+            status: lumos_sdk::transaction::Result::<()>::Err(TransactionError::AccountNotFound),
             fee: 5u64,
             pre_balances: pre_balances_vec.clone(),
             post_balances: post_balances_vec.clone(),
@@ -7992,7 +7992,7 @@ pub mod tests {
 
         // insert value
         let status = TransactionStatusMeta {
-            status: solana_sdk::transaction::Result::<()>::Ok(()),
+            status: lumos_sdk::transaction::Result::<()>::Ok(()),
             fee: 9u64,
             pre_balances: pre_balances_vec.clone(),
             post_balances: post_balances_vec.clone(),
@@ -8125,7 +8125,7 @@ pub mod tests {
         let pre_balances_vec = vec![1, 2, 3];
         let post_balances_vec = vec![3, 2, 1];
         let status = TransactionStatusMeta {
-            status: solana_sdk::transaction::Result::<()>::Ok(()),
+            status: lumos_sdk::transaction::Result::<()>::Ok(()),
             fee: 42u64,
             pre_balances: pre_balances_vec,
             post_balances: post_balances_vec,
@@ -8301,7 +8301,7 @@ pub mod tests {
         let pre_balances_vec = vec![1, 2, 3];
         let post_balances_vec = vec![3, 2, 1];
         let status = TransactionStatusMeta {
-            status: solana_sdk::transaction::Result::<()>::Ok(()),
+            status: lumos_sdk::transaction::Result::<()>::Ok(()),
             fee: 42u64,
             pre_balances: pre_balances_vec,
             post_balances: post_balances_vec,
@@ -8419,7 +8419,7 @@ pub mod tests {
     }
 
     fn do_test_lowest_cleanup_slot_and_special_cfs(simulate_blockstore_cleanup_service: bool) {
-        solana_logger::setup();
+        lumos_logger::setup();
 
         let ledger_path = get_tmp_ledger_path_auto_delete!();
         let blockstore = Blockstore::open(ledger_path.path()).unwrap();
@@ -8428,7 +8428,7 @@ pub mod tests {
         let pre_balances_vec = vec![1, 2, 3];
         let post_balances_vec = vec![3, 2, 1];
         let status = TransactionStatusMeta {
-            status: solana_sdk::transaction::Result::<()>::Ok(()),
+            status: lumos_sdk::transaction::Result::<()>::Ok(()),
             fee: 42u64,
             pre_balances: pre_balances_vec,
             post_balances: post_balances_vec,
@@ -8469,8 +8469,8 @@ pub mod tests {
             .put_protobuf((signature2, lowest_available_slot), &status)
             .unwrap();
 
-        let address0 = solana_sdk::pubkey::new_rand();
-        let address1 = solana_sdk::pubkey::new_rand();
+        let address0 = lumos_sdk::pubkey::new_rand();
+        let address1 = lumos_sdk::pubkey::new_rand();
         blockstore
             .write_transaction_status(
                 lowest_cleanup_slot,
@@ -8844,8 +8844,8 @@ pub mod tests {
         let ledger_path = get_tmp_ledger_path_auto_delete!();
         let blockstore = Blockstore::open(ledger_path.path()).unwrap();
 
-        let address0 = solana_sdk::pubkey::new_rand();
-        let address1 = solana_sdk::pubkey::new_rand();
+        let address0 = lumos_sdk::pubkey::new_rand();
+        let address1 = lumos_sdk::pubkey::new_rand();
 
         let slot1 = 1;
         for x in 1..5 {
@@ -8944,7 +8944,7 @@ pub mod tests {
                     &[&Keypair::new()],
                     &[*address],
                     Hash::default(),
-                    vec![solana_sdk::pubkey::new_rand()],
+                    vec![lumos_sdk::pubkey::new_rand()],
                     vec![CompiledInstruction::new(1, &(), vec![0])],
                 );
                 entries.push(next_entry_mut(&mut Hash::default(), 0, vec![transaction]));
@@ -8954,8 +8954,8 @@ pub mod tests {
             entries
         }
 
-        let address0 = solana_sdk::pubkey::new_rand();
-        let address1 = solana_sdk::pubkey::new_rand();
+        let address0 = lumos_sdk::pubkey::new_rand();
+        let address1 = lumos_sdk::pubkey::new_rand();
 
         for slot in 2..=8 {
             let entries = make_slot_entries_with_transaction_addresses(&[
@@ -9408,13 +9408,13 @@ pub mod tests {
         for x in 0..4 {
             let transaction = Transaction::new_with_compiled_instructions(
                 &[&Keypair::new()],
-                &[solana_sdk::pubkey::new_rand()],
+                &[lumos_sdk::pubkey::new_rand()],
                 Hash::default(),
-                vec![solana_sdk::pubkey::new_rand()],
+                vec![lumos_sdk::pubkey::new_rand()],
                 vec![CompiledInstruction::new(1, &(), vec![0])],
             );
             let status = TransactionStatusMeta {
-                status: solana_sdk::transaction::Result::<()>::Err(
+                status: lumos_sdk::transaction::Result::<()>::Err(
                     TransactionError::AccountNotFound,
                 ),
                 fee: x,
@@ -9449,9 +9449,9 @@ pub mod tests {
         transactions.push(
             Transaction::new_with_compiled_instructions(
                 &[&Keypair::new()],
-                &[solana_sdk::pubkey::new_rand()],
+                &[lumos_sdk::pubkey::new_rand()],
                 Hash::default(),
-                vec![solana_sdk::pubkey::new_rand()],
+                vec![lumos_sdk::pubkey::new_rand()],
                 vec![CompiledInstruction::new(1, &(), vec![0])],
             )
             .into(),
@@ -10105,7 +10105,7 @@ pub mod tests {
 
         let rewards: Rewards = (0..100)
             .map(|i| Reward {
-                pubkey: solana_sdk::pubkey::new_rand().to_string(),
+                pubkey: lumos_sdk::pubkey::new_rand().to_string(),
                 lamports: 42 + i,
                 post_balance: std::u64::MAX,
                 reward_type: Some(RewardType::Fee),
@@ -10226,8 +10226,8 @@ pub mod tests {
         let txs: Vec<_> = (0..num_txs)
             .map(|_| {
                 let keypair0 = Keypair::new();
-                let to = solana_sdk::pubkey::new_rand();
-                solana_sdk::system_transaction::transfer(&keypair0, &to, 1, Hash::default())
+                let to = lumos_sdk::pubkey::new_rand();
+                lumos_sdk::system_transaction::transfer(&keypair0, &to, 1, Hash::default())
             })
             .collect();
 
@@ -10236,7 +10236,7 @@ pub mod tests {
 
     #[test]
     fn erasure_multiple_config() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let slot = 1;
         let parent = 0;
         let num_txs = 20;

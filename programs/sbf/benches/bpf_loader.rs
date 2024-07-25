@@ -8,8 +8,8 @@
 )]
 
 use {
-    solana_rbpf::memory_region::MemoryState,
-    solana_sdk::{feature_set::bpf_account_data_direct_mapping, signer::keypair::Keypair},
+    lumos_rbpf::memory_region::MemoryState,
+    lumos_sdk::{feature_set::bpf_account_data_direct_mapping, signer::keypair::Keypair},
     std::slice,
 };
 
@@ -17,23 +17,23 @@ extern crate test;
 
 use {
     byteorder::{ByteOrder, LittleEndian, WriteBytesExt},
-    solana_bpf_loader_program::{
+    lumos_bpf_loader_program::{
         create_vm, serialization::serialize_parameters,
         syscalls::create_program_runtime_environment_v1,
     },
-    solana_measure::measure::Measure,
-    solana_program_runtime::{compute_budget::ComputeBudget, invoke_context::InvokeContext},
-    solana_rbpf::{
+    lumos_measure::measure::Measure,
+    lumos_program_runtime::{compute_budget::ComputeBudget, invoke_context::InvokeContext},
+    lumos_rbpf::{
         ebpf::MM_INPUT_START, elf::Executable, memory_region::MemoryRegion,
         verifier::RequisiteVerifier, vm::ContextObject,
     },
-    solana_runtime::{
+    lumos_runtime::{
         bank::Bank,
         bank_client::BankClient,
         genesis_utils::{create_genesis_config, GenesisConfigInfo},
         loader_utils::{load_program_from_file, load_upgradeable_program_and_advance_slot},
     },
-    solana_sdk::{
+    lumos_sdk::{
         account::AccountSharedData,
         bpf_loader,
         client::SyncClient,
@@ -74,7 +74,7 @@ macro_rules! with_mock_invoke_context {
             is_signer: false,
             is_writable: true,
         }];
-        solana_program_runtime::with_mock_invoke_context!(
+        lumos_program_runtime::with_mock_invoke_context!(
             $invoke_context,
             transaction_context,
             transaction_accounts

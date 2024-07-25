@@ -1,6 +1,6 @@
 use {
-    solana_program_test::ProgramTest,
-    solana_sdk::{
+    lumos_program_test::ProgramTest,
+    lumos_sdk::{
         bpf_loader_upgradeable::{self, UpgradeableLoaderState},
         message::{v0::Message, VersionedMessage},
         pubkey::Pubkey,

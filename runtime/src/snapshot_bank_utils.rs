@@ -26,7 +26,7 @@ use {
     },
     bincode::{config::Options, serialize_into},
     log::*,
-    solana_accounts_db::{
+    lumos_accounts_db::{
         accounts_db::{
             AccountShrinkThreshold, AccountStorageEntry, AccountsDbConfig, AtomicAppendVecId,
             CalcAccountsHashDataSource,
@@ -36,9 +36,9 @@ use {
         accounts_update_notifier_interface::AccountsUpdateNotifier,
         utils::delete_contents_of_path,
     },
-    solana_measure::{measure, measure::Measure},
-    solana_program_runtime::runtime_config::RuntimeConfig,
-    solana_sdk::{
+    lumos_measure::{measure, measure::Measure},
+    lumos_program_runtime::runtime_config::RuntimeConfig,
+    lumos_sdk::{
         clock::Slot,
         feature_set,
         genesis_config::GenesisConfig,
@@ -1268,12 +1268,12 @@ mod tests {
             },
             status_cache::Status,
         },
-        solana_accounts_db::{
+        lumos_accounts_db::{
             accounts_db::ACCOUNTS_DB_CONFIG_FOR_TESTING,
             accounts_hash::{CalcAccountsHashConfig, HashStats},
             sorted_storages::SortedStorages,
         },
-        solana_sdk::{
+        lumos_sdk::{
             genesis_config::create_genesis_config,
             native_token::{sol_to_lamports, LAMPORTS_PER_SOL},
             signature::{Keypair, Signer},
@@ -1765,7 +1765,7 @@ mod tests {
 
         let (mut genesis_config, mint_keypair) = create_genesis_config(sol_to_lamports(1_000_000.));
         // test expects 0 transaction fee
-        genesis_config.fee_rate_governor = solana_sdk::fee_calculator::FeeRateGovernor::new(0, 0);
+        genesis_config.fee_rate_governor = lumos_sdk::fee_calculator::FeeRateGovernor::new(0, 0);
 
         let lamports_to_transfer = sol_to_lamports(123_456.);
         let (bank0, bank_forks) = Bank::new_with_paths_for_tests(

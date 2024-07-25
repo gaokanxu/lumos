@@ -1,8 +1,8 @@
 use {
     super::immutable_deserialized_packet::{DeserializedPacketError, ImmutableDeserializedPacket},
     min_max_heap::MinMaxHeap,
-    solana_perf::packet::Packet,
-    solana_sdk::hash::Hash,
+    lumos_perf::packet::Packet,
+    lumos_sdk::hash::Hash,
     std::{
         cmp::Ordering,
         collections::{hash_map::Entry, HashMap},
@@ -306,22 +306,22 @@ impl UnprocessedPacketBatches {
 mod tests {
     use {
         super::*,
-        solana_perf::packet::PacketFlags,
-        solana_sdk::{
+        lumos_perf::packet::PacketFlags,
+        lumos_sdk::{
             compute_budget::ComputeBudgetInstruction,
             message::Message,
             signature::{Keypair, Signer},
             system_instruction, system_transaction,
             transaction::{SimpleAddressLoader, Transaction},
         },
-        solana_vote_program::vote_transaction,
+        lumos_vote_program::vote_transaction,
         std::sync::Arc,
     };
 
     fn simple_deserialized_packet() -> DeserializedPacket {
         let tx = system_transaction::transfer(
             &Keypair::new(),
-            &solana_sdk::pubkey::new_rand(),
+            &lumos_sdk::pubkey::new_rand(),
             1,
             Hash::new_unique(),
         );
@@ -333,12 +333,12 @@ mod tests {
         compute_unit_price: u64,
         compute_unit_limit: u64,
     ) -> DeserializedPacket {
-        let from_account = solana_sdk::pubkey::new_rand();
+        let from_account = lumos_sdk::pubkey::new_rand();
         let tx = Transaction::new_unsigned(Message::new(
             &[
                 ComputeBudgetInstruction::set_compute_unit_limit(compute_unit_limit as u32),
                 ComputeBudgetInstruction::set_compute_unit_price(compute_unit_price),
-                system_instruction::transfer(&from_account, &solana_sdk::pubkey::new_rand(), 1),
+                system_instruction::transfer(&from_account, &lumos_sdk::pubkey::new_rand(), 1),
             ],
             Some(&from_account),
         ));
@@ -464,7 +464,7 @@ mod tests {
 
     #[test]
     fn test_transaction_from_deserialized_packet() {
-        use solana_sdk::feature_set::FeatureSet;
+        use lumos_sdk::feature_set::FeatureSet;
         let keypair = Keypair::new();
         let transfer_tx =
             system_transaction::transfer(&keypair, &keypair.pubkey(), 1, Hash::default());

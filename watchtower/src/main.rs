@@ -4,17 +4,17 @@
 use {
     clap::{crate_description, crate_name, value_t, value_t_or_exit, App, Arg},
     log::*,
-    solana_clap_utils::{
+    lumos_clap_utils::{
         hidden_unless_forced,
         input_parsers::pubkeys_of,
         input_validators::{is_parsable, is_pubkey_or_keypair, is_url, is_valid_percentage},
     },
-    solana_cli_output::display::format_labeled_address,
-    solana_metrics::{datapoint_error, datapoint_info},
-    solana_notifier::{NotificationType, Notifier},
-    solana_rpc_client::rpc_client::RpcClient,
-    solana_rpc_client_api::{client_error, response::RpcVoteAccountStatus},
-    solana_sdk::{
+    lumos_cli_output::display::format_labeled_address,
+    lumos_metrics::{datapoint_error, datapoint_info},
+    lumos_notifier::{NotificationType, Notifier},
+    lumos_rpc_client::rpc_client::RpcClient,
+    lumos_rpc_client_api::{client_error, response::RpcVoteAccountStatus},
+    lumos_sdk::{
         hash::Hash,
         native_token::{sol_to_lamports, Sol},
         pubkey::Pubkey,
@@ -44,10 +44,10 @@ struct Config {
 fn get_config() -> Config {
     let matches = App::new(crate_name!())
         .about(crate_description!())
-        .version(solana_version::version!())
+        .version(lumos_version::version!())
         .after_help("ADDITIONAL HELP:
         To receive a Slack, Discord, PagerDuty and/or Telegram notification on sanity failure,
-        define environment variables before running `solana-watchtower`:
+        define environment variables before running `lumos-watchtower`:
 
         export SLACK_WEBHOOK=...
         export DISCORD_WEBHOOK=...
@@ -63,7 +63,7 @@ fn get_config() -> Config {
 
         To receive a Twilio SMS notification on failure, having a Twilio account,
         and a sending number owned by that account,
-        define environment variable before running `solana-watchtower`:
+        define environment variable before running `lumos-watchtower`:
 
         export TWILIO_CONFIG='ACCOUNT=<account>,TOKEN=<securityToken>,TO=<receivingNumber>,FROM=<sendingNumber>'")
         .arg({
@@ -74,7 +74,7 @@ fn get_config() -> Config {
                 .takes_value(true)
                 .global(true)
                 .help("Configuration file to use");
-            if let Some(ref config_file) = *solana_cli_config::CONFIG_FILE {
+            if let Some(ref config_file) = *lumos_cli_config::CONFIG_FILE {
                 arg.default_value(config_file)
             } else {
                 arg
@@ -166,14 +166,14 @@ fn get_config() -> Config {
                 .value_name("SUFFIX")
                 .takes_value(true)
                 .default_value("")
-                .help("Add this string into all notification messages after \"solana-watchtower\"")
+                .help("Add this string into all notification messages after \"lumos-watchtower\"")
         )
         .get_matches();
 
     let config = if let Some(config_file) = matches.value_of("config_file") {
-        solana_cli_config::Config::load(config_file).unwrap_or_default()
+        lumos_cli_config::Config::load(config_file).unwrap_or_default()
     } else {
-        solana_cli_config::Config::default()
+        lumos_cli_config::Config::default()
     };
 
     let interval = Duration::from_secs(value_t_or_exit!(matches, "interval", u64));
@@ -246,8 +246,8 @@ fn get_cluster_info(
 }
 
 fn main() -> Result<(), Box<dyn error::Error>> {
-    solana_logger::setup_with_default("solana=info");
-    solana_metrics::set_panic_hook("watchtower", /*version:*/ None);
+    lumos_logger::setup_with_default("lumos=info");
+    lumos_metrics::set_panic_hook("watchtower", /*version:*/ None);
 
     let config = get_config();
 
@@ -381,7 +381,7 @@ fn main() -> Result<(), Box<dyn error::Error>> {
 
         if let Some((failure_test_name, failure_error_message)) = &failure {
             let notification_msg = format!(
-                "solana-watchtower{}: Error: {}: {}",
+                "lumos-watchtower{}: Error: {}: {}",
                 config.name_suffix, failure_test_name, failure_error_message
             );
             num_consecutive_failures += 1;
@@ -415,7 +415,7 @@ fn main() -> Result<(), Box<dyn error::Error>> {
                 );
                 info!("{}", all_clear_msg);
                 notifier.send(
-                    &format!("solana-watchtower{}: {}", config.name_suffix, all_clear_msg),
+                    &format!("lumos-watchtower{}: {}", config.name_suffix, all_clear_msg),
                     &NotificationType::Resolve { incident },
                 );
             }

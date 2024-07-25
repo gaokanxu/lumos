@@ -6,13 +6,13 @@ use log::*;
 use {
     rand::{thread_rng, Rng},
     rayon::prelude::*,
-    solana_client::{
+    lumos_client::{
         connection_cache::{ConnectionCache, Protocol},
         thin_client::ThinClient,
     },
-    solana_core::consensus::VOTE_THRESHOLD_DEPTH,
-    solana_entry::entry::{Entry, EntrySlice},
-    solana_gossip::{
+    lumos_core::consensus::VOTE_THRESHOLD_DEPTH,
+    lumos_entry::entry::{Entry, EntrySlice},
+    lumos_gossip::{
         cluster_info::{self, ClusterInfo},
         contact_info::{ContactInfo, LegacyContactInfo},
         crds::Cursor,
@@ -20,8 +20,8 @@ use {
         gossip_error::GossipError,
         gossip_service::{self, discover_cluster, GossipService},
     },
-    solana_ledger::blockstore::Blockstore,
-    solana_sdk::{
+    lumos_ledger::blockstore::Blockstore,
+    lumos_sdk::{
         client::SyncClient,
         clock::{self, Slot, NUM_CONSECUTIVE_LEADER_SLOTS},
         commitment_config::CommitmentConfig,
@@ -36,9 +36,9 @@ use {
         transaction::Transaction,
         transport::TransportError,
     },
-    solana_streamer::socket::SocketAddrSpace,
-    solana_vote::vote_transaction::VoteTransaction,
-    solana_vote_program::vote_transaction,
+    lumos_streamer::socket::SocketAddrSpace,
+    lumos_vote::vote_transaction::VoteTransaction,
+    lumos_vote_program::vote_transaction,
     std::{
         borrow::Borrow,
         collections::{HashMap, HashSet, VecDeque},

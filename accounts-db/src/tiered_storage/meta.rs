@@ -4,7 +4,7 @@ use {
     crate::tiered_storage::owners::OwnerOffset,
     bytemuck::{Pod, Zeroable},
     modular_bitfield::prelude::*,
-    solana_sdk::{pubkey::Pubkey, stake_history::Epoch},
+    lumos_sdk::{pubkey::Pubkey, stake_history::Epoch},
 };
 
 /// The struct that handles the account meta flags.
@@ -256,7 +256,7 @@ pub mod tests {
 
     #[test]
     fn test_pubkey_range_update_single() {
-        let address = solana_sdk::pubkey::new_rand();
+        let address = lumos_sdk::pubkey::new_rand();
         let mut address_range = AccountAddressRange::default();
 
         address_range.update(&address);
@@ -277,7 +277,7 @@ pub mod tests {
 
         // Generate random addresses and track expected min and max indices
         for i in 0..NUM_PUBKEYS {
-            let address = solana_sdk::pubkey::new_rand();
+            let address = lumos_sdk::pubkey::new_rand();
             addresses.push(address);
 
             // Update expected min and max indices

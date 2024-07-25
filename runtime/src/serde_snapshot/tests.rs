@@ -11,7 +11,7 @@ mod serde_snapshot_tests {
         bincode::{serialize_into, Error},
         log::info,
         rand::{thread_rng, Rng},
-        solana_accounts_db::{
+        lumos_accounts_db::{
             account_storage::{AccountStorageMap, AccountStorageReference},
             accounts::Accounts,
             accounts_db::{
@@ -24,7 +24,7 @@ mod serde_snapshot_tests {
             accounts_index::AccountSecondaryIndexes,
             ancestors::Ancestors,
         },
-        solana_sdk::{
+        lumos_sdk::{
             account::{AccountSharedData, ReadableAccount},
             clock::Slot,
             epoch_schedule::EpochSchedule,
@@ -77,7 +77,7 @@ mod serde_snapshot_tests {
             None,
             AccountShrinkThreshold::default(),
             false,
-            Some(solana_accounts_db::accounts_db::ACCOUNTS_DB_CONFIG_FOR_TESTING),
+            Some(lumos_accounts_db::accounts_db::ACCOUNTS_DB_CONFIG_FOR_TESTING),
             None,
             Arc::default(),
             None,
@@ -221,7 +221,7 @@ mod serde_snapshot_tests {
     }
 
     fn test_accounts_serialize_style(serde_style: SerdeStyle) {
-        solana_logger::setup();
+        lumos_logger::setup();
         let (_accounts_dir, paths) = get_temp_accounts_paths(4).unwrap();
         let accounts_db = AccountsDb::new_for_tests(paths, &ClusterType::Development);
         let accounts = Accounts::new(Arc::new(accounts_db));
@@ -279,11 +279,11 @@ mod serde_snapshot_tests {
 
     #[test]
     fn test_remove_unrooted_slot_snapshot() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let unrooted_slot = 9;
         let unrooted_bank_id = 9;
         let db = AccountsDb::new_single_for_tests();
-        let key = solana_sdk::pubkey::new_rand();
+        let key = lumos_sdk::pubkey::new_rand();
         let account0 = AccountSharedData::new(1, 0, &key);
         db.store_for_tests(unrooted_slot, &[(&key, &account0)]);
 
@@ -291,7 +291,7 @@ mod serde_snapshot_tests {
         db.remove_unrooted_slots(&[(unrooted_slot, unrooted_bank_id)]);
 
         // Add a new root
-        let key2 = solana_sdk::pubkey::new_rand();
+        let key2 = lumos_sdk::pubkey::new_rand();
         let new_root = unrooted_slot + 1;
         db.store_for_tests(new_root, &[(&key2, &account0)]);
         db.add_root_and_flush_write_cache(new_root);
@@ -315,7 +315,7 @@ mod serde_snapshot_tests {
     #[test]
     fn test_accounts_db_serialize1() {
         for pass in 0..2 {
-            solana_logger::setup();
+            lumos_logger::setup();
             let accounts = AccountsDb::new_single_for_tests();
             let mut pubkeys: Vec<Pubkey> = vec![];
 
@@ -428,7 +428,7 @@ mod serde_snapshot_tests {
 
     #[test]
     fn test_accounts_db_serialize_zero_and_free() {
-        solana_logger::setup();
+        lumos_logger::setup();
 
         let some_lamport = 223;
         let zero_lamport = 0;
@@ -436,11 +436,11 @@ mod serde_snapshot_tests {
         let owner = *AccountSharedData::default().owner();
 
         let account = AccountSharedData::new(some_lamport, no_data, &owner);
-        let pubkey = solana_sdk::pubkey::new_rand();
+        let pubkey = lumos_sdk::pubkey::new_rand();
         let zero_lamport_account = AccountSharedData::new(zero_lamport, no_data, &owner);
 
         let account2 = AccountSharedData::new(some_lamport + 1, no_data, &owner);
-        let pubkey2 = solana_sdk::pubkey::new_rand();
+        let pubkey2 = lumos_sdk::pubkey::new_rand();
 
         let accounts = AccountsDb::new_single_for_tests();
 
@@ -491,9 +491,9 @@ mod serde_snapshot_tests {
         let account3 = AccountSharedData::new(some_lamport + 100_002, no_data, &owner);
         let zero_lamport_account = AccountSharedData::new(zero_lamport, no_data, &owner);
 
-        let pubkey = solana_sdk::pubkey::new_rand();
-        let purged_pubkey1 = solana_sdk::pubkey::new_rand();
-        let purged_pubkey2 = solana_sdk::pubkey::new_rand();
+        let pubkey = lumos_sdk::pubkey::new_rand();
+        let purged_pubkey1 = lumos_sdk::pubkey::new_rand();
+        let purged_pubkey2 = lumos_sdk::pubkey::new_rand();
 
         let dummy_account = AccountSharedData::new(dummy_lamport, no_data, &owner);
         let dummy_pubkey = Pubkey::default();
@@ -547,7 +547,7 @@ mod serde_snapshot_tests {
 
     #[test]
     fn test_accounts_purge_chained_purge_before_snapshot_restore() {
-        solana_logger::setup();
+        lumos_logger::setup();
         with_chained_zero_lamport_accounts(|accounts, current_slot| {
             accounts.clean_accounts_for_tests();
             reconstruct_accounts_db_via_serialization(&accounts, current_slot)
@@ -556,7 +556,7 @@ mod serde_snapshot_tests {
 
     #[test]
     fn test_accounts_purge_chained_purge_after_snapshot_restore() {
-        solana_logger::setup();
+        lumos_logger::setup();
         with_chained_zero_lamport_accounts(|accounts, current_slot| {
             let accounts = reconstruct_accounts_db_via_serialization(&accounts, current_slot);
             accounts.print_accounts_stats("after_reconstruct");
@@ -567,7 +567,7 @@ mod serde_snapshot_tests {
 
     #[test]
     fn test_accounts_purge_long_chained_after_snapshot_restore() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let old_lamport = 223;
         let zero_lamport = 0;
         let no_data = 0;
@@ -579,10 +579,10 @@ mod serde_snapshot_tests {
         let dummy_account = AccountSharedData::new(99_999_999, no_data, &owner);
         let zero_lamport_account = AccountSharedData::new(zero_lamport, no_data, &owner);
 
-        let pubkey = solana_sdk::pubkey::new_rand();
-        let dummy_pubkey = solana_sdk::pubkey::new_rand();
-        let purged_pubkey1 = solana_sdk::pubkey::new_rand();
-        let purged_pubkey2 = solana_sdk::pubkey::new_rand();
+        let pubkey = lumos_sdk::pubkey::new_rand();
+        let dummy_pubkey = lumos_sdk::pubkey::new_rand();
+        let purged_pubkey1 = lumos_sdk::pubkey::new_rand();
+        let purged_pubkey2 = lumos_sdk::pubkey::new_rand();
 
         let mut current_slot = 0;
         let accounts = AccountsDb::new_single_for_tests();
@@ -635,7 +635,7 @@ mod serde_snapshot_tests {
 
     #[test]
     fn test_accounts_clean_after_snapshot_restore_then_old_revives() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let old_lamport = 223;
         let zero_lamport = 0;
         let no_data = 0;
@@ -648,9 +648,9 @@ mod serde_snapshot_tests {
         let dummy_account = AccountSharedData::new(dummy_lamport, no_data, &owner);
         let zero_lamport_account = AccountSharedData::new(zero_lamport, no_data, &owner);
 
-        let pubkey1 = solana_sdk::pubkey::new_rand();
-        let pubkey2 = solana_sdk::pubkey::new_rand();
-        let dummy_pubkey = solana_sdk::pubkey::new_rand();
+        let pubkey1 = lumos_sdk::pubkey::new_rand();
+        let pubkey2 = lumos_sdk::pubkey::new_rand();
+        let dummy_pubkey = lumos_sdk::pubkey::new_rand();
 
         let mut current_slot = 0;
         let accounts = AccountsDb::new_single_for_tests();
@@ -769,14 +769,14 @@ mod serde_snapshot_tests {
 
     #[test]
     fn test_shrink_stale_slots_processed() {
-        solana_logger::setup();
+        lumos_logger::setup();
 
         for startup in &[false, true] {
             let accounts = AccountsDb::new_single_for_tests();
 
             let pubkey_count = 100;
             let pubkeys: Vec<_> = (0..pubkey_count)
-                .map(|_| solana_sdk::pubkey::new_rand())
+                .map(|_| lumos_sdk::pubkey::new_rand())
                 .collect();
 
             let some_lamport = 223;

@@ -1,10 +1,10 @@
 //! Example Rust-based SBF program that exercises error handling
 
-extern crate solana_program;
+extern crate lumos_program;
 use {
     num_derive::FromPrimitive,
     num_traits::FromPrimitive,
-    solana_program::{
+    lumos_program::{
         account_info::AccountInfo,
         decode_error::DecodeError,
         entrypoint::ProgramResult,
@@ -45,7 +45,7 @@ impl PrintProgramError for MyError {
     }
 }
 
-solana_program::entrypoint!(process_instruction);
+lumos_program::entrypoint!(process_instruction);
 fn process_instruction(
     _program_id: &Pubkey,
     accounts: &[AccountInfo],

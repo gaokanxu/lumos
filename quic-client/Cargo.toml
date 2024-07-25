@@ -1,7 +1,7 @@
 [package]
-name = "solana-quic-client"
-description = "Solana Quic Client"
-documentation = "https://docs.rs/solana-quic-client"
+name = "lumos-quic-client"
+description = "Lumos Quic Client"
+documentation = "https://docs.rs/lumos-quic-client"
 version = { workspace = true }
 authors = { workspace = true }
 repository = { workspace = true }
@@ -19,17 +19,17 @@ log = { workspace = true }
 quinn = { workspace = true }
 quinn-proto = { workspace = true }
 rustls = { workspace = true, features = ["dangerous_configuration"] }
-solana-connection-cache = { workspace = true }
-solana-measure = { workspace = true }
-solana-metrics = { workspace = true }
-solana-net-utils = { workspace = true }
-solana-rpc-client-api = { workspace = true }
-solana-sdk = { workspace = true }
-solana-streamer = { workspace = true }
+lumos-connection-cache = { workspace = true }
+lumos-measure = { workspace = true }
+lumos-metrics = { workspace = true }
+lumos-net-utils = { workspace = true }
+lumos-rpc-client-api = { workspace = true }
+lumos-sdk = { workspace = true }
+lumos-streamer = { workspace = true }
 thiserror = { workspace = true }
 tokio = { workspace = true, features = ["full"] }
 
 [dev-dependencies]
 crossbeam-channel = { workspace = true }
-solana-logger = { workspace = true }
-solana-perf = { workspace = true }
+lumos-logger = { workspace = true }
+lumos-perf = { workspace = true }

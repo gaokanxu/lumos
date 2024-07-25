@@ -8,9 +8,9 @@ use {
         bank::EpochRewardStatus,
         stakes::{serde_stakes_enum_compat, StakesEnum},
     },
-    solana_accounts_db::{accounts_hash::AccountsHash, ancestors::AncestorsForSerialization},
-    solana_measure::measure::Measure,
-    solana_sdk::{deserialize_utils::ignore_eof_error, stake::state::Delegation},
+    lumos_accounts_db::{accounts_hash::AccountsHash, ancestors::AncestorsForSerialization},
+    lumos_measure::measure::Measure,
+    lumos_sdk::{deserialize_utils::ignore_eof_error, stake::state::Delegation},
     std::{cell::RefCell, collections::HashSet, sync::RwLock},
 };
 
@@ -183,7 +183,7 @@ impl<'a> From<crate::bank::BankFieldsToSerialize<'a>> for SerializableVersionedB
 }
 
 #[cfg(RUSTC_WITH_SPECIALIZATION)]
-impl<'a> solana_frozen_abi::abi_example::IgnoreAsHelper for SerializableVersionedBank<'a> {}
+impl<'a> lumos_frozen_abi::abi_example::IgnoreAsHelper for SerializableVersionedBank<'a> {}
 
 #[derive(PartialEq, Eq)]
 pub(super) struct Context {}

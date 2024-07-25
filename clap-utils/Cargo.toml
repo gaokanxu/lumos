@@ -1,7 +1,7 @@
 [package]
-name = "solana-clap-utils"
-description = "Solana utilities for the clap"
-documentation = "https://docs.rs/solana-clap-utils"
+name = "lumos-clap-utils"
+description = "Lumos utilities for the clap"
+documentation = "https://docs.rs/lumos-clap-utils"
 version = { workspace = true }
 authors = { workspace = true }
 repository = { workspace = true }
@@ -13,8 +13,8 @@ edition = { workspace = true }
 chrono = { workspace = true, features = ["default"] }
 clap = "2.33.0"
 rpassword = { workspace = true }
-solana-remote-wallet = { workspace = true }
-solana-sdk = { workspace = true }
+lumos-remote-wallet = { workspace = true }
+lumos-sdk = { workspace = true }
 thiserror = { workspace = true }
 tiny-bip39 = { workspace = true }
 uriparse = { workspace = true }
@@ -25,7 +25,7 @@ assert_matches = { workspace = true }
 tempfile = { workspace = true }
 
 [lib]
-name = "solana_clap_utils"
+name = "lumos_clap_utils"
 
 [package.metadata.docs.rs]
 targets = ["x86_64-unknown-linux-gnu"]

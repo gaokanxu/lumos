@@ -1,6 +1,6 @@
 [package]
-name = "solana-sbf-rust-rand"
-documentation = "https://docs.rs/solana-sbf-rust-rand"
+name = "lumos-sbf-rust-rand"
+documentation = "https://docs.rs/lumos-sbf-rust-rand"
 version = { workspace = true }
 description = { workspace = true }
 authors = { workspace = true }
@@ -12,7 +12,7 @@ edition = { workspace = true }
 [dependencies]
 getrandom = { workspace = true, features = ["custom"] }
 rand = { workspace = true }
-solana-program = { workspace = true }
+lumos-program = { workspace = true }
 
 [lib]
 crate-type = ["cdylib"]

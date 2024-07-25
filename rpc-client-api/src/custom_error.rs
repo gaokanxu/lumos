@@ -2,12 +2,12 @@
 use {
     crate::response::RpcSimulateTransactionResult,
     jsonrpc_core::{Error, ErrorCode},
-    solana_sdk::clock::Slot,
-    solana_transaction_status::EncodeError,
+    lumos_sdk::clock::Slot,
+    lumos_transaction_status::EncodeError,
     thiserror::Error,
 };
 
-// Keep in sync with https://github.com/solana-labs/solana-web3.js/blob/master/src/errors.ts
+// Keep in sync with https://github.com/lumos-labs/lumos-web3.js/blob/master/src/errors.ts
 pub const JSON_RPC_SERVER_ERROR_BLOCK_CLEANED_UP: i64 = -32001;
 pub const JSON_RPC_SERVER_ERROR_SEND_TRANSACTION_PREFLIGHT_FAILURE: i64 = -32002;
 pub const JSON_RPC_SERVER_ERROR_TRANSACTION_SIGNATURE_VERIFICATION_FAILURE: i64 = -32003;
@@ -44,7 +44,7 @@ pub enum RpcCustomError {
     #[error("NodeUnhealthy")]
     NodeUnhealthy { num_slots_behind: Option<Slot> },
     #[error("TransactionPrecompileVerificationFailure")]
-    TransactionPrecompileVerificationFailure(solana_sdk::transaction::TransactionError),
+    TransactionPrecompileVerificationFailure(lumos_sdk::transaction::TransactionError),
     #[error("SlotSkipped")]
     SlotSkipped { slot: Slot },
     #[error("NoSnapshot")]

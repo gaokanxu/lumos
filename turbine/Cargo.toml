@@ -1,7 +1,7 @@
 [package]
-name = "solana-turbine"
+name = "lumos-turbine"
 description = "Blockchain, Rebuilt for Scale"
-documentation = "https://docs.rs/solana-turbine"
+documentation = "https://docs.rs/lumos-turbine"
 version = { workspace = true }
 authors = { workspace = true }
 repository = { workspace = true }
@@ -22,27 +22,27 @@ rand = { workspace = true }
 rand_chacha = { workspace = true }
 rayon = { workspace = true }
 rustls = { workspace = true }
-solana-entry = { workspace = true }
-solana-gossip = { workspace = true }
-solana-ledger = { workspace = true }
-solana-measure = { workspace = true }
-solana-metrics = { workspace = true }
-solana-perf = { workspace = true }
-solana-poh = { workspace = true }
-solana-quic-client = { workspace = true }
-solana-rayon-threadlimit = { workspace = true }
-solana-rpc = { workspace = true }
-solana-rpc-client-api = { workspace = true }
-solana-runtime = { workspace = true }
-solana-sdk = { workspace = true }
-solana-streamer = { workspace = true }
+lumos-entry = { workspace = true }
+lumos-gossip = { workspace = true }
+lumos-ledger = { workspace = true }
+lumos-measure = { workspace = true }
+lumos-metrics = { workspace = true }
+lumos-perf = { workspace = true }
+lumos-poh = { workspace = true }
+lumos-quic-client = { workspace = true }
+lumos-rayon-threadlimit = { workspace = true }
+lumos-rpc = { workspace = true }
+lumos-rpc-client-api = { workspace = true }
+lumos-runtime = { workspace = true }
+lumos-sdk = { workspace = true }
+lumos-streamer = { workspace = true }
 thiserror = { workspace = true }
 tokio = { workspace = true }
 
 [dev-dependencies]
 assert_matches = { workspace = true }
-solana-logger = { workspace = true }
-solana-runtime = { workspace = true, features = ["dev-context-only-utils"] }
+lumos-logger = { workspace = true }
+lumos-runtime = { workspace = true, features = ["dev-context-only-utils"] }
 test-case = { workspace = true }
 
 [[bench]]

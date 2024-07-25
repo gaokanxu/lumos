@@ -11,7 +11,7 @@ use {
     bincode::{serialize, serialized_size},
     rand::{CryptoRng, Rng},
     serde::de::{Deserialize, Deserializer},
-    solana_sdk::{
+    lumos_sdk::{
         clock::Slot,
         hash::Hash,
         pubkey::{self, Pubkey},
@@ -20,7 +20,7 @@ use {
         timing::timestamp,
         transaction::Transaction,
     },
-    solana_vote::vote_parser,
+    lumos_vote::vote_parser,
     std::{
         borrow::{Borrow, Cow},
         cmp::Ordering,
@@ -373,7 +373,7 @@ impl<'de> Deserialize<'de> for Vote {
 pub struct LegacyVersion {
     pub from: Pubkey,
     pub wallclock: u64,
-    pub version: solana_version::LegacyVersion1,
+    pub version: lumos_version::LegacyVersion1,
 }
 
 impl Sanitize for LegacyVersion {
@@ -388,7 +388,7 @@ impl Sanitize for LegacyVersion {
 pub struct Version {
     pub from: Pubkey,
     pub wallclock: u64,
-    pub version: solana_version::LegacyVersion2,
+    pub version: lumos_version::LegacyVersion2,
 }
 
 impl Sanitize for Version {
@@ -404,7 +404,7 @@ impl Version {
         Self {
             from,
             wallclock: timestamp(),
-            version: solana_version::LegacyVersion2::default(),
+            version: lumos_version::LegacyVersion2::default(),
         }
     }
 
@@ -413,7 +413,7 @@ impl Version {
         Self {
             from: pubkey.unwrap_or_else(pubkey::new_rand),
             wallclock: new_rand_timestamp(rng),
-            version: solana_version::LegacyVersion2 {
+            version: lumos_version::LegacyVersion2 {
                 major: rng.gen(),
                 minor: rng.gen(),
                 patch: rng.gen(),
@@ -724,12 +724,12 @@ mod test {
         bincode::{deserialize, Options},
         rand::SeedableRng,
         rand_chacha::ChaChaRng,
-        solana_perf::test_tx::new_test_vote_tx,
-        solana_sdk::{
+        lumos_perf::test_tx::new_test_vote_tx,
+        lumos_sdk::{
             signature::{Keypair, Signer},
             timing::timestamp,
         },
-        solana_vote_program::{vote_instruction, vote_state},
+        lumos_vote_program::{vote_instruction, vote_state},
         std::{cmp::Ordering, iter::repeat_with},
     };
 

@@ -1,23 +1,23 @@
 //! Transaction scheduling code.
 //!
-//! This crate implements 3 solana-runtime traits (`InstalledScheduler`, `UninstalledScheduler` and
+//! This crate implements 3 lumos-runtime traits (`InstalledScheduler`, `UninstalledScheduler` and
 //! `InstalledSchedulerPool`) to provide a concrete transaction scheduling implementation
 //! (including executing txes and committing tx results).
 //!
 //! At the highest level, this crate takes `SanitizedTransaction`s via its `schedule_execution()`
 //! and commits any side-effects (i.e. on-chain state changes) into the associated `Bank` via
-//! `solana-ledger`'s helper function called `execute_batch()`.
+//! `lumos-ledger`'s helper function called `execute_batch()`.
 
 use {
     assert_matches::assert_matches,
     crossbeam_channel::{select, unbounded, Receiver, SendError, Sender},
     derivative::Derivative,
     log::*,
-    solana_ledger::blockstore_processor::{
+    lumos_ledger::blockstore_processor::{
         execute_batch, TransactionBatchWithIndexes, TransactionStatusSender,
     },
-    solana_program_runtime::timings::ExecuteTimings,
-    solana_runtime::{
+    lumos_program_runtime::timings::ExecuteTimings,
+    lumos_runtime::{
         bank::Bank,
         installed_scheduler_pool::{
             InstalledScheduler, InstalledSchedulerBox, InstalledSchedulerPool,
@@ -26,9 +26,9 @@ use {
         },
         prioritization_fee_cache::PrioritizationFeeCache,
     },
-    solana_sdk::transaction::{Result, SanitizedTransaction},
-    solana_unified_scheduler_logic::Task,
-    solana_vote::vote_sender_types::ReplayVoteSender,
+    lumos_sdk::transaction::{Result, SanitizedTransaction},
+    lumos_unified_scheduler_logic::Task,
+    lumos_vote::vote_sender_types::ReplayVoteSender,
     std::{
         fmt::Debug,
         marker::PhantomData,
@@ -42,8 +42,8 @@ use {
 
 type AtomicSchedulerId = AtomicU64;
 
-// SchedulerPool must be accessed as a dyn trait from solana-runtime, because SchedulerPool
-// contains some internal fields, whose types aren't available in solana-runtime (currently
+// SchedulerPool must be accessed as a dyn trait from lumos-runtime, because SchedulerPool
+// contains some internal fields, whose types aren't available in lumos-runtime (currently
 // TransactionStatusSender; also, PohRecorder in the future)...
 #[derive(Debug)]
 pub struct SchedulerPool<S: SpawnableScheduler<TH>, TH: TaskHandler> {
@@ -773,14 +773,14 @@ mod tests {
     use {
         super::*,
         assert_matches::assert_matches,
-        solana_runtime::{
+        lumos_runtime::{
             bank::Bank,
             bank_forks::BankForks,
             genesis_utils::{create_genesis_config, GenesisConfigInfo},
             installed_scheduler_pool::{BankWithScheduler, SchedulingContext},
             prioritization_fee_cache::PrioritizationFeeCache,
         },
-        solana_sdk::{
+        lumos_sdk::{
             clock::MAX_PROCESSING_AGE,
             pubkey::Pubkey,
             signer::keypair::Keypair,
@@ -792,7 +792,7 @@ mod tests {
 
     #[test]
     fn test_scheduler_pool_new() {
-        solana_logger::setup();
+        lumos_logger::setup();
 
         let ignored_prioritization_fee_cache = Arc::new(PrioritizationFeeCache::new(0u64));
         let pool =
@@ -807,7 +807,7 @@ mod tests {
 
     #[test]
     fn test_scheduler_spawn() {
-        solana_logger::setup();
+        lumos_logger::setup();
 
         let ignored_prioritization_fee_cache = Arc::new(PrioritizationFeeCache::new(0u64));
         let pool =
@@ -822,7 +822,7 @@ mod tests {
 
     #[test]
     fn test_scheduler_pool_filo() {
-        solana_logger::setup();
+        lumos_logger::setup();
 
         let ignored_prioritization_fee_cache = Arc::new(PrioritizationFeeCache::new(0u64));
         let pool =
@@ -851,7 +851,7 @@ mod tests {
 
     #[test]
     fn test_scheduler_pool_context_drop_unless_reinitialized() {
-        solana_logger::setup();
+        lumos_logger::setup();
 
         let ignored_prioritization_fee_cache = Arc::new(PrioritizationFeeCache::new(0u64));
         let pool =
@@ -870,7 +870,7 @@ mod tests {
 
     #[test]
     fn test_scheduler_pool_context_replace() {
-        solana_logger::setup();
+        lumos_logger::setup();
 
         let ignored_prioritization_fee_cache = Arc::new(PrioritizationFeeCache::new(0u64));
         let pool =
@@ -893,7 +893,7 @@ mod tests {
 
     #[test]
     fn test_scheduler_pool_install_into_bank_forks() {
-        solana_logger::setup();
+        lumos_logger::setup();
 
         let bank = Bank::default_for_tests();
         let bank_forks = BankForks::new_rw_arc(bank);
@@ -906,7 +906,7 @@ mod tests {
 
     #[test]
     fn test_scheduler_install_into_bank() {
-        solana_logger::setup();
+        lumos_logger::setup();
 
         let GenesisConfigInfo { genesis_config, .. } = create_genesis_config(10_000);
         let bank = Arc::new(Bank::new_for_tests(&genesis_config));
@@ -947,7 +947,7 @@ mod tests {
 
     #[test]
     fn test_scheduler_schedule_execution_success() {
-        solana_logger::setup();
+        lumos_logger::setup();
 
         let GenesisConfigInfo {
             genesis_config,
@@ -956,7 +956,7 @@ mod tests {
         } = create_genesis_config(10_000);
         let tx0 = &SanitizedTransaction::from_transaction_for_tests(system_transaction::transfer(
             &mint_keypair,
-            &solana_sdk::pubkey::new_rand(),
+            &lumos_sdk::pubkey::new_rand(),
             2,
             genesis_config.hash(),
         ));
@@ -977,7 +977,7 @@ mod tests {
 
     #[test]
     fn test_scheduler_schedule_execution_failure() {
-        solana_logger::setup();
+        lumos_logger::setup();
 
         let GenesisConfigInfo {
             genesis_config,
@@ -997,7 +997,7 @@ mod tests {
         let bad_tx =
             &SanitizedTransaction::from_transaction_for_tests(system_transaction::transfer(
                 &unfunded_keypair,
-                &solana_sdk::pubkey::new_rand(),
+                &lumos_sdk::pubkey::new_rand(),
                 2,
                 genesis_config.hash(),
             ));
@@ -1010,7 +1010,7 @@ mod tests {
         let good_tx_after_bad_tx =
             &SanitizedTransaction::from_transaction_for_tests(system_transaction::transfer(
                 &mint_keypair,
-                &solana_sdk::pubkey::new_rand(),
+                &lumos_sdk::pubkey::new_rand(),
                 3,
                 genesis_config.hash(),
             ));
@@ -1035,7 +1035,7 @@ mod tests {
         assert_matches!(
             bank.wait_for_completed_scheduler(),
             Some((
-                Err(solana_sdk::transaction::TransactionError::AccountNotFound),
+                Err(lumos_sdk::transaction::TransactionError::AccountNotFound),
                 _timings
             ))
         );
@@ -1161,7 +1161,7 @@ mod tests {
     fn do_test_scheduler_schedule_execution_recent_blockhash_edge_case<
         const TRIGGER_RACE_CONDITION: bool,
     >() {
-        solana_logger::setup();
+        lumos_logger::setup();
 
         let GenesisConfigInfo {
             genesis_config,
@@ -1171,7 +1171,7 @@ mod tests {
         let very_old_valid_tx =
             SanitizedTransaction::from_transaction_for_tests(system_transaction::transfer(
                 &mint_keypair,
-                &solana_sdk::pubkey::new_rand(),
+                &lumos_sdk::pubkey::new_rand(),
                 2,
                 genesis_config.hash(),
             ));

@@ -11,9 +11,9 @@ use {
     dashmap::{mapref::entry::Entry, DashMap},
     jsonrpc_core::IoHandler,
     soketto::handshake::{server, Server},
-    solana_metrics::TokenCounter,
-    solana_rayon_threadlimit::get_thread_count,
-    solana_sdk::timing::AtomicInterval,
+    lumos_metrics::TokenCounter,
+    lumos_rayon_threadlimit::get_thread_count,
+    lumos_sdk::timing::AtomicInterval,
     std::{
         io,
         net::SocketAddr,
@@ -473,7 +473,7 @@ mod tests {
     use {
         super::*,
         crate::optimistically_confirmed_bank_tracker::OptimisticallyConfirmedBank,
-        solana_runtime::{
+        lumos_runtime::{
             bank::Bank,
             bank_forks::BankForks,
             commitment::BlockCommitmentCache,

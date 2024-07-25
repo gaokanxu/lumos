@@ -10,7 +10,7 @@
 //! directly from the runtime, as in this example that logs the `clock` sysvar:
 //!
 //! ```
-//! use solana_program::{
+//! use lumos_program::{
 //!     account_info::AccountInfo,
 //!     clock,
 //!     entrypoint::ProgramResult,
@@ -30,13 +30,13 @@
 //! }
 //! ```
 //!
-//! Since Solana sysvars are accounts, if the `AccountInfo` is provided to the
+//! Since Lumos sysvars are accounts, if the `AccountInfo` is provided to the
 //! program, then the program can deserialize the sysvar with
 //! [`Sysvar::from_account_info`] to access its data, as in this example that
 //! again logs the [`clock`] sysvar.
 //!
 //! ```
-//! use solana_program::{
+//! use lumos_program::{
 //!     account_info::{next_account_info, AccountInfo},
 //!     clock,
 //!     entrypoint::ProgramResult,
@@ -77,9 +77,9 @@
 //!
 //! [`sysvar::ID`]: crate::sysvar::ID
 //!
-//! For more details see the Solana [documentation on sysvars][sysvardoc].
+//! For more details see the Lumos [documentation on sysvars][sysvardoc].
 //!
-//! [sysvardoc]: https://docs.solanalabs.com/runtime/sysvars
+//! [sysvardoc]: https://docs.lumoslabs.com/runtime/sysvars
 
 use {
     crate::{account_info::AccountInfo, program_error::ProgramError, pubkey::Pubkey},
@@ -224,10 +224,10 @@ macro_rules! impl_sysvar_get {
             let mut var = Self::default();
             let var_addr = &mut var as *mut _ as *mut u8;
 
-            #[cfg(target_os = "solana")]
+            #[cfg(target_os = "lumos")]
             let result = unsafe { $crate::syscalls::$syscall_name(var_addr) };
 
-            #[cfg(not(target_os = "solana"))]
+            #[cfg(not(target_os = "lumos"))]
             let result = $crate::program_stubs::$syscall_name(var_addr);
 
             match result {

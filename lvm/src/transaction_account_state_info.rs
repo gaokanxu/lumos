@@ -1,6 +1,6 @@
 use {
     crate::account_rent_state::RentState,
-    solana_sdk::{
+    lumos_sdk::{
         account::ReadableAccount,
         message::SanitizedMessage,
         native_loader,
@@ -76,7 +76,7 @@ mod test {
             account_rent_state::RentState,
             transaction_account_state_info::TransactionAccountStateInfo,
         },
-        solana_sdk::{
+        lumos_sdk::{
             account::AccountSharedData,
             hash::Hash,
             instruction::CompiledInstruction,

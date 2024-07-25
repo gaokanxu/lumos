@@ -3,8 +3,8 @@
 use {
     dashmap::{mapref::entry::Entry, DashMap},
     index_list::{Index, IndexList},
-    solana_measure::measure_us,
-    solana_sdk::{
+    lumos_measure::measure_us,
+    lumos_sdk::{
         account::{AccountSharedData, ReadableAccount},
         clock::Slot,
         pubkey::Pubkey,
@@ -236,7 +236,7 @@ mod tests {
             Rng, SeedableRng,
         },
         rand_chacha::ChaChaRng,
-        solana_sdk::account::{accounts_equal, Account, WritableAccount},
+        lumos_sdk::account::{accounts_equal, Account, WritableAccount},
         std::{collections::HashMap, iter::repeat_with, sync::Arc},
     };
     #[test]
@@ -248,7 +248,7 @@ mod tests {
 
     #[test]
     fn test_read_only_accounts_cache() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let per_account_size = CACHE_ENTRY_SIZE;
         let data_size = 100;
         let max = data_size + per_account_size;

@@ -20,15 +20,15 @@ use {
     itertools::Itertools,
     rand::{CryptoRng, Rng},
     rayon::ThreadPool,
-    solana_ledger::shred::Shred,
-    solana_sdk::{
+    lumos_ledger::shred::Shred,
+    lumos_sdk::{
         clock::Slot,
         hash::Hash,
         pubkey::Pubkey,
         signature::{Keypair, Signer},
         timing::timestamp,
     },
-    solana_streamer::socket::SocketAddrSpace,
+    lumos_streamer::socket::SocketAddrSpace,
     std::{
         collections::{HashMap, HashSet},
         net::SocketAddr,
@@ -416,7 +416,7 @@ mod test {
     use {
         super::*,
         crate::crds_value::CrdsData,
-        solana_sdk::{hash::hash, timing::timestamp},
+        lumos_sdk::{hash::hash, timing::timestamp},
     };
 
     #[test]

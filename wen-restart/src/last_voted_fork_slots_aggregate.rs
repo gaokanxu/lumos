@@ -1,10 +1,10 @@
 use {
-    crate::solana::wen_restart_proto::LastVotedForkSlotsRecord,
+    crate::lumos::wen_restart_proto::LastVotedForkSlotsRecord,
     anyhow::Result,
     log::*,
-    solana_gossip::restart_crds_values::RestartLastVotedForkSlots,
-    solana_runtime::epoch_stakes::EpochStakes,
-    solana_sdk::{clock::Slot, hash::Hash, pubkey::Pubkey},
+    lumos_gossip::restart_crds_values::RestartLastVotedForkSlots,
+    lumos_runtime::epoch_stakes::EpochStakes,
+    lumos_sdk::{clock::Slot, hash::Hash, pubkey::Pubkey},
     std::{
         collections::{HashMap, HashSet},
         str::FromStr,
@@ -144,17 +144,17 @@ mod tests {
     use {
         crate::{
             last_voted_fork_slots_aggregate::LastVotedForkSlotsAggregate,
-            solana::wen_restart_proto::LastVotedForkSlotsRecord,
+            lumos::wen_restart_proto::LastVotedForkSlotsRecord,
         },
-        solana_gossip::restart_crds_values::RestartLastVotedForkSlots,
-        solana_program::{clock::Slot, pubkey::Pubkey},
-        solana_runtime::{
+        lumos_gossip::restart_crds_values::RestartLastVotedForkSlots,
+        lumos_program::{clock::Slot, pubkey::Pubkey},
+        lumos_runtime::{
             bank::Bank,
             genesis_utils::{
                 create_genesis_config_with_vote_accounts, GenesisConfigInfo, ValidatorVoteKeypairs,
             },
         },
-        solana_sdk::{hash::Hash, signature::Signer, timing::timestamp},
+        lumos_sdk::{hash::Hash, signature::Signer, timing::timestamp},
     };
 
     const TOTAL_VALIDATOR_COUNT: u16 = 10;
@@ -170,7 +170,7 @@ mod tests {
     }
 
     fn test_aggregate_init() -> TestAggregateInitResult {
-        solana_logger::setup();
+        lumos_logger::setup();
         let validator_voting_keypairs: Vec<_> = (0..TOTAL_VALIDATOR_COUNT)
             .map(|_| ValidatorVoteKeypairs::new_rand())
             .collect();
@@ -429,7 +429,7 @@ mod tests {
 
     #[test]
     fn test_aggregate_from_record_failures() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let mut test_state = test_aggregate_init();
         let last_vote_bankhash = Hash::new_unique();
         let mut last_voted_fork_slots_record = LastVotedForkSlotsRecord {

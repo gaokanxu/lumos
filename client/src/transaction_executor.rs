@@ -1,9 +1,9 @@
 #![allow(clippy::arithmetic_side_effects)]
 use {
     log::*,
-    solana_measure::measure::Measure,
-    solana_rpc_client::rpc_client::RpcClient,
-    solana_sdk::{
+    lumos_measure::measure::Measure,
+    lumos_rpc_client::rpc_client::RpcClient,
+    lumos_sdk::{
         commitment_config::CommitmentConfig, signature::Signature, timing::timestamp,
         transaction::Transaction,
     },

@@ -1,6 +1,6 @@
 //! Information about the network's clock, ticks, slots, etc.
 //!
-//! Time in Solana is marked primarily by _slots_, which occur approximately every
+//! Time in Lumos is marked primarily by _slots_, which occur approximately every
 //! 400 milliseconds, and are numbered sequentially. For every slot, a leader is
 //! chosen from the validator set, and that leader is expected to produce a new
 //! block, though sometimes leaders may fail to do so. Blocks can be identified
@@ -18,9 +18,9 @@
 //! [`Clock::unix_timestamp`], which is produced by an [oracle derived from the
 //! validator set][oracle].
 //!
-//! [oracle]: https://docs.solanalabs.com/implemented-proposals/validator-timestamp-oracle
+//! [oracle]: https://docs.lumoslabs.com/implemented-proposals/validator-timestamp-oracle
 
-use solana_sdk_macro::CloneZeroed;
+use lumos_sdk_macro::CloneZeroed;
 
 /// The default tick rate that the cluster attempts to achieve (160 per second).
 ///
@@ -194,8 +194,8 @@ pub struct Clock {
     /// the [`timestamp_correction` and `timestamp_bounding`][tsc] features it
     /// is calculated using a [validator timestamp oracle][oracle].
     ///
-    /// [tsc]: https://docs.solanalabs.com/implemented-proposals/bank-timestamp-correction
-    /// [oracle]: https://docs.solanalabs.com/implemented-proposals/validator-timestamp-oracle
+    /// [tsc]: https://docs.lumoslabs.com/implemented-proposals/bank-timestamp-correction
+    /// [oracle]: https://docs.lumoslabs.com/implemented-proposals/validator-timestamp-oracle
     pub unix_timestamp: UnixTimestamp,
 }
 

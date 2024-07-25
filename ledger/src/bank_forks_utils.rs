@@ -10,8 +10,8 @@ use {
         use_snapshot_archives_at_startup::{self, UseSnapshotArchivesAtStartup},
     },
     log::*,
-    solana_accounts_db::accounts_update_notifier_interface::AccountsUpdateNotifier,
-    solana_runtime::{
+    lumos_accounts_db::accounts_update_notifier_interface::AccountsUpdateNotifier,
+    lumos_runtime::{
         accounts_background_service::AbsRequestSender,
         bank_forks::BankForks,
         snapshot_archive_info::{
@@ -22,7 +22,7 @@ use {
         snapshot_hash::{FullSnapshotHash, IncrementalSnapshotHash, StartingSnapshotHashes},
         snapshot_utils,
     },
-    solana_sdk::genesis_config::GenesisConfig,
+    lumos_sdk::genesis_config::GenesisConfig,
     std::{
         path::PathBuf,
         result,

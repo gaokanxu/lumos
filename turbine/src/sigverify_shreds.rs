@@ -1,14 +1,14 @@
 use {
     crossbeam_channel::{Receiver, RecvTimeoutError, SendError, Sender},
     rayon::{prelude::*, ThreadPool, ThreadPoolBuilder},
-    solana_gossip::cluster_info::ClusterInfo,
-    solana_ledger::{
+    lumos_gossip::cluster_info::ClusterInfo,
+    lumos_ledger::{
         leader_schedule_cache::LeaderScheduleCache, shred, sigverify_shreds::verify_shreds_gpu,
     },
-    solana_perf::{self, deduper::Deduper, packet::PacketBatch, recycler_cache::RecyclerCache},
-    solana_rayon_threadlimit::get_thread_count,
-    solana_runtime::{bank::Bank, bank_forks::BankForks},
-    solana_sdk::{clock::Slot, pubkey::Pubkey},
+    lumos_perf::{self, deduper::Deduper, packet::PacketBatch, recycler_cache::RecyclerCache},
+    lumos_rayon_threadlimit::get_thread_count,
+    lumos_runtime::{bank::Bank, bank_forks::BankForks},
+    lumos_sdk::{clock::Slot, pubkey::Pubkey},
     std::{
         collections::HashMap,
         sync::{Arc, RwLock},
@@ -154,7 +154,7 @@ fn verify_packets(
             .chain(std::iter::once((Slot::MAX, Pubkey::default())))
             .collect();
     let out = verify_shreds_gpu(thread_pool, packets, &leader_slots, recycler_cache);
-    solana_perf::sigverify::mark_disabled(packets, &out);
+    lumos_perf::sigverify::mark_disabled(packets, &out);
 }
 
 // Returns pubkey of leaders for shred slots refrenced in the packets.
@@ -267,13 +267,13 @@ impl ShredSigVerifyStats {
 mod tests {
     use {
         super::*,
-        solana_ledger::{
+        lumos_ledger::{
             genesis_utils::create_genesis_config_with_leader,
             shred::{Shred, ShredFlags},
         },
-        solana_perf::packet::Packet,
-        solana_runtime::bank::Bank,
-        solana_sdk::signature::{Keypair, Signer},
+        lumos_perf::packet::Packet,
+        lumos_runtime::bank::Bank,
+        lumos_sdk::signature::{Keypair, Signer},
     };
 
     #[test]

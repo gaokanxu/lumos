@@ -2,21 +2,21 @@
 
 use {
     crate::mock_bank::MockBankCallback,
-    solana_bpf_loader_program::syscalls::{SyscallAbort, SyscallLog, SyscallMemcpy, SyscallMemset},
-    solana_program_runtime::{
+    lumos_bpf_loader_program::syscalls::{SyscallAbort, SyscallLog, SyscallMemcpy, SyscallMemset},
+    lumos_program_runtime::{
         compute_budget::ComputeBudget,
         invoke_context::InvokeContext,
         loaded_programs::{
             BlockRelation, ForkGraph, LoadedProgram, ProgramCache, ProgramRuntimeEnvironments,
         },
         runtime_config::RuntimeConfig,
-        solana_rbpf::{
+        lumos_rbpf::{
             program::{BuiltinFunction, BuiltinProgram, FunctionRegistry},
             vm::Config,
         },
         timings::ExecuteTimings,
     },
-    solana_sdk::{
+    lumos_sdk::{
         account::{AccountSharedData, WritableAccount},
         bpf_loader,
         clock::{Epoch, Slot},
@@ -30,7 +30,7 @@ use {
         signature::Signature,
         transaction::{SanitizedTransaction, Transaction},
     },
-    solana_svm::{
+    lumos_svm::{
         account_loader::TransactionCheckResult,
         transaction_error_metrics::TransactionErrorMetrics,
         transaction_processor::{ExecutionRecordingConfig, TransactionBatchProcessor},
@@ -47,7 +47,7 @@ use {
 // This module contains the implementation of TransactionProcessingCallback
 mod mock_bank;
 
-const BPF_LOADER_NAME: &str = "solana_bpf_loader_program";
+const BPF_LOADER_NAME: &str = "lumos_bpf_loader_program";
 const DEPLOYMENT_SLOT: u64 = 0;
 const EXECUTION_SLOT: u64 = 5; // The execution slot must be greater than the deployment slot
 const DEPLOYMENT_EPOCH: u64 = 0;
@@ -132,7 +132,7 @@ fn create_executable_environment(
         Arc::new(LoadedProgram::new_builtin(
             DEPLOYMENT_SLOT,
             BPF_LOADER_NAME.len(),
-            solana_bpf_loader_program::Entrypoint::vm,
+            lumos_bpf_loader_program::Entrypoint::vm,
         )),
     );
 
@@ -189,8 +189,8 @@ fn prepare_transactions(
     let mut dir = env::current_dir().unwrap();
     dir.push("tests");
     // File compiled from
-    // https://github.com/solana-developers/program-examples/blob/feb82f254a4633ce2107d06060f2d0558dc987f5/basics/hello-solana/native/program/src/lib.rs
-    dir.push("hello_solana_program.so");
+    // https://github.com/lumos-developers/program-examples/blob/feb82f254a4633ce2107d06060f2d0558dc987f5/basics/hello-lumos/native/program/src/lib.rs
+    dir.push("hello_lumos_program.so");
     let mut file = File::open(dir.clone()).expect("file not found");
     let metadata = fs::metadata(dir).expect("Unable to read metadata");
     let mut buffer = vec![0; metadata.len() as usize];
@@ -268,5 +268,5 @@ fn svm_integration() {
         .log_messages
         .as_ref()
         .unwrap();
-    assert!(logs.contains(&"Program log: Hello, Solana!".to_string()));
+    assert!(logs.contains(&"Program log: Hello, Lumos!".to_string()));
 }

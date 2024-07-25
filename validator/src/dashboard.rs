@@ -4,10 +4,10 @@ use {
         ProgressBar,
     },
     console::style,
-    solana_core::validator::ValidatorStartProgress,
-    solana_rpc_client::rpc_client::RpcClient,
-    solana_rpc_client_api::{client_error, request, response::RpcContactInfo},
-    solana_sdk::{
+    lumos_core::validator::ValidatorStartProgress,
+    lumos_rpc_client::rpc_client::RpcClient,
+    lumos_rpc_client_api::{client_error, request, response::RpcContactInfo},
+    lumos_sdk::{
         clock::Slot, commitment_config::CommitmentConfig, exit::Exit, native_token::Sol,
         pubkey::Pubkey,
     },

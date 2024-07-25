@@ -1,6 +1,6 @@
 use {
-    solana_metrics::MovingStat,
-    solana_sdk::transport::Result as TransportResult,
+    lumos_metrics::MovingStat,
+    lumos_sdk::transport::Result as TransportResult,
     std::{net::SocketAddr, sync::atomic::AtomicU64},
 };
 

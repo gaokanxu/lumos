@@ -16,7 +16,7 @@ use {
     lazy_static::lazy_static,
     log::*,
     regex::Regex,
-    solana_accounts_db::{
+    lumos_accounts_db::{
         account_storage::AccountStorageMap,
         accounts_db::{AccountStorageEntry, AtomicAppendVecId},
         accounts_file::AccountsFileError,
@@ -25,8 +25,8 @@ use {
         shared_buffer_reader::{SharedBuffer, SharedBufferReader},
         utils::{move_and_async_delete_path, ACCOUNTS_RUN_DIR, ACCOUNTS_SNAPSHOT_DIR},
     },
-    solana_measure::{measure, measure::Measure},
-    solana_sdk::{clock::Slot, hash::Hash},
+    lumos_measure::{measure, measure::Measure},
+    lumos_sdk::{clock::Slot, hash::Hash},
     std::{
         cmp::Ordering,
         collections::{HashMap, HashSet},
@@ -46,7 +46,7 @@ use {
 #[cfg(feature = "dev-context-only-utils")]
 use {
     hardened_unpack::UnpackedAppendVecMap, rayon::prelude::*,
-    solana_accounts_db::utils::create_accounts_run_and_snapshot_dirs,
+    lumos_accounts_db::utils::create_accounts_run_and_snapshot_dirs,
 };
 
 mod archive_format;

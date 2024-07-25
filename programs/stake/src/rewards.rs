@@ -1,12 +1,12 @@
 //! Information about stake and voter rewards based on stake state.
-//! Used by `solana-runtime`.
+//! Used by `lumos-runtime`.
 
 use {
     crate::points::{
         calculate_stake_points_and_credits, CalculatedStakePoints, InflationPointCalculationEvent,
         PointValue, SkippedReason,
     },
-    solana_sdk::{
+    lumos_sdk::{
         account::{AccountSharedData, WritableAccount},
         account_utils::StateMut,
         clock::Epoch,
@@ -17,7 +17,7 @@ use {
         },
         stake_history::StakeHistory,
     },
-    solana_vote_program::vote_state::VoteState,
+    lumos_vote_program::vote_state::VoteState,
 };
 
 #[derive(Debug, PartialEq, Eq)]
@@ -229,7 +229,7 @@ mod tests {
     use {
         super::*,
         crate::{points::null_tracer, stake_state::new_stake},
-        solana_sdk::{native_token, pubkey::Pubkey},
+        lumos_sdk::{native_token, pubkey::Pubkey},
     };
 
     #[test]

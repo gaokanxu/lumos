@@ -2,8 +2,8 @@
 pub(crate) mod tests {
     use {
         rand::Rng,
-        solana_runtime::bank::Bank,
-        solana_sdk::{
+        lumos_runtime::bank::Bank,
+        lumos_sdk::{
             account::AccountSharedData,
             clock::Clock,
             instruction::Instruction,
@@ -16,8 +16,8 @@ pub(crate) mod tests {
             },
             transaction::Transaction,
         },
-        solana_vote::vote_account::{VoteAccount, VoteAccounts},
-        solana_vote_program::{
+        lumos_vote::vote_account::{VoteAccount, VoteAccounts},
+        lumos_vote_program::{
             vote_instruction,
             vote_state::{VoteInit, VoteState, VoteStateVersions},
         },
@@ -81,7 +81,7 @@ pub(crate) mod tests {
     #[test]
     fn test_to_staked_nodes() {
         let mut stakes = Vec::new();
-        let node1 = solana_sdk::pubkey::new_rand();
+        let node1 = lumos_sdk::pubkey::new_rand();
 
         // Node 1 has stake of 3
         for i in 0..3 {
@@ -98,7 +98,7 @@ pub(crate) mod tests {
         }
 
         // Node 1 has stake of 5
-        let node2 = solana_sdk::pubkey::new_rand();
+        let node2 = lumos_sdk::pubkey::new_rand();
 
         stakes.push((
             5,
@@ -115,7 +115,7 @@ pub(crate) mod tests {
             let account = AccountSharedData::new_data(
                 rng.gen(), // lamports
                 &VoteStateVersions::new_current(vote_state),
-                &solana_vote_program::id(), // owner
+                &lumos_vote_program::id(), // owner
             )
             .unwrap();
             let vote_pubkey = Pubkey::new_unique();

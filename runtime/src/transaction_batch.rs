@@ -1,6 +1,6 @@
 use {
     crate::bank::Bank,
-    solana_sdk::transaction::{Result, SanitizedTransaction},
+    lumos_sdk::transaction::{Result, SanitizedTransaction},
     std::borrow::Cow,
 };
 
@@ -100,7 +100,7 @@ mod tests {
     use {
         super::*,
         crate::genesis_utils::{create_genesis_config_with_leader, GenesisConfigInfo},
-        solana_sdk::{signature::Keypair, system_transaction, transaction::TransactionError},
+        lumos_sdk::{signature::Keypair, system_transaction, transaction::TransactionError},
     };
 
     #[test]
@@ -173,7 +173,7 @@ mod tests {
     }
 
     fn setup(insert_conflicting_tx: bool) -> (Bank, Vec<SanitizedTransaction>) {
-        let dummy_leader_pubkey = solana_sdk::pubkey::new_rand();
+        let dummy_leader_pubkey = lumos_sdk::pubkey::new_rand();
         let GenesisConfigInfo {
             genesis_config,
             mint_keypair,
@@ -181,9 +181,9 @@ mod tests {
         } = create_genesis_config_with_leader(500, &dummy_leader_pubkey, 100);
         let bank = Bank::new_for_tests(&genesis_config);
 
-        let pubkey = solana_sdk::pubkey::new_rand();
+        let pubkey = lumos_sdk::pubkey::new_rand();
         let keypair2 = Keypair::new();
-        let pubkey2 = solana_sdk::pubkey::new_rand();
+        let pubkey2 = lumos_sdk::pubkey::new_rand();
 
         let mut txs = vec![SanitizedTransaction::from_transaction_for_tests(
             system_transaction::transfer(&mint_keypair, &pubkey, 1, genesis_config.hash()),

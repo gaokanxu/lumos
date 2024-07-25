@@ -1,20 +1,20 @@
 use {
-    solana_cli::{
+    lumos_cli::{
         address_lookup_table::{
             AddressLookupTableCliCommand, DEACTIVATE_LOOKUP_TABLE_WARNING,
             FREEZE_LOOKUP_TABLE_WARNING,
         },
         cli::{process_command, CliCommand, CliConfig},
     },
-    solana_cli_output::{CliAddressLookupTable, CliAddressLookupTableCreated, OutputFormat},
-    solana_faucet::faucet::run_local_faucet,
-    solana_sdk::{
+    lumos_cli_output::{CliAddressLookupTable, CliAddressLookupTableCreated, OutputFormat},
+    lumos_faucet::faucet::run_local_faucet,
+    lumos_sdk::{
         native_token::LAMPORTS_PER_SOL,
         pubkey::Pubkey,
         signature::{Keypair, Signer},
     },
-    solana_streamer::socket::SocketAddrSpace,
-    solana_test_validator::TestValidator,
+    lumos_streamer::socket::SocketAddrSpace,
+    lumos_test_validator::TestValidator,
     std::str::FromStr,
 };
 

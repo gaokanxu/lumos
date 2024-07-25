@@ -1,9 +1,9 @@
-pub use solana_ledger::blockstore_processor::CacheBlockMetaSender;
+pub use lumos_ledger::blockstore_processor::CacheBlockMetaSender;
 use {
     crossbeam_channel::{Receiver, RecvTimeoutError},
-    solana_ledger::blockstore::Blockstore,
-    solana_measure::measure::Measure,
-    solana_runtime::bank::Bank,
+    lumos_ledger::blockstore::Blockstore,
+    lumos_measure::measure::Measure,
+    lumos_runtime::bank::Bank,
     std::{
         sync::{
             atomic::{AtomicBool, Ordering},

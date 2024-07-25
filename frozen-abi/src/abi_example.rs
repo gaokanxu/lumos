@@ -219,9 +219,9 @@ atomic_example_impls! { AtomicI64 }
 atomic_example_impls! { AtomicIsize }
 atomic_example_impls! { AtomicBool }
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 use generic_array::{ArrayLength, GenericArray};
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 impl<T: Default, U: ArrayLength<T>> AbiExample for GenericArray<T, U> {
     fn example() -> Self {
         Self::default()
@@ -276,7 +276,7 @@ impl<T: Default + Serialize> TypeErasedExample<T> for Placeholder {
         let original_type_name = type_name::<T>();
         let normalized_type_name = normalize_type_name(original_type_name);
 
-        if normalized_type_name.starts_with("solana") {
+        if normalized_type_name.starts_with("lumos") {
             panic!("derive or implement AbiExample/AbiEnumVisitor for {original_type_name}");
         } else {
             panic!("new unrecognized type for ABI digest!: {original_type_name}")
@@ -416,7 +416,7 @@ impl<
     }
 }
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 impl<
         T: Clone + std::cmp::Eq + std::hash::Hash + AbiExample,
         S: Clone + AbiExample,
@@ -474,21 +474,21 @@ impl<T: std::cmp::Ord + AbiExample> AbiExample for BTreeSet<T> {
     }
 }
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 impl AbiExample for memmap2::MmapMut {
     fn example() -> Self {
         memmap2::MmapMut::map_anon(1).expect("failed to map the data file")
     }
 }
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 impl AbiExample for std::path::PathBuf {
     fn example() -> Self {
         std::path::PathBuf::from(String::example())
     }
 }
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 impl AbiExample for std::time::SystemTime {
     fn example() -> Self {
         std::time::SystemTime::UNIX_EPOCH
@@ -609,7 +609,7 @@ impl<O: AbiEnumVisitor, E: AbiEnumVisitor> AbiEnumVisitor for Result<O, E> {
     }
 }
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 impl<T: AbiExample> AbiExample for std::sync::OnceLock<T> {
     fn example() -> Self {
         Self::from(T::example())

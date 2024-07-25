@@ -17,24 +17,24 @@ use {
         validator_configs::*,
     },
     log::*,
-    solana_accounts_db::utils::create_accounts_run_and_snapshot_dirs,
-    solana_core::{
+    lumos_accounts_db::utils::create_accounts_run_and_snapshot_dirs,
+    lumos_core::{
         consensus::{tower_storage::FileTowerStorage, Tower, SWITCH_FORK_THRESHOLD},
         validator::{is_snapshot_config_valid, ValidatorConfig},
     },
-    solana_gossip::gossip_service::discover_cluster,
-    solana_ledger::{
+    lumos_gossip::gossip_service::discover_cluster,
+    lumos_ledger::{
         ancestor_iterator::AncestorIterator,
         blockstore::{Blockstore, PurgeType},
         blockstore_meta::DuplicateSlotProof,
         blockstore_options::{AccessType, BlockstoreOptions},
         leader_schedule::{FixedSchedule, LeaderSchedule},
     },
-    solana_rpc_client::rpc_client::RpcClient,
-    solana_runtime::{
+    lumos_rpc_client::rpc_client::RpcClient,
+    lumos_runtime::{
         snapshot_bank_utils::DISABLED_SNAPSHOT_ARCHIVE_INTERVAL, snapshot_config::SnapshotConfig,
     },
-    solana_sdk::{
+    lumos_sdk::{
         account::AccountSharedData,
         clock::{self, Slot, DEFAULT_MS_PER_SLOT, DEFAULT_TICKS_PER_SLOT},
         hash::Hash,
@@ -42,8 +42,8 @@ use {
         pubkey::Pubkey,
         signature::{Keypair, Signer},
     },
-    solana_streamer::socket::SocketAddrSpace,
-    solana_turbine::broadcast_stage::BroadcastStageType,
+    lumos_streamer::socket::SocketAddrSpace,
+    lumos_turbine::broadcast_stage::BroadcastStageType,
     static_assertions,
     std::{
         collections::HashSet,
@@ -61,7 +61,7 @@ use {
 };
 
 pub const RUST_LOG_FILTER: &str =
-    "error,solana_core::replay_stage=warn,solana_local_cluster=info,local_cluster=info";
+    "error,lumos_core::replay_stage=warn,lumos_local_cluster=info,local_cluster=info";
 
 pub const DEFAULT_CLUSTER_LAMPORTS: u64 = 10_000_000 * LAMPORTS_PER_SOL;
 pub const DEFAULT_NODE_STAKE: u64 = 10 * LAMPORTS_PER_SOL;
@@ -312,7 +312,7 @@ pub fn run_cluster_partition<C>(
     ticks_per_slot: Option<u64>,
     additional_accounts: Vec<(Pubkey, AccountSharedData)>,
 ) {
-    solana_logger::setup_with_default(RUST_LOG_FILTER);
+    lumos_logger::setup_with_default(RUST_LOG_FILTER);
     info!("PARTITION_TEST!");
     let num_nodes = partitions.len();
     let node_stakes: Vec<_> = partitions
@@ -463,7 +463,7 @@ pub fn test_faulty_node(
         // Use a fixed leader schedule so that only the faulty node gets leader slots.
         let validator_to_slots = vec![(
             validator_keys[0].0.as_ref().pubkey(),
-            solana_sdk::clock::DEFAULT_DEV_SLOTS_PER_EPOCH as usize,
+            lumos_sdk::clock::DEFAULT_DEV_SLOTS_PER_EPOCH as usize,
         )];
         let leader_schedule = create_custom_leader_schedule(validator_to_slots.into_iter());
         FixedSchedule {

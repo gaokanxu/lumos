@@ -3,13 +3,13 @@ mod tests {
     use {
         crossbeam_channel::{unbounded, Receiver},
         log::*,
-        solana_connection_cache::connection_cache_stats::ConnectionCacheStats,
-        solana_perf::packet::PacketBatch,
-        solana_quic_client::nonblocking::quic_client::{
+        lumos_connection_cache::connection_cache_stats::ConnectionCacheStats,
+        lumos_perf::packet::PacketBatch,
+        lumos_quic_client::nonblocking::quic_client::{
             QuicClientCertificate, QuicLazyInitializedEndpoint,
         },
-        solana_sdk::{net::DEFAULT_TPU_COALESCE, packet::PACKET_DATA_SIZE, signature::Keypair},
-        solana_streamer::{
+        lumos_sdk::{net::DEFAULT_TPU_COALESCE, packet::PACKET_DATA_SIZE, signature::Keypair},
+        lumos_streamer::{
             nonblocking::quic::DEFAULT_WAIT_FOR_CHUNK_TIMEOUT, quic::SpawnServerResult,
             streamer::StakedNodes, tls_certificates::new_dummy_x509_certificate,
         },
@@ -60,10 +60,10 @@ mod tests {
     #[test]
     fn test_quic_client_multiple_writes() {
         use {
-            solana_connection_cache::client_connection::ClientConnection,
-            solana_quic_client::quic_client::QuicClientConnection,
+            lumos_connection_cache::client_connection::ClientConnection,
+            lumos_quic_client::quic_client::QuicClientConnection,
         };
-        solana_logger::setup();
+        lumos_logger::setup();
         let (sender, receiver) = unbounded();
         let staked_nodes = Arc::new(RwLock::new(StakedNodes::default()));
         let (s, exit, keypair) = server_args();
@@ -71,7 +71,7 @@ mod tests {
             endpoint: _,
             thread: t,
             key_updater: _,
-        } = solana_streamer::quic::spawn_server(
+        } = lumos_streamer::quic::spawn_server(
             "solQuicTest",
             "quic_streamer_test",
             s.try_clone().unwrap(),
@@ -144,14 +144,14 @@ mod tests {
     #[tokio::test]
     async fn test_nonblocking_quic_client_multiple_writes() {
         use {
-            solana_connection_cache::nonblocking::client_connection::ClientConnection,
-            solana_quic_client::nonblocking::quic_client::QuicClientConnection,
+            lumos_connection_cache::nonblocking::client_connection::ClientConnection,
+            lumos_quic_client::nonblocking::quic_client::QuicClientConnection,
         };
-        solana_logger::setup();
+        lumos_logger::setup();
         let (sender, receiver) = unbounded();
         let staked_nodes = Arc::new(RwLock::new(StakedNodes::default()));
         let (s, exit, keypair) = server_args();
-        let (_, _, t) = solana_streamer::nonblocking::quic::spawn_server(
+        let (_, _, t) = lumos_streamer::nonblocking::quic::spawn_server(
             "quic_streamer_test",
             s.try_clone().unwrap(),
             &keypair,
@@ -199,10 +199,10 @@ mod tests {
         /// In this we demonstrate that the request sender and the response receiver use the
         /// same quic Endpoint, and the same UDP socket.
         use {
-            solana_connection_cache::client_connection::ClientConnection,
-            solana_quic_client::quic_client::QuicClientConnection,
+            lumos_connection_cache::client_connection::ClientConnection,
+            lumos_quic_client::quic_client::QuicClientConnection,
         };
-        solana_logger::setup();
+        lumos_logger::setup();
 
         // Request Receiver
         let (sender, receiver) = unbounded();
@@ -212,7 +212,7 @@ mod tests {
             endpoint: request_recv_endpoint,
             thread: request_recv_thread,
             key_updater: _,
-        } = solana_streamer::quic::spawn_server(
+        } = lumos_streamer::quic::spawn_server(
             "solQuicTest",
             "quic_streamer_test",
             request_recv_socket.try_clone().unwrap(),
@@ -240,7 +240,7 @@ mod tests {
             endpoint: response_recv_endpoint,
             thread: response_recv_thread,
             key_updater: _,
-        } = solana_streamer::quic::spawn_server(
+        } = lumos_streamer::quic::spawn_server(
             "solQuicTest",
             "quic_streamer_test",
             response_recv_socket,

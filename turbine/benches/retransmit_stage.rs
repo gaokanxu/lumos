@@ -1,33 +1,33 @@
 #![feature(test)]
 
-extern crate solana_turbine;
+extern crate lumos_turbine;
 extern crate test;
 
 use {
     crossbeam_channel::unbounded,
     log::*,
     rand::Rng,
-    solana_entry::entry::Entry,
-    solana_gossip::{
+    lumos_entry::entry::Entry,
+    lumos_gossip::{
         cluster_info::{ClusterInfo, Node},
         contact_info::{ContactInfo, Protocol},
     },
-    solana_ledger::{
+    lumos_ledger::{
         genesis_utils::{create_genesis_config, GenesisConfigInfo},
         leader_schedule_cache::LeaderScheduleCache,
         shred::{ProcessShredsStats, ReedSolomonCache, Shredder},
     },
-    solana_measure::measure::Measure,
-    solana_runtime::{bank::Bank, bank_forks::BankForks},
-    solana_sdk::{
+    lumos_measure::measure::Measure,
+    lumos_runtime::{bank::Bank, bank_forks::BankForks},
+    lumos_sdk::{
         hash::Hash,
         pubkey::Pubkey,
         signature::{Keypair, Signer},
         system_transaction,
         timing::timestamp,
     },
-    solana_streamer::socket::SocketAddrSpace,
-    solana_turbine::retransmit_stage::retransmitter,
+    lumos_streamer::socket::SocketAddrSpace,
+    lumos_turbine::retransmit_stage::retransmitter,
     std::{
         iter::repeat_with,
         net::{Ipv4Addr, UdpSocket},
@@ -44,13 +44,13 @@ use {
 // TODO: The benchmark is ignored as it currently may indefinitely block.
 // The code incorrectly expects that the node receiving the shred on tvu socket
 // retransmits that to other nodes in its neighborhood. But that is no longer
-// the case since https://github.com/solana-labs/solana/pull/17716.
+// the case since https://github.com/lumos-labs/lumos/pull/17716.
 // So depending on shred seed, peers may not receive packets and the receive
 // threads loop indefinitely.
 #[ignore]
 #[bench]
 fn bench_retransmitter(bencher: &mut Bencher) {
-    solana_logger::setup();
+    lumos_logger::setup();
     let cluster_info = {
         let keypair = Arc::new(Keypair::new());
         let node = Node::new_localhost_with_pubkey(&keypair.pubkey());
@@ -124,7 +124,7 @@ fn bench_retransmitter(bencher: &mut Bencher) {
         leader_schedule_cache,
         cluster_info,
         shreds_receiver,
-        Arc::default(), // solana_rpc::max_slots::MaxSlots
+        Arc::default(), // lumos_rpc::max_slots::MaxSlots
         None,
     );
 

@@ -1,7 +1,7 @@
 [package]
-name = "solana-frozen-abi-macro"
-description = "Solana Frozen ABI Macro"
-documentation = "https://docs.rs/solana-frozen-abi-macro"
+name = "lumos-frozen-abi-macro"
+description = "Lumos Frozen ABI Macro"
+documentation = "https://docs.rs/lumos-frozen-abi-macro"
 version = { workspace = true }
 authors = { workspace = true }
 repository = { workspace = true }

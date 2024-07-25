@@ -1,20 +1,20 @@
-pub use solana_connection_cache::connection_cache::Protocol;
+pub use lumos_connection_cache::connection_cache::Protocol;
 use {
     quinn::Endpoint,
-    solana_connection_cache::{
+    lumos_connection_cache::{
         client_connection::ClientConnection,
         connection_cache::{
             BaseClientConnection, ConnectionCache as BackendConnectionCache, ConnectionPool,
             NewConnectionConfig,
         },
     },
-    solana_quic_client::{QuicConfig, QuicConnectionManager, QuicPool},
-    solana_sdk::{
+    lumos_quic_client::{QuicConfig, QuicConnectionManager, QuicPool},
+    lumos_sdk::{
         pubkey::Pubkey, quic::NotifyKeyUpdate, signature::Keypair,
         transport::Result as TransportResult,
     },
-    solana_streamer::streamer::StakedNodes,
-    solana_udp_client::{UdpConfig, UdpConnectionManager, UdpPool},
+    lumos_streamer::streamer::StakedNodes,
+    lumos_udp_client::{UdpConfig, UdpConnectionManager, UdpPool},
     std::{
         error::Error,
         net::{IpAddr, Ipv4Addr, SocketAddr},
@@ -199,7 +199,7 @@ impl ClientConnection for BlockingClientConnection {
 }
 
 #[async_trait::async_trait]
-impl solana_connection_cache::nonblocking::client_connection::ClientConnection
+impl lumos_connection_cache::nonblocking::client_connection::ClientConnection
     for NonblockingClientConnection
 {
     dispatch!(fn server_addr(&self) -> &SocketAddr);
@@ -225,8 +225,8 @@ mod tests {
         super::*,
         crate::connection_cache::ConnectionCache,
         crossbeam_channel::unbounded,
-        solana_sdk::{net::DEFAULT_TPU_COALESCE, signature::Keypair},
-        solana_streamer::{
+        lumos_sdk::{net::DEFAULT_TPU_COALESCE, signature::Keypair},
+        lumos_streamer::{
             nonblocking::quic::DEFAULT_WAIT_FOR_CHUNK_TIMEOUT, quic::SpawnServerResult,
             streamer::StakedNodes,
         },
@@ -259,7 +259,7 @@ mod tests {
             endpoint: response_recv_endpoint,
             thread: response_recv_thread,
             key_updater: _,
-        } = solana_streamer::quic::spawn_server(
+        } = lumos_streamer::quic::spawn_server(
             "solQuicTest",
             "quic_streamer_test",
             response_recv_socket,

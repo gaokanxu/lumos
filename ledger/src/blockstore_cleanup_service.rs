@@ -9,8 +9,8 @@ use {
         blockstore::{Blockstore, PurgeType},
         blockstore_db::{Result as BlockstoreResult, DATA_SHRED_CF},
     },
-    solana_measure::measure::Measure,
-    solana_sdk::clock::{Slot, DEFAULT_MS_PER_SLOT},
+    lumos_measure::measure::Measure,
+    lumos_sdk::clock::{Slot, DEFAULT_MS_PER_SLOT},
     std::{
         string::ToString,
         sync::{
@@ -281,7 +281,7 @@ mod tests {
     fn test_find_slots_to_clean() {
         // BlockstoreCleanupService::find_slots_to_clean() does not modify the
         // Blockstore, so we can make repeated calls on the same slots
-        solana_logger::setup();
+        lumos_logger::setup();
         let ledger_path = get_tmp_ledger_path_auto_delete!();
         let blockstore = Blockstore::open(ledger_path.path()).unwrap();
 
@@ -354,7 +354,7 @@ mod tests {
 
     #[test]
     fn test_cleanup() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let ledger_path = get_tmp_ledger_path_auto_delete!();
         let blockstore = Blockstore::open(ledger_path.path()).unwrap();
         let (shreds, _) = make_many_slot_entries(0, 50, 5);
@@ -378,7 +378,7 @@ mod tests {
 
     #[test]
     fn test_cleanup_speed() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let ledger_path = get_tmp_ledger_path_auto_delete!();
         let blockstore = Arc::new(Blockstore::open(ledger_path.path()).unwrap());
 

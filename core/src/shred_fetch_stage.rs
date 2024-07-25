@@ -5,18 +5,18 @@ use {
     bytes::Bytes,
     crossbeam_channel::{unbounded, Receiver, RecvTimeoutError, Sender},
     itertools::Itertools,
-    solana_gossip::cluster_info::ClusterInfo,
-    solana_ledger::shred::{should_discard_shred, ShredFetchStats},
-    solana_perf::packet::{PacketBatch, PacketBatchRecycler, PacketFlags, PACKETS_PER_BATCH},
-    solana_runtime::bank_forks::BankForks,
-    solana_sdk::{
+    lumos_gossip::cluster_info::ClusterInfo,
+    lumos_ledger::shred::{should_discard_shred, ShredFetchStats},
+    lumos_perf::packet::{PacketBatch, PacketBatchRecycler, PacketFlags, PACKETS_PER_BATCH},
+    lumos_runtime::bank_forks::BankForks,
+    lumos_sdk::{
         clock::{Slot, DEFAULT_MS_PER_SLOT},
         epoch_schedule::EpochSchedule,
         feature_set::{self, FeatureSet},
         packet::{Meta, PACKET_DATA_SIZE},
         pubkey::Pubkey,
     },
-    solana_streamer::streamer::{self, PacketBatchReceiver, StreamerReceiveStats},
+    lumos_streamer::streamer::{self, PacketBatchReceiver, StreamerReceiveStats},
     std::{
         net::{SocketAddr, UdpSocket},
         sync::{
@@ -439,16 +439,16 @@ fn check_feature_activation(
 mod tests {
     use {
         super::*,
-        solana_ledger::{
+        lumos_ledger::{
             blockstore::MAX_DATA_SHREDS_PER_SLOT,
             shred::{ReedSolomonCache, Shred, ShredFlags},
         },
-        solana_sdk::packet::Packet,
+        lumos_sdk::packet::Packet,
     };
 
     #[test]
     fn test_data_code_same_index() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let mut packet = Packet::default();
         let mut stats = ShredFetchStats::default();
 
@@ -479,7 +479,7 @@ mod tests {
             |_| true,  // enable_chained_merkle_shreds
             &mut stats,
         ));
-        let coding = solana_ledger::shred::Shredder::generate_coding_shreds(
+        let coding = lumos_ledger::shred::Shredder::generate_coding_shreds(
             &[shred],
             3, // next_code_index
             &ReedSolomonCache::default(),
@@ -498,7 +498,7 @@ mod tests {
 
     #[test]
     fn test_shred_filter() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let mut packet = Packet::default();
         let mut stats = ShredFetchStats::default();
         let last_root = 0;

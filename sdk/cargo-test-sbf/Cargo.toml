@@ -1,6 +1,6 @@
 [package]
-name = "solana-cargo-test-sbf"
-description = "Execute all unit and integration tests after building with the Solana SBF SDK"
+name = "lumos-cargo-test-sbf"
+description = "Execute all unit and integration tests after building with the Lumos SBF SDK"
 publish = false
 version = { workspace = true }
 authors = { workspace = true }
@@ -14,7 +14,7 @@ cargo_metadata = { workspace = true }
 clap = { version = "3.1.5", features = ["cargo"] }
 itertools = { workspace = true }
 log = { workspace = true, features = ["std"] }
-solana-logger = { workspace = true }
+lumos-logger = { workspace = true }
 
 [[bin]]
 name = "cargo-test-sbf"

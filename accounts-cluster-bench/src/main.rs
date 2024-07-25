@@ -4,16 +4,16 @@ use {
     log::*,
     rand::{thread_rng, Rng},
     rayon::prelude::*,
-    solana_accounts_db::inline_spl_token,
-    solana_clap_utils::{
+    lumos_accounts_db::inline_spl_token,
+    lumos_clap_utils::{
         hidden_unless_forced, input_parsers::pubkey_of, input_validators::is_url_or_moniker,
     },
-    solana_cli_config::{ConfigInput, CONFIG_FILE},
-    solana_client::{rpc_request::TokenAccountsFilter, transaction_executor::TransactionExecutor},
-    solana_gossip::gossip_service::discover,
-    solana_measure::measure::Measure,
-    solana_rpc_client::rpc_client::RpcClient,
-    solana_sdk::{
+    lumos_cli_config::{ConfigInput, CONFIG_FILE},
+    lumos_client::{rpc_request::TokenAccountsFilter, transaction_executor::TransactionExecutor},
+    lumos_gossip::gossip_service::discover,
+    lumos_measure::measure::Measure,
+    lumos_rpc_client::rpc_client::RpcClient,
+    lumos_sdk::{
         commitment_config::CommitmentConfig,
         hash::Hash,
         instruction::{AccountMeta, Instruction},
@@ -23,7 +23,7 @@ use {
         system_instruction, system_program,
         transaction::Transaction,
     },
-    solana_streamer::socket::SocketAddrSpace,
+    lumos_streamer::socket::SocketAddrSpace,
     std::{
         cmp::min,
         process::exit,
@@ -798,10 +798,10 @@ fn run_accounts_bench(
 }
 
 fn main() {
-    solana_logger::setup_with_default("solana=info");
+    lumos_logger::setup_with_default("lumos=info");
     let matches = App::new(crate_name!())
         .about(crate_description!())
-        .version(solana_version::version!())
+        .version(lumos_version::version!())
         .arg({
             let arg = Arg::with_name("config_file")
                 .short("C")
@@ -824,7 +824,7 @@ fn main() {
                 .validator(is_url_or_moniker)
                 .conflicts_with("entrypoint")
                 .help(
-                    "URL for Solana's JSON RPC or moniker (or their first letter): \
+                    "URL for Lumos's JSON RPC or moniker (or their first letter): \
                        [mainnet-beta, testnet, devnet, localhost]",
                 ),
         )
@@ -984,7 +984,7 @@ fn main() {
     }
 
     let client = if let Some(addr) = matches.value_of("entrypoint") {
-        let entrypoint_addr = solana_net_utils::parse_host_port(addr).unwrap_or_else(|e| {
+        let entrypoint_addr = lumos_net_utils::parse_host_port(addr).unwrap_or_else(|e| {
             eprintln!("failed to parse entrypoint address: {e}");
             exit(1)
         });
@@ -1020,9 +1020,9 @@ fn main() {
         ))
     } else {
         let config = if let Some(config_file) = matches.value_of("config_file") {
-            solana_cli_config::Config::load(config_file).unwrap_or_default()
+            lumos_cli_config::Config::load(config_file).unwrap_or_default()
         } else {
-            solana_cli_config::Config::default()
+            lumos_cli_config::Config::default()
         };
         let (_, json_rpc_url) = ConfigInput::compute_json_rpc_url_setting(
             matches.value_of("json_rpc_url").unwrap_or(""),
@@ -1055,21 +1055,21 @@ fn main() {
 pub mod test {
     use {
         super::*,
-        solana_accounts_db::{
+        lumos_accounts_db::{
             accounts_index::{AccountIndex, AccountSecondaryIndexes},
             inline_spl_token,
         },
-        solana_core::validator::ValidatorConfig,
-        solana_faucet::faucet::run_local_faucet,
-        solana_local_cluster::{
+        lumos_core::validator::ValidatorConfig,
+        lumos_faucet::faucet::run_local_faucet,
+        lumos_local_cluster::{
             local_cluster::{ClusterConfig, LocalCluster},
             validator_configs::make_identical_validator_configs,
         },
-        solana_measure::measure::Measure,
-        solana_sdk::{native_token::sol_to_lamports, poh_config::PohConfig},
-        solana_test_validator::TestValidator,
+        lumos_measure::measure::Measure,
+        lumos_sdk::{native_token::sol_to_lamports, poh_config::PohConfig},
+        lumos_test_validator::TestValidator,
         spl_token::{
-            solana_program::program_pack::Pack,
+            lumos_program::program_pack::Pack,
             state::{Account, Mint},
         },
     };
@@ -1082,7 +1082,7 @@ pub mod test {
 
     #[test]
     fn test_accounts_cluster_bench() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let mut validator_config = ValidatorConfig::default_for_test();
         let num_nodes = 1;
         add_secondary_indexes(&mut validator_config.account_indexes);
@@ -1133,7 +1133,7 @@ pub mod test {
 
     #[test]
     fn test_halt_accounts_creation_at_max() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let mut validator_config = ValidatorConfig::default_for_test();
         let num_nodes = 1;
         add_secondary_indexes(&mut validator_config.account_indexes);
@@ -1184,7 +1184,7 @@ pub mod test {
 
     #[test]
     fn test_create_then_reclaim_spl_token_accounts() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let mint_keypair = Keypair::new();
         let mint_pubkey = mint_keypair.pubkey();
         let faucet_addr = run_local_faucet(mint_keypair, None);

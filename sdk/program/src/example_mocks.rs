@@ -13,12 +13,12 @@
 #![doc(hidden)]
 #![allow(clippy::new_without_default)]
 
-pub mod solana_rpc_client {
+pub mod lumos_rpc_client {
     pub mod rpc_client {
         use {
             super::super::{
-                solana_rpc_client_api::client_error::Result as ClientResult,
-                solana_sdk::{
+                lumos_rpc_client_api::client_error::Result as ClientResult,
+                lumos_sdk::{
                     account::Account, hash::Hash, pubkey::Pubkey, signature::Signature,
                     transaction::Transaction,
                 },
@@ -76,7 +76,7 @@ pub mod solana_rpc_client {
     }
 }
 
-pub mod solana_rpc_client_api {
+pub mod lumos_rpc_client_api {
     pub mod client_error {
         #[derive(thiserror::Error, Debug)]
         #[error("mock-error")]
@@ -85,9 +85,9 @@ pub mod solana_rpc_client_api {
     }
 }
 
-pub mod solana_rpc_client_nonce_utils {
+pub mod lumos_rpc_client_nonce_utils {
     use {
-        super::solana_sdk::{account::ReadableAccount, account_utils::StateMut, pubkey::Pubkey},
+        super::lumos_sdk::{account::ReadableAccount, account_utils::StateMut, pubkey::Pubkey},
         crate::nonce::state::{Data, DurableNonce, Versions},
     };
 
@@ -106,12 +106,12 @@ pub mod solana_rpc_client_nonce_utils {
     }
 }
 
-/// Re-exports and mocks of solana-program modules that mirror those from
-/// solana-program.
+/// Re-exports and mocks of lumos-program modules that mirror those from
+/// lumos-program.
 ///
-/// This lets examples in solana-program appear to be written as client
+/// This lets examples in lumos-program appear to be written as client
 /// programs.
-pub mod solana_sdk {
+pub mod lumos_sdk {
     pub use crate::{
         hash, instruction, keccak, message, nonce,
         pubkey::{self, Pubkey},
@@ -276,16 +276,16 @@ pub mod solana_sdk {
 
     #[deprecated(
         since = "1.17.0",
-        note = "Please use `solana_sdk::address_lookup_table` instead"
+        note = "Please use `lumos_sdk::address_lookup_table` instead"
     )]
     pub use crate::address_lookup_table as address_lookup_table_account;
 }
 
 #[deprecated(
     since = "1.17.0",
-    note = "Please use `solana_sdk::address_lookup_table` instead"
+    note = "Please use `lumos_sdk::address_lookup_table` instead"
 )]
-pub mod solana_address_lookup_table_program {
+pub mod lumos_address_lookup_table_program {
     pub use crate::address_lookup_table::program::{check_id, id, ID};
 
     pub mod state {

@@ -1,6 +1,6 @@
 use {
     crate::bank::Bank,
-    solana_sdk::clock::{Epoch, Slot},
+    lumos_sdk::clock::{Epoch, Slot},
     std::sync::atomic::{AtomicU64, Ordering::Relaxed},
 };
 

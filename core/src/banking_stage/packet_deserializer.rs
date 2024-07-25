@@ -7,8 +7,8 @@ use {
         sigverify::SigverifyTracerPacketStats,
     },
     crossbeam_channel::RecvTimeoutError,
-    solana_perf::packet::PacketBatch,
-    solana_runtime::bank_forks::BankForks,
+    lumos_perf::packet::PacketBatch,
+    lumos_runtime::bank_forks::BankForks,
     std::{
         sync::{Arc, RwLock},
         time::{Duration, Instant},
@@ -173,8 +173,8 @@ impl PacketDeserializer {
 mod tests {
     use {
         super::*,
-        solana_perf::packet::to_packet_batches,
-        solana_sdk::{
+        lumos_perf::packet::to_packet_batches,
+        lumos_sdk::{
             hash::Hash, pubkey::Pubkey, signature::Keypair, system_transaction,
             transaction::Transaction,
         },

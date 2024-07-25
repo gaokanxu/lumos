@@ -15,16 +15,16 @@ use {
     log::*,
     regex::Regex,
     serde_json::json,
-    solana_clap_utils::{hidden_unless_forced, input_validators::is_slot},
-    solana_cli_output::OutputFormat,
-    solana_ledger::{
+    lumos_clap_utils::{hidden_unless_forced, input_validators::is_slot},
+    lumos_cli_output::OutputFormat,
+    lumos_ledger::{
         ancestor_iterator::AncestorIterator,
         blockstore::{Blockstore, PurgeType},
         blockstore_db::{self, Column, ColumnName, Database},
         blockstore_options::{AccessType, BLOCKSTORE_DIRECTORY_ROCKS_FIFO},
         shred::Shred,
     },
-    solana_sdk::{
+    lumos_sdk::{
         clock::{Slot, UnixTimestamp},
         hash::Hash,
     },
@@ -39,7 +39,7 @@ use {
 };
 
 fn analyze_column<
-    C: solana_ledger::blockstore_db::Column + solana_ledger::blockstore_db::ColumnName,
+    C: lumos_ledger::blockstore_db::Column + lumos_ledger::blockstore_db::ColumnName,
 >(
     db: &Database,
     name: &str,
@@ -114,7 +114,7 @@ fn analyze_column<
 }
 
 fn analyze_storage(database: &Database) -> Result<()> {
-    use solana_ledger::blockstore_db::columns::*;
+    use lumos_ledger::blockstore_db::columns::*;
     analyze_column::<SlotMeta>(database, "SlotMeta")?;
     analyze_column::<Orphans>(database, "Orphans")?;
     analyze_column::<DeadSlots>(database, "DeadSlots")?;
@@ -138,7 +138,7 @@ fn analyze_storage(database: &Database) -> Result<()> {
 }
 
 fn raw_key_to_slot(key: &[u8], column_name: &str) -> Option<Slot> {
-    use solana_ledger::blockstore_db::columns as cf;
+    use lumos_ledger::blockstore_db::columns as cf;
     match column_name {
         cf::SlotMeta::NAME => Some(cf::SlotMeta::slot(cf::SlotMeta::index(key))),
         cf::Orphans::NAME => Some(cf::Orphans::slot(cf::Orphans::index(key))),
@@ -179,7 +179,7 @@ fn slot_contains_nonvote_tx(blockstore: &Blockstore, slot: Slot) -> bool {
         .iter()
         .flat_map(|entry| entry.transactions.iter())
         .flat_map(get_program_ids)
-        .any(|program_id| *program_id != solana_vote_program::id());
+        .any(|program_id| *program_id != lumos_vote_program::id());
     contains_nonvote
 }
 
@@ -359,7 +359,7 @@ pub fn blockstore_subcommands<'a, 'b>(hidden: bool) -> Vec<App<'a, 'b>> {
                  and timestamps.",
             )
             // This command is important in cluster restart scenarios, so do not hide it ever
-            // such that the subcommand will be visible as the top level of solana-ledger-tool
+            // such that the subcommand will be visible as the top level of lumos-ledger-tool
             .arg(
                 Arg::with_name("num_slots")
                     .long("num-slots")
@@ -1065,7 +1065,7 @@ fn do_blockstore_process_command(ledger_path: &Path, matches: &ArgMatches<'_>) -
 pub mod tests {
     use {
         super::*,
-        solana_ledger::{blockstore::make_many_slot_entries, get_tmp_ledger_path_auto_delete},
+        lumos_ledger::{blockstore::make_many_slot_entries, get_tmp_ledger_path_auto_delete},
     };
 
     #[test]

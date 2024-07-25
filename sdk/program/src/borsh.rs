@@ -1,6 +1,6 @@
 //! Utilities for the [borsh] serialization format.
 //!
-//! To avoid backwards-incompatibilities when the Solana SDK changes its dependency
+//! To avoid backwards-incompatibilities when the Lumos SDK changes its dependency
 //! on borsh, it's recommended to instead use the version-specific file directly,
 //! ie. `borsh0_10`.
 //!
@@ -13,7 +13,7 @@ use borsh0_10::{maybestd::io::Error, BorshDeserialize, BorshSchema, BorshSeriali
 /// Get the worst-case packed length for the given BorshSchema
 ///
 /// Note: due to the serializer currently used by Borsh, this function cannot
-/// be used on-chain in the Solana SBF execution environment.
+/// be used on-chain in the Lumos SBF execution environment.
 #[deprecated(
     since = "1.17.0",
     note = "Please use `borsh0_10::get_packed_len` instead"
@@ -61,7 +61,7 @@ macro_rules! impl_get_packed_len_v0 {
         /// Get the worst-case packed length for the given BorshSchema
         ///
         /// Note: due to the serializer currently used by Borsh, this function cannot
-        /// be used on-chain in the Solana SBF execution environment.
+        /// be used on-chain in the Lumos SBF execution environment.
         $(#[$meta])?
         pub fn get_packed_len<S: $borsh::BorshSchema>() -> usize {
             let $borsh::schema::BorshSchemaContainer { declaration, definitions } =
@@ -123,7 +123,7 @@ macro_rules! impl_get_packed_len_v1 {
         /// Get the worst-case packed length for the given BorshSchema
         ///
         /// Note: due to the serializer currently used by Borsh, this function cannot
-        /// be used on-chain in the Solana SBF execution environment.
+        /// be used on-chain in the Lumos SBF execution environment.
         $(#[$meta])?
         pub fn get_packed_len<S: $borsh::BorshSchema>() -> usize {
             let container = $borsh::schema_container_of::<S>();

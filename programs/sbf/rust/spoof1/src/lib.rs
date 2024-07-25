@@ -1,4 +1,4 @@
-use solana_program::{
+use lumos_program::{
     account_info::AccountInfo,
     entrypoint::ProgramResult,
     instruction::{AccountMeta, Instruction},
@@ -9,7 +9,7 @@ use solana_program::{
     system_program,
 };
 
-solana_program::entrypoint!(process_instruction);
+lumos_program::entrypoint!(process_instruction);
 fn process_instruction(
     _program_id: &Pubkey,
     accounts: &[AccountInfo],

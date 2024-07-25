@@ -1,6 +1,6 @@
 //! Plain Old Data types for the ElGamal encryption scheme.
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 use {
     crate::encryption::elgamal::{self as decoded, ElGamalError},
     curve25519_dalek::ristretto::CompressedRistretto,
@@ -58,14 +58,14 @@ impl_from_str!(
     BASE64_LEN = ELGAMAL_CIPHERTEXT_MAX_BASE64_LEN
 );
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 impl From<decoded::ElGamalCiphertext> for ElGamalCiphertext {
     fn from(decoded_ciphertext: decoded::ElGamalCiphertext) -> Self {
         Self(decoded_ciphertext.to_bytes())
     }
 }
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 impl TryFrom<ElGamalCiphertext> for decoded::ElGamalCiphertext {
     type Error = ElGamalError;
 
@@ -97,14 +97,14 @@ impl_from_str!(
     BASE64_LEN = ELGAMAL_PUBKEY_MAX_BASE64_LEN
 );
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 impl From<decoded::ElGamalPubkey> for ElGamalPubkey {
     fn from(decoded_pubkey: decoded::ElGamalPubkey) -> Self {
         Self(decoded_pubkey.to_bytes())
     }
 }
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 impl TryFrom<ElGamalPubkey> for decoded::ElGamalPubkey {
     type Error = ElGamalError;
 
@@ -124,7 +124,7 @@ impl fmt::Debug for DecryptHandle {
     }
 }
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 impl From<decoded::DecryptHandle> for DecryptHandle {
     fn from(decoded_handle: decoded::DecryptHandle) -> Self {
         Self(decoded_handle.to_bytes())
@@ -132,14 +132,14 @@ impl From<decoded::DecryptHandle> for DecryptHandle {
 }
 
 // For proof verification, interpret pod::DecryptHandle as CompressedRistretto
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 impl From<DecryptHandle> for CompressedRistretto {
     fn from(pod_handle: DecryptHandle) -> Self {
         Self(pod_handle.0)
     }
 }
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 impl TryFrom<DecryptHandle> for decoded::DecryptHandle {
     type Error = ElGamalError;
 

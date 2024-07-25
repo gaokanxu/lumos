@@ -1,7 +1,7 @@
 [package]
-name = "solana-frozen-abi"
-description = "Solana Frozen ABI"
-documentation = "https://docs.rs/solana-frozen-abi"
+name = "lumos-frozen-abi"
+description = "Lumos Frozen ABI"
+documentation = "https://docs.rs/lumos-frozen-abi"
 version = { workspace = true }
 authors = { workspace = true }
 repository = { workspace = true }
@@ -17,10 +17,10 @@ serde = { workspace = true, features = ["derive", "rc"] }
 serde_bytes = { workspace = true }
 serde_derive = { workspace = true }
 sha2 = { workspace = true }
-solana-frozen-abi-macro = { workspace = true }
+lumos-frozen-abi-macro = { workspace = true }
 thiserror = { workspace = true }
 
-[target.'cfg(not(target_os = "solana"))'.dependencies]
+[target.'cfg(not(target_os = "lumos"))'.dependencies]
 block-buffer = { workspace = true }
 either = { workspace = true, features = ["use_std"] }
 generic-array = { workspace = true, features = ["serde", "more_lengths"] }
@@ -28,9 +28,9 @@ im = { workspace = true, features = ["rayon", "serde"] }
 memmap2 = { workspace = true }
 subtle = { workspace = true }
 
-[target.'cfg(not(target_os = "solana"))'.dev-dependencies]
+[target.'cfg(not(target_os = "lumos"))'.dev-dependencies]
 bitflags = { workspace = true }
-solana-logger = { workspace = true }
+lumos-logger = { workspace = true }
 
 [build-dependencies]
 rustc_version = { workspace = true }

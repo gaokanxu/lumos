@@ -1,8 +1,8 @@
 use {
     crossbeam_channel::{Receiver, RecvTimeoutError, Sender},
-    solana_ledger::blockstore::Blockstore,
-    solana_sdk::{clock::Slot, pubkey::Pubkey, reward_info::RewardInfo},
-    solana_transaction_status::Reward,
+    lumos_ledger::blockstore::Blockstore,
+    lumos_sdk::{clock::Slot, pubkey::Pubkey, reward_info::RewardInfo},
+    lumos_transaction_status::Reward,
     std::{
         sync::{
             atomic::{AtomicBool, AtomicU64, Ordering},

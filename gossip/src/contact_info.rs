@@ -2,14 +2,14 @@ use {
     crate::crds_value::MAX_WALLCLOCK,
     assert_matches::{assert_matches, debug_assert_matches},
     serde::{Deserialize, Deserializer, Serialize},
-    solana_sdk::{
+    lumos_sdk::{
         pubkey::Pubkey,
         quic::QUIC_PORT_OFFSET,
         rpc_port::{DEFAULT_RPC_PORT, DEFAULT_RPC_PUBSUB_PORT},
         sanitize::{Sanitize, SanitizeError},
         serde_varint, short_vec,
     },
-    solana_streamer::socket::SocketAddrSpace,
+    lumos_streamer::socket::SocketAddrSpace,
     static_assertions::const_assert_eq,
     std::{
         collections::HashSet,
@@ -19,7 +19,7 @@ use {
     thiserror::Error,
 };
 pub use {
-    crate::legacy_contact_info::LegacyContactInfo, solana_client::connection_cache::Protocol,
+    crate::legacy_contact_info::LegacyContactInfo, lumos_client::connection_cache::Protocol,
 };
 
 pub const SOCKET_ADDR_UNSPECIFIED: SocketAddr =
@@ -75,7 +75,7 @@ pub struct ContactInfo {
     // Identifies duplicate running instances.
     outset: u64,
     shred_version: u16,
-    version: solana_version::Version,
+    version: lumos_version::Version,
     // All IP addresses are unique and referenced at least once in sockets.
     #[serde(with = "short_vec")]
     addrs: Vec<IpAddr>,
@@ -110,7 +110,7 @@ struct ContactInfoLite {
     wallclock: u64,
     outset: u64,
     shred_version: u16,
-    version: solana_version::Version,
+    version: lumos_version::Version,
     #[serde(with = "short_vec")]
     addrs: Vec<IpAddr>,
     #[serde(with = "short_vec")]
@@ -187,7 +187,7 @@ impl ContactInfo {
                 u64::try_from(elapsed.as_micros()).unwrap()
             },
             shred_version,
-            version: solana_version::Version::default(),
+            version: lumos_version::Version::default(),
             addrs: Vec::<IpAddr>::default(),
             sockets: Vec::<SocketEntry>::default(),
             extensions: Vec::<Extension>::default(),
@@ -390,7 +390,7 @@ impl ContactInfo {
         assert_matches!(sanitize_socket(socket), Ok(()));
         let mut node = Self::new(
             *pubkey,
-            solana_sdk::timing::timestamp(), // wallclock,
+            lumos_sdk::timing::timestamp(), // wallclock,
             0u16,                            // shred_version
         );
         let (addr, port) = (socket.ip(), socket.port());
@@ -557,14 +557,14 @@ pub(crate) fn get_quic_socket(socket: &SocketAddr) -> Result<SocketAddr, Error> 
 }
 
 #[cfg(all(test, RUSTC_WITH_SPECIALIZATION))]
-impl solana_frozen_abi::abi_example::AbiExample for ContactInfo {
+impl lumos_frozen_abi::abi_example::AbiExample for ContactInfo {
     fn example() -> Self {
         Self {
             pubkey: Pubkey::example(),
             wallclock: u64::example(),
             outset: u64::example(),
             shred_version: u16::example(),
-            version: solana_version::Version::example(),
+            version: lumos_version::Version::example(),
             addrs: Vec::<IpAddr>::example(),
             sockets: Vec::<SocketEntry>::example(),
             extensions: vec![],
@@ -578,7 +578,7 @@ mod tests {
     use {
         super::*,
         rand::{seq::SliceRandom, Rng},
-        solana_sdk::signature::{Keypair, Signer},
+        lumos_sdk::signature::{Keypair, Signer},
         std::{
             collections::{HashMap, HashSet},
             iter::repeat_with,
@@ -709,7 +709,7 @@ mod tests {
             wallclock: rng.gen(),
             outset: rng.gen(),
             shred_version: rng.gen(),
-            version: solana_version::Version::default(),
+            version: lumos_version::Version::default(),
             addrs: Vec::default(),
             sockets: Vec::default(),
             extensions: Vec::default(),
@@ -881,7 +881,7 @@ mod tests {
     fn test_new_localhost() {
         let node = ContactInfo::new_localhost(
             &Keypair::new().pubkey(),
-            solana_sdk::timing::timestamp(), // wallclock
+            lumos_sdk::timing::timestamp(), // wallclock
         );
         cross_verify_with_legacy(&node);
     }

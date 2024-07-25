@@ -1,12 +1,12 @@
 use {
-    solana_rpc_client_api::{client_error::Error as ClientError, config::RpcBlockConfig},
-    solana_sdk::{
+    lumos_rpc_client_api::{client_error::Error as ClientError, config::RpcBlockConfig},
+    lumos_sdk::{
         account::Account, commitment_config::CommitmentConfig, epoch_info::EpochInfo, hash::Hash,
         message::Message, pubkey::Pubkey, signature::Signature, slot_history::Slot,
         transaction::Transaction, transport::TransportError,
     },
-    solana_tpu_client::tpu_client::TpuSenderError,
-    solana_transaction_status::UiConfirmedBlock,
+    lumos_tpu_client::tpu_client::TpuSenderError,
+    lumos_transaction_status::UiConfirmedBlock,
     thiserror::Error,
 };
 

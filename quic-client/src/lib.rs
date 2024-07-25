@@ -4,7 +4,7 @@ pub mod nonblocking;
 pub mod quic_client;
 
 #[macro_use]
-extern crate solana_metrics;
+extern crate lumos_metrics;
 
 use {
     crate::{
@@ -15,18 +15,18 @@ use {
         quic_client::QuicClientConnection as BlockingQuicClientConnection,
     },
     quinn::Endpoint,
-    solana_connection_cache::{
+    lumos_connection_cache::{
         connection_cache::{
             BaseClientConnection, ClientError, ConnectionCache, ConnectionManager, ConnectionPool,
             ConnectionPoolError, NewConnectionConfig, Protocol,
         },
         connection_cache_stats::ConnectionCacheStats,
     },
-    solana_sdk::{
+    lumos_sdk::{
         pubkey::Pubkey,
         signature::{Keypair, Signer},
     },
-    solana_streamer::{
+    lumos_streamer::{
         nonblocking::quic::{compute_max_allowed_uni_streams, ConnectionPeerType},
         streamer::StakedNodes,
         tls_certificates::new_dummy_x509_certificate,
@@ -255,7 +255,7 @@ pub fn new_quic_connection_cache(
 mod tests {
     use {
         super::*,
-        solana_sdk::quic::{
+        lumos_sdk::quic::{
             QUIC_MAX_UNSTAKED_CONCURRENT_STREAMS, QUIC_MIN_STAKED_CONCURRENT_STREAMS,
             QUIC_TOTAL_STAKED_CONCURRENT_STREAMS,
         },
@@ -264,7 +264,7 @@ mod tests {
 
     #[test]
     fn test_connection_cache_max_parallel_chunks() {
-        solana_logger::setup();
+        lumos_logger::setup();
 
         let mut connection_config = QuicConfig::new().unwrap();
         assert_eq!(

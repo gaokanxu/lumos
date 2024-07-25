@@ -34,10 +34,10 @@ mod transaction_address_lookup_table_scanner;
 pub mod use_snapshot_archives_at_startup;
 
 #[macro_use]
-extern crate solana_metrics;
+extern crate lumos_metrics;
 
 #[macro_use]
 extern crate log;
 
 #[macro_use]
-extern crate solana_frozen_abi_macro;
+extern crate lumos_frozen_abi_macro;

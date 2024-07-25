@@ -3,12 +3,12 @@
 
 use {
     rand::{thread_rng, Rng},
-    solana_client::{
+    lumos_client::{
         connection_cache::{ConnectionCache, Protocol},
         tpu_connection::TpuConnection,
     },
-    solana_gossip::cluster_info::ClusterInfo,
-    solana_poh::poh_recorder::PohRecorder,
+    lumos_gossip::cluster_info::ClusterInfo,
+    lumos_poh::poh_recorder::PohRecorder,
     std::{
         sync::{
             atomic::{AtomicBool, Ordering},

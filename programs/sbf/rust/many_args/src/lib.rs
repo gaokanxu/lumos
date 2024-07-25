@@ -1,8 +1,8 @@
 //! Example Rust-based SBF program tests loop iteration
 
 mod helper;
-extern crate solana_program;
-use solana_program::{custom_heap_default, custom_panic_default, entrypoint::SUCCESS, msg};
+extern crate lumos_program;
+use lumos_program::{custom_heap_default, custom_panic_default, entrypoint::SUCCESS, msg};
 
 #[no_mangle]
 pub extern "C" fn entrypoint(_input: *mut u8) -> u64 {
@@ -11,12 +11,12 @@ pub extern "C" fn entrypoint(_input: *mut u8) -> u64 {
 
     msg!("Call another package");
     assert_eq!(
-        solana_sbf_rust_many_args_dep::many_args(1, 2, 3, 4, 5, 6, 7, 8, 9),
+        lumos_sbf_rust_many_args_dep::many_args(1, 2, 3, 4, 5, 6, 7, 8, 9),
         45
     );
     assert_eq!(
-        solana_sbf_rust_many_args_dep::many_args_sret(1, 2, 3, 4, 5, 6, 7, 8, 9),
-        solana_sbf_rust_many_args_dep::Ret {
+        lumos_sbf_rust_many_args_dep::many_args_sret(1, 2, 3, 4, 5, 6, 7, 8, 9),
+        lumos_sbf_rust_many_args_dep::Ret {
             group1: 6,
             group2: 15,
             group3: 24

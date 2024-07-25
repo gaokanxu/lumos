@@ -8,8 +8,8 @@
 //! a functioning authority. For more information refer to the
 //! [`loader_upgradeable_instruction`] module.
 //!
-//! The `solana program deploy` CLI command uses the
-//! upgradeable BPF loader. Calling `solana program deploy --final` deploys a
+//! The `lumos program deploy` CLI command uses the
+//! upgradeable BPF loader. Calling `lumos program deploy --final` deploys a
 //! program that cannot be upgraded, but it does so by revoking the authority to
 //! upgrade, not by using the non-upgradeable loader.
 //!

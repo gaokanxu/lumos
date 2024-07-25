@@ -4,8 +4,8 @@ use {
     dashmap::DashMap,
     log::*,
     lru::LruCache,
-    solana_measure::measure,
-    solana_sdk::{
+    lumos_measure::measure,
+    lumos_sdk::{
         clock::{BankId, Slot},
         pubkey::Pubkey,
         transaction::SanitizedTransaction,
@@ -437,7 +437,7 @@ mod tests {
             bank_forks::BankForks,
             genesis_utils::{create_genesis_config, GenesisConfigInfo},
         },
-        solana_sdk::{
+        lumos_sdk::{
             compute_budget::ComputeBudgetInstruction,
             message::Message,
             pubkey::Pubkey,
@@ -510,7 +510,7 @@ mod tests {
 
     #[test]
     fn test_prioritization_fee_cache_update() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let write_account_a = Pubkey::new_unique();
         let write_account_b = Pubkey::new_unique();
         let write_account_c = Pubkey::new_unique();
@@ -603,7 +603,7 @@ mod tests {
 
     #[test]
     fn test_get_prioritization_fees() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let write_account_a = Pubkey::new_unique();
         let write_account_b = Pubkey::new_unique();
         let write_account_c = Pubkey::new_unique();
@@ -612,7 +612,7 @@ mod tests {
         let bank0 = Bank::new_for_benches(&genesis_config);
         let bank_forks = BankForks::new_rw_arc(bank0);
         let bank = bank_forks.read().unwrap().working_bank();
-        let collector = solana_sdk::pubkey::new_rand();
+        let collector = lumos_sdk::pubkey::new_rand();
         let bank1 = Arc::new(Bank::new_from_parent(bank.clone(), &collector, 1));
         let bank2 = Arc::new(Bank::new_from_parent(bank.clone(), &collector, 2));
         let bank3 = Arc::new(Bank::new_from_parent(bank, &collector, 3));
@@ -855,7 +855,7 @@ mod tests {
     fn test_purge_duplicated_bank() {
         // duplicated bank can exists for same slot before OC.
         // prioritization_fee_cache should only have data from OC-ed bank
-        solana_logger::setup();
+        lumos_logger::setup();
         let write_account_a = Pubkey::new_unique();
         let write_account_b = Pubkey::new_unique();
         let write_account_c = Pubkey::new_unique();
@@ -864,7 +864,7 @@ mod tests {
         let bank0 = Bank::new_for_benches(&genesis_config);
         let bank_forks = BankForks::new_rw_arc(bank0);
         let bank = bank_forks.read().unwrap().working_bank();
-        let collector = solana_sdk::pubkey::new_rand();
+        let collector = lumos_sdk::pubkey::new_rand();
         let slot: Slot = 999;
         let bank1 = Arc::new(Bank::new_from_parent(bank.clone(), &collector, slot));
         let bank2 = Arc::new(Bank::new_from_parent(bank, &collector, slot));

@@ -1,7 +1,7 @@
 [package]
-name = "solana-geyser-plugin-manager"
-description = "The Solana Geyser plugin manager."
-documentation = "https://docs.rs/solana-geyser-plugin-manager"
+name = "lumos-geyser-plugin-manager"
+description = "The Lumos Geyser plugin manager."
+documentation = "https://docs.rs/lumos-geyser-plugin-manager"
 version = { workspace = true }
 authors = { workspace = true }
 repository = { workspace = true }
@@ -17,16 +17,16 @@ jsonrpc-core = { workspace = true }
 libloading = { workspace = true }
 log = { workspace = true }
 serde_json = { workspace = true }
-solana-accounts-db = { workspace = true }
-solana-entry = { workspace = true }
-solana-geyser-plugin-interface = { workspace = true }
-solana-ledger = { workspace = true }
-solana-measure = { workspace = true }
-solana-metrics = { workspace = true }
-solana-rpc = { workspace = true }
-solana-runtime = { workspace = true }
-solana-sdk = { workspace = true }
-solana-transaction-status = { workspace = true }
+lumos-accounts-db = { workspace = true }
+lumos-entry = { workspace = true }
+lumos-geyser-plugin-interface = { workspace = true }
+lumos-ledger = { workspace = true }
+lumos-measure = { workspace = true }
+lumos-metrics = { workspace = true }
+lumos-rpc = { workspace = true }
+lumos-runtime = { workspace = true }
+lumos-sdk = { workspace = true }
+lumos-transaction-status = { workspace = true }
 thiserror = { workspace = true }
 tokio = { workspace = true }
 

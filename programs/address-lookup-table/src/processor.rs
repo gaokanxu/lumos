@@ -1,6 +1,6 @@
 use {
-    solana_program_runtime::{declare_process_instruction, ic_msg, invoke_context::InvokeContext},
-    solana_sdk::{
+    lumos_program_runtime::{declare_process_instruction, ic_msg, invoke_context::InvokeContext},
+    lumos_sdk::{
         address_lookup_table::{
             instruction::ProgramInstruction,
             program::{check_id, id},

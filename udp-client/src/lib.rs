@@ -8,14 +8,14 @@ use {
         nonblocking::udp_client::UdpClientConnection as NonblockingUdpConnection,
         udp_client::UdpClientConnection as BlockingUdpConnection,
     },
-    solana_connection_cache::{
+    lumos_connection_cache::{
         connection_cache::{
             BaseClientConnection, ClientError, ConnectionManager, ConnectionPool,
             ConnectionPoolError, NewConnectionConfig, Protocol,
         },
         connection_cache_stats::ConnectionCacheStats,
     },
-    solana_sdk::signature::Keypair,
+    lumos_sdk::signature::Keypair,
     std::{
         net::{IpAddr, Ipv4Addr, SocketAddr, UdpSocket},
         sync::Arc,
@@ -62,7 +62,7 @@ pub struct UdpConfig {
 
 impl NewConnectionConfig for UdpConfig {
     fn new() -> Result<Self, ClientError> {
-        let socket = solana_net_utils::bind_with_any_port(IpAddr::V4(Ipv4Addr::UNSPECIFIED))
+        let socket = lumos_net_utils::bind_with_any_port(IpAddr::V4(Ipv4Addr::UNSPECIFIED))
             .map_err(Into::<ClientError>::into)?;
         Ok(Self {
             udp_socket: Arc::new(socket),

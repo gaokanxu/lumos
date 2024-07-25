@@ -1,5 +1,5 @@
 [package]
-name = "solana-dos"
+name = "lumos-dos"
 publish = false
 description = "Tool to send various requests to cluster in order to evaluate the effect on performance"
 version = { workspace = true }
@@ -17,25 +17,25 @@ itertools = { workspace = true }
 log = { workspace = true }
 rand = { workspace = true }
 serde = { workspace = true }
-solana-bench-tps = { workspace = true }
-solana-client = { workspace = true }
-solana-core = { workspace = true }
-solana-faucet = { workspace = true }
-solana-gossip = { workspace = true }
-solana-logger = { workspace = true }
-solana-measure = { workspace = true }
-solana-net-utils = { workspace = true }
-solana-perf = { workspace = true }
-solana-quic-client = { workspace = true }
-solana-rpc = { workspace = true }
-solana-rpc-client = { workspace = true }
-solana-sdk = { workspace = true }
-solana-streamer = { workspace = true }
-solana-tpu-client = { workspace = true }
-solana-version = { workspace = true }
+lumos-bench-tps = { workspace = true }
+lumos-client = { workspace = true }
+lumos-core = { workspace = true }
+lumos-faucet = { workspace = true }
+lumos-gossip = { workspace = true }
+lumos-logger = { workspace = true }
+lumos-measure = { workspace = true }
+lumos-net-utils = { workspace = true }
+lumos-perf = { workspace = true }
+lumos-quic-client = { workspace = true }
+lumos-rpc = { workspace = true }
+lumos-rpc-client = { workspace = true }
+lumos-sdk = { workspace = true }
+lumos-streamer = { workspace = true }
+lumos-tpu-client = { workspace = true }
+lumos-version = { workspace = true }
 
 [package.metadata.docs.rs]
 targets = ["x86_64-unknown-linux-gnu"]
 
 [dev-dependencies]
-solana-local-cluster = { workspace = true }
+lumos-local-cluster = { workspace = true }

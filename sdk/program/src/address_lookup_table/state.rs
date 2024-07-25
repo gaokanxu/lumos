@@ -1,7 +1,7 @@
 use {
     serde::{Deserialize, Serialize},
-    solana_frozen_abi_macro::{AbiEnumVisitor, AbiExample},
-    solana_program::{
+    lumos_frozen_abi_macro::{AbiEnumVisitor, AbiExample},
+    lumos_program::{
         address_lookup_table::error::AddressLookupError,
         clock::Slot,
         instruction::InstructionError,

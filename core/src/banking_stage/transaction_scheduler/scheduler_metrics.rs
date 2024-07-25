@@ -1,6 +1,6 @@
 use {
     itertools::MinMaxResult,
-    solana_sdk::{clock::Slot, timing::AtomicInterval},
+    lumos_sdk::{clock::Slot, timing::AtomicInterval},
 };
 
 #[derive(Default)]
@@ -149,7 +149,7 @@ impl SchedulerCountMetricsInner {
         if let Some(slot) = slot {
             datapoint.add_field_i64("slot", slot as i64);
         }
-        solana_metrics::submit(datapoint, log::Level::Info);
+        lumos_metrics::submit(datapoint, log::Level::Info);
     }
 
     pub fn has_data(&self) -> bool {
@@ -318,7 +318,7 @@ impl SchedulerTimingMetricsInner {
         if let Some(slot) = slot {
             datapoint.add_field_i64("slot", slot as i64);
         }
-        solana_metrics::submit(datapoint, log::Level::Info);
+        lumos_metrics::submit(datapoint, log::Level::Info);
     }
 
     fn reset(&mut self) {

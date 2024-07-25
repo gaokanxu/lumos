@@ -5,10 +5,10 @@ use {
         scheduler_messages::{ConsumeWork, FinishedConsumeWork},
     },
     crossbeam_channel::{Receiver, RecvError, SendError, Sender},
-    solana_poh::leader_bank_notifier::LeaderBankNotifier,
-    solana_runtime::bank::Bank,
-    solana_sdk::timing::AtomicInterval,
-    solana_svm::transaction_error_metrics::TransactionErrorMetrics,
+    lumos_poh::leader_bank_notifier::LeaderBankNotifier,
+    lumos_runtime::bank::Bank,
+    lumos_sdk::timing::AtomicInterval,
+    lumos_svm::transaction_error_metrics::TransactionErrorMetrics,
     std::{
         sync::{
             atomic::{AtomicBool, AtomicU64, AtomicUsize, Ordering},
@@ -663,17 +663,17 @@ mod tests {
             tests::{create_slow_genesis_config, sanitize_transactions, simulate_poh},
         },
         crossbeam_channel::unbounded,
-        solana_ledger::{
+        lumos_ledger::{
             blockstore::Blockstore, genesis_utils::GenesisConfigInfo,
             get_tmp_ledger_path_auto_delete, leader_schedule_cache::LeaderScheduleCache,
         },
-        solana_poh::poh_recorder::{PohRecorder, WorkingBankEntry},
-        solana_runtime::prioritization_fee_cache::PrioritizationFeeCache,
-        solana_sdk::{
+        lumos_poh::poh_recorder::{PohRecorder, WorkingBankEntry},
+        lumos_runtime::prioritization_fee_cache::PrioritizationFeeCache,
+        lumos_sdk::{
             genesis_config::GenesisConfig, poh_config::PohConfig, pubkey::Pubkey,
             signature::Keypair, system_transaction,
         },
-        solana_vote::vote_sender_types::ReplayVoteReceiver,
+        lumos_vote::vote_sender_types::ReplayVoteReceiver,
         std::{
             sync::{atomic::AtomicBool, RwLock},
             thread::JoinHandle,

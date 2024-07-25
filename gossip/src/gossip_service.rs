@@ -4,18 +4,18 @@ use {
     crate::{cluster_info::ClusterInfo, legacy_contact_info::LegacyContactInfo as ContactInfo},
     crossbeam_channel::{unbounded, Sender},
     rand::{thread_rng, Rng},
-    solana_client::{
+    lumos_client::{
         connection_cache::ConnectionCache,
         rpc_client::RpcClient,
         tpu_client::{TpuClient, TpuClientConfig, TpuClientWrapper},
     },
-    solana_perf::recycler::Recycler,
-    solana_runtime::bank_forks::BankForks,
-    solana_sdk::{
+    lumos_perf::recycler::Recycler,
+    lumos_runtime::bank_forks::BankForks,
+    lumos_sdk::{
         pubkey::Pubkey,
         signature::{Keypair, Signer},
     },
-    solana_streamer::{
+    lumos_streamer::{
         socket::SocketAddrSpace,
         streamer::{self, StreamerReceiveStats},
     },
@@ -161,7 +161,7 @@ pub fn discover(
         info!("Gossip Address: {:?}", my_gossip_addr);
     }
     let _ip_echo_server = ip_echo
-        .map(|tcp_listener| solana_net_utils::ip_echo_server(tcp_listener, Some(my_shred_version)));
+        .map(|tcp_listener| lumos_net_utils::ip_echo_server(tcp_listener, Some(my_shred_version)));
     let (met_criteria, elapsed, all_peers, tvu_peers) = spy(
         spy_ref.clone(),
         num_nodes,
@@ -376,8 +376,8 @@ mod tests {
     fn test_gossip_services_spy() {
         const TIMEOUT: Duration = Duration::from_secs(5);
         let keypair = Keypair::new();
-        let peer0 = solana_sdk::pubkey::new_rand();
-        let peer1 = solana_sdk::pubkey::new_rand();
+        let peer0 = lumos_sdk::pubkey::new_rand();
+        let peer1 = lumos_sdk::pubkey::new_rand();
         let contact_info = ContactInfo::new_localhost(&keypair.pubkey(), 0);
         let peer0_info = ContactInfo::new_localhost(&peer0, 0);
         let peer1_info = ContactInfo::new_localhost(&peer1, 0);
@@ -409,7 +409,7 @@ mod tests {
             spy_ref.clone(),
             None,
             TIMEOUT,
-            Some(&[solana_sdk::pubkey::new_rand()]),
+            Some(&[lumos_sdk::pubkey::new_rand()]),
             None,
         );
         assert!(!met_criteria);
@@ -423,7 +423,7 @@ mod tests {
             spy_ref.clone(),
             Some(1),
             TIMEOUT,
-            Some(&[solana_sdk::pubkey::new_rand()]),
+            Some(&[lumos_sdk::pubkey::new_rand()]),
             None,
         );
         assert!(!met_criteria);

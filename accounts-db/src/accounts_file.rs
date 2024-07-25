@@ -8,7 +8,7 @@ use {
         storable_accounts::StorableAccounts,
         tiered_storage::error::TieredStorageError,
     },
-    solana_sdk::{account::ReadableAccount, clock::Slot, pubkey::Pubkey},
+    lumos_sdk::{account::ReadableAccount, clock::Slot, pubkey::Pubkey},
     std::{
         borrow::Borrow,
         mem,

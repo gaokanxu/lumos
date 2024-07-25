@@ -1,15 +1,15 @@
 //! Information about points calculation based on stake state.
-//! Used by `solana-runtime`.
+//! Used by `lumos-runtime`.
 
 use {
-    solana_sdk::{
+    lumos_sdk::{
         clock::Epoch,
         instruction::InstructionError,
         pubkey::Pubkey,
         stake::state::{Delegation, Stake, StakeStateV2},
         stake_history::StakeHistory,
     },
-    solana_vote_program::vote_state::VoteState,
+    lumos_vote_program::vote_state::VoteState,
     std::cmp::Ordering,
 };
 
@@ -212,7 +212,7 @@ pub(crate) fn calculate_stake_points_and_credits(
 
 #[cfg(test)]
 mod tests {
-    use {super::*, crate::stake_state::new_stake, solana_sdk::native_token};
+    use {super::*, crate::stake_state::new_stake, lumos_sdk::native_token};
 
     #[test]
     fn test_stake_state_calculate_points_with_typical_values() {

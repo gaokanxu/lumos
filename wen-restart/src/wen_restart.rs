@@ -3,7 +3,7 @@
 use {
     crate::{
         last_voted_fork_slots_aggregate::LastVotedForkSlotsAggregate,
-        solana::wen_restart_proto::{
+        lumos::wen_restart_proto::{
             self, LastVotedForkSlotsAggregateRecord, LastVotedForkSlotsRecord,
             State as RestartState, WenRestartProgress,
         },
@@ -11,15 +11,15 @@ use {
     anyhow::Result,
     log::*,
     prost::Message,
-    solana_gossip::{
+    lumos_gossip::{
         cluster_info::{ClusterInfo, GOSSIP_SLEEP_MILLIS},
         restart_crds_values::RestartLastVotedForkSlots,
     },
-    solana_ledger::{ancestor_iterator::AncestorIterator, blockstore::Blockstore},
-    solana_program::{clock::Slot, hash::Hash},
-    solana_runtime::bank_forks::BankForks,
-    solana_sdk::timing::timestamp,
-    solana_vote_program::vote_state::VoteTransaction,
+    lumos_ledger::{ancestor_iterator::AncestorIterator, blockstore::Blockstore},
+    lumos_program::{clock::Slot, hash::Hash},
+    lumos_runtime::bank_forks::BankForks,
+    lumos_sdk::timing::timestamp,
+    lumos_vote_program::vote_state::VoteTransaction,
     std::{
         collections::{HashMap, HashSet},
         fs::{read, File},
@@ -134,7 +134,7 @@ pub(crate) fn aggregate_restart_last_voted_fork_slots(
             received: HashMap::new(),
         });
     }
-    let mut cursor = solana_gossip::crds::Cursor::default();
+    let mut cursor = lumos_gossip::crds::Cursor::default();
     let mut is_full_slots = HashSet::new();
     loop {
         if exit.load(Ordering::Relaxed) {
@@ -382,7 +382,7 @@ mod tests {
     use {
         crate::wen_restart::*,
         assert_matches::assert_matches,
-        solana_gossip::{
+        lumos_gossip::{
             cluster_info::ClusterInfo,
             contact_info::ContactInfo,
             crds::GossipRoute,
@@ -390,25 +390,25 @@ mod tests {
             legacy_contact_info::LegacyContactInfo,
             restart_crds_values::RestartLastVotedForkSlots,
         },
-        solana_ledger::{
+        lumos_ledger::{
             blockstore::{make_chaining_slot_entries, Blockstore},
             get_tmp_ledger_path_auto_delete,
         },
-        solana_program::{
+        lumos_program::{
             hash::Hash,
             vote::state::{Vote, VoteStateUpdate},
         },
-        solana_runtime::{
+        lumos_runtime::{
             bank::Bank,
             genesis_utils::{
                 create_genesis_config_with_vote_accounts, GenesisConfigInfo, ValidatorVoteKeypairs,
             },
         },
-        solana_sdk::{
+        lumos_sdk::{
             signature::{Keypair, Signer},
             timing::timestamp,
         },
-        solana_streamer::socket::SocketAddrSpace,
+        lumos_streamer::socket::SocketAddrSpace,
         std::{fs::remove_file, sync::Arc, thread::Builder},
         tempfile::TempDir,
     };
@@ -561,7 +561,7 @@ mod tests {
         let exit_clone = exit.clone();
         let last_vote_slot: Slot = test_state.last_voted_fork_slots[0];
         let wen_restart_thread_handle = Builder::new()
-            .name("solana-wen-restart".to_string())
+            .name("lumos-wen-restart".to_string())
             .spawn(move || {
                 let _ = wait_for_wen_restart(
                     &wen_restart_proto_path_clone,
@@ -598,7 +598,7 @@ mod tests {
         let blockstore_clone = test_state.blockstore.clone();
         let bank_forks_clone = test_state.bank_forks.clone();
         let wen_restart_thread_handle = Builder::new()
-            .name("solana-wen-restart".to_string())
+            .name("lumos-wen-restart".to_string())
             .spawn(move || {
                 assert!(wait_for_wen_restart(
                     &wen_restart_proto_path_clone,
@@ -681,7 +681,7 @@ mod tests {
 
     #[test]
     fn test_wen_restart_initialize_failures() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let ledger_path = get_tmp_ledger_path_auto_delete!();
         let test_state = wen_restart_test_init(&ledger_path);
         let last_vote_bankhash = Hash::new_unique();
@@ -864,7 +864,7 @@ mod tests {
 
     #[test]
     fn test_wen_restart_aggregate_last_voted_fork_failures() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let ledger_path = get_tmp_ledger_path_auto_delete!();
         let test_state = wen_restart_test_init(&ledger_path);
         let last_vote_slot: Slot = test_state.last_voted_fork_slots[0];
@@ -912,7 +912,7 @@ mod tests {
             let mut progress_clone = progress.clone();
             let last_voted_fork_slots = test_state.last_voted_fork_slots.clone();
             let wen_restart_thread_handle = Builder::new()
-                .name("solana-wen-restart".to_string())
+                .name("lumos-wen-restart".to_string())
                 .spawn(move || {
                     let _ = aggregate_restart_last_voted_fork_slots(
                         &wen_restart_proto_path_clone,
@@ -996,7 +996,7 @@ mod tests {
 
     #[test]
     fn test_increment_and_write_wen_restart_records() {
-        solana_logger::setup();
+        lumos_logger::setup();
         let my_dir = TempDir::new().unwrap();
         let mut wen_restart_proto_path = my_dir.path().to_path_buf();
         wen_restart_proto_path.push("wen_restart_status.proto");

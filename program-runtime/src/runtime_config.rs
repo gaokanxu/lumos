@@ -1,7 +1,7 @@
 use crate::compute_budget::ComputeBudget;
 
 #[cfg(RUSTC_WITH_SPECIALIZATION)]
-impl ::solana_frozen_abi::abi_example::AbiExample for RuntimeConfig {
+impl ::lumos_frozen_abi::abi_example::AbiExample for RuntimeConfig {
     fn example() -> Self {
         // RuntimeConfig is not Serialize so just rely on Default.
         RuntimeConfig::default()

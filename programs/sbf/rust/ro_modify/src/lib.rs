@@ -1,6 +1,6 @@
-#![cfg(target_os = "solana")]
+#![cfg(target_os = "lumos")]
 
-use solana_program::{
+use lumos_program::{
     account_info::AccountInfo, entrypoint::ProgramResult, msg, program::invoke,
     program_error::ProgramError, pubkey::Pubkey, syscalls::sol_invoke_signed_c, system_instruction,
 };
@@ -108,7 +108,7 @@ fn check_preconditions(
     Ok(())
 }
 
-solana_program::entrypoint!(process_instruction);
+lumos_program::entrypoint!(process_instruction);
 fn process_instruction(
     program_id: &Pubkey,
     accounts: &[AccountInfo],

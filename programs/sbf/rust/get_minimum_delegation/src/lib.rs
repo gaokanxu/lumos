@@ -2,12 +2,12 @@
 
 #![allow(unreachable_code)]
 
-extern crate solana_program;
-use solana_program::{
+extern crate lumos_program;
+use lumos_program::{
     account_info::AccountInfo, entrypoint::ProgramResult, msg, pubkey::Pubkey, stake,
 };
 
-solana_program::entrypoint!(process_instruction);
+lumos_program::entrypoint!(process_instruction);
 #[allow(clippy::unnecessary_wraps)]
 fn process_instruction(
     _program_id: &Pubkey,

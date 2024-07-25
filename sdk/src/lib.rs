@@ -1,49 +1,49 @@
-//! The Solana host and client SDK.
+//! The Lumos host and client SDK.
 //!
 //! This is the base library for all off-chain programs that interact with
-//! Solana or otherwise operate on Solana data structures. On-chain programs
-//! instead use the [`solana-program`] crate, the modules of which are
+//! Lumos or otherwise operate on Lumos data structures. On-chain programs
+//! instead use the [`lumos-program`] crate, the modules of which are
 //! re-exported by this crate, like the relationship between the Rust
 //! `core` and `std` crates. As much of the functionality of this crate is
-//! provided by `solana-program`, see that crate's documentation for an
+//! provided by `lumos-program`, see that crate's documentation for an
 //! overview.
 //!
-//! [`solana-program`]: https://docs.rs/solana-program
+//! [`lumos-program`]: https://docs.rs/lumos-program
 //!
-//! Many of the modules in this crate are primarily of use to the Solana runtime
-//! itself. Additional crates provide capabilities built on `solana-sdk`, and
+//! Many of the modules in this crate are primarily of use to the Lumos runtime
+//! itself. Additional crates provide capabilities built on `lumos-sdk`, and
 //! many programs will need to link to those crates as well, particularly for
-//! clients communicating with Solana nodes over RPC.
+//! clients communicating with Lumos nodes over RPC.
 //!
 //! Such crates include:
 //!
-//! - [`solana-client`] - For interacting with a Solana node via the [JSON-RPC API][json].
-//! - [`solana-cli-config`] - Loading and saving the Solana CLI configuration file.
-//! - [`solana-clap-utils`] - Routines for setting up the CLI using [`clap`], as
-//!   used by the Solana CLI. Includes functions for loading all types of
+//! - [`lumos-client`] - For interacting with a Lumos node via the [JSON-RPC API][json].
+//! - [`lumos-cli-config`] - Loading and saving the Lumos CLI configuration file.
+//! - [`lumos-clap-utils`] - Routines for setting up the CLI using [`clap`], as
+//!   used by the Lumos CLI. Includes functions for loading all types of
 //!   signers supported by the CLI.
 //!
-//! [`solana-client`]: https://docs.rs/solana-client
-//! [`solana-cli-config`]: https://docs.rs/solana-cli-config
-//! [`solana-clap-utils`]: https://docs.rs/solana-clap-utils
-//! [json]: https://solana.com/docs/rpc
+//! [`lumos-client`]: https://docs.rs/lumos-client
+//! [`lumos-cli-config`]: https://docs.rs/lumos-cli-config
+//! [`lumos-clap-utils`]: https://docs.rs/lumos-clap-utils
+//! [json]: https://lumos.com/docs/rpc
 //! [`clap`]: https://docs.rs/clap
 
 #![allow(incomplete_features)]
 #![cfg_attr(RUSTC_WITH_SPECIALIZATION, feature(specialization))]
 
-// Allows macro expansion of `use ::solana_sdk::*` to work within this crate
-extern crate self as solana_sdk;
+// Allows macro expansion of `use ::lumos_sdk::*` to work within this crate
+extern crate self as lumos_sdk;
 
 #[cfg(feature = "full")]
 pub use signer::signers;
-// These solana_program imports could be *-imported, but that causes a bunch of
+// These lumos_program imports could be *-imported, but that causes a bunch of
 // confusing duplication in the docs due to a rustdoc bug. #26211
 #[allow(deprecated)]
-pub use solana_program::address_lookup_table_account;
-#[cfg(not(target_os = "solana"))]
-pub use solana_program::program_stubs;
-pub use solana_program::{
+pub use lumos_program::address_lookup_table_account;
+#[cfg(not(target_os = "lumos"))]
+pub use lumos_program::program_stubs;
+pub use lumos_program::{
     account_info, address_lookup_table, alt_bn128, big_mod_exp, blake3, borsh, borsh0_10, borsh0_9,
     borsh1, bpf_loader, bpf_loader_deprecated, bpf_loader_upgradeable, clock, config,
     custom_heap_default, custom_panic_default, debug_account_data, declare_deprecated_sysvar_id,
@@ -111,7 +111,7 @@ pub mod transport;
 pub mod wasm;
 
 /// Same as `declare_id` except report that this id has been deprecated.
-pub use solana_sdk_macro::declare_deprecated_id;
+pub use lumos_sdk_macro::declare_deprecated_id;
 /// Convenience macro to declare a static public key and functions to interact with it.
 ///
 /// Input: a single literal base58 string representation of a program's id
@@ -122,10 +122,10 @@ pub use solana_sdk_macro::declare_deprecated_id;
 /// # // wrapper is used so that the macro invocation occurs in the item position
 /// # // rather than in the statement position which isn't allowed.
 /// use std::str::FromStr;
-/// use solana_sdk::{declare_id, pubkey::Pubkey};
+/// use lumos_sdk::{declare_id, pubkey::Pubkey};
 ///
 /// # mod item_wrapper {
-/// #   use solana_sdk::declare_id;
+/// #   use lumos_sdk::declare_id;
 /// declare_id!("My11111111111111111111111111111111111111111");
 /// # }
 /// # use item_wrapper::id;
@@ -133,7 +133,7 @@ pub use solana_sdk_macro::declare_deprecated_id;
 /// let my_id = Pubkey::from_str("My11111111111111111111111111111111111111111").unwrap();
 /// assert_eq!(id(), my_id);
 /// ```
-pub use solana_sdk_macro::declare_id;
+pub use lumos_sdk_macro::declare_id;
 /// Convenience macro to define a static public key.
 ///
 /// Input: a single literal base58 string representation of a Pubkey
@@ -142,20 +142,20 @@ pub use solana_sdk_macro::declare_id;
 ///
 /// ```
 /// use std::str::FromStr;
-/// use solana_program::{pubkey, pubkey::Pubkey};
+/// use lumos_program::{pubkey, pubkey::Pubkey};
 ///
 /// static ID: Pubkey = pubkey!("My11111111111111111111111111111111111111111");
 ///
 /// let my_id = Pubkey::from_str("My11111111111111111111111111111111111111111").unwrap();
 /// assert_eq!(ID, my_id);
 /// ```
-pub use solana_sdk_macro::pubkey;
+pub use lumos_sdk_macro::pubkey;
 /// Convenience macro to define multiple static public keys.
-pub use solana_sdk_macro::pubkeys;
+pub use lumos_sdk_macro::pubkeys;
 #[rustversion::since(1.46.0)]
-pub use solana_sdk_macro::respan;
+pub use lumos_sdk_macro::respan;
 
-// Unused `solana_sdk::program_stubs!()` macro retained for source backwards compatibility with older programs
+// Unused `lumos_sdk::program_stubs!()` macro retained for source backwards compatibility with older programs
 #[macro_export]
 #[deprecated(
     since = "1.4.3",
@@ -180,7 +180,7 @@ pub extern crate bs58;
 extern crate log as logger;
 
 #[macro_use]
-extern crate solana_frozen_abi_macro;
+extern crate lumos_frozen_abi_macro;
 
 #[cfg(test)]
 mod tests {

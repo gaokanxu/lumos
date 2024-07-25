@@ -12,8 +12,8 @@ use {
     },
     log::debug,
     percentage::Percentage,
-    solana_measure::measure::Measure,
-    solana_program_runtime::{
+    lumos_measure::measure::Measure,
+    lumos_program_runtime::{
         compute_budget::ComputeBudget,
         loaded_programs::{
             ForkGraph, LoadProgramMetrics, LoadedProgram, LoadedProgramMatchCriteria,
@@ -26,7 +26,7 @@ use {
         sysvar_cache::SysvarCache,
         timings::{ExecuteDetailsTimings, ExecuteTimingType, ExecuteTimings},
     },
-    solana_sdk::{
+    lumos_sdk::{
         account::{AccountSharedData, ReadableAccount, PROGRAM_OWNERS},
         account_utils::StateMut,
         bpf_loader_upgradeable::{self, UpgradeableLoaderState},
@@ -770,7 +770,7 @@ impl<FG: ForkGraph> TransactionBatchProcessor<FG> {
             }
             Err(TransactionError::ProgramAccountNotFound)
         } else if loader_v4::check_id(program.owner()) {
-            let state = solana_loader_v4_program::get_state(program.data())
+            let state = lumos_loader_v4_program::get_state(program.data())
                 .map_err(|_| TransactionError::ProgramAccountNotFound)?;
             Ok(state.slot)
         } else {
@@ -824,12 +824,12 @@ impl<FG: ForkGraph> TransactionBatchProcessor<FG> {
             Some(account) => account,
         };
 
-        debug_assert!(solana_bpf_loader_program::check_loader_id(
+        debug_assert!(lumos_bpf_loader_program::check_loader_id(
             program_account.owner()
         ));
 
         if loader_v4::check_id(program_account.owner()) {
-            return solana_loader_v4_program::get_state(program_account.data())
+            return lumos_loader_v4_program::get_state(program_account.data())
                 .ok()
                 .and_then(|state| {
                     (!matches!(state.status, LoaderV4Status::Retracted)).then_some(state.slot)
@@ -926,10 +926,10 @@ impl<FG: ForkGraph> TransactionBatchProcessor<FG> {
 mod tests {
     use {
         super::*,
-        solana_program_runtime::{
-            loaded_programs::BlockRelation, solana_rbpf::program::BuiltinProgram,
+        lumos_program_runtime::{
+            loaded_programs::BlockRelation, lumos_rbpf::program::BuiltinProgram,
         },
-        solana_sdk::{
+        lumos_sdk::{
             account::WritableAccount,
             bpf_loader,
             message::{LegacyMessage, Message, MessageHeader},
@@ -1196,7 +1196,7 @@ mod tests {
     fn test_load_program_from_bytes() {
         let mut dir = env::current_dir().unwrap();
         dir.push("tests");
-        dir.push("hello_solana_program.so");
+        dir.push("hello_lumos_program.so");
         let mut file = File::open(dir.clone()).expect("file not found");
         let metadata = fs::metadata(dir).expect("Unable to read metadata");
         let mut buffer = vec![0; metadata.len() as usize];
@@ -1302,7 +1302,7 @@ mod tests {
 
         let mut dir = env::current_dir().unwrap();
         dir.push("tests");
-        dir.push("hello_solana_program.so");
+        dir.push("hello_lumos_program.so");
         let mut file = File::open(dir.clone()).expect("file not found");
         let metadata = fs::metadata(dir).expect("Unable to read metadata");
         let mut buffer = vec![0; metadata.len() as usize];
@@ -1375,7 +1375,7 @@ mod tests {
 
         let mut dir = env::current_dir().unwrap();
         dir.push("tests");
-        dir.push("hello_solana_program.so");
+        dir.push("hello_lumos_program.so");
         let mut file = File::open(dir.clone()).expect("file not found");
         let metadata = fs::metadata(dir).expect("Unable to read metadata");
         let mut buffer = vec![0; metadata.len() as usize];
@@ -1460,7 +1460,7 @@ mod tests {
 
         let mut dir = env::current_dir().unwrap();
         dir.push("tests");
-        dir.push("hello_solana_program.so");
+        dir.push("hello_lumos_program.so");
         let mut file = File::open(dir.clone()).expect("file not found");
         let metadata = fs::metadata(dir).expect("Unable to read metadata");
         let mut buffer = vec![0; metadata.len() as usize];

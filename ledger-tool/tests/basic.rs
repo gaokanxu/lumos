@@ -1,12 +1,12 @@
 use {
     assert_cmd::prelude::*,
-    solana_entry::entry,
-    solana_ledger::{
+    lumos_entry::entry,
+    lumos_ledger::{
         blockstore, blockstore::Blockstore, blockstore_options::ShredStorageType,
         create_new_tmp_ledger, create_new_tmp_ledger_fifo, genesis_utils::create_genesis_config,
         get_tmp_ledger_path_auto_delete,
     },
-    solana_sdk::hash::Hash,
+    lumos_sdk::hash::Hash,
     std::{
         fs,
         path::Path,

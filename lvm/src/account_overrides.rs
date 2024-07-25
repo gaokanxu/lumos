@@ -1,5 +1,5 @@
 use {
-    solana_sdk::{account::AccountSharedData, pubkey::Pubkey, sysvar},
+    lumos_sdk::{account::AccountSharedData, pubkey::Pubkey, sysvar},
     std::collections::HashMap,
 };
 
@@ -35,7 +35,7 @@ impl AccountOverrides {
 mod test {
     use {
         crate::account_overrides::AccountOverrides,
-        solana_sdk::{account::AccountSharedData, pubkey::Pubkey, sysvar},
+        lumos_sdk::{account::AccountSharedData, pubkey::Pubkey, sysvar},
     };
 
     #[test]

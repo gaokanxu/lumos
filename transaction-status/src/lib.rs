@@ -1,6 +1,6 @@
 #![allow(clippy::arithmetic_side_effects)]
 
-pub use {crate::extract_memos::extract_and_fmt_memos, solana_sdk::reward_type::RewardType};
+pub use {crate::extract_memos::extract_and_fmt_memos, lumos_sdk::reward_type::RewardType};
 use {
     crate::{
         option_serializer::OptionSerializer,
@@ -8,8 +8,8 @@ use {
         parse_instruction::{parse, ParsedInstruction},
     },
     base64::{prelude::BASE64_STANDARD, Engine},
-    solana_account_decoder::parse_token::UiTokenAmount,
-    solana_sdk::{
+    lumos_account_decoder::parse_token::UiTokenAmount,
+    lumos_sdk::{
         clock::{Slot, UnixTimestamp},
         commitment_config::CommitmentConfig,
         hash::Hash,
@@ -230,10 +230,10 @@ pub struct InnerInstruction {
     pub stack_height: Option<u32>,
 }
 
-/// Maps a list of inner instructions from `solana_sdk` into a list of this
+/// Maps a list of inner instructions from `lumos_sdk` into a list of this
 /// crate's representation of inner instructions (with instruction indices).
 pub fn map_inner_instructions(
-    inner_instructions: solana_sdk::inner_instruction::InnerInstructionsList,
+    inner_instructions: lumos_sdk::inner_instruction::InnerInstructionsList,
 ) -> impl Iterator<Item = InnerInstructions> {
     inner_instructions
         .into_iter()
@@ -387,7 +387,7 @@ impl Default for TransactionStatusMeta {
 #[serde(rename_all = "camelCase")]
 pub struct UiTransactionStatusMeta {
     pub err: Option<TransactionError>,
-    pub status: TransactionResult<()>, // This field is deprecated.  See https://github.com/solana-labs/solana/issues/9302
+    pub status: TransactionResult<()>, // This field is deprecated.  See https://github.com/lumos-labs/lumos/issues/9302
     pub fee: u64,
     pub pre_balances: Vec<u64>,
     pub post_balances: Vec<u64>,

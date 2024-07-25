@@ -1,22 +1,22 @@
 #![allow(clippy::arithmetic_side_effects)]
 use {
-    solana_cli::{
+    lumos_cli::{
         check_balance,
         cli::{process_command, request_and_confirm_airdrop, CliCommand, CliConfig},
         spend_utils::SpendAmount,
     },
-    solana_cli_output::{parse_sign_only_reply_string, OutputFormat},
-    solana_faucet::faucet::run_local_faucet,
-    solana_rpc_client::rpc_client::RpcClient,
-    solana_rpc_client_nonce_utils::blockhash_query::{self, BlockhashQuery},
-    solana_sdk::{
+    lumos_cli_output::{parse_sign_only_reply_string, OutputFormat},
+    lumos_faucet::faucet::run_local_faucet,
+    lumos_rpc_client::rpc_client::RpcClient,
+    lumos_rpc_client_nonce_utils::blockhash_query::{self, BlockhashQuery},
+    lumos_sdk::{
         account_utils::StateMut,
         commitment_config::CommitmentConfig,
         signature::{Keypair, NullSigner, Signer},
     },
-    solana_streamer::socket::SocketAddrSpace,
-    solana_test_validator::TestValidator,
-    solana_vote_program::vote_state::{VoteAuthorize, VoteState, VoteStateVersions},
+    lumos_streamer::socket::SocketAddrSpace,
+    lumos_test_validator::TestValidator,
+    lumos_vote_program::vote_state::{VoteAuthorize, VoteState, VoteStateVersions},
 };
 
 #[test]
@@ -168,7 +168,7 @@ fn test_vote_authorize_and_withdraw() {
     assert_eq!(authorized_withdrawer, withdraw_authority.pubkey());
 
     // Withdraw from vote account
-    let destination_account = solana_sdk::pubkey::new_rand(); // Send withdrawal to new account to make balance check easy
+    let destination_account = lumos_sdk::pubkey::new_rand(); // Send withdrawal to new account to make balance check easy
     config.signers = vec![&default_signer, &withdraw_authority];
     config.command = CliCommand::WithdrawFromVoteAccount {
         vote_account_pubkey,
@@ -208,7 +208,7 @@ fn test_vote_authorize_and_withdraw() {
     process_command(&config).unwrap();
 
     // Close vote account
-    let destination_account = solana_sdk::pubkey::new_rand(); // Send withdrawal to new account to make balance check easy
+    let destination_account = lumos_sdk::pubkey::new_rand(); // Send withdrawal to new account to make balance check easy
     config.signers = vec![&default_signer, &withdraw_authority];
     config.command = CliCommand::CloseVoteAccount {
         vote_account_pubkey,
@@ -371,7 +371,7 @@ fn test_offline_vote_authorize_and_withdraw() {
     assert_eq!(authorized_withdrawer, withdraw_authority.pubkey());
 
     // Withdraw from vote account offline
-    let destination_account = solana_sdk::pubkey::new_rand(); // Send withdrawal to new account to make balance check easy
+    let destination_account = lumos_sdk::pubkey::new_rand(); // Send withdrawal to new account to make balance check easy
     let blockhash = rpc_client.get_latest_blockhash().unwrap();
     let fee_payer_null_signer = NullSigner::new(&default_signer.pubkey());
     config_offline.signers = vec![&fee_payer_null_signer, &withdraw_authority];
@@ -462,7 +462,7 @@ fn test_offline_vote_authorize_and_withdraw() {
 
     // Close vote account offline. Must use WithdrawFromVoteAccount and specify amount, since
     // CloseVoteAccount requires RpcClient
-    let destination_account = solana_sdk::pubkey::new_rand(); // Send withdrawal to new account to make balance check easy
+    let destination_account = lumos_sdk::pubkey::new_rand(); // Send withdrawal to new account to make balance check easy
     config_offline.signers = vec![&fee_payer_null_signer, &withdraw_authority];
     config_offline.command = CliCommand::WithdrawFromVoteAccount {
         vote_account_pubkey,

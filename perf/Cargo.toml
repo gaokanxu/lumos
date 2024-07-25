@@ -1,7 +1,7 @@
 [package]
-name = "solana-perf"
-description = "Solana Performance APIs"
-documentation = "https://docs.rs/solana-perf"
+name = "lumos-perf"
+description = "Lumos Performance APIs"
+documentation = "https://docs.rs/lumos-perf"
 version = { workspace = true }
 authors = { workspace = true }
 repository = { workspace = true }
@@ -21,12 +21,12 @@ log = { workspace = true }
 rand = { workspace = true }
 rayon = { workspace = true }
 serde = { workspace = true }
-solana-frozen-abi = { workspace = true }
-solana-frozen-abi-macro = { workspace = true }
-solana-metrics = { workspace = true }
-solana-rayon-threadlimit = { workspace = true }
-solana-sdk = { workspace = true }
-solana-vote-program = { workspace = true }
+lumos-frozen-abi = { workspace = true }
+lumos-frozen-abi-macro = { workspace = true }
+lumos-metrics = { workspace = true }
+lumos-rayon-threadlimit = { workspace = true }
+lumos-sdk = { workspace = true }
+lumos-vote-program = { workspace = true }
 
 [target."cfg(target_os = \"linux\")".dependencies]
 caps = { workspace = true }
@@ -34,12 +34,12 @@ libc = { workspace = true }
 nix = { workspace = true }
 
 [lib]
-name = "solana_perf"
+name = "lumos_perf"
 
 [dev-dependencies]
 assert_matches = { workspace = true }
 rand_chacha = { workspace = true }
-solana-logger = { workspace = true }
+lumos-logger = { workspace = true }
 test-case = { workspace = true }
 
 [build-dependencies]

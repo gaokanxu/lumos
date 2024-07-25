@@ -11,10 +11,10 @@ use {
     },
     rustls::{Certificate, PrivateKey},
     serde_bytes::ByteBuf,
-    solana_quic_client::nonblocking::quic_client::SkipServerVerification,
-    solana_runtime::bank_forks::BankForks,
-    solana_sdk::{packet::PACKET_DATA_SIZE, pubkey::Pubkey, signature::Keypair},
-    solana_streamer::{quic::SkipClientVerification, tls_certificates::new_dummy_x509_certificate},
+    lumos_quic_client::nonblocking::quic_client::SkipServerVerification,
+    lumos_runtime::bank_forks::BankForks,
+    lumos_sdk::{packet::PACKET_DATA_SIZE, pubkey::Pubkey, signature::Keypair},
+    lumos_streamer::{quic::SkipClientVerification, tls_certificates::new_dummy_x509_certificate},
     std::{
         cmp::Reverse,
         collections::{hash_map::Entry, HashMap},
@@ -37,8 +37,8 @@ use {
     },
 };
 
-const ALPN_REPAIR_PROTOCOL_ID: &[u8] = b"solana-repair";
-const CONNECT_SERVER_NAME: &str = "solana-repair";
+const ALPN_REPAIR_PROTOCOL_ID: &[u8] = b"lumos-repair";
+const CONNECT_SERVER_NAME: &str = "lumos-repair";
 
 const CLIENT_CHANNEL_BUFFER: usize = 1 << 14;
 const ROUTER_CHANNEL_BUFFER: usize = 64;
@@ -656,7 +656,7 @@ async fn make_connection(
 }
 
 fn get_remote_pubkey(connection: &Connection) -> Result<Pubkey, Error> {
-    match solana_streamer::nonblocking::quic::get_remote_pubkey(connection) {
+    match lumos_streamer::nonblocking::quic::get_remote_pubkey(connection) {
         Some(remote_pubkey) => Ok(remote_pubkey),
         None => {
             connection.close(
@@ -1013,9 +1013,9 @@ mod tests {
     use {
         super::*,
         itertools::{izip, multiunzip},
-        solana_ledger::genesis_utils::{create_genesis_config, GenesisConfigInfo},
-        solana_runtime::bank::Bank,
-        solana_sdk::signature::Signer,
+        lumos_ledger::genesis_utils::{create_genesis_config, GenesisConfigInfo},
+        lumos_runtime::bank::Bank,
+        lumos_sdk::signature::Signer,
         std::{iter::repeat_with, net::Ipv4Addr, time::Duration},
     };
 

@@ -1,6 +1,6 @@
 //! The [vote native program][np].
 //!
-//! [np]: https://docs.solanalabs.com/runtime/programs#vote-program
+//! [np]: https://docs.lumoslabs.com/runtime/programs#vote-program
 
 pub mod authorized_voters;
 pub mod error;

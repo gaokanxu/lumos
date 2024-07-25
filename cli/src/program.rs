@@ -9,9 +9,9 @@ use {
     bip39::{Language, Mnemonic, MnemonicType, Seed},
     clap::{App, AppSettings, Arg, ArgMatches, SubCommand},
     log::*,
-    solana_account_decoder::{UiAccountEncoding, UiDataSliceConfig},
-    solana_bpf_loader_program::syscalls::create_program_runtime_environment_v1,
-    solana_clap_utils::{
+    lumos_account_decoder::{UiAccountEncoding, UiDataSliceConfig},
+    lumos_bpf_loader_program::syscalls::create_program_runtime_environment_v1,
+    lumos_clap_utils::{
         self,
         fee_payer::{fee_payer_arg, FEE_PAYER_ARG},
         hidden_unless_forced,
@@ -20,30 +20,30 @@ use {
         keypair::*,
         offline::{OfflineArgs, DUMP_TRANSACTION_MESSAGE, SIGN_ONLY_ARG},
     },
-    solana_cli_output::{
+    lumos_cli_output::{
         return_signers_with_config, CliProgram, CliProgramAccountType, CliProgramAuthority,
         CliProgramBuffer, CliProgramId, CliUpgradeableBuffer, CliUpgradeableBuffers,
         CliUpgradeableProgram, CliUpgradeableProgramClosed, CliUpgradeableProgramExtended,
         CliUpgradeablePrograms, ReturnSignersConfig,
     },
-    solana_client::{
+    lumos_client::{
         connection_cache::ConnectionCache,
         send_and_confirm_transactions_in_parallel::{
             send_and_confirm_transactions_in_parallel_blocking, SendAndConfirmConfig,
         },
         tpu_client::{TpuClient, TpuClientConfig},
     },
-    solana_program_runtime::{compute_budget::ComputeBudget, invoke_context::InvokeContext},
-    solana_rbpf::{elf::Executable, verifier::RequisiteVerifier},
-    solana_remote_wallet::remote_wallet::RemoteWalletManager,
-    solana_rpc_client::rpc_client::RpcClient,
-    solana_rpc_client_api::{
+    lumos_program_runtime::{compute_budget::ComputeBudget, invoke_context::InvokeContext},
+    lumos_rbpf::{elf::Executable, verifier::RequisiteVerifier},
+    lumos_remote_wallet::remote_wallet::RemoteWalletManager,
+    lumos_rpc_client::rpc_client::RpcClient,
+    lumos_rpc_client_api::{
         client_error::ErrorKind as ClientErrorKind,
         config::{RpcAccountInfoConfig, RpcProgramAccountsConfig, RpcSendTransactionConfig},
         filter::{Memcmp, RpcFilterType},
     },
-    solana_rpc_client_nonce_utils::blockhash_query::BlockhashQuery,
-    solana_sdk::{
+    lumos_rpc_client_nonce_utils::blockhash_query::BlockhashQuery,
+    lumos_sdk::{
         account::Account,
         account_utils::StateMut,
         bpf_loader, bpf_loader_deprecated,
@@ -540,7 +540,7 @@ impl ProgramSubCommands for App<'_, '_> {
         .subcommand(
             SubCommand::with_name("deploy")
                 .about(
-                    "Deploy has been removed. Use `solana program deploy` instead to deploy \
+                    "Deploy has been removed. Use `lumos program deploy` instead to deploy \
                      upgradeable programs",
                 )
                 .setting(AppSettings::Hidden),
@@ -2652,10 +2652,10 @@ fn send_deploy_messages(
                     &[fee_payer_signer, write_signer],
                 ),
                 ConnectionCache::Quic(cache) => {
-                    let tpu_client_fut = solana_client::nonblocking::tpu_client::TpuClient::new_with_connection_cache(
+                    let tpu_client_fut = lumos_client::nonblocking::tpu_client::TpuClient::new_with_connection_cache(
                         rpc_client.get_inner_client().clone(),
                         config.websocket_url.as_str(),
-                        solana_client::tpu_client::TpuClientConfig::default(),
+                        lumos_client::tpu_client::TpuClientConfig::default(),
                         cache,
                     );
                     let tpu_client = rpc_client
@@ -2732,12 +2732,12 @@ fn report_ephemeral_mnemonic(words: usize, mnemonic: bip39::Mnemonic) {
     let phrase: &str = mnemonic.phrase();
     let divider = String::from_utf8(vec![b'='; phrase.len()]).unwrap();
     eprintln!("{divider}\nRecover the intermediate account's ephemeral keypair file with");
-    eprintln!("`solana-keygen recover` and the following {words}-word seed phrase:");
+    eprintln!("`lumos-keygen recover` and the following {words}-word seed phrase:");
     eprintln!("{divider}\n{phrase}\n{divider}");
     eprintln!("To resume a deploy, pass the recovered keypair as the");
-    eprintln!("[BUFFER_SIGNER] to `solana program deploy` or `solana program write-buffer'.");
+    eprintln!("[BUFFER_SIGNER] to `lumos program deploy` or `lumos program write-buffer'.");
     eprintln!("Or to recover the account's lamports, pass it as the");
-    eprintln!("[BUFFER_ACCOUNT_ADDRESS] argument to `solana program close`.\n{divider}");
+    eprintln!("[BUFFER_ACCOUNT_ADDRESS] argument to `lumos program close`.\n{divider}");
 }
 
 #[cfg(test)]
@@ -2749,8 +2749,8 @@ mod tests {
             cli::{parse_command, process_command},
         },
         serde_json::Value,
-        solana_cli_output::OutputFormat,
-        solana_sdk::{hash::Hash, signature::write_keypair_file},
+        lumos_cli_output::OutputFormat,
+        lumos_sdk::{hash::Hash, signature::write_keypair_file},
     };
 
     fn make_tmp_path(name: &str) -> String {
@@ -3663,7 +3663,7 @@ mod tests {
 
     #[test]
     fn test_cli_keypair_file() {
-        solana_logger::setup();
+        lumos_logger::setup();
 
         let default_keypair = Keypair::new();
         let program_pubkey = Keypair::new();

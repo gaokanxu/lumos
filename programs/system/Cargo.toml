@@ -1,7 +1,7 @@
 [package]
-name = "solana-system-program"
-description = "Solana System program"
-documentation = "https://docs.rs/solana-system-program"
+name = "lumos-system-program"
+description = "Lumos System program"
+documentation = "https://docs.rs/lumos-system-program"
 version = { workspace = true }
 authors = { workspace = true }
 repository = { workspace = true }
@@ -14,16 +14,16 @@ bincode = { workspace = true }
 log = { workspace = true }
 serde = { workspace = true }
 serde_derive = { workspace = true }
-solana-program-runtime = { workspace = true }
-solana-sdk = { workspace = true }
+lumos-program-runtime = { workspace = true }
+lumos-sdk = { workspace = true }
 
 [dev-dependencies]
 assert_matches = { workspace = true }
-solana-logger = { workspace = true }
+lumos-logger = { workspace = true }
 
 [lib]
 crate-type = ["lib"]
-name = "solana_system_program"
+name = "lumos_system_program"
 
 [package.metadata.docs.rs]
 targets = ["x86_64-unknown-linux-gnu"]
