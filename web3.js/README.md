@@ -99,7 +99,7 @@ Cache build artifacts remotely so that you, others, and the CI server can take a
 
 ## Contributing
 
-If you found a bug or would like to request a feature, please [file an issue](https://github.com/Lumos-labs/Lumos-web3.js/issues/new). If, based on the discussion on an issue you would like to offer a code change, please make a [pull request](https://github.com/Lumos-labs/Lumos-web3.js/compare). If neither of these describes what you would like to contribute, read the [getting help](#getting-help) section above.
+If you found a bug or would like to request a feature, please [file an issue]. If, based on the discussion on an issue you would like to offer a code change, please make a [pull request]. If neither of these describes what you would like to contribute, read the [getting help](#getting-help) section above.
 
 ## Disclaimer
 
