@@ -8,7 +8,7 @@ use {
 };
 use {
     lumos_sdk::transaction::SanitizedTransaction,
-    lumos_svm::transaction_results::TransactionResults,
+    lumos_lvm::transaction_results::TransactionResults,
     lumos_vote::{vote_parser, vote_sender_types::ReplayVoteSender},
 };
 

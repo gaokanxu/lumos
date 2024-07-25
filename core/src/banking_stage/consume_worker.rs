@@ -8,7 +8,7 @@ use {
     lumos_poh::leader_bank_notifier::LeaderBankNotifier,
     lumos_runtime::bank::Bank,
     lumos_sdk::timing::AtomicInterval,
-    lumos_svm::transaction_error_metrics::TransactionErrorMetrics,
+    lumos_lvm::transaction_error_metrics::TransactionErrorMetrics,
     std::{
         sync::{
             atomic::{AtomicBool, AtomicU64, AtomicUsize, Ordering},

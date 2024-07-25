@@ -65,7 +65,7 @@ lumos-runtime = { workspace = true }
 lumos-sdk = { workspace = true }
 lumos-send-transaction-service = { workspace = true }
 lumos-streamer = { workspace = true }
-lumos-svm = { workspace = true }
+lumos-lvm = { workspace = true }
 lumos-tpu-client = { workspace = true }
 lumos-transaction-status = { workspace = true }
 lumos-turbine = { workspace = true }

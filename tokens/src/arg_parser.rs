@@ -438,7 +438,7 @@ fn parse_distribute_tokens_args(
         sender_keypair,
         fee_payer,
         stake_args: None,
-        spl_token_args: None,
+        lpl_token_args: None,
         transfer_amount: value_of(matches, "transfer_amount").map(sol_to_lamports),
     })
 }
@@ -490,7 +490,7 @@ fn parse_create_stake_args(
         sender_keypair,
         fee_payer,
         stake_args: Some(stake_args),
-        spl_token_args: None,
+        lpl_token_args: None,
         transfer_amount: None,
     })
 }
@@ -574,12 +574,12 @@ fn parse_distribute_stake_args(
         sender_keypair,
         fee_payer,
         stake_args: Some(stake_args),
-        spl_token_args: None,
+        lpl_token_args: None,
         transfer_amount: None,
     })
 }
 
-fn parse_distribute_spl_tokens_args(
+fn parse_distribute_lpl_tokens_args(
     matches: &ArgMatches<'_>,
 ) -> Result<DistributeTokensArgs, Box<dyn Error>> {
     let mut wallet_manager = maybe_wallet_manager()?;
@@ -617,7 +617,7 @@ fn parse_distribute_spl_tokens_args(
         sender_keypair: token_owner,
         fee_payer,
         stake_args: None,
-        spl_token_args: Some(SplTokenArgs {
+        lpl_token_args: Some(SplTokenArgs {
             token_account_address,
             ..SplTokenArgs::default()
         }),
@@ -627,14 +627,14 @@ fn parse_distribute_spl_tokens_args(
 
 fn parse_balances_args(matches: &ArgMatches<'_>) -> Result<BalancesArgs, Box<dyn Error>> {
     let mut wallet_manager = maybe_wallet_manager()?;
-    let spl_token_args =
+    let lpl_token_args =
         pubkey_of_signer(matches, "mint_address", &mut wallet_manager)?.map(|mint| SplTokenArgs {
             mint,
             ..SplTokenArgs::default()
         });
     Ok(BalancesArgs {
         input_csv: value_t_or_exit!(matches, "input_csv", String),
-        spl_token_args,
+        lpl_token_args,
     })
 }
 
@@ -665,7 +665,7 @@ where
             Command::DistributeTokens(parse_distribute_stake_args(matches)?)
         }
         ("distribute-spl-tokens", Some(matches)) => {
-            Command::DistributeTokens(parse_distribute_spl_tokens_args(matches)?)
+            Command::DistributeTokens(parse_distribute_lpl_tokens_args(matches)?)
         }
         ("balances", Some(matches)) => Command::Balances(parse_balances_args(matches)?),
         ("spl-token-balances", Some(matches)) => Command::Balances(parse_balances_args(matches)?),

@@ -1,6 +1,6 @@
 use {
     lumos_sdk::{instruction::Instruction, pubkey::Pubkey},
-    spl_memo::id,
+    lpl_memo::id,
 };
 
 pub trait WithMemo {

@@ -33,7 +33,7 @@ use {
         },
         accounts_partition::{self, PartitionIndex, RentPayingAccountsByPartition},
         ancestors::Ancestors,
-        inline_spl_token,
+        inline_lpl_token,
         partitioned_rewards::TestPartitionedEpochRewards,
     },
     lumos_logger,
@@ -107,7 +107,7 @@ use {
         transaction_context::TransactionAccount,
     },
     lumos_stake_program::stake_state::{self, StakeStateV2},
-    lumos_svm::transaction_results::DurableNonceFee,
+    lumos_lvm::transaction_results::DurableNonceFee,
     lumos_vote_program::{
         vote_instruction,
         vote_state::{
@@ -7100,14 +7100,14 @@ fn test_reconfigure_token2_native_mint() {
         create_genesis_config_with_leader(5, &lumos_sdk::pubkey::new_rand(), 0).genesis_config;
     let bank = Arc::new(Bank::new_for_tests(&genesis_config));
     assert_eq!(
-        bank.get_balance(&inline_spl_token::native_mint::id()),
+        bank.get_balance(&inline_lpl_token::native_mint::id()),
         1000000000
     );
     let native_mint_account = bank
-        .get_account(&inline_spl_token::native_mint::id())
+        .get_account(&inline_lpl_token::native_mint::id())
         .unwrap();
     assert_eq!(native_mint_account.data().len(), 82);
-    assert_eq!(native_mint_account.owner(), &inline_spl_token::id());
+    assert_eq!(native_mint_account.owner(), &inline_lpl_token::id());
 }
 
 #[test]

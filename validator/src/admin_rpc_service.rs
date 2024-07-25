@@ -860,7 +860,7 @@ mod tests {
     use {
         super::*,
         serde_json::Value,
-        lumos_accounts_db::{accounts_index::AccountSecondaryIndexes, inline_spl_token},
+        lumos_accounts_db::{accounts_index::AccountSecondaryIndexes, inline_lpl_token},
         lumos_core::consensus::tower_storage::NullTowerStorage,
         lumos_gossip::cluster_info::ClusterInfo,
         lumos_ledger::genesis_utils::{create_genesis_config, GenesisConfigInfo},
@@ -875,7 +875,7 @@ mod tests {
             system_program,
         },
         lumos_streamer::socket::SocketAddrSpace,
-        spl_token_2022::{
+        lpl_token_2022::{
             lumos_program::{program_option::COption, program_pack::Pack},
             state::{Account as TokenAccount, AccountState as TokenAccountState, Mint},
         },
@@ -1002,7 +1002,7 @@ mod tests {
             let non_existent_pubkey = Pubkey::new_unique();
             let delegate = Pubkey::new_unique();
 
-            let mut num_default_spl_token_program_accounts = 0;
+            let mut num_default_lpl_token_program_accounts = 0;
             let mut num_default_system_program_accounts = 0;
 
             if !secondary_index_enabled {
@@ -1020,7 +1020,7 @@ mod tests {
                 // Count SPL Token Program Default Accounts
                 let req = format!(
                     r#"{{"jsonrpc":"2.0","id":1,"method":"getSecondaryIndexKeySize","params":["{}"]}}"#,
-                    inline_spl_token::id(),
+                    inline_lpl_token::id(),
                 );
                 let res = io.handle_request_sync(&req, meta.clone());
                 let result: Value = serde_json::from_str(&res.expect("actual response"))
@@ -1028,7 +1028,7 @@ mod tests {
                 let sizes: HashMap<RpcAccountIndex, usize> =
                     serde_json::from_value(result["result"].clone()).unwrap();
                 assert_eq!(sizes.len(), 1);
-                num_default_spl_token_program_accounts =
+                num_default_lpl_token_program_accounts =
                     *sizes.get(&RpcAccountIndex::ProgramId).unwrap();
                 // Count System Program Default Accounts
                 let req = format!(
@@ -1075,7 +1075,7 @@ mod tests {
             let token_account1 = AccountSharedData::from(Account {
                 lamports: 111,
                 data: account1_data.to_vec(),
-                owner: inline_spl_token::id(),
+                owner: inline_lpl_token::id(),
                 ..Account::default()
             });
             bank.store_account(&token_account1_pubkey, &token_account1);
@@ -1093,7 +1093,7 @@ mod tests {
             let mint_account1 = AccountSharedData::from(Account {
                 lamports: 222,
                 data: mint1_data.to_vec(),
-                owner: inline_spl_token::id(),
+                owner: inline_lpl_token::id(),
                 ..Account::default()
             });
             bank.store_account(&mint1_pubkey, &mint_account1);
@@ -1114,7 +1114,7 @@ mod tests {
             let token_account2 = AccountSharedData::from(Account {
                 lamports: 333,
                 data: account2_data.to_vec(),
-                owner: inline_spl_token::id(),
+                owner: inline_lpl_token::id(),
                 ..Account::default()
             });
             bank.store_account(&token_account2_pubkey, &token_account2);
@@ -1135,7 +1135,7 @@ mod tests {
             let token_account3 = AccountSharedData::from(Account {
                 lamports: 444,
                 data: account3_data.to_vec(),
-                owner: inline_spl_token::id(),
+                owner: inline_lpl_token::id(),
                 ..Account::default()
             });
             bank.store_account(&token_account3_pubkey, &token_account3);
@@ -1153,7 +1153,7 @@ mod tests {
             let mint_account2 = AccountSharedData::from(Account {
                 lamports: 555,
                 data: mint2_data.to_vec(),
-                owner: inline_spl_token::id(),
+                owner: inline_lpl_token::id(),
                 ..Account::default()
             });
             bank.store_account(&mint2_pubkey, &mint_account2);
@@ -1233,7 +1233,7 @@ mod tests {
                 // 5) SPL Token Program Owns 6 Accounts - 1 Default, 5 created above.
                 let req = format!(
                     r#"{{"jsonrpc":"2.0","id":1,"method":"getSecondaryIndexKeySize","params":["{}"]}}"#,
-                    inline_spl_token::id(),
+                    inline_lpl_token::id(),
                 );
                 let res = io.handle_request_sync(&req, meta.clone());
                 let result: Value = serde_json::from_str(&res.expect("actual response"))
@@ -1243,7 +1243,7 @@ mod tests {
                 assert_eq!(sizes.len(), 1);
                 assert_eq!(
                     *sizes.get(&RpcAccountIndex::ProgramId).unwrap(),
-                    (num_default_spl_token_program_accounts + 5)
+                    (num_default_lpl_token_program_accounts + 5)
                 );
                 // 5) System Program Owns 4 Accounts + 2 Default, 2 created above.
                 let req = format!(

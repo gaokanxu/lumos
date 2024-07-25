@@ -1,4 +1,4 @@
-use {super::*, spl_token_2022::lumos_program::pubkey::Pubkey};
+use {super::*, lpl_token_2022::lumos_program::pubkey::Pubkey};
 
 pub(in crate::parse_token) fn parse_initialize_permanent_delegate_instruction(
     delegate: Pubkey,
@@ -20,7 +20,7 @@ mod test {
     use {
         super::*,
         lumos_sdk::pubkey::Pubkey,
-        spl_token_2022::{instruction::*, lumos_program::message::Message},
+        lpl_token_2022::{instruction::*, lumos_program::message::Message},
     };
 
     #[test]
@@ -28,7 +28,7 @@ mod test {
         let mint_pubkey = Pubkey::new_unique();
         let delegate = Pubkey::new_unique();
         let permanent_delegate_ix =
-            initialize_permanent_delegate(&spl_token_2022::id(), &mint_pubkey, &delegate).unwrap();
+            initialize_permanent_delegate(&lpl_token_2022::id(), &mint_pubkey, &delegate).unwrap();
         let message = Message::new(&[permanent_delegate_ix], None);
         let compiled_instruction = &message.instructions[0];
         assert_eq!(

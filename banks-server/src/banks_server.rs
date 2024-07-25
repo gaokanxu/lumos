@@ -29,7 +29,7 @@ use {
         send_transaction_service::{SendTransactionService, TransactionInfo},
         tpu_info::NullTpuInfo,
     },
-    lumos_svm::transaction_results::TransactionExecutionResult,
+    lumos_lvm::transaction_results::TransactionExecutionResult,
     std::{
         io,
         net::{Ipv4Addr, SocketAddr},

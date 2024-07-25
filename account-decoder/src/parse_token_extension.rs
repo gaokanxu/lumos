@@ -1,13 +1,13 @@
 use {
     crate::parse_token::UiAccountState,
     lumos_sdk::clock::UnixTimestamp,
-    spl_token_2022::{
+    lpl_token_2022::{
         extension::{self, BaseState, BaseStateWithExtensions, ExtensionType, StateWithExtensions},
         lumos_program::pubkey::Pubkey,
         lumos_zk_token_sdk::zk_token_elgamal::pod::ElGamalPubkey,
     },
-    spl_token_group_interface::state::{TokenGroup, TokenGroupMember},
-    spl_token_metadata_interface::state::TokenMetadata,
+    lpl_token_group_interface::state::{TokenGroup, TokenGroupMember},
+    lpl_token_metadata_interface::state::TokenMetadata,
 };
 
 #[derive(Debug, Serialize, Deserialize, PartialEq, Eq)]
@@ -217,7 +217,7 @@ pub struct UiDefaultAccountState {
 impl From<extension::default_account_state::DefaultAccountState> for UiDefaultAccountState {
     fn from(default_account_state: extension::default_account_state::DefaultAccountState) -> Self {
         let account_state =
-            spl_token_2022::state::AccountState::try_from(default_account_state.state)
+            lpl_token_2022::state::AccountState::try_from(default_account_state.state)
                 .unwrap_or_default();
         Self {
             account_state: account_state.into(),

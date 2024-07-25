@@ -163,7 +163,7 @@ use {
         points::{InflationPointCalculationEvent, PointValue},
         stake_state::StakeStateV2,
     },
-    lumos_svm::{
+    lumos_lvm::{
         account_loader::{TransactionCheckResult, TransactionLoadResult},
         account_overrides::AccountOverrides,
         transaction_error_metrics::TransactionErrorMetrics,

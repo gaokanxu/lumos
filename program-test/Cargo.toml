@@ -26,7 +26,7 @@ lumos-logger = { workspace = true }
 lumos-program-runtime = { workspace = true }
 lumos-runtime = { workspace = true }
 lumos-sdk = { workspace = true }
-lumos-svm = { workspace = true }
+lumos-lvm = { workspace = true }
 lumos-vote-program = { workspace = true }
 lumos-rbpf = { workspace = true }
 test-case = { workspace = true }

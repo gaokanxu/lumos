@@ -57,7 +57,7 @@ use {
             VersionedTransaction,
         },
     },
-    lumos_svm::{
+    lumos_lvm::{
         transaction_processor::ExecutionRecordingConfig,
         transaction_results::{
             TransactionExecutionDetails, TransactionExecutionResult, TransactionResults,
@@ -1995,7 +1995,7 @@ pub mod tests {
             system_transaction,
             transaction::{Transaction, TransactionError},
         },
-        lumos_svm::transaction_processor::ExecutionRecordingConfig,
+        lumos_lvm::transaction_processor::ExecutionRecordingConfig,
         lumos_vote::vote_account::VoteAccount,
         lumos_vote_program::{
             self,

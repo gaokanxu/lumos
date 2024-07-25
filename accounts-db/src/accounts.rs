@@ -26,7 +26,7 @@ use {
         transaction::{Result, SanitizedTransaction, TransactionAccountLocks, TransactionError},
         transaction_context::TransactionAccount,
     },
-    lumos_svm::{
+    lumos_lvm::{
         account_loader::TransactionLoadResult, transaction_results::TransactionExecutionResult,
     },
     std::{
@@ -817,7 +817,7 @@ mod tests {
             system_instruction, system_program,
             transaction::{Transaction, MAX_TX_ACCOUNT_LOCKS},
         },
-        lumos_svm::{
+        lumos_lvm::{
             account_loader::LoadedTransaction,
             transaction_results::{DurableNonceFee, TransactionExecutionDetails},
         },

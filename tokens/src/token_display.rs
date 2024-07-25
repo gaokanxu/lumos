@@ -43,7 +43,7 @@ impl Token {
         }
     }
 
-    pub fn spl_token(amount: u64, decimals: u8) -> Self {
+    pub fn lpl_token(amount: u64, decimals: u8) -> Self {
         Self {
             amount,
             decimals,

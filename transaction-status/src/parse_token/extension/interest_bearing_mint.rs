@@ -1,6 +1,6 @@
 use {
     super::*,
-    spl_token_2022::{
+    lpl_token_2022::{
         extension::interest_bearing_mint::{
             instruction::{InitializeInstructionData, InterestBearingMintInstruction},
             BasisPoints,

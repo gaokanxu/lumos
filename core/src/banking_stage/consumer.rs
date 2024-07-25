@@ -31,7 +31,7 @@ use {
         timing::timestamp,
         transaction::{self, AddressLoader, SanitizedTransaction, TransactionError},
     },
-    lumos_svm::{
+    lumos_lvm::{
         account_loader::{validate_fee_payer, TransactionCheckResult},
         transaction_error_metrics::TransactionErrorMetrics,
         transaction_processor::ExecutionRecordingConfig,

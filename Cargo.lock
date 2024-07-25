@@ -3320,6 +3320,7 @@ dependencies = [
  "lumos-frozen-abi",
  "lumos-frozen-abi-macro",
  "lumos-logger",
+ "lumos-lvm",
  "lumos-measure",
  "lumos-metrics",
  "lumos-nohash-hasher",
@@ -3327,7 +3328,6 @@ dependencies = [
  "lumos-rayon-threadlimit",
  "lumos-sdk",
  "lumos-stake-program",
- "lumos-svm",
  "lumos-system-program",
  "lumos-vote-program",
  "lz4",
@@ -3447,10 +3447,10 @@ dependencies = [
  "futures 0.3.30",
  "lumos-banks-interface",
  "lumos-client",
+ "lumos-lvm",
  "lumos-runtime",
  "lumos-sdk",
  "lumos-send-transaction-service",
- "lumos-svm",
  "tarpc",
  "tokio",
  "tokio-serde",
@@ -3918,6 +3918,7 @@ dependencies = [
  "lumos-gossip",
  "lumos-ledger",
  "lumos-logger",
+ "lumos-lvm",
  "lumos-measure",
  "lumos-metrics",
  "lumos-net-utils",
@@ -3933,7 +3934,6 @@ dependencies = [
  "lumos-send-transaction-service",
  "lumos-stake-program",
  "lumos-streamer",
- "lumos-svm",
  "lumos-tpu-client",
  "lumos-transaction-status",
  "lumos-turbine",
@@ -4331,6 +4331,7 @@ dependencies = [
  "lumos-frozen-abi",
  "lumos-frozen-abi-macro",
  "lumos-logger",
+ "lumos-lvm",
  "lumos-measure",
  "lumos-metrics",
  "lumos-perf",
@@ -4341,7 +4342,6 @@ dependencies = [
  "lumos-stake-program",
  "lumos-storage-bigtable",
  "lumos-storage-proto",
- "lumos-svm",
  "lumos-transaction-status",
  "lumos-vote",
  "lumos-vote-program",
@@ -4492,6 +4492,27 @@ dependencies = [
  "env_logger",
  "lazy_static",
  "log",
+]
+
+[[package]]
+name = "lumos-lvm"
+version = "2.0.0"
+dependencies = [
+ "bincode",
+ "itertools",
+ "log",
+ "lumos-bpf-loader-program",
+ "lumos-frozen-abi",
+ "lumos-frozen-abi-macro",
+ "lumos-loader-v4-program",
+ "lumos-logger",
+ "lumos-measure",
+ "lumos-metrics",
+ "lumos-program-runtime",
+ "lumos-sdk",
+ "lumos-system-program",
+ "percentage",
+ "rustc_version",
 ]
 
 [[package]]
@@ -4764,12 +4785,12 @@ dependencies = [
  "lumos-banks-server",
  "lumos-bpf-loader-program",
  "lumos-logger",
+ "lumos-lvm",
  "lumos-program-runtime",
  "lumos-rbpf",
  "lumos-runtime",
  "lumos-sdk",
  "lumos-stake-program",
- "lumos-svm",
  "lumos-vote-program",
  "serde",
  "test-case",
@@ -4900,6 +4921,7 @@ dependencies = [
  "lumos-faucet",
  "lumos-gossip",
  "lumos-ledger",
+ "lumos-lvm",
  "lumos-measure",
  "lumos-metrics",
  "lumos-net-utils",
@@ -4913,7 +4935,6 @@ dependencies = [
  "lumos-stake-program",
  "lumos-storage-bigtable",
  "lumos-streamer",
- "lumos-svm",
  "lumos-tpu-client",
  "lumos-transaction-status",
  "lumos-version",
@@ -5064,6 +5085,7 @@ dependencies = [
  "lumos-frozen-abi-macro",
  "lumos-loader-v4-program",
  "lumos-logger",
+ "lumos-lvm",
  "lumos-measure",
  "lumos-metrics",
  "lumos-perf",
@@ -5072,7 +5094,6 @@ dependencies = [
  "lumos-runtime",
  "lumos-sdk",
  "lumos-stake-program",
- "lumos-svm",
  "lumos-system-program",
  "lumos-version",
  "lumos-vote",
@@ -5334,27 +5355,6 @@ dependencies = [
  "thiserror",
  "tokio",
  "x509-parser",
-]
-
-[[package]]
-name = "lumos-svm"
-version = "2.0.0"
-dependencies = [
- "bincode",
- "itertools",
- "log",
- "lumos-bpf-loader-program",
- "lumos-frozen-abi",
- "lumos-frozen-abi-macro",
- "lumos-loader-v4-program",
- "lumos-logger",
- "lumos-measure",
- "lumos-metrics",
- "lumos-program-runtime",
- "lumos-sdk",
- "lumos-system-program",
- "percentage",
- "rustc_version",
 ]
 
 [[package]]

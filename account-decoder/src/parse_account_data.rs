@@ -35,8 +35,8 @@ lazy_static! {
         );
         m.insert(*CONFIG_PROGRAM_ID, ParsableAccount::Config);
         m.insert(*SYSTEM_PROGRAM_ID, ParsableAccount::Nonce);
-        m.insert(spl_token::id(), ParsableAccount::SplToken);
-        m.insert(spl_token_2022::id(), ParsableAccount::SplToken2022);
+        m.insert(lpl_token::id(), ParsableAccount::SplToken);
+        m.insert(lpl_token_2022::id(), ParsableAccount::SplToken2022);
         m.insert(*STAKE_PROGRAM_ID, ParsableAccount::Stake);
         m.insert(*SYSVAR_PROGRAM_ID, ParsableAccount::Sysvar);
         m.insert(*VOTE_PROGRAM_ID, ParsableAccount::Vote);
@@ -86,7 +86,7 @@ pub enum ParsableAccount {
 
 #[derive(Clone, Copy, Default)]
 pub struct AccountAdditionalData {
-    pub spl_token_decimals: Option<u8>,
+    pub lpl_token_decimals: Option<u8>,
 }
 
 pub fn parse_account_data(
@@ -109,7 +109,7 @@ pub fn parse_account_data(
         ParsableAccount::Config => serde_json::to_value(parse_config(data, pubkey)?)?,
         ParsableAccount::Nonce => serde_json::to_value(parse_nonce(data)?)?,
         ParsableAccount::SplToken | ParsableAccount::SplToken2022 => {
-            serde_json::to_value(parse_token(data, additional_data.spl_token_decimals)?)?
+            serde_json::to_value(parse_token(data, additional_data.lpl_token_decimals)?)?
         }
         ParsableAccount::Stake => serde_json::to_value(parse_stake(data)?)?,
         ParsableAccount::Sysvar => serde_json::to_value(parse_sysvar(data, pubkey)?)?,

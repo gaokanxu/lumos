@@ -33,7 +33,7 @@ use {
         saturating_add_assign,
         transaction::SanitizedTransaction,
     },
-    lumos_svm::transaction_error_metrics::TransactionErrorMetrics,
+    lumos_lvm::transaction_error_metrics::TransactionErrorMetrics,
     std::{
         sync::{Arc, RwLock},
         time::Duration,

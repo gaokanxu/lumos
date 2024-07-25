@@ -48,7 +48,7 @@ lumos-send-transaction-service = { workspace = true }
 lumos-stake-program = { workspace = true }
 lumos-storage-bigtable = { workspace = true }
 lumos-streamer = { workspace = true }
-lumos-svm = { workspace = true }
+lumos-lvm = { workspace = true }
 lumos-tpu-client = { workspace = true }
 lumos-transaction-status = { workspace = true }
 lumos-version = { workspace = true }

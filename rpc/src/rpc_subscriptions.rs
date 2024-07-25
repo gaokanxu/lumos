@@ -16,7 +16,7 @@ use {
     itertools::Either,
     rayon::prelude::*,
     serde::Serialize,
-    lumos_account_decoder::{parse_token::is_known_spl_token_id, UiAccount, UiAccountEncoding},
+    lumos_account_decoder::{parse_token::is_known_lpl_token_id, UiAccount, UiAccountEncoding},
     lumos_ledger::{blockstore::Blockstore, get_tmp_ledger_path},
     lumos_measure::measure::Measure,
     lumos_rpc_client_api::response::{
@@ -379,7 +379,7 @@ fn filter_account_result(
     // If last_modified_slot < last_notified_slot this means that we last notified for a fork
     // and should notify that the account state has been reverted.
     let account = (last_modified_slot != last_notified_slot).then(|| {
-        if is_known_spl_token_id(account.owner())
+        if is_known_lpl_token_id(account.owner())
             && params.encoding == UiAccountEncoding::JsonParsed
         {
             get_parsed_token_account(&bank, &params.pubkey, account, None)
@@ -418,7 +418,7 @@ fn filter_program_results(
             .iter()
             .all(|filter_type| filter_type.allows(account))
     });
-    let accounts = if is_known_spl_token_id(&params.pubkey)
+    let accounts = if is_known_lpl_token_id(&params.pubkey)
         && params.encoding == UiAccountEncoding::JsonParsed
         && !accounts_is_empty
     {

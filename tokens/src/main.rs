@@ -2,7 +2,7 @@ use {
     lumos_clap_utils::input_validators::normalize_to_url_if_moniker,
     lumos_cli_config::{Config, CONFIG_FILE},
     lumos_rpc_client::rpc_client::RpcClient,
-    lumos_tokens::{arg_parser::parse_args, args::Command, commands, spl_token, stake},
+    lumos_tokens::{arg_parser::parse_args, args::Command, commands, lpl_token, stake},
     std::{
         env,
         error::Error,
@@ -42,12 +42,12 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     match command_args.command {
         Command::DistributeTokens(mut args) => {
-            spl_token::update_token_args(&client, &mut args.spl_token_args)?;
+            lpl_token::update_token_args(&client, &mut args.lpl_token_args)?;
             stake::update_stake_args(&client, &mut args.stake_args)?;
             commands::process_allocations(&client, &args, exit)?;
         }
         Command::Balances(mut args) => {
-            spl_token::update_decimals(&client, &mut args.spl_token_args)?;
+            lpl_token::update_decimals(&client, &mut args.lpl_token_args)?;
             commands::process_balances(&client, &args, exit)?;
         }
         Command::TransactionLog(args) => {

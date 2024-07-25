@@ -5,13 +5,13 @@ use {
     borsh::BorshDeserialize,
     serde_json::json,
     lumos_sdk::{instruction::CompiledInstruction, message::AccountKeys, pubkey::Pubkey},
-    spl_associated_token_account::instruction::AssociatedTokenAccountInstruction,
+    lpl_associated_token_account::instruction::AssociatedTokenAccountInstruction,
 };
 
-// A helper function to convert spl_associated_token_account::id() as spl_sdk::pubkey::Pubkey
+// A helper function to convert lpl_associated_token_account::id() as lpl_sdk::pubkey::Pubkey
 // to lumos_sdk::pubkey::Pubkey
-pub fn spl_associated_token_id() -> Pubkey {
-    Pubkey::new_from_array(spl_associated_token_account::id().to_bytes())
+pub fn lpl_associated_token_id() -> Pubkey {
+    Pubkey::new_from_array(lpl_associated_token_account::id().to_bytes())
 }
 
 pub fn parse_associated_token(
@@ -91,11 +91,11 @@ fn check_num_associated_token_accounts(
 #[cfg(test)]
 mod test {
     #[allow(deprecated)]
-    use spl_associated_token_account::create_associated_token_account as create_associated_token_account_deprecated;
+    use lpl_associated_token_account::create_associated_token_account as create_associated_token_account_deprecated;
     use {
         super::*,
         lumos_sdk::{message::Message, sysvar},
-        spl_associated_token_account::{
+        lpl_associated_token_account::{
             get_associated_token_address, get_associated_token_address_with_program_id,
             instruction::{
                 create_associated_token_account, create_associated_token_account_idempotent,
@@ -122,7 +122,7 @@ mod test {
                 "wallet": wallet_address.to_string(),
                 "mint": mint.to_string(),
                 "systemProgram": lumos_sdk::system_program::id().to_string(),
-                "tokenProgram": spl_token::id().to_string(),
+                "tokenProgram": lpl_token::id().to_string(),
             }),
         };
         assert_eq!(

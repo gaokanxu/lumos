@@ -45,7 +45,7 @@ lumos-sbf-rust-param-passing-dep = { path = "rust/param_passing_dep", version = 
 lumos-sbf-rust-realloc = { path = "rust/realloc", version = "=2.0.0", default-features = false }
 lumos-sbf-rust-realloc-invoke = { path = "rust/realloc_invoke", version = "=2.0.0" }
 lumos-sdk = { path = "../../sdk", version = "=2.0.0" }
-lumos-svm = { path = "../../svm", version = "=2.0.0" }
+lumos-lvm = { path = "../../svm", version = "=2.0.0" }
 lumos-transaction-status = { path = "../../transaction-status", version = "=2.0.0" }
 lumos-validator = { path = "../../validator", version = "=2.0.0" }
 lumos-zk-token-sdk = { path = "../../zk-token-sdk", version = "=2.0.0" }
@@ -97,7 +97,7 @@ lumos-sbf-rust-invoke = { workspace = true }
 lumos-sbf-rust-realloc = { workspace = true, features = ["default"] }
 lumos-sbf-rust-realloc-invoke = { workspace = true }
 lumos-sdk = { workspace = true }
-lumos-svm = { workspace = true }
+lumos-lvm = { workspace = true }
 lumos-transaction-status = { workspace = true }
 lumos-rbpf = { workspace = true }
 

@@ -1,5 +1,5 @@
 use {
-    lumos_program_test::{programs::spl_programs, ProgramTest},
+    lumos_program_test::{programs::lpl_programs, ProgramTest},
     lumos_sdk::{
         bpf_loader, bpf_loader_upgradeable,
         instruction::{AccountMeta, Instruction},
@@ -20,7 +20,7 @@ async fn programs_present() {
     let (token_2022_programdata_id, _) =
         Pubkey::find_program_address(&[token_2022_id.as_ref()], &bpf_loader_upgradeable::id());
 
-    for (program_id, _) in spl_programs(&rent) {
+    for (program_id, _) in lpl_programs(&rent) {
         let program_account = banks_client.get_account(program_id).await.unwrap().unwrap();
         if program_id == token_2022_id || program_id == token_2022_programdata_id {
             assert_eq!(program_account.owner, bpf_loader_upgradeable::id());

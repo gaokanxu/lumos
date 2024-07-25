@@ -58,7 +58,7 @@ pub mod secp256k1_program_enabled {
     lumos_sdk::declare_id!("E3PHP7w8kB7np3CTQ1qQ2tW3KCtjRSXBQgW9vM2mWv2Y");
 }
 
-pub mod spl_token_v2_multisig_fix {
+pub mod lpl_token_v2_multisig_fix {
     lumos_sdk::declare_id!("E5JiFDQCwyC6QfT9REFyMpfK2mHcmv1GUDySU1Ue7TYv");
 }
 
@@ -74,7 +74,7 @@ pub mod require_custodian_for_locked_stake_authorize {
     lumos_sdk::declare_id!("D4jsDcXaqdW8tDAWn8H4R25Cdns2YwLneujSL1zvjW6R");
 }
 
-pub mod spl_token_v2_self_transfer_fix {
+pub mod lpl_token_v2_self_transfer_fix {
     lumos_sdk::declare_id!("BL99GYhdjjcv6ys22C9wPgn2aTVERDbPHHo4NbS3hgp7");
 }
 
@@ -122,7 +122,7 @@ pub mod tx_wide_compute_cap {
     lumos_sdk::declare_id!("5ekBxc8itEnPv4NzGJtr8BVVQLNMQuLMNQQj7pHoLNZ9");
 }
 
-pub mod spl_token_v2_set_authority_fix {
+pub mod lpl_token_v2_set_authority_fix {
     lumos_sdk::declare_id!("FToKNBYyiF4ky9s8WsmLBXHCht17Ek7RXaLZGHzzQhJ1");
 }
 
@@ -234,7 +234,7 @@ pub mod nonce_must_be_writable {
     lumos_sdk::declare_id!("BiCU7M5w8ZCMykVSyhZ7Q3m2SWoR2qrEQ86ERcDX77ME");
 }
 
-pub mod spl_token_v3_3_0_release {
+pub mod lpl_token_v3_3_0_release {
     lumos_sdk::declare_id!("Ftok2jhqAqxUWEiCVRrfRs9DPppWP8cgTB7NQNKL88mS");
 }
 
@@ -290,7 +290,7 @@ pub mod vote_withdraw_authority_may_change_authorized_voter {
     lumos_sdk::declare_id!("AVZS3ZsN4gi6Rkx2QUibYuSJG3S6QHib7xCYhG6vGJxU");
 }
 
-pub mod spl_associated_token_account_v1_0_4 {
+pub mod lpl_associated_token_account_v1_0_4 {
     lumos_sdk::declare_id!("FaTa4SpiaSNH44PGC4z8bnGVTkSRYaWvrBs3KTu8XQQq");
 }
 
@@ -373,11 +373,11 @@ pub mod enable_partitioned_epoch_reward {
     lumos_sdk::declare_id!("41tVp5qR1XwWRt5WifvtSQyuxtqQWJgEK8w91AtBqSwP");
 }
 
-pub mod spl_token_v3_4_0 {
+pub mod lpl_token_v3_4_0 {
     lumos_sdk::declare_id!("Ftok4njE8b7tDffYkC5bAbCaQv5sL6jispYrprzatUwN");
 }
 
-pub mod spl_associated_token_account_v1_1_0 {
+pub mod lpl_associated_token_account_v1_1_0 {
     lumos_sdk::declare_id!("FaTa17gVKoqbh38HcfiQonPsAaQViyDCCSg71AubYZw8");
 }
 
@@ -787,11 +787,11 @@ lazy_static! {
         (deprecate_rewards_sysvar::id(), "deprecate unused rewards sysvar"),
         (pico_inflation::id(), "pico inflation"),
         (full_inflation::devnet_and_testnet::id(), "full inflation on devnet and testnet"),
-        (spl_token_v2_multisig_fix::id(), "spl-token multisig fix"),
+        (lpl_token_v2_multisig_fix::id(), "spl-token multisig fix"),
         (no_overflow_rent_distribution::id(), "no overflow rent distribution"),
         (filter_stake_delegation_accounts::id(), "filter stake_delegation_accounts #14062"),
         (require_custodian_for_locked_stake_authorize::id(), "require custodian to authorize withdrawer change for locked stake"),
-        (spl_token_v2_self_transfer_fix::id(), "spl-token self-transfer fix"),
+        (lpl_token_v2_self_transfer_fix::id(), "spl-token self-transfer fix"),
         (full_inflation::mainnet::certusone::enable::id(), "full inflation enabled by Certus One"),
         (full_inflation::mainnet::certusone::vote::id(), "community vote allowing Certus One to enable full inflation"),
         (warp_timestamp_again::id(), "warp timestamp again, adjust bounding to 25% fast 80% slow #15204"),
@@ -805,7 +805,7 @@ lazy_static! {
         (rent_for_sysvars::id(), "collect rent from accounts owned by sysvars"),
         (libsecp256k1_0_5_upgrade_enabled::id(), "upgrade libsecp256k1 to v0.5.0"),
         (tx_wide_compute_cap::id(), "transaction wide compute cap"),
-        (spl_token_v2_set_authority_fix::id(), "spl-token set_authority fix"),
+        (lpl_token_v2_set_authority_fix::id(), "spl-token set_authority fix"),
         (merge_nonce_error_into_system_error::id(), "merge NonceError into SystemError"),
         (disable_fees_sysvar::id(), "disable fees sysvar"),
         (stake_merge_with_unmatched_credits_observed::id(), "allow merging active stakes with unmatched credits_observed #18985"),
@@ -832,7 +832,7 @@ lazy_static! {
         (disable_fee_calculator::id(), "deprecate fee calculator"),
         (add_compute_budget_program::id(), "Add compute_budget_program"),
         (nonce_must_be_writable::id(), "nonce must be writable"),
-        (spl_token_v3_3_0_release::id(), "spl-token v3.3.0 release"),
+        (lpl_token_v3_3_0_release::id(), "spl-token v3.3.0 release"),
         (leave_nonce_on_success::id(), "leave nonce as is on success"),
         (reject_empty_instruction_without_program::id(), "fail instructions which have native_loader as program_id directly"),
         (fixed_memcpy_nonoverlapping_check::id(), "use correct check for nonoverlapping regions in memcpy syscall"),
@@ -845,7 +845,7 @@ lazy_static! {
         (update_syscall_base_costs::id(), "update syscall base costs"),
         (stake_deactivate_delinquent_instruction::id(), "enable the deactivate delinquent stake instruction #23932"),
         (vote_withdraw_authority_may_change_authorized_voter::id(), "vote account withdraw authority may change the authorized voter #22521"),
-        (spl_associated_token_account_v1_0_4::id(), "SPL Associated Token Account Program release version 1.0.4, tied to token 3.3.0 #22648"),
+        (lpl_associated_token_account_v1_0_4::id(), "SPL Associated Token Account Program release version 1.0.4, tied to token 3.3.0 #22648"),
         (reject_vote_account_close_unless_zero_credit_epoch::id(), "fail vote account withdraw to 0 unless account earned 0 credits in last completed epoch"),
         (add_get_processed_sibling_instruction_syscall::id(), "add add_get_processed_sibling_instruction_syscall"),
         (bank_transaction_count_fix::id(), "fixes Bank::transaction_count to include all committed transactions, not just successful ones"),
@@ -866,8 +866,8 @@ lazy_static! {
         (fix_recent_blockhashes::id(), "stop adding hashes for skipped slots to recent blockhashes"),
         (update_rewards_from_cached_accounts::id(), "update rewards from cached accounts"),
         (enable_partitioned_epoch_reward::id(), "enable partitioned rewards at epoch boundary #32166"),
-        (spl_token_v3_4_0::id(), "SPL Token Program version 3.4.0 release #24740"),
-        (spl_associated_token_account_v1_1_0::id(), "SPL Associated Token Account Program version 1.1.0 release #24741"),
+        (lpl_token_v3_4_0::id(), "SPL Token Program version 3.4.0 release #24740"),
+        (lpl_associated_token_account_v1_1_0::id(), "SPL Associated Token Account Program version 1.1.0 release #24741"),
         (default_units_per_instruction::id(), "Default max tx-wide compute units calculated per instruction"),
         (stake_allow_zero_undelegated_amount::id(), "Allow zero-lamport undelegated amount for initialized stakes #24670"),
         (require_static_program_ids_in_transaction::id(), "require static program ids in versioned transactions"),

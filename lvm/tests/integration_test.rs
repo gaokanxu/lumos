@@ -30,7 +30,7 @@ use {
         signature::Signature,
         transaction::{SanitizedTransaction, Transaction},
     },
-    lumos_svm::{
+    lumos_lvm::{
         account_loader::TransactionCheckResult,
         transaction_error_metrics::TransactionErrorMetrics,
         transaction_processor::{ExecutionRecordingConfig, TransactionBatchProcessor},

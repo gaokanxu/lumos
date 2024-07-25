@@ -23,7 +23,7 @@ use {
         clock::FORWARD_TRANSACTIONS_TO_LEADER_AT_SLOT_OFFSET, feature_set::FeatureSet, hash::Hash,
         saturating_add_assign, transaction::SanitizedTransaction,
     },
-    lumos_svm::transaction_error_metrics::TransactionErrorMetrics,
+    lumos_lvm::transaction_error_metrics::TransactionErrorMetrics,
     std::{
         collections::HashMap,
         sync::{atomic::Ordering, Arc},

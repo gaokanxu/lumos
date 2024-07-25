@@ -5,7 +5,7 @@ use {
         StringAmount, StringDecimals,
     },
     lumos_sdk::pubkey::Pubkey,
-    spl_token_2022::{
+    lpl_token_2022::{
         extension::{BaseStateWithExtensions, StateWithExtensions},
         generic_token_account::GenericTokenAccount,
         lumos_program::{
@@ -17,43 +17,43 @@ use {
 };
 
 // Returns all known SPL Token program ids
-pub fn spl_token_ids() -> Vec<Pubkey> {
-    vec![spl_token::id(), spl_token_2022::id()]
+pub fn lpl_token_ids() -> Vec<Pubkey> {
+    vec![lpl_token::id(), lpl_token_2022::id()]
 }
 
 // Check if the provided program id as a known SPL Token program id
-pub fn is_known_spl_token_id(program_id: &Pubkey) -> bool {
-    *program_id == spl_token::id() || *program_id == spl_token_2022::id()
+pub fn is_known_lpl_token_id(program_id: &Pubkey) -> bool {
+    *program_id == lpl_token::id() || *program_id == lpl_token_2022::id()
 }
 
-// A helper function to convert spl_token::native_mint::id() as spl_sdk::pubkey::Pubkey to
+// A helper function to convert lpl_token::native_mint::id() as lpl_sdk::pubkey::Pubkey to
 // lumos_sdk::pubkey::Pubkey
 #[deprecated(
     since = "1.16.0",
-    note = "Pubkey conversions no longer needed. Please use spl_token::native_mint::id() directly"
+    note = "Pubkey conversions no longer needed. Please use lpl_token::native_mint::id() directly"
 )]
-pub fn spl_token_native_mint() -> Pubkey {
-    Pubkey::new_from_array(spl_token::native_mint::id().to_bytes())
+pub fn lpl_token_native_mint() -> Pubkey {
+    Pubkey::new_from_array(lpl_token::native_mint::id().to_bytes())
 }
 
-// The program id of the `spl_token_native_mint` account
+// The program id of the `lpl_token_native_mint` account
 #[deprecated(
     since = "1.16.0",
-    note = "Pubkey conversions no longer needed. Please use spl_token::id() directly"
+    note = "Pubkey conversions no longer needed. Please use lpl_token::id() directly"
 )]
-pub fn spl_token_native_mint_program_id() -> Pubkey {
-    spl_token::id()
+pub fn lpl_token_native_mint_program_id() -> Pubkey {
+    lpl_token::id()
 }
 
-// A helper function to convert a lumos_sdk::pubkey::Pubkey to spl_sdk::pubkey::Pubkey
+// A helper function to convert a lumos_sdk::pubkey::Pubkey to lpl_sdk::pubkey::Pubkey
 #[deprecated(since = "1.16.0", note = "Pubkey conversions no longer needed")]
-pub fn spl_token_pubkey(pubkey: &Pubkey) -> SplTokenPubkey {
+pub fn lpl_token_pubkey(pubkey: &Pubkey) -> SplTokenPubkey {
     SplTokenPubkey::new_from_array(pubkey.to_bytes())
 }
 
-// A helper function to convert a spl_sdk::pubkey::Pubkey to lumos_sdk::pubkey::Pubkey
+// A helper function to convert a lpl_sdk::pubkey::Pubkey to lumos_sdk::pubkey::Pubkey
 #[deprecated(since = "1.16.0", note = "Pubkey conversions no longer needed")]
-pub fn pubkey_from_spl_token(pubkey: &SplTokenPubkey) -> Pubkey {
+pub fn pubkey_from_lpl_token(pubkey: &SplTokenPubkey) -> Pubkey {
     Pubkey::new_from_array(pubkey.to_bytes())
 }
 
@@ -290,8 +290,8 @@ mod test {
     use {
         super::*,
         crate::parse_token_extension::{UiMemoTransfer, UiMintCloseAuthority},
-        spl_pod::optional_keys::OptionalNonZeroPubkey,
-        spl_token_2022::extension::{
+        lpl_pod::optional_keys::OptionalNonZeroPubkey,
+        lpl_token_2022::extension::{
             immutable_owner::ImmutableOwner, memo_transfer::MemoTransfer,
             mint_close_authority::MintCloseAuthority, ExtensionType, StateWithExtensionsMut,
         },

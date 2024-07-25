@@ -48,8 +48,8 @@ use {
         sysvar::{self, clock},
         transaction::VersionedTransaction,
     },
-    lumos_svm::transaction_processor::ExecutionRecordingConfig,
-    lumos_svm::transaction_results::{
+    lumos_lvm::transaction_processor::ExecutionRecordingConfig,
+    lumos_lvm::transaction_results::{
         DurableNonceFee, InnerInstruction, TransactionExecutionDetails, TransactionExecutionResult,
         TransactionResults,
     },

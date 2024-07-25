@@ -14,7 +14,7 @@ use {
         instruction::{AccountMeta, CompiledInstruction, Instruction},
         message::AccountKeys,
     },
-    spl_token_2022::{
+    lpl_token_2022::{
         extension::ExtensionType,
         instruction::{AuthorityType, TokenInstruction},
         lumos_program::{
@@ -820,7 +820,7 @@ fn check_num_token_accounts(accounts: &[u8], num: usize) -> Result<(), ParseInst
 }
 
 #[deprecated(since = "1.16.0", note = "Instruction conversions no longer needed")]
-pub fn spl_token_instruction(instruction: SplTokenInstruction) -> Instruction {
+pub fn lpl_token_instruction(instruction: SplTokenInstruction) -> Instruction {
     Instruction {
         program_id: instruction.program_id,
         accounts: instruction
@@ -848,7 +848,7 @@ mod test {
     use {
         super::*,
         lumos_sdk::{message::Message, pubkey::Pubkey},
-        spl_token_2022::instruction::*,
+        lpl_token_2022::instruction::*,
         std::iter::repeat_with,
     };
 
@@ -1646,7 +1646,7 @@ mod test {
         let get_account_data_size_ix = get_account_data_size(
             program_id,
             &mint_pubkey,
-            &[], // This emulates the packed data of spl_token::instruction::get_account_data_size
+            &[], // This emulates the packed data of lpl_token::instruction::get_account_data_size
         )
         .unwrap();
         let message = Message::new(&[get_account_data_size_ix], None);
@@ -1733,18 +1733,18 @@ mod test {
 
     #[test]
     fn test_parse_token_v3() {
-        test_parse_token(&spl_token::id());
+        test_parse_token(&lpl_token::id());
     }
 
     #[test]
     fn test_parse_token_2022() {
-        test_parse_token(&spl_token_2022::id());
+        test_parse_token(&lpl_token_2022::id());
     }
 
     #[test]
     fn test_create_native_mint() {
         let payer = Pubkey::new_unique();
-        let create_native_mint_ix = create_native_mint(&spl_token_2022::id(), &payer).unwrap();
+        let create_native_mint_ix = create_native_mint(&lpl_token_2022::id(), &payer).unwrap();
         let message = Message::new(&[create_native_mint_ix], None);
         let compiled_instruction = &message.instructions[0];
         assert_eq!(
@@ -1757,7 +1757,7 @@ mod test {
                 instruction_type: "createNativeMint".to_string(),
                 info: json!({
                    "payer": payer.to_string(),
-                   "nativeMint": spl_token_2022::native_mint::id().to_string(),
+                   "nativeMint": lpl_token_2022::native_mint::id().to_string(),
                    "systemProgram": lumos_sdk::system_program::id().to_string(),
                 })
             }
@@ -2111,11 +2111,11 @@ mod test {
 
     #[test]
     fn test_not_enough_keys_token_v3() {
-        test_token_ix_not_enough_keys(&spl_token::id());
+        test_token_ix_not_enough_keys(&lpl_token::id());
     }
 
     #[test]
     fn test_not_enough_keys_token_2022() {
-        test_token_ix_not_enough_keys(&spl_token_2022::id());
+        test_token_ix_not_enough_keys(&lpl_token_2022::id());
     }
 }

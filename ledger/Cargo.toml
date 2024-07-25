@@ -54,7 +54,7 @@ lumos-sdk = { workspace = true }
 lumos-stake-program = { workspace = true }
 lumos-storage-bigtable = { workspace = true }
 lumos-storage-proto = { workspace = true }
-lumos-svm = { workspace = true }
+lumos-lvm = { workspace = true }
 lumos-transaction-status = { workspace = true }
 lumos-vote = { workspace = true }
 lumos-vote-program = { workspace = true }

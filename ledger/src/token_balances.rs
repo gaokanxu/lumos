@@ -1,6 +1,6 @@
 use {
     lumos_account_decoder::parse_token::{
-        is_known_spl_token_id, token_amount_to_ui_amount, UiTokenAmount,
+        is_known_lpl_token_id, token_amount_to_ui_amount, UiTokenAmount,
     },
     lumos_measure::measure::Measure,
     lumos_metrics::datapoint_debug,
@@ -9,7 +9,7 @@ use {
     lumos_transaction_status::{
         token_balances::TransactionTokenBalances, TransactionTokenBalance,
     },
-    spl_token_2022::{
+    lpl_token_2022::{
         extension::StateWithExtensions,
         state::{Account as TokenAccount, Mint},
     },
@@ -17,12 +17,12 @@ use {
 };
 
 fn get_mint_decimals(bank: &Bank, mint: &Pubkey) -> Option<u8> {
-    if mint == &spl_token::native_mint::id() {
-        Some(spl_token::native_mint::DECIMALS)
+    if mint == &lpl_token::native_mint::id() {
+        Some(lpl_token::native_mint::DECIMALS)
     } else {
         let mint_account = bank.get_account(mint)?;
 
-        if !is_known_spl_token_id(mint_account.owner()) {
+        if !is_known_lpl_token_id(mint_account.owner()) {
             return None;
         }
 
@@ -44,12 +44,12 @@ pub fn collect_token_balances(
 
     for transaction in batch.sanitized_transactions() {
         let account_keys = transaction.message().account_keys();
-        let has_token_program = account_keys.iter().any(is_known_spl_token_id);
+        let has_token_program = account_keys.iter().any(is_known_lpl_token_id);
 
         let mut transaction_balances: Vec<TransactionTokenBalance> = vec![];
         if has_token_program {
             for (index, account_id) in account_keys.iter().enumerate() {
-                if transaction.message().is_invoked(index) || is_known_spl_token_id(account_id) {
+                if transaction.message().is_invoked(index) || is_known_lpl_token_id(account_id) {
                     continue;
                 }
 
@@ -95,7 +95,7 @@ fn collect_token_balance_from_account(
 ) -> Option<TokenBalanceData> {
     let account = bank.get_account(account_id)?;
 
-    if !is_known_spl_token_id(account.owner()) {
+    if !is_known_lpl_token_id(account.owner()) {
         return None;
     }
 
@@ -121,8 +121,8 @@ mod test {
     use {
         super::*,
         lumos_sdk::{account::Account, genesis_config::create_genesis_config},
-        spl_pod::optional_keys::OptionalNonZeroPubkey,
-        spl_token_2022::{
+        lpl_pod::optional_keys::OptionalNonZeroPubkey,
+        lpl_token_2022::{
             extension::{
                 immutable_owner::ImmutableOwner, memo_transfer::MemoTransfer,
                 mint_close_authority::MintCloseAuthority, ExtensionType, StateWithExtensionsMut,
@@ -152,7 +152,7 @@ mod test {
         let mint = Account {
             lamports: 100,
             data: data.to_vec(),
-            owner: spl_token::id(),
+            owner: lpl_token::id(),
             executable: false,
             rent_epoch: 0,
         };
@@ -160,7 +160,7 @@ mod test {
         let other_mint = Account {
             lamports: 100,
             data: data.to_vec(),
-            owner: Pubkey::new_unique(), // !is_known_spl_token_id
+            owner: Pubkey::new_unique(), // !is_known_lpl_token_id
             executable: false,
             rent_epoch: 0,
         };
@@ -171,7 +171,7 @@ mod test {
             owner: token_owner,
             amount: 42,
             delegate: COption::None,
-            state: spl_token_2022::state::AccountState::Initialized,
+            state: lpl_token_2022::state::AccountState::Initialized,
             is_native: COption::Some(100),
             delegated_amount: 0,
             close_authority: COption::None,
@@ -179,17 +179,17 @@ mod test {
         let mut data = [0; TokenAccount::LEN];
         TokenAccount::pack(token_data, &mut data).unwrap();
 
-        let spl_token_account = Account {
+        let lpl_token_account = Account {
             lamports: 100,
             data: data.to_vec(),
-            owner: spl_token::id(),
+            owner: lpl_token::id(),
             executable: false,
             rent_epoch: 0,
         };
         let other_account = Account {
             lamports: 100,
             data: data.to_vec(),
-            owner: Pubkey::new_unique(), // !is_known_spl_token_id
+            owner: Pubkey::new_unique(), // !is_known_lpl_token_id
             executable: false,
             rent_epoch: 0,
         };
@@ -199,7 +199,7 @@ mod test {
             owner: token_owner,
             amount: 42,
             delegate: COption::None,
-            state: spl_token_2022::state::AccountState::Initialized,
+            state: lpl_token_2022::state::AccountState::Initialized,
             is_native: COption::Some(100),
             delegated_amount: 0,
             close_authority: COption::None,
@@ -210,7 +210,7 @@ mod test {
         let other_mint_token_account = Account {
             lamports: 100,
             data: data.to_vec(),
-            owner: spl_token::id(),
+            owner: lpl_token::id(),
             executable: false,
             rent_epoch: 0,
         };
@@ -221,8 +221,8 @@ mod test {
         accounts.insert(account_pubkey, account);
         accounts.insert(mint_pubkey, mint);
         accounts.insert(other_mint_pubkey, other_mint);
-        let spl_token_account_pubkey = Pubkey::new_unique();
-        accounts.insert(spl_token_account_pubkey, spl_token_account);
+        let lpl_token_account_pubkey = Pubkey::new_unique();
+        accounts.insert(lpl_token_account_pubkey, lpl_token_account);
         let other_account_pubkey = Pubkey::new_unique();
         accounts.insert(other_account_pubkey, other_account);
         let other_mint_account_pubkey = Pubkey::new_unique();
@@ -233,7 +233,7 @@ mod test {
         let bank = Bank::new_for_tests(&genesis_config);
         let mut mint_decimals = HashMap::new();
 
-        // Account is not owned by spl_token (nor does it have TokenAccount state)
+        // Account is not owned by lpl_token (nor does it have TokenAccount state)
         assert_eq!(
             collect_token_balance_from_account(&bank, &account_pubkey, &mut mint_decimals),
             None
@@ -245,11 +245,11 @@ mod test {
             None
         );
 
-        // TokenAccount owned by spl_token::id() works
+        // TokenAccount owned by lpl_token::id() works
         assert_eq!(
             collect_token_balance_from_account(
                 &bank,
-                &spl_token_account_pubkey,
+                &lpl_token_account_pubkey,
                 &mut mint_decimals
             ),
             Some(TokenBalanceData {
@@ -261,7 +261,7 @@ mod test {
                     amount: "42".to_string(),
                     ui_amount_string: "0.42".to_string(),
                 },
-                program_id: spl_token::id().to_string(),
+                program_id: lpl_token::id().to_string(),
             })
         );
 
@@ -283,7 +283,7 @@ mod test {
     }
 
     #[test]
-    fn test_collect_token_balance_from_spl_token_2022_account() {
+    fn test_collect_token_balance_from_lpl_token_2022_account() {
         let (mut genesis_config, _mint_keypair) = create_genesis_config(500);
 
         // Add a variety of accounts, token and not
@@ -316,7 +316,7 @@ mod test {
         let mint = Account {
             lamports: 100,
             data: mint_data.to_vec(),
-            owner: spl_token_2022::id(),
+            owner: lpl_token_2022::id(),
             executable: false,
             rent_epoch: 0,
         };
@@ -335,7 +335,7 @@ mod test {
             owner: token_owner,
             amount: 42,
             delegate: COption::None,
-            state: spl_token_2022::state::AccountState::Initialized,
+            state: lpl_token_2022::state::AccountState::Initialized,
             is_native: COption::Some(100),
             delegated_amount: 0,
             close_authority: COption::None,
@@ -358,10 +358,10 @@ mod test {
         let memo_transfer = account_state.init_extension::<MemoTransfer>(true).unwrap();
         memo_transfer.require_incoming_transfer_memos = true.into();
 
-        let spl_token_account = Account {
+        let lpl_token_account = Account {
             lamports: 100,
             data: account_data.to_vec(),
-            owner: spl_token_2022::id(),
+            owner: lpl_token_2022::id(),
             executable: false,
             rent_epoch: 0,
         };
@@ -378,7 +378,7 @@ mod test {
             owner: token_owner,
             amount: 42,
             delegate: COption::None,
-            state: spl_token_2022::state::AccountState::Initialized,
+            state: lpl_token_2022::state::AccountState::Initialized,
             is_native: COption::Some(100),
             delegated_amount: 0,
             close_authority: COption::None,
@@ -404,7 +404,7 @@ mod test {
         let other_mint_token_account = Account {
             lamports: 100,
             data: account_data.to_vec(),
-            owner: spl_token_2022::id(),
+            owner: lpl_token_2022::id(),
             executable: false,
             rent_epoch: 0,
         };
@@ -415,8 +415,8 @@ mod test {
         accounts.insert(account_pubkey, account);
         accounts.insert(mint_pubkey, mint);
         accounts.insert(other_mint_pubkey, other_mint);
-        let spl_token_account_pubkey = Pubkey::new_unique();
-        accounts.insert(spl_token_account_pubkey, spl_token_account);
+        let lpl_token_account_pubkey = Pubkey::new_unique();
+        accounts.insert(lpl_token_account_pubkey, lpl_token_account);
         let other_account_pubkey = Pubkey::new_unique();
         accounts.insert(other_account_pubkey, other_account);
         let other_mint_account_pubkey = Pubkey::new_unique();
@@ -427,7 +427,7 @@ mod test {
         let bank = Bank::new_for_tests(&genesis_config);
         let mut mint_decimals = HashMap::new();
 
-        // Account is not owned by spl_token (nor does it have TokenAccount state)
+        // Account is not owned by lpl_token (nor does it have TokenAccount state)
         assert_eq!(
             collect_token_balance_from_account(&bank, &account_pubkey, &mut mint_decimals),
             None
@@ -439,11 +439,11 @@ mod test {
             None
         );
 
-        // TokenAccount owned by spl_token_2022::id() works
+        // TokenAccount owned by lpl_token_2022::id() works
         assert_eq!(
             collect_token_balance_from_account(
                 &bank,
-                &spl_token_account_pubkey,
+                &lpl_token_account_pubkey,
                 &mut mint_decimals
             ),
             Some(TokenBalanceData {
@@ -455,7 +455,7 @@ mod test {
                     amount: "42".to_string(),
                     ui_amount_string: "0.42".to_string(),
                 },
-                program_id: spl_token_2022::id().to_string(),
+                program_id: lpl_token_2022::id().to_string(),
             })
         );
 

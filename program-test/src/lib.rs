@@ -829,7 +829,7 @@ impl ProgramTest {
         );
 
         // Add commonly-used SPL programs as a convenience to the user
-        for (program_id, account) in programs::spl_programs(&Rent::default()).iter() {
+        for (program_id, account) in programs::lpl_programs(&Rent::default()).iter() {
             bank.store_account(program_id, account);
         }
 

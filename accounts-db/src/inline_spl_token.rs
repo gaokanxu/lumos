@@ -8,7 +8,7 @@ pub mod program_v3_4_0 {
 }
 
 /*
-    spl_token::state::Account {
+    lpl_token::state::Account {
         mint: Pubkey,
         owner: Pubkey,
         amount: u64,

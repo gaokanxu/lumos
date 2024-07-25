@@ -2,7 +2,7 @@
 use {
     crate::version_req::VersionReq,
     lumos_sdk::account::{AccountSharedData, ReadableAccount},
-    spl_token_2022::{generic_token_account::GenericTokenAccount, state::Account},
+    lpl_token_2022::{generic_token_account::GenericTokenAccount, state::Account},
     std::borrow::Cow,
     thiserror::Error,
 };

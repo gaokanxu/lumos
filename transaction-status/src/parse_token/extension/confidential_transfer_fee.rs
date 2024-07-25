@@ -1,7 +1,7 @@
 use {
     super::*,
     lumos_account_decoder::parse_token_extension::UiConfidentialTransferFeeConfig,
-    spl_token_2022::{
+    lpl_token_2022::{
         extension::confidential_transfer_fee::{instruction::*, ConfidentialTransferFeeConfig},
         instruction::{decode_instruction_data, decode_instruction_type},
     },

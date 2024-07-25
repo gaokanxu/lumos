@@ -12,7 +12,7 @@ use {
         transaction_batch::TransactionBatch,
     },
     lumos_sdk::{hash::Hash, pubkey::Pubkey, saturating_add_assign},
-    lumos_svm::{
+    lumos_lvm::{
         account_loader::TransactionLoadResult,
         transaction_results::{TransactionExecutionResult, TransactionResults},
     },

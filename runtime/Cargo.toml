@@ -63,7 +63,7 @@ lumos-program-runtime = { workspace = true }
 lumos-rayon-threadlimit = { workspace = true }
 lumos-sdk = { workspace = true }
 lumos-stake-program = { workspace = true }
-lumos-svm = { workspace = true }
+lumos-lvm = { workspace = true }
 lumos-system-program = { workspace = true }
 lumos-version = { workspace = true }
 lumos-vote = { workspace = true }

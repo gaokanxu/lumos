@@ -20,7 +20,7 @@ use {
     lumos_transaction_status::{
         Rewards, UiReturnDataEncoding, UiTransactionReturnData, UiTransactionStatusMeta,
     },
-    spl_memo::{id as spl_memo_id, v1::id as spl_memo_v1_id},
+    lpl_memo::{id as lpl_memo_id, v1::id as lpl_memo_v1_id},
     std::{collections::HashMap, fmt, io, time::Duration},
 };
 
@@ -43,7 +43,7 @@ impl Default for BuildBalanceMessageConfig {
 
 fn is_memo_program(k: &Pubkey) -> bool {
     let k_str = k.to_string();
-    (k_str == spl_memo_v1_id().to_string()) || (k_str == spl_memo_id().to_string())
+    (k_str == lpl_memo_v1_id().to_string()) || (k_str == lpl_memo_id().to_string())
 }
 
 pub fn build_balance_message_with_config(

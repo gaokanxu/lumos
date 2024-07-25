@@ -6,7 +6,7 @@ use {
         blockstore::Blockstore,
         blockstore_processor::{TransactionStatusBatch, TransactionStatusMessage},
     },
-    lumos_svm::transaction_results::{DurableNonceFee, TransactionExecutionDetails},
+    lumos_lvm::transaction_results::{DurableNonceFee, TransactionExecutionDetails},
     lumos_transaction_status::{
         extract_and_fmt_memos, map_inner_instructions, Reward, TransactionStatusMeta,
     },

@@ -1,6 +1,6 @@
 use {
     super::*,
-    spl_token_2022::{
+    lpl_token_2022::{
         extension::cpi_guard::instruction::CpiGuardInstruction,
         instruction::decode_instruction_type,
     },
@@ -41,7 +41,7 @@ mod test {
     use {
         super::*,
         lumos_sdk::pubkey::Pubkey,
-        spl_token_2022::{
+        lpl_token_2022::{
             extension::cpi_guard::instruction::{disable_cpi_guard, enable_cpi_guard},
             lumos_program::message::Message,
         },
@@ -54,7 +54,7 @@ mod test {
         // Enable, single owner
         let owner_pubkey = Pubkey::new_unique();
         let enable_cpi_guard_ix =
-            enable_cpi_guard(&spl_token_2022::id(), &account_pubkey, &owner_pubkey, &[]).unwrap();
+            enable_cpi_guard(&lpl_token_2022::id(), &account_pubkey, &owner_pubkey, &[]).unwrap();
         let message = Message::new(&[enable_cpi_guard_ix], None);
         let compiled_instruction = &message.instructions[0];
         assert_eq!(
@@ -77,7 +77,7 @@ mod test {
         let multisig_signer0 = Pubkey::new_unique();
         let multisig_signer1 = Pubkey::new_unique();
         let enable_cpi_guard_ix = enable_cpi_guard(
-            &spl_token_2022::id(),
+            &lpl_token_2022::id(),
             &account_pubkey,
             &multisig_pubkey,
             &[&multisig_signer0, &multisig_signer1],
@@ -106,7 +106,7 @@ mod test {
 
         // Disable, single owner
         let enable_cpi_guard_ix =
-            disable_cpi_guard(&spl_token_2022::id(), &account_pubkey, &owner_pubkey, &[]).unwrap();
+            disable_cpi_guard(&lpl_token_2022::id(), &account_pubkey, &owner_pubkey, &[]).unwrap();
         let message = Message::new(&[enable_cpi_guard_ix], None);
         let compiled_instruction = &message.instructions[0];
         assert_eq!(
@@ -129,7 +129,7 @@ mod test {
         let multisig_signer0 = Pubkey::new_unique();
         let multisig_signer1 = Pubkey::new_unique();
         let enable_cpi_guard_ix = disable_cpi_guard(
-            &spl_token_2022::id(),
+            &lpl_token_2022::id(),
             &account_pubkey,
             &multisig_pubkey,
             &[&multisig_signer0, &multisig_signer1],

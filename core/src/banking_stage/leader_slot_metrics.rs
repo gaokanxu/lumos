@@ -7,7 +7,7 @@ use {
     },
     lumos_poh::poh_recorder::BankStart,
     lumos_sdk::{clock::Slot, saturating_add_assign},
-    lumos_svm::transaction_error_metrics::*,
+    lumos_lvm::transaction_error_metrics::*,
     std::time::Instant,
 };
 

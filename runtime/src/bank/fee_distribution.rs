@@ -8,7 +8,7 @@ use {
         reward_type::RewardType,
         system_program,
     },
-    lumos_svm::account_rent_state::RentState,
+    lumos_lvm::account_rent_state::RentState,
     lumos_vote::vote_account::VoteAccountsHashMap,
     std::{result::Result, sync::atomic::Ordering::Relaxed},
     thiserror::Error,

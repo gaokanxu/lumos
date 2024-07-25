@@ -712,7 +712,7 @@ impl TestValidator {
         let mint_lamports = sol_to_lamports(500_000_000.);
 
         let mut accounts = config.accounts.clone();
-        for (address, account) in lumos_program_test::programs::spl_programs(&config.rent) {
+        for (address, account) in lumos_program_test::programs::lpl_programs(&config.rent) {
             accounts.entry(address).or_insert(account);
         }
         #[allow(deprecated)]

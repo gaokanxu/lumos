@@ -11,7 +11,7 @@ use {
         account::{AccountSharedData, ReadableAccount},
         pubkey::Pubkey,
     },
-    spl_token_2022::{extension::StateWithExtensions, state::Mint},
+    lpl_token_2022::{extension::StateWithExtensions, state::Mint},
     std::{collections::HashMap, sync::Arc},
 };
 
@@ -31,7 +31,7 @@ pub fn get_parsed_token_account(
             )
         })
         .map(|mint_account| AccountAdditionalData {
-            spl_token_decimals: get_mint_decimals(mint_account.data()).ok(),
+            lpl_token_decimals: get_mint_decimals(mint_account.data()).ok(),
         });
 
     UiAccount::encode(
@@ -53,12 +53,12 @@ where
     let mut mint_decimals: HashMap<Pubkey, u8> = HashMap::new();
     keyed_accounts.filter_map(move |(pubkey, account)| {
         let additional_data = get_token_account_mint(account.data()).map(|mint_pubkey| {
-            let spl_token_decimals = mint_decimals.get(&mint_pubkey).cloned().or_else(|| {
+            let lpl_token_decimals = mint_decimals.get(&mint_pubkey).cloned().or_else(|| {
                 let (_, decimals) = get_mint_owner_and_decimals(&bank, &mint_pubkey).ok()?;
                 mint_decimals.insert(mint_pubkey, decimals);
                 Some(decimals)
             });
-            AccountAdditionalData { spl_token_decimals }
+            AccountAdditionalData { lpl_token_decimals }
         });
 
         let maybe_encoded_account = UiAccount::encode(
@@ -82,8 +82,8 @@ where
 /// Analyze a mint Pubkey that may be the native_mint and get the mint-account owner (token
 /// program_id) and decimals
 pub fn get_mint_owner_and_decimals(bank: &Bank, mint: &Pubkey) -> Result<(Pubkey, u8)> {
-    if mint == &spl_token::native_mint::id() {
-        Ok((spl_token::id(), spl_token::native_mint::DECIMALS))
+    if mint == &lpl_token::native_mint::id() {
+        Ok((lpl_token::id(), lpl_token::native_mint::DECIMALS))
     } else {
         let mint_account = bank.get_account(mint).ok_or_else(|| {
             Error::invalid_params("Invalid param: could not find mint".to_string())

@@ -6,7 +6,7 @@ use {
         pubkey::Pubkey,
         rent_collector::RentCollector,
     },
-    lumos_svm::transaction_processor::TransactionProcessingCallback,
+    lumos_lvm::transaction_processor::TransactionProcessingCallback,
     std::{collections::HashMap, sync::Arc},
 };
 

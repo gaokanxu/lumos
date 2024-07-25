@@ -1,4 +1,4 @@
-use {super::*, spl_token_2022::extension::ExtensionType};
+use {super::*, lpl_token_2022::extension::ExtensionType};
 
 pub(in crate::parse_token) fn parse_reallocate_instruction(
     extension_types: Vec<ExtensionType>,
@@ -32,7 +32,7 @@ mod test {
     use {
         super::*,
         lumos_sdk::pubkey::Pubkey,
-        spl_token_2022::{instruction::reallocate, lumos_program::message::Message},
+        lpl_token_2022::{instruction::reallocate, lumos_program::message::Message},
     };
 
     #[test]
@@ -48,7 +48,7 @@ mod test {
         // Single owner
         let owner_pubkey = Pubkey::new_unique();
         let reallocate_ix = reallocate(
-            &spl_token_2022::id(),
+            &lpl_token_2022::id(),
             &account_pubkey,
             &payer_pubkey,
             &owner_pubkey,
@@ -81,7 +81,7 @@ mod test {
         let multisig_signer0 = Pubkey::new_unique();
         let multisig_signer1 = Pubkey::new_unique();
         let reallocate_ix = reallocate(
-            &spl_token_2022::id(),
+            &lpl_token_2022::id(),
             &account_pubkey,
             &payer_pubkey,
             &multisig_pubkey,

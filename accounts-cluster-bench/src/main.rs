@@ -4,7 +4,7 @@ use {
     log::*,
     rand::{thread_rng, Rng},
     rayon::prelude::*,
-    lumos_accounts_db::inline_spl_token,
+    lumos_accounts_db::inline_lpl_token,
     lumos_clap_utils::{
         hidden_unless_forced, input_parsers::pubkey_of, input_validators::is_url_or_moniker,
     },
@@ -143,7 +143,7 @@ fn make_create_message(
     let instructions: Vec<_> = (0..num_instructions)
         .flat_map(|_| {
             let program_id = if mint.is_some() {
-                inline_spl_token::id()
+                inline_lpl_token::id()
             } else {
                 system_program::id()
             };
@@ -161,8 +161,8 @@ fn make_create_message(
             )];
             if let Some(mint_address) = mint {
                 instructions.push(
-                    spl_token::instruction::initialize_account(
-                        &spl_token::id(),
+                    lpl_token::instruction::initialize_account(
+                        &lpl_token::id(),
                         &to_pubkey,
                         &mint_address,
                         &base_keypair.pubkey(),
@@ -185,12 +185,12 @@ fn make_close_message(
     max_closed: &AtomicU64,
     num_instructions: usize,
     balance: u64,
-    spl_token: bool,
+    lpl_token: bool,
 ) -> Message {
     let instructions: Vec<_> = (0..num_instructions)
         .filter_map(|_| {
-            let program_id = if spl_token {
-                inline_spl_token::id()
+            let program_id = if lpl_token {
+                inline_lpl_token::id()
             } else {
                 system_program::id()
             };
@@ -202,10 +202,10 @@ fn make_close_message(
             let seed = max_closed.fetch_add(1, Ordering::Relaxed).to_string();
             let address =
                 Pubkey::create_with_seed(&base_keypair.pubkey(), &seed, &program_id).unwrap();
-            if spl_token {
+            if lpl_token {
                 Some(
-                    spl_token::instruction::close_account(
-                        &spl_token::id(),
+                    lpl_token::instruction::close_account(
+                        &lpl_token::id(),
                         &address,
                         &keypair.pubkey(),
                         &base_keypair.pubkey(),
@@ -465,7 +465,7 @@ fn make_rpc_bench_threads(
     num_rpc_bench_threads: usize,
 ) -> Vec<JoinHandle<()>> {
     let program_id = if mint.is_some() {
-        inline_spl_token::id()
+        inline_lpl_token::id()
     } else {
         system_program::id()
     };
@@ -1057,7 +1057,7 @@ pub mod test {
         super::*,
         lumos_accounts_db::{
             accounts_index::{AccountIndex, AccountSecondaryIndexes},
-            inline_spl_token,
+            inline_lpl_token,
         },
         lumos_core::validator::ValidatorConfig,
         lumos_faucet::faucet::run_local_faucet,
@@ -1068,7 +1068,7 @@ pub mod test {
         lumos_measure::measure::Measure,
         lumos_sdk::{native_token::sol_to_lamports, poh_config::PohConfig},
         lumos_test_validator::TestValidator,
-        spl_token::{
+        lpl_token::{
             lumos_program::program_pack::Pack,
             state::{Account, Mint},
         },
@@ -1183,7 +1183,7 @@ pub mod test {
     }
 
     #[test]
-    fn test_create_then_reclaim_spl_token_accounts() {
+    fn test_create_then_reclaim_lpl_token_accounts() {
         lumos_logger::setup();
         let mint_keypair = Keypair::new();
         let mint_pubkey = mint_keypair.pubkey();
@@ -1218,31 +1218,31 @@ pub mod test {
             .unwrap();
 
         // Create Mint
-        let spl_mint_keypair = Keypair::new();
-        let spl_mint_len = Mint::get_packed_len();
-        let spl_mint_rent = rpc_client
-            .get_minimum_balance_for_rent_exemption(spl_mint_len)
+        let lpl_mint_keypair = Keypair::new();
+        let lpl_mint_len = Mint::get_packed_len();
+        let lpl_mint_rent = rpc_client
+            .get_minimum_balance_for_rent_exemption(lpl_mint_len)
             .unwrap();
         let transaction = Transaction::new_signed_with_payer(
             &[
                 system_instruction::create_account(
                     &funder.pubkey(),
-                    &spl_mint_keypair.pubkey(),
-                    spl_mint_rent,
-                    spl_mint_len as u64,
-                    &inline_spl_token::id(),
+                    &lpl_mint_keypair.pubkey(),
+                    lpl_mint_rent,
+                    lpl_mint_len as u64,
+                    &inline_lpl_token::id(),
                 ),
-                spl_token::instruction::initialize_mint(
-                    &spl_token::id(),
-                    &spl_mint_keypair.pubkey(),
-                    &spl_mint_keypair.pubkey(),
+                lpl_token::instruction::initialize_mint(
+                    &lpl_token::id(),
+                    &lpl_mint_keypair.pubkey(),
+                    &lpl_mint_keypair.pubkey(),
                     None,
                     2,
                 )
                 .unwrap(),
             ],
             Some(&funder.pubkey()),
-            &[&funder, &spl_mint_keypair],
+            &[&funder, &lpl_mint_keypair],
             latest_blockhash,
         );
         let _sig = rpc_client
@@ -1272,7 +1272,7 @@ pub mod test {
             Some(minimum_balance),
             num_instructions,
             None,
-            Some(spl_mint_keypair.pubkey()),
+            Some(lpl_mint_keypair.pubkey()),
             true,
             None,
             0,

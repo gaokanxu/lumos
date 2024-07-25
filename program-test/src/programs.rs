@@ -5,51 +5,51 @@ use lumos_sdk::{
     rent::Rent,
 };
 
-mod spl_token {
+mod lpl_token {
     lumos_sdk::declare_id!("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA");
 }
-mod spl_token_2022 {
+mod lpl_token_2022 {
     lumos_sdk::declare_id!("TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb");
 }
-mod spl_memo_1_0 {
+mod lpl_memo_1_0 {
     lumos_sdk::declare_id!("Memo1UhkJRfHyvLMcVucJwxXeuD728EqVDDwQDxFMNo");
 }
-mod spl_memo_3_0 {
+mod lpl_memo_3_0 {
     lumos_sdk::declare_id!("MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr");
 }
-mod spl_associated_token_account {
+mod lpl_associated_token_account {
     lumos_sdk::declare_id!("ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL");
 }
 
 static SPL_PROGRAMS: &[(Pubkey, Pubkey, &[u8])] = &[
     (
-        spl_token::ID,
+        lpl_token::ID,
         lumos_sdk::bpf_loader::ID,
-        include_bytes!("programs/spl_token-3.5.0.so"),
+        include_bytes!("programs/lpl_token-3.5.0.so"),
     ),
     (
-        spl_token_2022::ID,
+        lpl_token_2022::ID,
         lumos_sdk::bpf_loader_upgradeable::ID,
-        include_bytes!("programs/spl_token_2022-1.0.0.so"),
+        include_bytes!("programs/lpl_token_2022-1.0.0.so"),
     ),
     (
-        spl_memo_1_0::ID,
+        lpl_memo_1_0::ID,
         lumos_sdk::bpf_loader::ID,
-        include_bytes!("programs/spl_memo-1.0.0.so"),
+        include_bytes!("programs/lpl_memo-1.0.0.so"),
     ),
     (
-        spl_memo_3_0::ID,
+        lpl_memo_3_0::ID,
         lumos_sdk::bpf_loader::ID,
-        include_bytes!("programs/spl_memo-3.0.0.so"),
+        include_bytes!("programs/lpl_memo-3.0.0.so"),
     ),
     (
-        spl_associated_token_account::ID,
+        lpl_associated_token_account::ID,
         lumos_sdk::bpf_loader::ID,
-        include_bytes!("programs/spl_associated_token_account-1.1.1.so"),
+        include_bytes!("programs/lpl_associated_token_account-1.1.1.so"),
     ),
 ];
 
-pub fn spl_programs(rent: &Rent) -> Vec<(Pubkey, AccountSharedData)> {
+pub fn lpl_programs(rent: &Rent) -> Vec<(Pubkey, AccountSharedData)> {
     SPL_PROGRAMS
         .iter()
         .flat_map(|(program_id, loader_id, elf)| {

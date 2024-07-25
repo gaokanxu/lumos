@@ -24,7 +24,7 @@ use {
         timing::{duration_as_ms, duration_as_s, duration_as_us, timestamp},
         transaction::Transaction,
     },
-    spl_instruction_padding::instruction::wrap_instruction,
+    lpl_instruction_padding::instruction::wrap_instruction,
     std::{
         collections::{HashSet, VecDeque},
         process::exit,
