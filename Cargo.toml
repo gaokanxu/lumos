@@ -125,7 +125,75 @@ members = [
     "wen-restart",
     "zk-keygen",
     "zk-token-sdk",
+    
+    "lumos-program-library/associated-token-account/program",
+    "lumos-program-library/associated-token-account/program-test",
+    "lumos-program-library/binary-option/program",
+    "lumos-program-library/binary-oracle-pair/program",
+    "lumos-program-library/examples/rust/cross-program-invocation",
+    "lumos-program-library/examples/rust/custom-heap",
+    "lumos-program-library/examples/rust/logging",
+    "lumos-program-library/examples/rust/sysvar",
+    "lumos-program-library/examples/rust/transfer-lamports",
+    "lumos-program-library/examples/rust/transfer-tokens",
+    "lumos-program-library/feature-proposal/program",
+    "lumos-program-library/feature-proposal/cli",
+    "lumos-program-library/governance/addin-mock/program",
+    "lumos-program-library/governance/addin-api",
+    "lumos-program-library/governance/program",
+    "lumos-program-library/governance/test-sdk",
+    "lumos-program-library/governance/tools",
+    "lumos-program-library/governance/chat/program",
+    "lumos-program-library/instruction-padding/program",
+    "lumos-program-library/libraries/discriminator",
+    "lumos-program-library/libraries/concurrent-merkle-tree",
+    "lumos-program-library/libraries/math",
+    "lumos-program-library/libraries/merkle-tree-reference",
+    "lumos-program-library/libraries/pod",
+    "lumos-program-library/libraries/program-error",
+    "lumos-program-library/libraries/tlv-account-resolution",
+    "lumos-program-library/libraries/type-length-value",
+    "lumos-program-library/libraries/type-length-value-derive-test",
+    "lumos-program-library/memo/program",
+    "lumos-program-library/name-service/program",
+    "lumos-program-library/managed-token/program",
+    "lumos-program-library/record/program",
+    "lumos-program-library/shared-memory/program",
+    "lumos-program-library/single-pool/cli",
+    "lumos-program-library/single-pool/program",
+    "lumos-program-library/stake-pool/cli",
+    "lumos-program-library/stake-pool/program",
+    "lumos-program-library/stateless-asks/program",
+    "lumos-program-library/token-collection/program",
+    "lumos-program-library/token-group/example",
+    "lumos-program-library/token-group/interface",
+    "lumos-program-library/token-lending/cli",
+    "lumos-program-library/token-lending/program",
+    "lumos-program-library/token-metadata/example",
+    "lumos-program-library/token-metadata/interface",
+    "lumos-program-library/token-swap/program",
+    "lumos-program-library/token-swap/program/fuzz",
+    "lumos-program-library/token-upgrade/cli",
+    "lumos-program-library/token-upgrade/program",
+    "lumos-program-library/token-wrap/program",
+    "lumos-program-library/token/cli",
+    "lumos-program-library/token/program",
+    "lumos-program-library/token/program-2022",
+    "lumos-program-library/token/program-2022-test",
+    "lumos-program-library/token/transfer-hook/cli",
+    "lumos-program-library/token/transfer-hook/example",
+    "lumos-program-library/token/transfer-hook/interface",
+    "lumos-program-library/token/confidential-transfer/ciphertext-arithmetic",
+    "lumos-program-library/token/confidential-transfer/proof-extraction",
+    "lumos-program-library/token/confidential-transfer/proof-generation",
+    "lumos-program-library/token/confidential-transfer/proof-tests",
+    "lumos-program-library/token/client",
+    "lumos-program-library/utils/cgen",
+    "lumos-program-library/utils/test-client",
+    "lumos-program-library/token-lending/flash_loan_receiver",
+
 ]
+
 
 exclude = ["programs/sbf"]
 
@@ -313,6 +381,7 @@ smpl_jwt = "0.7.1"
 socket2 = "0.5.6"
 soketto = "0.7"
 
+
 lumos-account-decoder = { path = "account-decoder", version = "=2.0.0" }
 lumos-accounts-db = { path = "accounts-db", version = "=2.0.0" }
 lumos-address-lookup-table-program = { path = "programs/address-lookup-table", version = "=2.0.0" }
@@ -394,19 +463,18 @@ lumos-zk-keygen = { path = "zk-keygen", version = "=2.0.0" }
 lumos-zk-token-proof-program = { path = "programs/zk-token-proof", version = "=2.0.0" }
 lumos-zk-token-sdk = { path = "zk-token-sdk", version = "=2.0.0" }
 
+lumos-security-txt = "1.1.1"
 lumos-rbpf = "=0.8.2"
 lumos-nohash-hasher = "0.2.1"
 
-
-#lpl-associated-token-account = "=2.3.1"
-lpl-associated-token-account = { path = "../lumos-program-library/associated-token-account/program", version = "=4.0.0" }
-lpl-instruction-padding = { path = "../lumos-program-library/instruction-padding/program", version = "0.2.0" }
-lpl-memo = { path = "../lumos-program-library/memo/program", version = "=5.0.0" }
-lpl-pod = { path = "../lumos-program-library/libraries/pod", version = "=0.3.0" }
-lpl-token = { path = "../lumos-program-library/token/program", version = "=6.0.0" }
-lpl-token-2022 = { path = "../lumos-program-library/token/program-2022", version = "=4.0.1" }
-lpl-token-group-interface = { path = "../lumos-program-library/token-group/interface", version = "=0.3.0" }
-lpl-token-metadata-interface = { path = "../lumos-program-library/token-metadata/interface", version = "0.4.0" }
+lpl-token = { path = "lumos-program-library/token/program" }
+lpl-associated-token-account = { path = "lumos-program-library/associated-token-account/program" }
+lpl-instruction-padding = { path = "lumos-program-library/instruction-padding" }
+lpl-memo = { path = "lumos-program-library/memo" }
+lpl-pod = { path = "lumos-program-library/libraries/pod" }
+lpl-token-2022 = { path = "lumos-program-library/token/program-2022" }
+lpl-token-group-interface = { path = "lumos-program-library/token-group/interface" }
+lpl-token-metadata-interface = { path = "lumos-program-library/token-metadata/interface" }
 
 
 

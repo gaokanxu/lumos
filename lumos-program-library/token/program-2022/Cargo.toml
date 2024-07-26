@@ -22,21 +22,23 @@ bytemuck = { version = "1.16.1", features = ["derive"] }
 num-derive = "0.4"
 num-traits = "0.2"
 num_enum = "0.7.2"
-lumos-program = "2.0.0"
-lumos-security-txt = "1.1.1"
-lumos-zk-token-sdk = "2.0.0"
-lpl-memo = { version = "5.0", path = "../../memo/program", features = [ "no-entrypoint" ] }
-lpl-token = { version = "6.0",  path = "../program", features = ["no-entrypoint"] }
-lpl-token-group-interface = { version = "0.3.0", path = "../../token-group/interface" }
-lpl-token-metadata-interface = { version = "0.4.0", path = "../../token-metadata/interface" }
-lpl-transfer-hook-interface = { version = "0.7.0", path = "../transfer-hook/interface" }
-lpl-type-length-value = { version = "0.5.0", path = "../../libraries/type-length-value" }
-lpl-pod = { version = "0.3.0", path = "../../libraries/pod" }
+lumos-program = { workspace = true }
+lumos-security-txt = { workspace = true }
+lumos-zk-token-sdk = { workspace = true }
+lpl-memo = { workspace = true }
+lpl-token = { workspace = true }
+lpl-token-group-interface = { workspace = true }
+lpl-token-metadata-interface = { workspace = true }
+lpl-transfer-hook-interface = { workspace = true }
+lpl-type-length-value = { workspace = true }
+lpl-pod = { workspace = true }
+lumos-transaction-status = { workspace = true }
+
 thiserror = "1.0"
 serde = { version = "1.0.204", optional = true }
 serde_with = { version = "3.9.0", optional = true }
 base64 = { version = "0.22.1", optional = true }
-lumos-transaction-status = { path = "../../../lumos/transaction-status" }
+
 
 [dev-dependencies]
 lazy_static = "1.5.0"
