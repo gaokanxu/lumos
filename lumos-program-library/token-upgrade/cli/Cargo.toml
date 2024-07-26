@@ -1,0 +1,37 @@
+[package]
+name = "lpl-token-upgrade-cli"
+version = "0.1.1"
+description = "SPL Token Upgrade Command-line Utility"
+authors = ["Gao Kanxu <gaokanxu@gmail.com>"]
+repository = "https://github.com/gaokanxu/lumos-program-library"
+license = "Apache-2.0"
+edition = "2021"
+
+[build-dependencies]
+walkdir = "2"
+
+[dependencies]
+clap = { version = "3", features = ["cargo"] }
+futures-util = "0.3.30"
+lumos-clap-v3-utils = "2.0.0"
+lumos-cli-config = "2.0.0"
+lumos-client = "2.0.0"
+lumos-logger = "2.0.0"
+lumos-remote-wallet = "2.0.0"
+lumos-sdk = "2.0.0"
+lpl-associated-token-account = { version = "4.0.0", path = "../../associated-token-account/program", features = ["no-entrypoint"] }
+lpl-token = { version = "6.0", path = "../../token/program", features = ["no-entrypoint"] }
+lpl-token-2022 = { version = "4.0.0", path = "../../token/program-2022", features = ["no-entrypoint"] }
+lpl-token-client = { version = "0.11.0", path = "../../token/client" }
+lpl-token-upgrade = { version = "0.1", path = "../program", features = ["no-entrypoint"] }
+tokio = { version = "1", features = ["full"] }
+
+[dev-dependencies]
+lumos-test-validator = "2.0.0"
+
+[[bin]]
+name = "lpl-token-upgrade"
+path = "src/main.rs"
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]

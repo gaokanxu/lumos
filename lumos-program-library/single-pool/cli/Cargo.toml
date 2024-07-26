@@ -1,0 +1,49 @@
+[package]
+name = "lpl-single-pool-cli"
+version = "1.0.0"
+description = "Lumos Program Library Single-Validator Stake Pool Command-line Utility"
+authors = ["Gao Kanxu <gaokanxu@gmail.com>"]
+repository = "https://github.com/gaokanxu/lumos-program-library"
+license = "Apache-2.0"
+edition = "2021"
+
+[dependencies]
+tokio = "1.39"
+clap = { version = "3.2.23", features = ["derive"] }
+console = "0.15.8"
+borsh = "1.5.1"
+bincode = "1.3.1"
+serde = "1.0.204"
+serde_derive = "1.0.103"
+serde_json = "1.0.120"
+serde_with = "3.9.0"
+lumos-account-decoder = "2.0.0"
+lumos-clap-v3-utils = "2.0.0"
+lumos-cli-config = "2.0.0"
+lumos-cli-output = "2.0.0"
+lumos-client = "2.0.0"
+lumos-logger = "2.0.0"
+lumos-remote-wallet = "2.0.0"
+lumos-sdk = "2.0.0"
+lumos-transaction-status = "2.0.0"
+lumos-vote-program = "2.0.0"
+lpl-token = { version = "6.0", path = "../../token/program", features = [
+  "no-entrypoint",
+] }
+lpl-token-client = { version = "0.11.0", path = "../../token/client" }
+lpl-associated-token-account = { version = "4.0.0", path = "../../associated-token-account/program", features = [
+  "no-entrypoint",
+] }
+lpl-single-pool = { version = "1.0.0", path = "../program", features = [
+  "no-entrypoint",
+] }
+
+[dev-dependencies]
+lumos-test-validator = "2.0.0"
+serial_test = "3.1.1"
+test-case = "3.3"
+tempfile = "3.10.1"
+
+[[bin]]
+name = "lpl-single-pool"
+path = "src/main.rs"

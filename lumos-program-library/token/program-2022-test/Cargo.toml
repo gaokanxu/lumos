@@ -1,0 +1,44 @@
+[package]
+authors = ["Gao Kanxu <gaokanxu@gmail.com>"]
+description = "SPL-Token 2022 Integration Tests"
+edition = "2021"
+license = "Apache-2.0"
+name = "lpl-token-2022-test"
+repository = "https://github.com/gaokanxu/lumos-program-library"
+version = "0.0.1"
+
+[features]
+test-sbf = ["zk-ops"]
+default = ["zk-ops"]
+zk-ops = []
+
+[build-dependencies]
+walkdir = "2"
+
+[dev-dependencies]
+async-trait = "0.1"
+borsh = "1.5.1"
+futures-util = "0.3"
+lumos-program = "2.0.0"
+lumos-program-test = "2.0.0"
+lumos-sdk = "2.0.0"
+lpl-associated-token-account = { version = "4.0.0", path = "../../associated-token-account/program" }
+lpl-memo = { version = "5.0.0", path = "../../memo/program", features = [
+  "no-entrypoint",
+] }
+lpl-pod = { version = "0.3.0", path = "../../libraries/pod" }
+lpl-token-2022 = { version = "4.0.0", path = "../program-2022", features = [
+  "no-entrypoint",
+] }
+lpl-instruction-padding = { version = "0.2.0", path = "../../instruction-padding/program", features = [
+  "no-entrypoint",
+] }
+lpl-tlv-account-resolution = { version = "0.7.0", path = "../../libraries/tlv-account-resolution" }
+lpl-token-client = { version = "0.11.0", path = "../client" }
+lpl-token-group-interface = { version = "0.3.0", path = "../../token-group/interface" }
+lpl-token-metadata-interface = { version = "0.4.0", path = "../../token-metadata/interface" }
+lpl-transfer-hook-example = { version = "0.6", path = "../transfer-hook/example", features = [
+  "no-entrypoint",
+] }
+lpl-transfer-hook-interface = { version = "0.7.0", path = "../transfer-hook/interface" }
+test-case = "3.3"

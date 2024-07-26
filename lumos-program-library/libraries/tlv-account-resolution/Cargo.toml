@@ -1,0 +1,34 @@
+[package]
+name = "lpl-tlv-account-resolution"
+version = "0.7.0"
+description = "Lumos Program Library TLV Account Resolution Interface"
+authors = ["Gao Kanxu <gaokanxu@gmail.com>"]
+repository = "https://github.com/gaokanxu/lumos-program-library"
+license = "Apache-2.0"
+edition = "2021"
+
+[features]
+serde-traits = ["dep:serde"]
+test-sbf = []
+
+[dependencies]
+bytemuck = { version = "1.16.1", features = ["derive"] }
+serde = { version = "1.0.204", optional = true }
+lumos-program = "2.0.0"
+lpl-discriminator = { version = "0.3.0", path = "../discriminator" }
+lpl-program-error = { version = "0.5.0", path = "../program-error" }
+lpl-pod = { version = "0.3.0", path = "../pod" }
+lpl-type-length-value = { version = "0.5.0", path = "../type-length-value" }
+
+[dev-dependencies]
+futures = "0.3.30"
+futures-util = "0.3"
+lumos-client = "2.0.0"
+lumos-program-test = "2.0.0"
+lumos-sdk = "2.0.0"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]

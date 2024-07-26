@@ -1,0 +1,27 @@
+[package]
+name = "lpl-transfer-hook-interface"
+version = "0.7.0"
+description = "Lumos Program Library Transfer Hook Interface"
+authors = ["Gao Kanxu <gaokanxu@gmail.com>"]
+repository = "https://github.com/gaokanxu/lumos-program-library"
+license = "Apache-2.0"
+edition = "2021"
+
+[dependencies]
+arrayref = "0.3.8"
+bytemuck = { version = "1.16.1", features = ["derive"] }
+lumos-program = "2.0.0"
+lpl-discriminator = { version = "0.3.0" , path = "../../../libraries/discriminator" }
+lpl-program-error = { version = "0.5.0" , path = "../../../libraries/program-error" }
+lpl-tlv-account-resolution = { version = "0.7.0" , path = "../../../libraries/tlv-account-resolution" }
+lpl-type-length-value = { version = "0.5.0" , path = "../../../libraries/type-length-value" }
+lpl-pod = { version = "0.3.0", path = "../../../libraries/pod" }
+
+[lib]
+crate-type = ["cdylib", "lib"]
+
+[dev-dependencies]
+tokio = { version = "1.39.1", features = ["full"] }
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]

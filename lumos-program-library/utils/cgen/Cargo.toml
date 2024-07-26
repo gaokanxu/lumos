@@ -1,0 +1,9 @@
+[package]
+name = "cgen"
+version = "0.1.0"
+authors = ["Gao Kanxu <gaokanxu@gmail.com>"]
+publish = false
+edition = "2021"
+
+[dependencies]
+cbindgen = "=0.16.0"

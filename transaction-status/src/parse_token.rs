@@ -513,7 +513,7 @@ pub fn parse_token(
                 account_keys,
             )
         }
-        TokenInstruction::TransferFeeExtension{transfer_fee_instruction) => {
+        TokenInstruction::TransferFeeExtension ( transfer_fee_instruction ) => {
             parse_transfer_fee_instruction(
                 transfer_fee_instruction,
                 &instruction.accounts,
