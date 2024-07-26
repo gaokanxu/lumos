@@ -1,6 +1,7 @@
 use {
     crate::parse_token::UiAccountState,
     lumos_sdk::clock::UnixTimestamp,
+    lumos_sdk::program_pack::Pack,  //gaokanxu 2024.07.26
     lpl_token_2022::{
         extension::{self, BaseState, BaseStateWithExtensions, ExtensionType, StateWithExtensions},
         lumos_program::pubkey::Pubkey,
@@ -40,7 +41,9 @@ pub enum UiExtension {
     UnparseableExtension,
 }
 
-pub fn parse_extension<S: BaseState>(
+//pub fn parse_extension<S: BaseState>(
+//gaokanxu 2024.07.26为S 类型 加上 Pack trait
+pub fn parse_extension<S: BaseState + Pack>(
     extension_type: &ExtensionType,
     account: &StateWithExtensions<S>,
 ) -> UiExtension {

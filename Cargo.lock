@@ -5504,7 +5504,7 @@ dependencies = [
  "Inflector",
  "base64 0.22.1",
  "bincode",
- "borsh 0.10.3",
+ "borsh 1.5.1",
  "bs58",
  "lazy_static",
  "log",

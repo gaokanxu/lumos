@@ -8,6 +8,11 @@ use {
     lpl_associated_token_account::instruction::AssociatedTokenAccountInstruction,
 };
 
+//gaokanxu 2024.07.26
+use lumos_sdk::instruction::Instruction;
+use lumos_sdk::program_error::ProgramError;
+///-
+
 // A helper function to convert lpl_associated_token_account::id() as lpl_sdk::pubkey::Pubkey
 // to lumos_sdk::pubkey::Pubkey
 pub fn lpl_associated_token_id() -> Pubkey {
@@ -18,6 +23,12 @@ pub fn parse_associated_token(
     instruction: &CompiledInstruction,
     account_keys: &AccountKeys,
 ) -> Result<ParsedInstructionEnum, ParseInstructionError> {
+
+//gaokanxu 2024.07.27 modify upper line to below line
+//pub fn parse_associated_token(instruction: &Instruction, account_keys: &AccountKeys) -> Result<(), ProgramError> {
+
+
+
     match instruction.accounts.iter().max() {
         Some(index) if (*index as usize) < account_keys.len() => {}
         _ => {

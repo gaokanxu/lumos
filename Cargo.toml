@@ -1,3 +1,9 @@
+[profile.dev]
+incremental = true
+
+[profile.release]
+incremental = true
+
 [profile.release-with-debug]
 inherits = "release"
 debug = true
@@ -128,9 +134,9 @@ resolver = "2"
 
 [workspace.package]
 version = "2.0.0"
-authors = ["Lumos Labs Maintainers <maintainers@lumoslabs.com>"]
-repository = "https://github.com/lumos-labs/lumos"
-homepage = "https://lumoslabs.com/"
+authors = ["Gao Kanxu <gaokanxu@gmail.com>"]
+repository = "https://github.com/gaokanxu/lumos"
+homepage = "https://www.uuhb.com/"
 license = "Apache-2.0"
 edition = "2021"
 
