@@ -3,7 +3,7 @@ name = "lpl-feature-proposal"
 version = "1.0.0"
 description = "Lumos Program Library Feature Proposal Program"
 authors = ["Gao Kanxu <gaokanxu@gmail.com>"]
-repository = "https://github.com/gaokanxu/lumos-program-library"
+repository = "https://github.com/gaokanxu/lumos"
 license = "Apache-2.0"
 edition = "2021"
 
@@ -13,14 +13,10 @@ test-sbf = []
 
 [dependencies]
 borsh = "1.5.1"
-lumos-program = "2.0.0"
-lpl-token = { version = "6.0", path = "../../token/program", features = [
-  "no-entrypoint",
-] }
-
-[dev-dependencies]
-lumos-program-test = "2.0.0"
-lumos-sdk = "2.0.0"
+lumos-program = { workspace = true }
+lumos-program-test = { workspace = true }
+lumos-sdk = { workspace = true }
+lpl-token = { workspace = true }
 
 [lib]
 crate-type = ["cdylib", "lib"]

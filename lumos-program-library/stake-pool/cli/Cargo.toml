@@ -5,7 +5,7 @@ edition = "2021"
 homepage = "https://spl.lumos.com/stake-pool"
 license = "Apache-2.0"
 name = "lpl-stake-pool-cli"
-repository = "https://github.com/gaokanxu/lumos-program-library"
+repository = "https://github.com/gaokanxu/lumos"
 version = "2.0.0"
 
 [dependencies]
@@ -14,26 +14,22 @@ clap = "2.33.3"
 serde = "1.0.204"
 serde_derive = "1.0.130"
 serde_json = "1.0.120"
-lumos-account-decoder = "2.0.0"
-lumos-clap-utils = "2.0.0"
-lumos-cli-config = "2.0.0"
-lumos-cli-output = "2.0.0"
-lumos-client = "2.0.0"
-lumos-logger = "2.0.0"
-lumos-program = "2.0.0"
-lumos-remote-wallet = "2.0.0"
-lumos-sdk = "2.0.0"
-lpl-associated-token-account = { version = "=4.0.0", path = "../../associated-token-account/program", features = [
-  "no-entrypoint",
-] }
-lpl-stake-pool = { version = "=2.0.0", path = "../program", features = [
-  "no-entrypoint",
-] }
-lpl-token = { version = "=6.0", path = "../../token/program", features = [
-  "no-entrypoint",
-] }
 bs58 = "0.5.1"
 bincode = "1.3.1"
+
+
+lumos-account-decoder = { workspace = true }
+lumos-clap-utils = { workspace = true }
+lumos-cli-config = { workspace = true }
+lumos-cli-output = { workspace = true }
+lumos-client = { workspace = true }
+lumos-logger = { workspace = true }
+lumos-program = { workspace = true }
+lumos-remote-wallet = { workspace = true }
+lumos-sdk = { workspace = true }
+lpl-associated-token-account = { workspace = true }
+lpl-stake-pool = { workspace = true }
+lpl-token = { workspace = true }
 
 [[bin]]
 name = "lpl-stake-pool"

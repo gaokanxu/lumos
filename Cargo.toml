@@ -192,6 +192,7 @@ members = [
     "lumos-program-library/utils/test-client",
     "lumos-program-library/token-lending/flash_loan_receiver",
 
+
 ]
 
 
@@ -258,7 +259,6 @@ criterion-stats = "0.3.0"
 crossbeam-channel = "0.5.12"
 csv = "1.3.0"
 ctrlc = "3.4.2"
-curve25519-dalek = "3.2.1"
 dashmap = "5.5.3"
 derivation-path = { version = "0.2.0", default-features = false }
 derivative = "2.2.0"
@@ -382,100 +382,127 @@ socket2 = "0.5.6"
 soketto = "0.7"
 
 
-lumos-account-decoder = { path = "account-decoder", version = "=2.0.0" }
-lumos-accounts-db = { path = "accounts-db", version = "=2.0.0" }
-lumos-address-lookup-table-program = { path = "programs/address-lookup-table", version = "=2.0.0" }
-lumos-banks-client = { path = "banks-client", version = "=2.0.0" }
-lumos-banks-interface = { path = "banks-interface", version = "=2.0.0" }
-lumos-banks-server = { path = "banks-server", version = "=2.0.0" }
-lumos-bench-tps = { path = "bench-tps", version = "=2.0.0" }
-lumos-bloom = { path = "bloom", version = "=2.0.0" }
-lumos-bpf-loader-program = { path = "programs/bpf_loader", version = "=2.0.0" }
-lumos-bucket-map = { path = "bucket_map", version = "=2.0.0" }
-lumos-cargo-registry = { path = "cargo-registry", version = "=2.0.0" }
-lumos-clap-utils = { path = "clap-utils", version = "=2.0.0" }
-lumos-clap-v3-utils = { path = "clap-v3-utils", version = "=2.0.0" }
-lumos-cli = { path = "cli", version = "=2.0.0" }
-lumos-cli-config = { path = "cli-config", version = "=2.0.0" }
-lumos-cli-output = { path = "cli-output", version = "=2.0.0" }
-lumos-client = { path = "client", version = "=2.0.0" }
-lumos-compute-budget-program = { path = "programs/compute-budget", version = "=2.0.0" }
-lumos-config-program = { path = "programs/config", version = "=2.0.0" }
-lumos-connection-cache = { path = "connection-cache", version = "=2.0.0", default-features = false }
-lumos-core = { path = "core", version = "=2.0.0" }
-lumos-cost-model = { path = "cost-model", version = "=2.0.0" }
-lumos-download-utils = { path = "download-utils", version = "=2.0.0" }
-lumos-entry = { path = "entry", version = "=2.0.0" }
-lumos-faucet = { path = "faucet", version = "=2.0.0" }
-lumos-frozen-abi = { path = "frozen-abi", version = "=2.0.0" }
-lumos-frozen-abi-macro = { path = "frozen-abi/macro", version = "=2.0.0" }
-lumos-genesis = { path = "genesis", version = "=2.0.0" }
-lumos-genesis-utils = { path = "genesis-utils", version = "=2.0.0" }
-lumos-geyser-plugin-interface = { path = "geyser-plugin-interface", version = "=2.0.0" }
-lumos-geyser-plugin-manager = { path = "geyser-plugin-manager", version = "=2.0.0" }
-lumos-gossip = { path = "gossip", version = "=2.0.0" }
-lumos-ledger = { path = "ledger", version = "=2.0.0" }
-lumos-loader-v4-program = { path = "programs/loader-v4", version = "=2.0.0" }
-lumos-local-cluster = { path = "local-cluster", version = "=2.0.0" }
-lumos-logger = { path = "logger", version = "=2.0.0" }
-lumos-measure = { path = "measure", version = "=2.0.0" }
-lumos-merkle-tree = { path = "merkle-tree", version = "=2.0.0" }
-lumos-metrics = { path = "metrics", version = "=2.0.0" }
-lumos-net-utils = { path = "net-utils", version = "=2.0.0" }
-lumos-notifier = { path = "notifier", version = "=2.0.0" }
-lumos-perf = { path = "perf", version = "=2.0.0" }
-lumos-poh = { path = "poh", version = "=2.0.0" }
-lumos-program = { path = "sdk/program", version = "=2.0.0" }
-lumos-program-runtime = { path = "program-runtime", version = "=2.0.0" }
-lumos-program-test = { path = "program-test", version = "=2.0.0" }
-lumos-pubsub-client = { path = "pubsub-client", version = "=2.0.0" }
-lumos-quic-client = { path = "quic-client", version = "=2.0.0" }
-lumos-rayon-threadlimit = { path = "rayon-threadlimit", version = "=2.0.0" }
-lumos-remote-wallet = { path = "remote-wallet", version = "=2.0.0", default-features = false }
-lumos-unified-scheduler-logic = { path = "unified-scheduler-logic", version = "=2.0.0" }
-lumos-unified-scheduler-pool = { path = "unified-scheduler-pool", version = "=2.0.0" }
-lumos-rpc = { path = "rpc", version = "=2.0.0" }
-lumos-rpc-client = { path = "rpc-client", version = "=2.0.0", default-features = false }
-lumos-rpc-client-api = { path = "rpc-client-api", version = "=2.0.0" }
-lumos-rpc-client-nonce-utils = { path = "rpc-client-nonce-utils", version = "=2.0.0" }
-lumos-runtime = { path = "runtime", version = "=2.0.0" }
-lumos-runtime-transaction = { path = "runtime-transaction", version = "=2.0.0" }
-lumos-sdk = { path = "sdk", version = "=2.0.0" }
-lumos-sdk-macro = { path = "sdk/macro", version = "=2.0.0" }
-lumos-send-transaction-service = { path = "send-transaction-service", version = "=2.0.0" }
-lumos-stake-program = { path = "programs/stake", version = "=2.0.0" }
-lumos-storage-bigtable = { path = "storage-bigtable", version = "=2.0.0" }
-lumos-storage-proto = { path = "storage-proto", version = "=2.0.0" }
-lumos-streamer = { path = "streamer", version = "=2.0.0" }
-lumos-lvm = { path = "lvm", version = "=2.0.0" }
-lumos-system-program = { path = "programs/system", version = "=2.0.0" }
-lumos-test-validator = { path = "test-validator", version = "=2.0.0" }
-lumos-thin-client = { path = "thin-client", version = "=2.0.0" }
-lumos-tpu-client = { path = "tpu-client", version = "=2.0.0", default-features = false }
-lumos-transaction-status = { path = "transaction-status", version = "=2.0.0" }
-lumos-turbine = { path = "turbine", version = "=2.0.0" }
-lumos-udp-client = { path = "udp-client", version = "=2.0.0" }
-lumos-version = { path = "version", version = "=2.0.0" }
-lumos-vote = { path = "vote", version = "=2.0.0" }
-lumos-vote-program = { path = "programs/vote", version = "=2.0.0" }
-lumos-wen-restart = { path = "wen-restart", version = "=2.0.0" }
-lumos-zk-keygen = { path = "zk-keygen", version = "=2.0.0" }
-lumos-zk-token-proof-program = { path = "programs/zk-token-proof", version = "=2.0.0" }
-lumos-zk-token-sdk = { path = "zk-token-sdk", version = "=2.0.0" }
-
 lumos-security-txt = "1.1.1"
 lumos-rbpf = "=0.8.2"
 lumos-nohash-hasher = "0.2.1"
+lumos-curve25519-dalek = "3.2.1"
 
-lpl-token = { path = "lumos-program-library/token/program" }
+lumos-account-decoder = { path = "account-decoder" }
+lumos-accounts-db = { path = "accounts-db" }
+lumos-address-lookup-table-program = { path = "programs/address-lookup-table" }
+lumos-banks-client = { path = "banks-client" }
+lumos-banks-interface = { path = "banks-interface" }
+lumos-banks-server = { path = "banks-server" }
+lumos-bench-tps = { path = "bench-tps" }
+lumos-bloom = { path = "bloom" }
+lumos-bpf-loader-program = { path = "programs/bpf_loader" }
+lumos-bucket-map = { path = "bucket_map" }
+lumos-cargo-registry = { path = "cargo-registry" }
+lumos-clap-utils = { path = "clap-utils" }
+lumos-clap-v3-utils = { path = "clap-v3-utils" }
+lumos-cli = { path = "cli" }
+lumos-cli-config = { path = "cli-config" }
+lumos-cli-output = { path = "cli-output"}
+lumos-client = { path = "client" }
+lumos-compute-budget-program = { path = "programs/compute-budget" }
+lumos-config-program = { path = "programs/config" }
+lumos-connection-cache = { path = "connection-cache" }
+lumos-core = { path = "core" }
+lumos-cost-model = { path = "cost-model" }
+lumos-download-utils = { path = "download-utils" }
+lumos-entry = { path = "entry" }
+lumos-faucet = { path = "faucet" }
+lumos-frozen-abi = { path = "frozen-abi" }
+lumos-frozen-abi-macro = { path = "frozen-abi/macro" }
+lumos-genesis = { path = "genesis" }
+lumos-genesis-utils = { path = "genesis-utils" }
+lumos-geyser-plugin-interface = { path = "geyser-plugin-interface" }
+lumos-geyser-plugin-manager = { path = "geyser-plugin-manager" }
+lumos-gossip = { path = "gossip" }
+lumos-ledger = { path = "ledger" }
+lumos-loader-v4-program = { path = "programs/loader-v4" }
+lumos-local-cluster = { path = "local-cluster" }
+lumos-logger = { path = "logger" }
+lumos-measure = { path = "measure" }
+lumos-merkle-tree = { path = "merkle-tree" }
+lumos-metrics = { path = "metrics" }
+lumos-net-utils = { path = "net-utils" }
+lumos-notifier = { path = "notifier" }
+lumos-perf = { path = "perf" }
+lumos-poh = { path = "poh" }
+lumos-program = { path = "sdk/program" }
+lumos-program-runtime = { path = "program-runtime" }
+lumos-program-test = { path = "program-test" }
+lumos-pubsub-client = { path = "pubsub-client" }
+lumos-quic-client = { path = "quic-client" }
+lumos-rayon-threadlimit = { path = "rayon-threadlimit" }
+lumos-remote-wallet = { path = "remote-wallet" }
+lumos-unified-scheduler-logic = { path = "unified-scheduler-logic" }
+lumos-unified-scheduler-pool = { path = "unified-scheduler-pool" }
+lumos-rpc = { path = "rpc" }
+lumos-rpc-client = { path = "rpc-client" }
+lumos-rpc-client-api = { path = "rpc-client-api" }
+lumos-rpc-client-nonce-utils = { path = "rpc-client-nonce-utils" }
+lumos-runtime = { path = "runtime" }
+lumos-runtime-transaction = { path = "runtime-transaction" }
+lumos-sdk = { path = "sdk" }
+lumos-sdk-macro = { path = "sdk/macro" }
+lumos-send-transaction-service = { path = "send-transaction-service" }
+lumos-stake-program = { path = "programs/stake" }
+lumos-storage-bigtable = { path = "storage-bigtable" }
+lumos-storage-proto = { path = "storage-proto" }
+lumos-streamer = { path = "streamer" }
+lumos-lvm = { path = "lvm" }
+lumos-system-program = { path = "programs/system" }
+lumos-test-validator = { path = "test-validator" }
+lumos-thin-client = { path = "thin-client" }
+lumos-tpu-client = { path = "tpu-client" }
+lumos-transaction-status = { path = "transaction-status" }
+lumos-turbine = { path = "turbine" }
+lumos-udp-client = { path = "udp-client" }
+lumos-version = { path = "version" }
+lumos-vote = { path = "vote" }
+lumos-vote-program = { path = "programs/vote" }
+lumos-wen-restart = { path = "wen-restart" }
+lumos-zk-keygen = { path = "zk-keygen" }
+lumos-zk-token-proof-program = { path = "programs/zk-token-proof" }
+lumos-zk-token-sdk = { path = "zk-token-sdk" }
+#lumos-zk-sdk = 
+
+
+
+
 lpl-associated-token-account = { path = "lumos-program-library/associated-token-account/program" }
-lpl-instruction-padding = { path = "lumos-program-library/instruction-padding" }
-lpl-memo = { path = "lumos-program-library/memo" }
+lpl-instruction-padding = { path = "lumos-program-library/instruction-padding/program" }
+lpl-memo = { path = "lumos-program-library/memo/program" }
 lpl-pod = { path = "lumos-program-library/libraries/pod" }
+lpl-single-pool = { path = "lumos-program-library/single-pool/program" }
+lpl-token = { path = "lumos-program-library/token/program" }
 lpl-token-2022 = { path = "lumos-program-library/token/program-2022" }
+lpl-token-cli = { path = "lumos-program-library/token/cli" }
+lpl-token-client = { path = "lumos-program-library/token/client" }
 lpl-token-group-interface = { path = "lumos-program-library/token-group/interface" }
 lpl-token-metadata-interface = { path = "lumos-program-library/token-metadata/interface" }
-
+lpl-transfer-hook-interface = { path = "lumos-program-library/token/transfer-hook/interface" }
+lpl-type-length-value = { path = "lumos-program-library/libraries/type-length-value" }
+lpl-tlv-account-resolution = { path = "lumos-program-library/libraries/tlv-account-resolution" }
+lpl-discriminator = { path = "lumos-program-library/libraries/discriminator" }
+lpl-program-error = { path = "lumos-program-library/libraries/program-error" }
+lpl-program-error-derive = { path = "lumos-program-library/libraries/program-error/derive" }
+lpl-example-sysvar = { path = "lumos-program-library/examples/rust/sysvar" }
+lpl-example-transfer-tokens = { path = "lumos-program-library/examples/rust/transfer-tokens" }
+lpl-feature-proposal = { path = "lumos-program-library/feature-proposal/program" }
+lpl-feature-proposal-cli = { path = "lumos-program-library/feature-proposal/cli" }
+lpl-governance = { path = "lumos-program-library/governance/program" }
+lpl-governance-addin-api = { path = "lumos-program-library/governance/addin-api" }
+lpl-governance-test-sdk = { path = "lumos-program-library/governance/test-sdk" }
+lpl-governance-tools = { path = "lumos-program-library/governance/tools" }
+lpl-governance-addin-mock = { path = "lumos-program-library/governance/addin-mock/program" }
+lpl-stake-pool = { path = "lumos-program-library/stake-pool/program" }
+lpl-token-lending = { path = "lumos-program-library/token-lending/program" }
+lpl-token-upgrade = { path = "lumos-program-library/token-upgrade/program" }
+lpl-transfer-hook-example = { path = "lumos-program-library/token/transfer-hook/example" }
+lpl-token-confidential-transfer-proof-generation = { path = "lumos-program-library/token/confidential-transfer/proof-generation" }
 
 
 static_assertions = "1.1.0"
@@ -515,6 +542,9 @@ x509-parser = "0.14.0"
 zeroize = { version = "1.3", default-features = false }
 zstd = "0.11.2"
 
+#[features]
+#display = ["lumos-cli-output"]
+
 [patch.crates-io]
 crossbeam-epoch = { git = "https://github.com/gaokanxu/lumos-crossbeam", branch = "main" }
 lumos-program = { path = "sdk/program" }
@@ -524,7 +554,7 @@ lumos-zk-token-sdk = { path = "zk-token-sdk" }
 git = "https://github.com/RustCrypto/AEADs"
 rev = "6105d7a5591aefa646a95d12b5e8d3f55a9214ef"
 
-[patch.crates-io.curve25519-dalek]
+[patch.crates-io.lumos-curve25519-dalek]
 git = "https://github.com/gaokanxu/lumos-curve25519-dalek.git"
 branch = "main"
 

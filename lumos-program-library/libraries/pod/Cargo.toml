@@ -3,7 +3,7 @@ name = "lpl-pod"
 version = "0.3.0"
 description = "Lumos Program Library Plain Old Data (Pod)"
 authors = ["Gao Kanxu <gaokanxu@gmail.com>"]
-repository = "https://github.com/gaokanxu/lumos-program-library"
+repository = "https://github.com/gaokanxu/lumos"
 license = "Apache-2.0"
 edition = "2021"
 
@@ -17,7 +17,7 @@ borsh = { version = "1.5.1", optional = true }
 bytemuck = { version = "1.16.1" }
 bytemuck_derive = { version = "1.7.0" }
 serde = { version = "1.0.204", optional = true }
-lumos-program = "2.0.0"
+lumos-program = { workspace = true }
 lumos-zk-token-sdk = "2.0.0"
 lpl-program-error = { version = "0.5.0", path = "../program-error" }
 

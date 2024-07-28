@@ -3,7 +3,7 @@ name = "lpl-managed-token"
 version = "0.1.0"
 description = "Lumos Program Library Token Swap"
 authors = ["Gao Kanxu <gaokanxu@gmail.com>"]
-repository = "https://github.com/gaokanxu/lumos-program-library"
+repository = "https://github.com/gaokanxu/lumos"
 license = "Apache-2.0"
 edition = "2021"
 
@@ -24,15 +24,13 @@ test = []
 [dependencies]
 borsh = "1.5.1"
 shank = "^0.4.2"
-lumos-program = "2.0.0"
-lpl-associated-token-account = { version = "4.0.0", path = "../../associated-token-account/program", features = [
-  "no-entrypoint",
-] }
-lpl-token = { version = "6.0", path = "../../token/program", features = [
-  "no-entrypoint",
-] }
 thiserror = "^1.0.63"
 
+lumos-program = { workspace = true }
+lumos-sdk = { workspace = true }
+lpl-associated-token-account = { workspace = true }
+lpl-token = { workspace = true }
+
 [dev-dependencies]
-lumos-program-test = "2.0.0"
-lumos-sdk = "2.0.0"
+lumos-program-test = { workspace = true }
+

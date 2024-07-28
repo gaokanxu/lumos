@@ -3,7 +3,7 @@ name = "lpl-governance-tools"
 version = "0.1.4"
 description = "Lumos Program Library Governance Tools"
 authors = ["Gao Kanxu <gaokanxu@gmail.com>"]
-repository = "https://github.com/gaokanxu/lumos-program-library"
+repository = "https://github.com/gaokanxu/lumos"
 license = "Apache-2.0"
 edition = "2021"
 
@@ -15,7 +15,7 @@ num-derive = "0.4"
 num-traits = "0.2"
 serde = "1.0.204"
 serde_derive = "1.0.103"
-lumos-program = "2.0.0"
+lumos-program = { workspace = true }
 lpl-token = { version = "6.0", path = "../../token/program", features = [
   "no-entrypoint",
 ] }

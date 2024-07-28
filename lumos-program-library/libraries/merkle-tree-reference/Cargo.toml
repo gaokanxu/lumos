@@ -3,7 +3,7 @@ name = "lpl-merkle-tree-reference"
 version = "0.1.0"
 description = "Reference implementation of a merkle tree"
 authors = ["Gao Kanxu <gaokanxu@gmail.com>"]
-repository = "https://github.com/gaokanxu/lumos-program-library"
+repository = "https://github.com/gaokanxu/lumos"
 license = "Apache-2.0"
 edition = "2021"
 

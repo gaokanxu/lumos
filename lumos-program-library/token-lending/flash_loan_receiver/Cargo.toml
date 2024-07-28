@@ -5,7 +5,7 @@ edition = "2021"
 
 [dependencies]
 arrayref = "0.3.8"
-lumos-program = "2.0.0"
+lumos-program = { workspace = true }
 lpl-token = { version = "6.0", path = "../../token/program", features=["no-entrypoint"] }
 
 [lib]

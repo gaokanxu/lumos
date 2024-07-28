@@ -3,7 +3,7 @@ name = "lpl-discriminator-syn"
 version = "0.2.0"
 description = "Token parsing and generating library for the `lpl-discriminator` library"
 authors = ["Gao Kanxu <gaokanxu@gmail.com>"]
-repository = "https://github.com/gaokanxu/lumos-program-library"
+repository = "https://github.com/gaokanxu/lumos"
 license = "Apache-2.0"
 edition = "2021"
 

@@ -9,7 +9,7 @@ no-entrypoint = []
 test-sbf = []
 
 [dependencies]
-lumos-program = "2.0.0"
+lumos-program = { workspace = true }
 thiserror = "1.0"
 lpl-token = { version = "6.0", path = "../../token/program", features = [
   "no-entrypoint",

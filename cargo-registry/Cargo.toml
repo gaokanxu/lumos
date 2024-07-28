@@ -21,7 +21,7 @@ sha2 = { workspace = true }
 lumos-clap-utils = { workspace = true }
 lumos-cli = { workspace = true }
 lumos-cli-config = { workspace = true }
-lumos-cli-output = { workspace = true }
+lumos-cli-output = { workspace = true, optional = true }
 lumos-logger = { workspace = true }
 lumos-remote-wallet = { workspace = true, features = ["default"] }
 lumos-rpc-client = { workspace = true, features = ["default"] }
@@ -42,4 +42,7 @@ targets = ["x86_64-unknown-linux-gnu"]
 rustc_version = { workspace = true }
 
 [features]
+default = ["display"]
 dev-context-only-utils = []
+display = ["lumos-cli-output"]
+

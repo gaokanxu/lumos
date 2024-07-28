@@ -3,7 +3,7 @@ name = "lpl-governance-chat"
 version = "0.2.9"
 description = "Lumos Program Library Governance Chat Program"
 authors = ["Gao Kanxu <gaokanxu@gmail.com>"]
-repository = "https://github.com/gaokanxu/lumos-program-library"
+repository = "https://github.com/gaokanxu/lumos"
 license = "Apache-2.0"
 edition = "2021"
 
@@ -19,25 +19,23 @@ num-derive = "0.4"
 num-traits = "0.2"
 serde = "1.0.204"
 serde_derive = "1.0.103"
-lumos-program = "2.0.0"
-lpl-token = { version = "6.0", path = "../../../token/program", features = [
-  "no-entrypoint",
-] }
-lpl-governance = { version = "4.0.0", path = "../../program", features = [
-  "no-entrypoint",
-] }
-lpl-governance-tools = { version = "0.1.4", path = "../../tools" }
-lpl-governance-addin-api = { version = "0.1.4", path = "../../addin-api" }
 thiserror = "1.0"
+
+lumos-program = { workspace = true }
+lumos-program-test = { workspace = true }
+lumos-sdk = { workspace = true }
+lpl-token = { workspace = true }
+lpl-governance = { workspace = true }
+lpl-governance-tools = { workspace = true }
+lpl-governance-addin-api = { workspace = true }
+lpl-governance-test-sdk = { workspace = true }
+lpl-governance-addin-mock = { workspace = true }
 
 
 [dev-dependencies]
 assert_matches = "1.5.0"
 proptest = "1.5"
-lumos-program-test = "2.0.0"
-lumos-sdk = "2.0.0"
-lpl-governance-test-sdk = { version = "0.1.4", path = "../../test-sdk" }
-lpl-governance-addin-mock = { version = "0.1.4", path = "../../addin-mock/program" }
+
 
 
 [lib]

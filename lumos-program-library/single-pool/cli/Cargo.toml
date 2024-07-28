@@ -3,7 +3,7 @@ name = "lpl-single-pool-cli"
 version = "1.0.0"
 description = "Lumos Program Library Single-Validator Stake Pool Command-line Utility"
 authors = ["Gao Kanxu <gaokanxu@gmail.com>"]
-repository = "https://github.com/gaokanxu/lumos-program-library"
+repository = "https://github.com/gaokanxu/lumos"
 license = "Apache-2.0"
 edition = "2021"
 
@@ -17,29 +17,24 @@ serde = "1.0.204"
 serde_derive = "1.0.103"
 serde_json = "1.0.120"
 serde_with = "3.9.0"
-lumos-account-decoder = "2.0.0"
-lumos-clap-v3-utils = "2.0.0"
-lumos-cli-config = "2.0.0"
-lumos-cli-output = "2.0.0"
-lumos-client = "2.0.0"
-lumos-logger = "2.0.0"
-lumos-remote-wallet = "2.0.0"
-lumos-sdk = "2.0.0"
-lumos-transaction-status = "2.0.0"
-lumos-vote-program = "2.0.0"
-lpl-token = { version = "6.0", path = "../../token/program", features = [
-  "no-entrypoint",
-] }
-lpl-token-client = { version = "0.11.0", path = "../../token/client" }
-lpl-associated-token-account = { version = "4.0.0", path = "../../associated-token-account/program", features = [
-  "no-entrypoint",
-] }
-lpl-single-pool = { version = "1.0.0", path = "../program", features = [
-  "no-entrypoint",
-] }
+
+lumos-account-decoder = { workspace = true }
+lumos-clap-v3-utils = { workspace = true }
+lumos-cli-config = { workspace = true }
+lumos-cli-output = { workspace = true, optional = true }
+lumos-client = { workspace = true }
+lumos-logger = { workspace = true }
+lumos-remote-wallet = { workspace = true }
+lumos-sdk = { workspace = true }
+lumos-transaction-status = { workspace = true }
+lumos-vote-program = { workspace = true }
+lpl-token = { workspace = true }
+lpl-token-client = { workspace = true }
+lpl-associated-token-account = { workspace = true }
+lpl-single-pool = { workspace = true }
 
 [dev-dependencies]
-lumos-test-validator = "2.0.0"
+lumos-test-validator = { workspace = true }
 serial_test = "3.1.1"
 test-case = "3.3"
 tempfile = "3.10.1"
@@ -47,3 +42,8 @@ tempfile = "3.10.1"
 [[bin]]
 name = "lpl-single-pool"
 path = "src/main.rs"
+
+[features]
+default = ["display"]
+display = ["lumos-cli-output"]
+

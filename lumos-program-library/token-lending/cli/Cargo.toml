@@ -5,19 +5,19 @@ edition = "2021"
 homepage = "https://spl.lumos.com/token-lending"
 license = "Apache-2.0"
 name = "lpl-token-lending-cli"
-repository = "https://github.com/gaokanxu/lumos-program-library"
+repository = "https://github.com/gaokanxu/lumos"
 version = "0.2.0"
 
 [dependencies]
 clap = "2.33.3"
-lumos-clap-utils = "2.0.0"
-lumos-cli-config = "2.0.0"
-lumos-client = "2.0.0"
-lumos-logger = "2.0.0"
-lumos-sdk = "2.0.0"
-lumos-program = "2.0.0"
-lpl-token-lending = { version = "0.2", path="../program", features = [ "no-entrypoint" ] }
-lpl-token = { version = "6.0", path="../../token/program", features = [ "no-entrypoint" ]  }
+lumos-clap-utils = { workspace = true }
+lumos-cli-config = { workspace = true }
+lumos-client = { workspace = true }
+lumos-logger = { workspace = true }
+lumos-sdk = { workspace = true }
+lumos-program = { workspace = true }
+lpl-token-lending = { workspace = true, features = [ "no-entrypoint" ] }
+lpl-token = { workspace = true, features = [ "no-entrypoint" ]  }
 
 [[bin]]
 name = "lpl-token-lending"

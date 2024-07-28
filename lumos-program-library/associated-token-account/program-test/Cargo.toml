@@ -4,16 +4,16 @@ description = "SPL Associated Token Account Program Tests"
 edition = "2021"
 license = "Apache-2.0"
 name = "lpl-associated-token-account-test"
-repository = "https://github.com/gaokanxu/lumos-program-library"
+repository = "https://github.com/gaokanxu/lumos"
 version = "0.0.1"
 
 [features]
 test-sbf = []
 
-[dev-dependencies]
-lumos-program = "2.0.0"
-lumos-program-test = "2.0.0"
-lumos-sdk = "2.0.0"
-lpl-associated-token-account = { version = "4.0.0", path = "../program", features = ["no-entrypoint"] }
-lpl-token = { version = "6.0", path = "../../token/program", features = ["no-entrypoint"] }
-lpl-token-2022 = { version = "4.0.0", path = "../../token/program-2022", features = ["no-entrypoint"] }
+[dependencies]
+lumos-program = { workspace = true }
+lumos-program-test = { workspace = true }
+lumos-sdk = { workspace = true }
+lpl-associated-token-account = { workspace = true }
+lpl-token = { workspace = true }
+lpl-token-2022 = { workspace = true }

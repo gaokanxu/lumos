@@ -1,3 +1,16 @@
+[package]
+name = "lumos-sbf-programs"
+description = "Blockchain, Rebuilt for Scale"
+documentation = "https://docs.rs/lumos"
+readme = "README.md"
+publish = false
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
 [workspace.package]
 version = "2.0.0"
 description = "Lumos SBF test program written in Rust"
@@ -25,46 +38,37 @@ rand = "0.8"
 rustversion = "1.0.14"
 serde = "1.0.112"
 serde_json = "1.0.56"
-lumos-account-decoder = { path = "../../account-decoder", version = "=2.0.0" }
-lumos-accounts-db = { path = "../../accounts-db", version = "=2.0.0" }
-lumos-bpf-loader-program = { path = "../bpf_loader", version = "=2.0.0" }
-lumos-cli-output = { path = "../../cli-output", version = "=2.0.0" }
-lumos-ledger = { path = "../../ledger", version = "=2.0.0" }
-lumos-logger = { path = "../../logger", version = "=2.0.0" }
-lumos-measure = { path = "../../measure", version = "=2.0.0" }
-lumos-program = { path = "../../sdk/program", version = "=2.0.0" }
-lumos-program-runtime = { path = "../../program-runtime", version = "=2.0.0" }
-lumos-program-test = { path = "../../program-test", version = "=2.0.0" }
-lumos-runtime = { path = "../../runtime", version = "=2.0.0" }
-lumos-sbf-rust-128bit-dep = { path = "rust/128bit_dep", version = "=2.0.0" }
-lumos-sbf-rust-invoke = { path = "rust/invoke", version = "=2.0.0" }
-lumos-sbf-rust-invoked = { path = "rust/invoked", version = "=2.0.0", default-features = false }
-lumos-sbf-rust-many-args-dep = { path = "rust/many_args_dep", version = "=2.0.0" }
-lumos-sbf-rust-mem = { path = "rust/mem", version = "=2.0.0" }
-lumos-sbf-rust-param-passing-dep = { path = "rust/param_passing_dep", version = "=2.0.0" }
-lumos-sbf-rust-realloc = { path = "rust/realloc", version = "=2.0.0", default-features = false }
-lumos-sbf-rust-realloc-invoke = { path = "rust/realloc_invoke", version = "=2.0.0" }
-lumos-sdk = { path = "../../sdk", version = "=2.0.0" }
-lumos-lvm = { path = "../../svm", version = "=2.0.0" }
-lumos-transaction-status = { path = "../../transaction-status", version = "=2.0.0" }
-lumos-validator = { path = "../../validator", version = "=2.0.0" }
-lumos-zk-token-sdk = { path = "../../zk-token-sdk", version = "=2.0.0" }
-lumos-rbpf = "=0.8.0"
+
 static_assertions = "1.1.0"
 thiserror = "1.0"
 
-[package]
-name = "lumos-sbf-programs"
-description = "Blockchain, Rebuilt for Scale"
-documentation = "https://docs.rs/lumos"
-readme = "README.md"
-publish = false
-version = { workspace = true }
-authors = { workspace = true }
-repository = { workspace = true }
-homepage = { workspace = true }
-license = { workspace = true }
-edition = { workspace = true }
+
+lumos-account-decoder = { workspace = true }
+lumos-accounts-db =  { workspace = true }
+lumos-bpf-loader-program = { workspace = true }
+lumos-cli-output = { workspace =  true,  optional = true }
+lumos-ledger = { workspace = true }
+lumos-logger = { workspace = true }
+lumos-measure = { workspace = true }
+lumos-program = { workspace = true }
+lumos-program-runtime = { workspace = true }
+lumos-program-test = { workspace = true }
+lumos-runtime = { workspace = true }
+lumos-sbf-rust-128bit-dep = { workspace = true }
+lumos-sbf-rust-invoke = { workspace = true }
+lumos-sbf-rust-invoked = { workspace = true, default-features = false }
+lumos-sbf-rust-many-args-dep = { workspace = true }
+lumos-sbf-rust-mem = { workspace = true }
+lumos-sbf-rust-param-passing-dep = { workspace = true }
+lumos-sbf-rust-realloc = { workspace = true, default-features = false }
+lumos-sbf-rust-realloc-invoke = { workspace = true }
+lumos-sdk = { workspace = true }
+lumos-lvm = { workspace = true }
+lumos-transaction-status = { workspace = true }
+lumos-validator = { workspace = true }
+lumos-zk-token-sdk = { workspace = true }
+lumos-rbpf = { workspace = true }
+
 
 [features]
 sbf_c = []
@@ -100,6 +104,8 @@ lumos-sdk = { workspace = true }
 lumos-lvm = { workspace = true }
 lumos-transaction-status = { workspace = true }
 lumos-rbpf = { workspace = true }
+lumos-program = { workspace = true }
+lumos-zk-token-sdk = { workspace = true }
 
 [dev-dependencies]
 lumos-ledger = { workspace = true }
@@ -168,46 +174,9 @@ members = [
 [package.metadata.docs.rs]
 targets = ["x86_64-unknown-linux-gnu"]
 
-[patch.crates-io]
-# We include the following crates as our dependencies from crates.io:
-#
-#  * lpl-associated-token-account
-#  * lpl-instruction-padding
-#  * lpl-memo
-#  * lpl-pod
-#  * lpl-token
-#  * lpl-token-2022
-#  * lpl-token-metadata-interface
-#
-# They are included indirectly, for example, `account-decoder` depends on
-#
-#     lumos-sdk = { workspace = true }
-#
-# and that is specified as
-#
-#     lpl-token = "=3.5.0"
-#
-# in `../../Cargo.toml`.
-#
-# `lpl-token`, in turn, depends on `lumos-program`, which we explicitly specify
-# above as a local path dependency:
-#
-#     lumos-program = { path = "../../sdk/program", version = "=1.16.0" }
-#
-# Unfortunately, Cargo will try to resolve the `lpl-token` `lumos-program`
-# dependency only using what is available on crates.io.  Crates.io normally
-# contains a previous version of these crates, and we end up with two versions
-# of `lumos-program` and `lumos-zk-token-sdk` and all of their dependencies in
-# our build tree.
-#
-# If you are developing downstream using non-crates-io lumos-program (local or
-# forked repo, or from github rev, eg), duplicate the following patch statements
-# in your Cargo.toml. If you still hit duplicate-type errors with the patch
-# statements in place, run `cargo update -p lumos-program` and/or `cargo update
-# -p lumos-zk-token-sdk` to remove extraneous versions from your Cargo.lock
-# file.
-#
-# There is a similar override in `../../Cargo.toml`.  Please keep both comments
-# and the overrides in sync.
-lumos-program = { path = "../../sdk/program" }
-lumos-zk-token-sdk = { path = "../../zk-token-sdk" }
+
+
+
+[features]
+default = ["display"]
+display = ["lumos-cli-output"]

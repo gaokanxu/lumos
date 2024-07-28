@@ -4,7 +4,7 @@ description = "SPL-Token Rust Client"
 edition = "2021"
 license = "Apache-2.0"
 name = "lpl-token-client"
-repository = "https://github.com/gaokanxu/lumos-program-library"
+repository = "https://github.com/gaokanxu/lumos"
 version = "0.11.0"
 
 [dependencies]
@@ -12,29 +12,26 @@ async-trait = "0.1"
 curve25519-dalek = "3.2.1"
 futures = "0.3.30"
 futures-util = "0.3"
-lumos-banks-interface = "2.0.0"
-lumos-cli-output = { version = "2.0.0", optional = true }
-lumos-program-test = "2.0.0"
-lumos-rpc-client = "2.0.0"
-lumos-rpc-client-api = "2.0.0"
-lumos-sdk = "2.0.0"
+thiserror = "1.0"
+
+lumos-banks-interface = { workspace =  true }
+lumos-cli-output = { workspace =  true,  optional = true }
+lumos-program-test = { workspace = true }
+lumos-rpc-client = { workspace =  true }
+lumos-rpc-client-api = { workspace =  true }
+lumos-sdk = { workspace = true }
 # We never want the entrypoint for ATA, but we want the entrypoint for token when
 # testing token
-lpl-associated-token-account = { version = "4.0.0", path = "../../associated-token-account/program", features = [
-  "no-entrypoint",
-] }
-lpl-memo = { version = "5.0", path = "../../memo/program", features = [
-  "no-entrypoint",
-] }
-lpl-token = { version = "6.0", path = "../program", features = [
-  "no-entrypoint",
-] }
-lpl-token-2022 = { version = "4.0.0", path = "../program-2022" }
-lpl-token-group-interface = { version = "0.3.0", path = "../../token-group/interface" }
-lpl-token-metadata-interface = { version = "0.4.0", path = "../../token-metadata/interface" }
-lpl-transfer-hook-interface = { version = "0.7.0", path = "../transfer-hook/interface" }
-thiserror = "1.0"
+lpl-associated-token-account = { workspace =  true }
+lpl-memo = { workspace =  true }
+lpl-token = { workspace =  true }
+lpl-token-2022 = { workspace =  true }
+lpl-token-group-interface = { workspace =  true }
+lpl-token-metadata-interface = { workspace =  true }
+lpl-transfer-hook-interface = { workspace =  true }
+
 
 [features]
 default = ["display"]
-display = ["dep:lumos-cli-output"]
+display = ["lumos-cli-output"]
+

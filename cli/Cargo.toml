@@ -32,7 +32,7 @@ lumos-account-decoder = { workspace = true }
 lumos-bpf-loader-program = { workspace = true }
 lumos-clap-utils = { workspace = true }
 lumos-cli-config = { workspace = true }
-lumos-cli-output = { workspace = true }
+lumos-cli-output = { workspace =  true,  optional = true }
 lumos-client = { workspace = true }
 lumos-config-program = { workspace = true }
 lumos-faucet = { workspace = true }

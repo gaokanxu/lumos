@@ -3,7 +3,7 @@ name = "lpl-stake-pool"
 version = "2.0.0"
 description = "Lumos Program Library Stake Pool"
 authors = ["Gao Kanxu <gaokanxu@gmail.com>"]
-repository = "https://github.com/gaokanxu/lumos-program-library"
+repository = "https://github.com/gaokanxu/lumos"
 license = "Apache-2.0"
 edition = "2021"
 
@@ -20,29 +20,24 @@ num-traits = "0.2"
 num_enum = "0.7.2"
 serde = "1.0.204"
 serde_derive = "1.0.103"
-lumos-program = "2.0.0"
-lumos-security-txt = "1.1.1"
-lpl-math = { version = "0.2", path = "../../libraries/math", features = [
-  "no-entrypoint",
-] }
-lpl-pod = { version = "0.3.0", path = "../../libraries/pod", features = [
-  "borsh",
-] }
-lpl-token-2022 = { version = "4.0.0", path = "../../token/program-2022", features = [
-  "no-entrypoint",
-] }
+
+lumos-security-txt = { workspace = true }
+lumos-program = { workspace = true }
+#lpl-math = { workspace = true }
+lpl-pod = { workspace = true }
+lpl-token-2022 = { workspace = true }
+lumos-program-test = { workspace = true }
+lumos-sdk = { workspace = true }
+lumos-vote-program = { workspace = true }
+lpl-token = { workspace = true }
+
+
 thiserror = "1.0"
 bincode = "1.3.1"
 
 [dev-dependencies]
 assert_matches = "1.5.0"
 proptest = "1.5"
-lumos-program-test = "2.0.0"
-lumos-sdk = "2.0.0"
-lumos-vote-program = "2.0.0"
-lpl-token = { version = "6.0", path = "../../token/program", features = [
-  "no-entrypoint",
-] }
 test-case = "3.3"
 
 [lib]

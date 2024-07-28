@@ -4,7 +4,7 @@ description = "SPL-Token 2022 Integration Tests"
 edition = "2021"
 license = "Apache-2.0"
 name = "lpl-token-2022-test"
-repository = "https://github.com/gaokanxu/lumos-program-library"
+repository = "https://github.com/gaokanxu/lumos"
 version = "0.0.1"
 
 [features]
@@ -19,9 +19,9 @@ walkdir = "2"
 async-trait = "0.1"
 borsh = "1.5.1"
 futures-util = "0.3"
-lumos-program = "2.0.0"
-lumos-program-test = "2.0.0"
-lumos-sdk = "2.0.0"
+lumos-program = { workspace = true }
+lumos-program-test = { workspace = true }
+lumos-sdk = { workspace = true }
 lpl-associated-token-account = { version = "4.0.0", path = "../../associated-token-account/program" }
 lpl-memo = { version = "5.0.0", path = "../../memo/program", features = [
   "no-entrypoint",

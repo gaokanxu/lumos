@@ -3,7 +3,7 @@ name = "lpl-associated-token-account"
 version = "4.0.0"
 description = "Lumos Program Library Associated Token Account"
 authors = ["Gao Kanxu <gaokanxu@gmail.com>"]
-repository = "https://github.com/gaokanxu/lumos-program-library"
+repository = "https://github.com/gaokanxu/lumos"
 license = "Apache-2.0"
 edition = "2021"
 
@@ -16,7 +16,7 @@ assert_matches = "1.5.0"
 borsh = "1.5.1"
 num-derive = "0.4"
 num-traits = "0.2"
-lumos-program = "2.0.0"
+lumos-program = { workspace = true }
 lpl-token = { version = "6.0", path = "../../token/program", features = [
   "no-entrypoint",
 ] }

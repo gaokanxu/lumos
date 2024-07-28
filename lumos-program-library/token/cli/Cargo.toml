@@ -1,11 +1,11 @@
 [package]
 authors = ["Gao Kanxu <gaokanxu@gmail.com>"]
-description = "SPL-Token Command-line Utility"
+description = "LPL-Token Command-line Utility"
 edition = "2021"
 homepage = "https://spl.lumos.com/token"
 license = "Apache-2.0"
 name = "lpl-token-cli"
-repository = "https://github.com/gaokanxu/lumos-program-library"
+repository = "https://github.com/gaokanxu/lumos"
 version = "4.0.0"
 
 [build-dependencies]
@@ -19,36 +19,30 @@ futures = "0.3"
 serde = "1.0.204"
 serde_derive = "1.0.103"
 serde_json = "1.0.120"
-lumos-account-decoder = "2.0.0"
-lumos-clap-utils = "2.0.0"
-lumos-cli-config = "2.0.0"
-lumos-cli-output = "2.0.0"
-lumos-client = "2.0.0"
-lumos-logger = "2.0.0"
-lumos-remote-wallet = "2.0.0"
-lumos-sdk = "2.0.0"
-lumos-transaction-status = "2.0.0"
-lpl-token = { version = "6.0", path = "../program", features = [
-  "no-entrypoint",
-] }
-lpl-token-2022 = { version = "4.0.0", path = "../program-2022", features = [
-  "no-entrypoint",
-] }
-lpl-token-client = { version = "0.11.0", path = "../client" }
-lpl-token-metadata-interface = { version = "0.4.0", path = "../../token-metadata/interface" }
-lpl-token-group-interface = { version = "0.3.0", path = "../../token-group/interface" }
-lpl-associated-token-account = { version = "4.0.0", path = "../../associated-token-account/program", features = [
-  "no-entrypoint",
-] }
-lpl-memo = { version = "5.0", path = "../../memo/program", features = [
-  "no-entrypoint",
-] }
+
+lumos-account-decoder = { workspace = true }
+lumos-clap-utils = { workspace = true }
+lumos-cli-config = { workspace = true }
+lumos-cli-output = { workspace = true, optional = true }
+lumos-client = { workspace = true }
+lumos-logger = { workspace = true }
+lumos-remote-wallet = { workspace = true }
+lumos-sdk = { workspace = true }
+lumos-transaction-status = { workspace = true }
+lpl-token = { workspace = true }
+lpl-token-2022 = { workspace = true }
+lpl-token-client = { workspace = true }
+lpl-token-metadata-interface = { workspace = true }
+lpl-token-group-interface = { workspace = true }
+lpl-associated-token-account = { workspace = true }
+lpl-memo = { workspace = true }
+
 strum = "0.26"
 strum_macros = "0.26"
 tokio = "1.39"
 
 [dev-dependencies]
-lumos-test-validator = "2.0.0"
+lumos-test-validator = { workspace = true }
 assert_cmd = "2.0.14"
 libtest-mimic = "0.7"
 serial_test = "3.1.1"
@@ -62,3 +56,8 @@ path = "src/main.rs"
 name = "command"
 path = "tests/command.rs"
 harness = false
+
+[features]
+default = ["display"]
+display = ["lumos-cli-output"]
+
