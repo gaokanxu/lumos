@@ -8,11 +8,11 @@ license = "Apache-2.0"
 edition = "2021"
 
 [dependencies]
-bytemuck = { workspace = true }
 thiserror = { workspace = true }
-lumos-curve25519-dalek = { workspace = true }
-lumos-zk-sdk = { workspace = true }
 
+lumos-bytemuck = { workspace = true }
+lumos-curve25519-dalek = { workspace = true }
+lumos-zk-token-sdk = { workspace = true }
 
 [lib]
 crate-type = ["cdylib", "lib"]

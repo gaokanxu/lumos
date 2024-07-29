@@ -7,22 +7,20 @@ repository = "https://github.com/gaokanxu/lumos"
 license = "Apache-2.0"
 edition = "2021"
 
-[features]
-serde-traits = ["dep:serde", "dep:base64"]
-borsh = ["dep:borsh"]
-
 [dependencies]
-base64 = { version = "0.22.1", optional = true }
-borsh = { version = "1.5.1", optional = true }
-bytemuck = { version = "1.16.1" }
-bytemuck_derive = { version = "1.7.0" }
-serde = { version = "1.0.204", optional = true }
+base64 = { workspace = true }
+borsh = { workspace = true }
+serde = { workspace = true }
+
+lumos-bytemuck = { workspace = true }
+lumos-bytemuck-derive = { workspace = true }
+
 lumos-program = { workspace = true }
-lumos-zk-token-sdk = "2.0.0"
-lpl-program-error = { version = "0.5.0", path = "../program-error" }
+lumos-zk-token-sdk = { workspace = true }
+lpl-program-error = { workspace = true }
 
 [dev-dependencies]
-serde_json = "1.0.120"
+serde_json = { workspace = true }
 
 [lib]
 crate-type = ["cdylib", "lib"]

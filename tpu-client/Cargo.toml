@@ -17,6 +17,8 @@ indexmap = { workspace = true }
 indicatif = { workspace = true, optional = true }
 log = { workspace = true }
 rayon = { workspace = true }
+thiserror = { workspace = true }
+
 lumos-connection-cache = { workspace = true }
 lumos-measure = { workspace = true }
 lumos-metrics = { workspace = true }
@@ -24,8 +26,7 @@ lumos-pubsub-client = { workspace = true }
 lumos-rpc-client = { workspace = true }
 lumos-rpc-client-api = { workspace = true }
 lumos-sdk = { workspace = true }
-thiserror = { workspace = true }
-tokio = { workspace = true, features = ["full"] }
+lumos-tokio = { workspace = true, features = ["full"] }
 
 [features]
 default = ["spinner"]

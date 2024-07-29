@@ -10,8 +10,9 @@ license = { workspace = true }
 edition = { workspace = true }
 
 [dependencies]
-crossbeam-channel = { workspace = true }
 log = { workspace = true }
+
+lumos-crossbeam-channel = { workspace = true }
 lumos-client = { workspace = true }
 lumos-measure = { workspace = true }
 lumos-metrics = { workspace = true }

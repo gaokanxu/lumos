@@ -12,20 +12,20 @@ edition = { workspace = true }
 [dependencies]
 async-trait = { workspace = true }
 bincode = { workspace = true }
-crossbeam-channel = { workspace = true }
 futures-util = { workspace = true }
 indexmap = { workspace = true }
-indicatif = { workspace = true, optional = true }
+indicatif = { workspace = true }
 log = { workspace = true }
-rand = { workspace = true }
 rayon = { workspace = true }
+thiserror = { workspace = true }
+
+lumos-crossbeam-channel = { workspace = true }
+lumos-rand = { workspace = true }
+lumos-rand-chacha = { workspace = true }
+
 lumos-measure = { workspace = true }
 lumos-metrics = { workspace = true }
 lumos-sdk = { workspace = true }
-thiserror = { workspace = true }
-tokio = { workspace = true, features = ["full"] }
-
-[dev-dependencies]
-rand_chacha = { workspace = true }
+lumos-tokio = { workspace = true }
 lumos-logger = { workspace = true }
 lumos-net-utils = { workspace = true }

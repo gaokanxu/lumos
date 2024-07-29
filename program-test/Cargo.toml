@@ -1,6 +1,8 @@
 [package]
-description = "Lumos Program Test Framework"
 name = "lumos-program-test"
+description = "Lumos Program Test Framework"
+
+
 version = { workspace = true }
 authors = { workspace = true }
 repository = { workspace = true }
@@ -14,9 +16,13 @@ async-trait = { workspace = true }
 base64 = { workspace = true }
 bincode = { workspace = true }
 chrono-humanize = { workspace = true }
-crossbeam-channel = { workspace = true }
 log = { workspace = true }
 serde = { workspace = true }
+test-case = { workspace = true }
+thiserror = { workspace = true }
+
+lumos-crossbeam-channel = { workspace = true }
+
 lumos-accounts-db = { workspace = true }
 lumos-banks-client = { workspace = true }
 lumos-banks-interface = { workspace = true }
@@ -29,9 +35,8 @@ lumos-sdk = { workspace = true }
 lumos-lvm = { workspace = true }
 lumos-vote-program = { workspace = true }
 lumos-rbpf = { workspace = true }
-test-case = { workspace = true }
-thiserror = { workspace = true }
-tokio = { workspace = true, features = ["full"] }
+lumos-tokio = { workspace = true, features = ["full"] }
+
 
 [dev-dependencies]
 lumos-stake-program = { workspace = true }

@@ -13,7 +13,6 @@ edition = { workspace = true }
 base64 = { workspace = true }
 bincode = { workspace = true }
 bs58 = { workspace = true }
-crossbeam-channel = { workspace = true }
 dashmap = { workspace = true }
 itertools = { workspace = true }
 jsonrpc-core = { workspace = true }
@@ -29,6 +28,13 @@ serde = { workspace = true }
 serde_derive = { workspace = true }
 serde_json = { workspace = true }
 soketto = { workspace = true }
+stream-cancel = { workspace = true }
+thiserror = { workspace = true }
+
+lumos-crossbeam-channel = { workspace = true }
+lumos-tokio = { workspace = true }
+lumos-tokio-util = { workspace = true }
+
 lumos-account-decoder = { workspace = true }
 lumos-accounts-db = { workspace = true }
 lumos-client = { workspace = true }
@@ -56,18 +62,15 @@ lumos-vote = { workspace = true }
 lumos-vote-program = { workspace = true }
 lpl-token = { workspace = true, features = ["no-entrypoint"] }
 lpl-token-2022 = { workspace = true, features = ["no-entrypoint"] }
-stream-cancel = { workspace = true }
-thiserror = { workspace = true }
-tokio = { workspace = true, features = ["full"] }
-tokio-util = { workspace = true, features = ["codec", "compat"] }
 
 [dev-dependencies]
 serial_test = { workspace = true }
+symlink = { workspace = true }
+
 lumos-net-utils = { workspace = true }
 lumos-runtime = { workspace = true, features = ["dev-context-only-utils"] }
 lumos-stake-program = { workspace = true }
 lpl-pod = { workspace = true }
-symlink = { workspace = true }
 
 [lib]
 crate-type = ["lib"]

@@ -13,15 +13,13 @@ edition = { workspace = true }
 arrayref = { workspace = true }
 bincode = { workspace = true }
 blake3 = { workspace = true }
-bv = { workspace = true, features = ["serde"] }
-bytemuck = { workspace = true }
+bv = { workspace = true }
 byteorder = { workspace = true }
 bzip2 = { workspace = true }
-crossbeam-channel = { workspace = true }
-dashmap = { workspace = true, features = ["rayon", "raw-api"] }
+dashmap = { workspace = true }
 flate2 = { workspace = true }
 fnv = { workspace = true }
-im = { workspace = true, features = ["rayon", "serde"] }
+im = { workspace = true }
 index_list = { workspace = true }
 indexmap = { workspace = true }
 itertools = { workspace = true }
@@ -36,13 +34,23 @@ num_cpus = { workspace = true }
 num_enum = { workspace = true }
 percentage = { workspace = true }
 qualifier_attr = { workspace = true }
-rand = { workspace = true }
 rayon = { workspace = true }
 regex = { workspace = true }
 seqlock = { workspace = true }
-serde = { workspace = true, features = ["rc"] }
+serde = { workspace = true }
 serde_derive = { workspace = true }
-smallvec = { workspace = true, features = ["const_generics"] }
+smallvec = { workspace = true }
+static_assertions = { workspace = true }
+strum = { workspace = true }
+strum_macros = { workspace = true }
+tar = { workspace = true }
+tempfile = { workspace = true }
+thiserror = { workspace = true }
+
+lumos-crossbeam-channel = { workspace = true }
+lumos-bytemuck = { workspace = true }
+lumos-rand = { workspace = true }
+
 lumos-bucket-map = { workspace = true }
 lumos-config-program = { workspace = true }
 lumos-frozen-abi = { workspace = true }
@@ -57,39 +65,30 @@ lumos-stake-program = { workspace = true }
 lumos-lvm = { workspace = true }
 lumos-system-program = { workspace = true }
 lumos-vote-program = { workspace = true }
-static_assertions = { workspace = true }
-strum = { workspace = true, features = ["derive"] }
-strum_macros = { workspace = true }
-tar = { workspace = true }
-tempfile = { workspace = true }
-thiserror = { workspace = true }
 
 [lib]
 crate-type = ["lib"]
 name = "lumos_accounts_db"
 
-[dev-dependencies]
 assert_matches = { workspace = true }
 criterion = { workspace = true }
-ed25519-dalek = { workspace = true }
 libsecp256k1 = { workspace = true }
 memoffset = { workspace = true }
-rand_chacha = { workspace = true }
-# See order-crates-for-publishing.py for using this unusual `path = "."`
-lumos-accounts-db = { path = ".", features = ["dev-context-only-utils"] }
-lumos-logger = { workspace = true }
-lumos-sdk = { workspace = true, features = ["dev-context-only-utils"] }
 static_assertions = { workspace = true }
 test-case = { workspace = true }
+
+lumos-ed25519-dalek = { workspace = true }
+lumos-rand-chacha = { workspace = true }
+
+lumos-accounts-db = { workspace = true }
+lumos-logger = { workspace = true }
+lumos-sdk = { workspace = true }
 
 [package.metadata.docs.rs]
 targets = ["x86_64-unknown-linux-gnu"]
 
 [build-dependencies]
 rustc_version = { workspace = true }
-
-[features]
-dev-context-only-utils = []
 
 [[bench]]
 name = "bench_hashing"

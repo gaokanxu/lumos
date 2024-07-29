@@ -11,8 +11,10 @@ edition = { workspace = true }
 [dependencies]
 clap = { workspace = true }
 log = { workspace = true }
-rand = { workspace = true }
 rayon = { workspace = true }
+
+lumos-rand = { workspace = true }
+
 lumos-account-decoder = { workspace = true }
 lumos-accounts-db = { workspace = true }
 lumos-clap-utils = { workspace = true }
@@ -23,19 +25,17 @@ lumos-gossip = { workspace = true }
 lumos-logger = { workspace = true }
 lumos-measure = { workspace = true }
 lumos-net-utils = { workspace = true }
-lumos-rpc-client = { workspace = true, features = ["default"] }
+lumos-rpc-client = { workspace = true }
 lumos-runtime = { workspace = true }
 lumos-sdk = { workspace = true }
 lumos-streamer = { workspace = true }
 lumos-transaction-status = { workspace = true }
 lumos-version = { workspace = true }
-lpl-token = { workspace = true, features = ["no-entrypoint"] }
-
-[dev-dependencies]
 lumos-core = { workspace = true }
 lumos-local-cluster = { workspace = true }
-lumos-runtime = { workspace = true, features = ["dev-context-only-utils"] }
 lumos-test-validator = { workspace = true }
+
+lpl-token = { workspace = true }
 
 [package.metadata.docs.rs]
 targets = ["x86_64-unknown-linux-gnu"]

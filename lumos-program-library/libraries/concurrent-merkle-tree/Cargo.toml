@@ -1,5 +1,6 @@
 [package]
-name = "lpl-concurrent-merkle-tree"
+name = "
+"
 version = "0.3.0"
 description = "Lumos Program Library Concurrent Merkle Tree"
 authors = ["Gao Kanxu <gaokanxu@gmail.com>"]
@@ -12,15 +13,17 @@ log = []
 sol-log = ["log"]
 
 [dependencies]
-lumos-program = ">=1.18.11,<=2"
-bytemuck = "1.16"
-thiserror = "1.0.63"
+thiserror = { workspace =  true }
+
+lumos-program = { workspace =  true }
+lumos-bytemuck = { workspace =  true }
 
 [dev-dependencies]
-rand_distr = "0.4.3"
-rand = "0.8"
-lpl-merkle-tree-reference = { version = "0.1.0", path = "../merkle-tree-reference" }
-tokio = { version = "1.39", features = ["full"] }
+rand_distr = { workspace =  true }
+rand = { workspace =  true }
+
+lpl-merkle-tree-reference = { workspace =  true }
+lumos-tokio = { workspace =  true }
 
 [lib]
 crate-type = ["cdylib", "lib"]

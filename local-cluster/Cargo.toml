@@ -10,11 +10,16 @@ license = { workspace = true }
 edition = { workspace = true }
 
 [dependencies]
-crossbeam-channel = { workspace = true }
 itertools = { workspace = true }
 log = { workspace = true }
-rand = { workspace = true }
 rayon = { workspace = true }
+static_assertions = { workspace = true }
+tempfile = { workspace = true }
+trees = { workspace = true }
+
+lumos-crossbeam-channel = { workspace = true }
+lumos-rand = { workspace = true }
+
 lumos-accounts-db = { workspace = true }
 lumos-client = { workspace = true }
 lumos-config-program = { workspace = true }
@@ -36,9 +41,6 @@ lumos-tpu-client = { workspace = true }
 lumos-turbine = { workspace = true }
 lumos-vote = { workspace = true }
 lumos-vote-program = { workspace = true }
-static_assertions = { workspace = true }
-tempfile = { workspace = true }
-trees = { workspace = true }
 
 [dev-dependencies]
 assert_matches = { workspace = true }

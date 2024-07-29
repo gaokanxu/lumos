@@ -16,7 +16,6 @@ clap = { workspace = true }
 console = { workspace = true }
 const_format = { workspace = true }
 criterion-stats = { workspace = true }
-crossbeam-channel = { workspace = true }
 ctrlc = { workspace = true, features = ["termination"] }
 hex = { workspace = true }
 humantime = { workspace = true }
@@ -28,6 +27,11 @@ semver = { workspace = true }
 serde = { workspace = true }
 serde_derive = { workspace = true }
 serde_json = { workspace = true }
+thiserror = { workspace = true }
+tiny-bip39 = { workspace = true }
+
+lumos-crossbeam-channel = { workspace = true }
+
 lumos-account-decoder = { workspace = true }
 lumos-bpf-loader-program = { workspace = true }
 lumos-clap-utils = { workspace = true }
@@ -51,8 +55,6 @@ lumos-version = { workspace = true }
 lumos-vote-program = { workspace = true }
 lumos-rbpf = { workspace = true }
 lpl-memo = { workspace = true, features = ["no-entrypoint"] }
-thiserror = { workspace = true }
-tiny-bip39 = { workspace = true }
 
 [dev-dependencies]
 assert_matches = { workspace = true }

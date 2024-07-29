@@ -11,19 +11,22 @@ edition = { workspace = true }
 
 [dependencies]
 bincode = { workspace = true }
-clap = { version = "3.1.5", features = ["cargo"] }
-crossbeam-channel = { workspace = true }
+clap = { workspace=true, features = ["cargo"] }
 log = { workspace = true }
 nix = { workspace = true }
-rand = { workspace = true }
 serde = { workspace = true }
 serde_derive = { workspace = true }
 socket2 = { workspace = true }
+url = { workspace = true }
+
+lumos-crossbeam-channel = { workspace = true }
+lumos-rand = { workspace = true }
+
 lumos-logger = { workspace = true }
 lumos-sdk = { workspace = true }
 lumos-version = { workspace = true }
-tokio = { workspace = true, features = ["full"] }
-url = { workspace = true }
+lumos-tokio = { workspace = true }
+
 
 [lib]
 name = "lumos_net_utils"

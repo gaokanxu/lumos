@@ -14,10 +14,9 @@ assert_matches = { workspace = true }
 bincode = { workspace = true }
 bitflags = { workspace = true }
 byteorder = { workspace = true }
-chrono = { workspace = true, features = ["default", "serde"] }
+chrono = { workspace = true }
 chrono-humanize = { workspace = true }
-crossbeam-channel = { workspace = true }
-dashmap = { workspace = true, features = ["rayon", "raw-api"] }
+dashmap = { workspace = true }
 fs_extra = { workspace = true }
 futures = { workspace = true }
 itertools = { workspace = true }
@@ -29,14 +28,26 @@ mockall = { workspace = true }
 num_cpus = { workspace = true }
 num_enum = { workspace = true }
 prost = { workspace = true }
-rand = { workspace = true }
-rand_chacha = { workspace = true }
 rayon = { workspace = true }
-reed-solomon-erasure = { workspace = true, features = ["simd-accel"] }
+reed-solomon-erasure = { workspace = true }
 scopeguard = { workspace = true }
 serde = { workspace = true }
 serde_bytes = { workspace = true }
 sha2 = { workspace = true }
+static_assertions = { workspace = true }
+strum = { workspace = true }
+strum_macros = { workspace = true }
+tempfile = { workspace = true }
+thiserror = { workspace = true }
+trees = { workspace = true }
+
+
+lumos-crossbeam-channel = { workspace = true }
+lumos-rand = { workspace = true }
+lumos-rand-chacha = { workspace = true }
+lumos-tokio = { workspace = true }
+lumos-tokio-stream = { workspace = true }
+
 lumos-account-decoder = { workspace = true }
 lumos-accounts-db = { workspace = true }
 lumos-bpf-loader-program = { workspace = true }
@@ -58,16 +69,8 @@ lumos-lvm = { workspace = true }
 lumos-transaction-status = { workspace = true }
 lumos-vote = { workspace = true }
 lumos-vote-program = { workspace = true }
-lpl-token = { workspace = true, features = ["no-entrypoint"] }
-lpl-token-2022 = { workspace = true, features = ["no-entrypoint"] }
-static_assertions = { workspace = true }
-strum = { workspace = true, features = ["derive"] }
-strum_macros = { workspace = true }
-tempfile = { workspace = true }
-thiserror = { workspace = true }
-tokio = { workspace = true, features = ["full"] }
-tokio-stream = { workspace = true }
-trees = { workspace = true }
+lpl-token = { workspace = true }
+lpl-token-2022 = { workspace = true }
 
 [dependencies.rocksdb]
 # Avoid the vendored bzip2 within rocksdb-sys that can cause linker conflicts

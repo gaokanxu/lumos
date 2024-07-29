@@ -12,10 +12,12 @@ edition = { workspace = true }
 [dependencies]
 base64 = { workspace = true }
 bincode = { workspace = true }
-crossbeam-channel = { workspace = true }
 log = { workspace = true }
 serde_derive = { workspace = true }
 serde_json = { workspace = true }
+
+lumos-crossbeam-channel = { workspace = true }
+
 lumos-accounts-db = { workspace = true }
 lumos-cli-output = { workspace =  true,  optional = true }
 lumos-client = { workspace = true }
@@ -33,7 +35,7 @@ lumos-runtime = { workspace = true }
 lumos-sdk = { workspace = true }
 lumos-streamer = { workspace = true }
 lumos-tpu-client = { workspace = true }
-tokio = { workspace = true, features = ["full"] }
+lumos-tokio = { workspace = true, features = ["full"] }
 
 [package.metadata.docs.rs]
 targets = ["x86_64-unknown-linux-gnu"]

@@ -19,7 +19,6 @@ borsh0-10 = { package = "borsh", version = "0.10.3" }
 borsh0-9 = { package = "borsh", version = "0.9.3" }
 bs58 = { workspace = true }
 bv = { workspace = true, features = ["serde"] }
-bytemuck = { workspace = true, features = ["derive"] }
 itertools =  { workspace = true }
 lazy_static = { workspace = true }
 log = { workspace = true }
@@ -33,10 +32,14 @@ serde_derive = { workspace = true }
 serde_json = { workspace = true }
 sha2 = { workspace = true }
 sha3 = { workspace = true }
+thiserror = { workspace = true }
+
+lumos-bytemuck = { workspace = true, features = ["derive"] }
+
 lumos-frozen-abi = { workspace = true }
 lumos-frozen-abi-macro = { workspace = true }
 lumos-sdk-macro = { workspace = true }
-thiserror = { workspace = true }
+lumos-curve25519-dalek = { workspace = true, features = ["serde"] }
 
 # This is currently needed to build on-chain programs reliably.
 # Borsh 0.10 may pull in hashbrown 0.13, which uses ahash 0.8, which uses
@@ -45,34 +48,33 @@ thiserror = { workspace = true }
 # Remove this once borsh 0.11 or 1.0 is released, which correctly declares the
 # hashbrown dependency as optional.
 [target.'cfg(target_os = "lumos")'.dependencies]
-getrandom = { workspace = true, features = ["custom"] }
-
+getrandom = { workspace = true }
 [target.'cfg(not(target_os = "lumos"))'.dependencies]
 ark-bn254 = { workspace = true }
 ark-ec = { workspace = true }
 ark-ff = { workspace = true }
 ark-serialize = { workspace = true }
-base64 = { workspace = true, features = ["alloc", "std"] }
+base64 = { workspace = true }
 bitflags = { workspace = true }
-curve25519-dalek = { workspace = true, features = ["serde"] }
 itertools = { workspace = true }
-libc = { workspace = true, features = ["extra_traits"] }
+libc = { workspace = true }
 libsecp256k1 = { workspace = true }
 light-poseidon = { workspace = true }
 num-bigint = { workspace = true }
-rand = { workspace = true }
+lumos-rand = { workspace = true }
 tiny-bip39 = { workspace = true }
 wasm-bindgen = { workspace = true }
-zeroize = { workspace = true, features = ["default", "zeroize_derive"] }
+zeroize = { workspace = true }
+
 
 [target.'cfg(not(target_os = "lumos"))'.dev-dependencies]
-arbitrary = { workspace = true, features = ["derive"] }
+arbitrary = { workspace = true }
 lumos-logger = { workspace = true }
 
 [target.'cfg(target_arch = "wasm32")'.dependencies]
 console_error_panic_hook = { workspace = true }
 console_log = { workspace = true }
-getrandom = { workspace = true, features = ["js", "wasm-bindgen"] }
+getrandom = { workspace = true }
 js-sys = { workspace = true }
 
 [target.'cfg(not(target_pointer_width = "64"))'.dependencies]
@@ -89,7 +91,7 @@ static_assertions = { workspace = true }
 rustc_version = { workspace = true }
 
 [target.'cfg(any(unix, windows))'.build-dependencies]
-cc = { workspace = true, features = ["jobserver", "parallel"] }
+cc = { workspace = true }
 
 [package.metadata.docs.rs]
 targets = ["x86_64-unknown-linux-gnu"]

@@ -20,8 +20,13 @@ log = { workspace = true }
 num-derive = { workspace = true }
 num-traits = { workspace = true }
 percentage = { workspace = true }
-rand = { workspace = true }
-serde = { workspace = true, features = ["derive", "rc"] }
+serde = { workspace = true }
+assert_matches = { workspace = true }
+libsecp256k1 = { workspace = true }
+test-case = { workspace = true }
+
+lumos-rand = { workspace = true }
+
 lumos-frozen-abi = { workspace = true }
 lumos-frozen-abi-macro = { workspace = true }
 lumos-measure = { workspace = true }
@@ -29,13 +34,9 @@ lumos-metrics = { workspace = true }
 lumos-sdk = { workspace = true }
 lumos-rbpf = { workspace = true }
 thiserror = { workspace = true }
-
-[dev-dependencies]
-assert_matches = { workspace = true }
-libsecp256k1 = { workspace = true }
 lumos-logger = { workspace = true }
-lumos-sdk = { workspace = true, features = ["dev-context-only-utils"] }
-test-case = { workspace = true }
+
+
 
 [lib]
 crate-type = ["lib"]

@@ -11,16 +11,19 @@ license = { workspace = true }
 edition = { workspace = true }
 
 [dependencies]
-bv = { workspace = true, features = ["serde"] }
-bytemuck = { workspace = true, features = ["derive"] }
+bv = { workspace = true }
 log = { workspace = true }
 memmap2 = { workspace = true }
 modular-bitfield = { workspace = true }
 num_enum = { workspace = true }
-rand = { workspace = true }
+tempfile = { workspace = true }
+
+lumos-bytemuck = { workspace = true }
+lumos-rand = { workspace = true }
+
 lumos-measure = { workspace = true }
 lumos-sdk = { workspace = true }
-tempfile = { workspace = true }
+
 
 [dev-dependencies]
 fs_extra = { workspace = true }

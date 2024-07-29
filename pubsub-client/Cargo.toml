@@ -10,7 +10,6 @@ license = { workspace = true }
 edition = { workspace = true }
 
 [dependencies]
-crossbeam-channel = { workspace = true }
 futures-util = { workspace = true }
 log = { workspace = true }
 reqwest = { workspace = true, features = ["blocking", "brotli", "deflate", "gzip", "rustls-tls", "json"] }
@@ -18,15 +17,20 @@ semver = { workspace = true }
 serde = { workspace = true }
 serde_derive = { workspace = true }
 serde_json = { workspace = true }
+thiserror = { workspace = true }
+tungstenite = { workspace = true, features = ["rustls-tls-webpki-roots"] }
+url = { workspace = true }
+
+lumos-crossbeam-channel = { workspace = true }
+lumos-tokio = { workspace = true, features = ["full"] }
+lumos-tokio-stream = { workspace = true }
+lumos-tokio-tungstenite = { workspace = true, features = ["rustls-tls-webpki-roots"] }
+
 lumos-account-decoder = { workspace = true }
 lumos-rpc-client-api = { workspace = true }
 lumos-sdk = { workspace = true }
-thiserror = { workspace = true }
-tokio = { workspace = true, features = ["full"] }
-tokio-stream = { workspace = true }
-tokio-tungstenite = { workspace = true, features = ["rustls-tls-webpki-roots"] }
-tungstenite = { workspace = true, features = ["rustls-tls-webpki-roots"] }
-url = { workspace = true }
+
+
 
 [dev-dependencies]
 anyhow = { workspace = true }

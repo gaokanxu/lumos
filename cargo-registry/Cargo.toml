@@ -18,6 +18,10 @@ log = { workspace = true }
 serde = { workspace = true, features = ["derive"] }
 serde_json = { workspace = true }
 sha2 = { workspace = true }
+tar = { workspace = true }
+tempfile = { workspace = true }
+toml = { workspace = true }
+
 lumos-clap-utils = { workspace = true }
 lumos-cli = { workspace = true }
 lumos-cli-config = { workspace = true }
@@ -28,10 +32,7 @@ lumos-rpc-client = { workspace = true, features = ["default"] }
 lumos-rpc-client-api = { workspace = true }
 lumos-sdk = { workspace = true }
 lumos-version = { workspace = true }
-tar = { workspace = true }
-tempfile = { workspace = true }
-tokio = { workspace = true, features = ["full"] }
-toml = { workspace = true }
+lumos-tokio = { workspace = true, features = ["full"] }
 
 [dev-dependencies]
 

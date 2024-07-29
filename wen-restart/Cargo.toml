@@ -15,6 +15,12 @@ anyhow = { workspace = true }
 log = { workspace = true }
 prost = { workspace = true }
 prost-types = { workspace = true }
+assert_matches = { workspace = true }
+serial_test = { workspace = true }
+tempfile = { workspace = true }
+
+lumos-rand = { workspace = true }
+
 lumos-gossip = { workspace = true }
 lumos-ledger = { workspace = true }
 lumos-logger = { workspace = true }
@@ -22,16 +28,10 @@ lumos-program = { workspace = true }
 lumos-runtime = { workspace = true }
 lumos-sdk = { workspace = true }
 lumos-vote-program = { workspace = true }
-
-[dev-dependencies]
-assert_matches = { workspace = true }
-rand = { workspace = true }
-serial_test = { workspace = true }
 lumos-accounts-db = { workspace = true }
 lumos-entry = { workspace = true }
-lumos-runtime = { workspace = true, features = ["dev-context-only-utils"] }
 lumos-streamer = { workspace = true }
-tempfile = { workspace = true }
+
 
 [build-dependencies]
 prost-build = { workspace = true }

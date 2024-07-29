@@ -13,10 +13,11 @@ edition = { workspace = true }
 bv = { workspace = true, features = ["serde"] }
 fnv = { workspace = true }
 log = { workspace = true }
-rand = { workspace = true }
 rayon = { workspace = true }
 serde = { workspace = true, features = ["rc"] }
 serde_derive = { workspace = true }
+
+lumos-rand = { workspace = true }
 lumos-frozen-abi = { workspace = true }
 lumos-frozen-abi-macro = { workspace = true }
 lumos-sdk = { workspace = true }

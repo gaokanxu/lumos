@@ -9,8 +9,9 @@ license = { workspace = true }
 edition = { workspace = true }
 
 [dependencies]
-clap = { version = "3.1.5", features = ["cargo"] }
-crossbeam-channel = { workspace = true }
+clap = { workspace = true, features = ["cargo"] }
+
+lumos-crossbeam-channel = { workspace = true }
 lumos-net-utils = { workspace = true }
 lumos-streamer = { workspace = true }
 lumos-version = { workspace = true }

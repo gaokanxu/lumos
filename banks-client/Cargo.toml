@@ -12,13 +12,15 @@ edition = { workspace = true }
 [dependencies]
 borsh = { workspace = true }
 futures = { workspace = true }
+tarpc = { workspace = true, features = ["full"] }
+thiserror = { workspace = true }
+
+lumos-tokio = { workspace = true, features = ["full"] }
+lumos-tokio-serde = { workspace = true, features = ["bincode"] }
+
 lumos-banks-interface = { workspace = true }
 lumos-program = { workspace = true }
 lumos-sdk = { workspace = true }
-tarpc = { workspace = true, features = ["full"] }
-thiserror = { workspace = true }
-tokio = { workspace = true, features = ["full"] }
-tokio-serde = { workspace = true, features = ["bincode"] }
 
 [dev-dependencies]
 lumos-banks-server = { workspace = true }

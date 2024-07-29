@@ -12,7 +12,6 @@ edition = { workspace = true }
 [dependencies]
 async-channel = { workspace = true }
 bytes = { workspace = true }
-crossbeam-channel = { workspace = true }
 futures-util = { workspace = true }
 histogram = { workspace = true }
 indexmap = { workspace = true }
@@ -24,17 +23,18 @@ pem = { workspace = true }
 percentage = { workspace = true }
 quinn = { workspace = true }
 quinn-proto = { workspace = true }
-rand = { workspace = true }
-rustls = { workspace = true, features = ["dangerous_configuration"] }
+rustls = { workspace = true }
+thiserror = { workspace = true }
+x509-parser = { workspace = true }
+assert_matches = { workspace = true }
+
+lumos-crossbeam-channel = { workspace = true }
+lumos-rand = { workspace = true }
+
 lumos-metrics = { workspace = true }
 lumos-perf = { workspace = true }
 lumos-sdk = { workspace = true }
-thiserror = { workspace = true }
-tokio = { workspace = true, features = ["full"] }
-x509-parser = { workspace = true }
-
-[dev-dependencies]
-assert_matches = { workspace = true }
+lumos-tokio = { workspace = true, features = ["full"] }
 lumos-logger = { workspace = true }
 
 [lib]

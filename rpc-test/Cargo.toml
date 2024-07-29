@@ -13,12 +13,14 @@ edition = { workspace = true }
 [dependencies]
 bincode = { workspace = true }
 bs58 = { workspace = true }
-crossbeam-channel = { workspace = true }
 futures-util = { workspace = true }
 log = { workspace = true }
 reqwest = { workspace = true, features = ["blocking", "brotli", "deflate", "gzip", "rustls-tls", "json"] }
 serde = { workspace = true }
 serde_json = { workspace = true }
+
+lumos-crossbeam-channel = { workspace = true }
+
 lumos-account-decoder = { workspace = true }
 lumos-client = { workspace = true }
 lumos-pubsub-client = { workspace = true }
@@ -30,7 +32,7 @@ lumos-streamer = { workspace = true }
 lumos-test-validator = { workspace = true }
 lumos-tpu-client = { workspace = true }
 lumos-transaction-status = { workspace = true }
-tokio = { workspace = true, features = ["full"] }
+lumos-tokio = { workspace = true, features = ["full"] }
 
 [dev-dependencies]
 lumos-logger = { workspace = true }

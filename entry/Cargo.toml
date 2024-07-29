@@ -11,13 +11,15 @@ edition = { workspace = true }
 
 [dependencies]
 bincode = { workspace = true }
-crossbeam-channel = { workspace = true }
 dlopen2 = { workspace = true }
 lazy_static = { workspace = true }
 log = { workspace = true }
-rand = { workspace = true }
 rayon = { workspace = true }
 serde = { workspace = true }
+
+lumos-crossbeam-channel = { workspace = true }
+lumos-rand = { workspace = true }
+
 lumos-measure = { workspace = true }
 lumos-merkle-tree = { workspace = true }
 lumos-metrics = { workspace = true }

@@ -9,11 +9,13 @@ license = { workspace = true }
 edition = { workspace = true }
 
 [dependencies]
-clap = { version = "3.1.8", features = ["derive"] }
-crossbeam-channel = { workspace = true }
+clap = { workspace = true, features = ["derive"] }
 log = { workspace = true }
-rand = { workspace = true }
 rayon = { workspace = true }
+
+lumos-crossbeam-channel = { workspace = true }
+lumos-rand = { workspace = true }
+
 lumos-client = { workspace = true }
 lumos-core = { workspace = true }
 lumos-gossip = { workspace = true }

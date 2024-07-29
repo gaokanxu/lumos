@@ -10,12 +10,15 @@ edition = { workspace = true }
 
 [dependencies]
 clap = { workspace = true }
-crossbeam-channel = { workspace = true }
 log = { workspace = true }
-rand = { workspace = true }
 rayon = { workspace = true }
 serde_json = { workspace = true }
 serde_yaml = { workspace = true }
+thiserror = { workspace = true }
+
+lumos-crossbeam-channel = { workspace = true }
+lumos-rand = { workspace = true }
+
 lumos-clap-utils = { workspace = true }
 lumos-cli-config = { workspace = true }
 lumos-client = { workspace = true }
@@ -39,14 +42,15 @@ lumos-tpu-client = { workspace = true }
 lumos-transaction-status = { workspace = true }
 lumos-version = { workspace = true }
 lpl-instruction-padding = { workspace = true }
-thiserror = { workspace = true }
 
 [dev-dependencies]
 serial_test = { workspace = true }
+tempfile = { workspace = true }
+
 lumos-local-cluster = { workspace = true }
 lumos-runtime = { workspace = true, features = ["dev-context-only-utils"] }
 lumos-test-validator = { workspace = true }
-tempfile = { workspace = true }
+
 
 [package.metadata.docs.rs]
 targets = ["x86_64-unknown-linux-gnu"]

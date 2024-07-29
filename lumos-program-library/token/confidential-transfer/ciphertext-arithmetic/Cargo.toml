@@ -9,9 +9,10 @@ edition = "2021"
 
 [dependencies]
 base64 = { workspace = true }
-bytemuck = { workspace = true }
 
-curve25519-dalek = { workspace = true }
+lumos-bytemuck = { workspace = true }
+
+lumos-curve25519-dalek = { workspace = true }
 lumos-zk-token-sdk = { workspace = true }
 
 [dev-dependencies]

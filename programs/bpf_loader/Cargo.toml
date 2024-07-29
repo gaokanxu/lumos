@@ -15,19 +15,21 @@ byteorder = { workspace = true }
 libsecp256k1 = { workspace = true }
 log = { workspace = true }
 scopeguard = { workspace = true }
+thiserror = { workspace = true }
+
 lumos-measure = { workspace = true }
 lumos-program-runtime = { workspace = true }
 lumos-sdk = { workspace = true }
 lumos-zk-token-sdk = { workspace = true }
 lumos-rbpf = { workspace = true }
-thiserror = { workspace = true }
 
 [dev-dependencies]
 assert_matches = { workspace = true }
 memoffset = { workspace = true }
-rand = { workspace = true }
-lumos-sdk = { workspace = true, features = ["dev-context-only-utils"] }
+lumos-rand = { workspace = true }
 test-case = { workspace = true }
+
+lumos-sdk = { workspace = true }
 
 [lib]
 crate-type = ["lib"]

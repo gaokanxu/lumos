@@ -13,7 +13,6 @@ edition = { workspace = true }
 bs58 = { workspace = true }
 chrono = { workspace = true, features = ["default"] }
 clap = { workspace = true }
-crossbeam-channel = { workspace = true }
 csv = { workspace = true }
 dashmap = { workspace = true }
 futures = { workspace = true }
@@ -24,6 +23,10 @@ num_cpus = { workspace = true }
 regex = { workspace = true }
 serde = { workspace = true, features = ["derive"] }
 serde_json = { workspace = true }
+thiserror = { workspace = true }
+
+lumos-crossbeam-channel = { workspace = true }
+
 lumos-account-decoder = { workspace = true }
 lumos-accounts-db = { workspace = true }
 lumos-bpf-loader-program = { workspace = true }
@@ -49,8 +52,7 @@ lumos-unified-scheduler-pool = { workspace = true }
 lumos-version = { workspace = true }
 lumos-vote-program = { workspace = true }
 lumos-rbpf = { workspace = true, features = ["debugger"] }
-thiserror = { workspace = true }
-tokio = { workspace = true, features = ["full"] }
+lumos-tokio = { workspace = true, features = ["full"] }
 
 [target.'cfg(not(target_env = "msvc"))'.dependencies]
 jemallocator = { workspace = true }

@@ -27,14 +27,15 @@ lumos-sdk = { workspace = true }
 lumos-transaction-status = { workspace = true }
 lumos-version = { workspace = true }
 lumos-vote-program = { workspace = true }
-tokio = { workspace = true, features = ["full"] }
+lumos-tokio = { workspace = true, features = ["full"] }
 
 [dev-dependencies]
 assert_matches = { workspace = true }
-crossbeam-channel = { workspace = true }
 futures = { workspace = true }
 jsonrpc-core = { workspace = true }
 jsonrpc-http-server = { workspace = true }
+
+lumos-crossbeam-channel = { workspace = true }
 
 [features]
 default = ["spinner"]

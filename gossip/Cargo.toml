@@ -12,22 +12,26 @@ edition = { workspace = true }
 [dependencies]
 assert_matches = { workspace = true }
 bincode = { workspace = true }
-bv = { workspace = true, features = ["serde"] }
+bv = { workspace = true }
 clap = { workspace = true }
-crossbeam-channel = { workspace = true }
 flate2 = { workspace = true }
-indexmap = { workspace = true, features = ["rayon"] }
+indexmap = { workspace = true }
 itertools = { workspace = true }
 log = { workspace = true }
 lru = { workspace = true }
 num-traits = { workspace = true }
-rand = { workspace = true }
-rand_chacha = { workspace = true }
 rayon = { workspace = true }
 rustversion = { workspace = true }
 serde = { workspace = true }
 serde_bytes = { workspace = true }
 serde_derive = { workspace = true }
+static_assertions = { workspace = true }
+thiserror = { workspace = true }
+
+lumos-crossbeam-channel = { workspace = true }
+lumos-rand = { workspace = true }
+lumos-rand-chacha = { workspace = true }
+
 lumos-bloom = { workspace = true }
 lumos-clap-utils = { workspace = true }
 lumos-client = { workspace = true }
@@ -49,8 +53,7 @@ lumos-tpu-client = { workspace = true }
 lumos-version = { workspace = true }
 lumos-vote = { workspace = true }
 lumos-vote-program = { workspace = true }
-static_assertions = { workspace = true }
-thiserror = { workspace = true }
+
 
 [dev-dependencies]
 num_cpus = { workspace = true }

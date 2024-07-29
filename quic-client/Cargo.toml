@@ -19,6 +19,8 @@ log = { workspace = true }
 quinn = { workspace = true }
 quinn-proto = { workspace = true }
 rustls = { workspace = true, features = ["dangerous_configuration"] }
+thiserror = { workspace = true }
+
 lumos-connection-cache = { workspace = true }
 lumos-measure = { workspace = true }
 lumos-metrics = { workspace = true }
@@ -26,10 +28,9 @@ lumos-net-utils = { workspace = true }
 lumos-rpc-client-api = { workspace = true }
 lumos-sdk = { workspace = true }
 lumos-streamer = { workspace = true }
-thiserror = { workspace = true }
-tokio = { workspace = true, features = ["full"] }
+lumos-tokio = { workspace = true, features = ["full"] }
 
 [dev-dependencies]
-crossbeam-channel = { workspace = true }
+lumos-crossbeam-channel = { workspace = true }
 lumos-logger = { workspace = true }
 lumos-perf = { workspace = true }

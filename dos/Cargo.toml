@@ -11,12 +11,14 @@ edition = { workspace = true }
 
 [dependencies]
 bincode = { workspace = true }
-clap = { version = "3.1.5", features = ["derive", "cargo"] }
-crossbeam-channel = { workspace = true }
+clap = { workspace = true }
 itertools = { workspace = true }
 log = { workspace = true }
-rand = { workspace = true }
 serde = { workspace = true }
+
+lumos-crossbeam-channel = { workspace = true }
+lumos-rand = { workspace = true }
+
 lumos-bench-tps = { workspace = true }
 lumos-client = { workspace = true }
 lumos-core = { workspace = true }

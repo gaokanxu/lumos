@@ -13,14 +13,16 @@ edition = { workspace = true }
 ahash = { workspace = true }
 bincode = { workspace = true }
 bv = { workspace = true, features = ["serde"] }
-curve25519-dalek = { workspace = true }
 dlopen2 = { workspace = true }
 fnv = { workspace = true }
 lazy_static = { workspace = true }
 log = { workspace = true }
-rand = { workspace = true }
 rayon = { workspace = true }
 serde = { workspace = true }
+
+lumos-curve25519-dalek = { workspace = true }
+lumos-rand = { workspace = true }
+
 lumos-frozen-abi = { workspace = true }
 lumos-frozen-abi-macro = { workspace = true }
 lumos-metrics = { workspace = true }
@@ -38,7 +40,7 @@ name = "lumos_perf"
 
 [dev-dependencies]
 assert_matches = { workspace = true }
-rand_chacha = { workspace = true }
+lumos-rand-chacha = { workspace = true }
 lumos-logger = { workspace = true }
 test-case = { workspace = true }
 

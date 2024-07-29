@@ -4,6 +4,7 @@
 [package]
 name = "lumos-address-lookup-table-program-tests"
 publish = false
+
 version = { workspace = true }
 authors = { workspace = true }
 repository = { workspace = true }

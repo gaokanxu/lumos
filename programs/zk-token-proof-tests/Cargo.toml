@@ -8,9 +8,11 @@ license = { workspace = true }
 edition = { workspace = true }
 
 [dev-dependencies]
-bytemuck = { workspace = true, features = ["derive"] }
-curve25519-dalek = { workspace = true }
+lumos-bytemuck = { workspace = true }
+
+lumos-curve25519-dalek = { workspace = true }
 lumos-program-runtime = { workspace = true }
 lumos-program-test = { workspace = true }
 lumos-sdk = { workspace = true }
 lumos-zk-token-sdk = { workspace = true }
+

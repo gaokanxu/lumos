@@ -8,8 +8,9 @@ license = "Apache-2.0"
 edition = "2021"
 
 [dev-dependencies]
-curve25519-dalek = "3.2.1"
-lumos-zk-sdk = "2.0.0"
 thiserror = "1.0.63"
-lpl-token-confidential-transfer-proof-extraction = { version = "0.1.0", path = "../proof-extraction" }
-lpl-token-confidential-transfer-proof-generation = { version = "0.1.0", path = "../proof-generation" }
+
+lumos-curve25519-dalek = { workspace =  true }
+lumos-zk-token-sdk = { workspace =  true }
+lpl-token-confidential-transfer-proof-extraction = { workspace =  true }
+lpl-token-confidential-transfer-proof-generation = { workspace =  true }
