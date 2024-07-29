@@ -10,6 +10,8 @@ license = { workspace = true }
 edition = { workspace = true }
 
 [dependencies]
+serial_test = { workspace = true }
+symlink = { workspace = true }
 base64 = { workspace = true }
 bincode = { workspace = true }
 bs58 = { workspace = true }
@@ -60,17 +62,12 @@ lumos-transaction-status = { workspace = true }
 lumos-version = { workspace = true }
 lumos-vote = { workspace = true }
 lumos-vote-program = { workspace = true }
-lpl-token = { workspace = true, features = ["no-entrypoint"] }
-lpl-token-2022 = { workspace = true, features = ["no-entrypoint"] }
-
-[dev-dependencies]
-serial_test = { workspace = true }
-symlink = { workspace = true }
-
 lumos-net-utils = { workspace = true }
-lumos-runtime = { workspace = true, features = ["dev-context-only-utils"] }
-lumos-stake-program = { workspace = true }
 lpl-pod = { workspace = true }
+lpl-token = { workspace = true }
+lpl-token-2022 = { workspace = true }
+
+
 
 [lib]
 crate-type = ["lib"]

@@ -23,15 +23,13 @@ lumos-ledger = { workspace = true }
 lumos-logger = { workspace = true }
 lumos-measure = { workspace = true }
 lumos-perf = { workspace = true }
-lumos-poh = { workspace = true, features = ["dev-context-only-utils"] }
-lumos-runtime = { workspace = true, features = ["dev-context-only-utils"] }
+lumos-poh = { workspace = true }
+lumos-runtime = { workspace = true }
 lumos-sdk = { workspace = true }
 lumos-streamer = { workspace = true }
 lumos-tpu-client = { workspace = true }
 lumos-version = { workspace = true }
 
-[features]
-dev-context-only-utils = []
 
 [package.metadata.docs.rs]
 targets = ["x86_64-unknown-linux-gnu"]

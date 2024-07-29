@@ -48,7 +48,7 @@ serial_test = { workspace = true }
 tempfile = { workspace = true }
 
 lumos-local-cluster = { workspace = true }
-lumos-runtime = { workspace = true, features = ["dev-context-only-utils"] }
+lumos-runtime = { workspace = true }
 lumos-test-validator = { workspace = true }
 
 

@@ -11,17 +11,17 @@ license = { workspace = true }
 edition = { workspace = true }
 
 [badges]
-codecov = { repository = "lumos-labs/lumos", branch = "master", service = "github" }
+codecov = { repository = "gaokanxu/lumos", branch = "main", service = "github" }
 
 [dependencies]
 base64 = { workspace = true }
 bincode = { workspace = true }
 bs58 = { workspace = true }
 bytes = { workspace = true }
-chrono = { workspace = true, features = ["default", "serde"] }
-dashmap = { workspace = true, features = ["rayon", "raw-api"] }
+chrono = { workspace = true }
+dashmap = { workspace = true }
 eager = { workspace = true }
-etcd-client = { workspace = true, features = ["tls"] }
+etcd-client = { workspace = true }
 futures = { workspace = true }
 histogram = { workspace = true }
 itertools = { workspace = true }
@@ -39,7 +39,7 @@ serde = { workspace = true }
 serde_bytes = { workspace = true }
 serde_derive = { workspace = true }
 
-strum = { workspace = true, features = ["derive"] }
+strum = { workspace = true }
 strum_macros = { workspace = true }
 sys-info = { workspace = true }
 tempfile = { workspace = true }
@@ -83,7 +83,7 @@ lumos-version = { workspace = true }
 lumos-vote = { workspace = true }
 lumos-vote-program = { workspace = true }
 lumos-wen-restart = { workspace = true }
-lumos-tokio = { workspace = true, features = ["full"] }
+lumos-tokio = { workspace = true }
 
 
 [dev-dependencies]
@@ -92,12 +92,12 @@ fs_extra = { workspace = true }
 serde_json = { workspace = true }
 serial_test = { workspace = true }
 # See order-crates-for-publishing.py for using this unusual `path = "."`
-lumos-core = { path = ".", features = ["dev-context-only-utils"] }
+lumos-core = { path = "." }
 lumos-logger = { workspace = true }
-lumos-poh = { workspace = true, features = ["dev-context-only-utils"] }
+lumos-poh = { workspace = true }
 lumos-program-runtime = { workspace = true }
-lumos-runtime = { workspace = true, features = ["dev-context-only-utils"] }
-lumos-sdk = { workspace = true, features = ["dev-context-only-utils"] }
+lumos-runtime = { workspace = true }
+lumos-sdk = { workspace = true }
 lumos-stake-program = { workspace = true }
 static_assertions = { workspace = true }
 systemstat = { workspace = true }
@@ -108,9 +108,6 @@ sysctl = { workspace = true }
 
 [build-dependencies]
 rustc_version = { workspace = true }
-
-[features]
-dev-context-only-utils = []
 
 [[bench]]
 name = "banking_stage"

@@ -22,7 +22,7 @@ lumos-tpu-client = { workspace = true }
 
 [dev-dependencies]
 lumos-logger = { workspace = true }
-lumos-runtime = { workspace = true, features = ["dev-context-only-utils"] }
+lumos-runtime = { workspace = true }
 
 [package.metadata.docs.rs]
 targets = ["x86_64-unknown-linux-gnu"]

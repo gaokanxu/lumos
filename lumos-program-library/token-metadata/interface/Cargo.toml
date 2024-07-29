@@ -7,22 +7,18 @@ repository = "https://github.com/gaokanxu/lumos"
 license = "Apache-2.0"
 edition = "2021"
 
-[features]
-serde-traits = ["dep:serde", "lpl-pod/serde-traits"]
-
 [dependencies]
-borsh = "1.5.1"
-serde = { version = "1.0.204", optional = true }
-lumos-program = { workspace = true }
-lpl-discriminator = { version = "0.3.0", path = "../../libraries/discriminator" }
-lpl-program-error = { version = "0.5.0", path = "../../libraries/program-error" }
-lpl-type-length-value = { version = "0.5.0", path = "../../libraries/type-length-value" }
-lpl-pod = { version = "0.3.0", path = "../../libraries/pod", features = [
-  "borsh",
-] }
+borsh = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
 
-[dev-dependencies]
-serde_json = "1.0.120"
+lumos-program = { workspace = true }
+
+lpl-discriminator = { workspace = true }
+lpl-program-error = { workspace = true }
+lpl-type-length-value = { workspace = true }
+lpl-pod = { workspace = true }
+
 
 [lib]
 crate-type = ["cdylib", "lib"]

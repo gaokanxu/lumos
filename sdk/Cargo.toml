@@ -21,8 +21,6 @@ byteorder = { workspace = true }
 chrono = { workspace = true }
 derivation-path = { workspace = true }
 digest = { workspace = true }
-ed25519-dalek = { workspace = true }
-ed25519-dalek-bip32 = { workspace = true }
 generic-array = { workspace = true }
 hmac = { workspace = true }
 itertools =  { workspace = true }
@@ -36,6 +34,10 @@ num_enum = { workspace = true }
 pbkdf2 = { workspace = true }
 qstring = { workspace = true }
 qualifier_attr = { workspace = true }
+anyhow = { workspace = true }
+hex = { workspace = true }
+static_assertions = { workspace = true }
+tiny-bip39 = { workspace = true }
 
 #rand0-7 = { package = "rand", version = "0.7", optional = true }
 rustversion = { workspace = true }
@@ -53,6 +55,8 @@ wasm-bindgen = { workspace = true }
 
 lumos-bytemuck = { workspace = true }
 lumos-curve25519-dalek = { workspace = true }
+lumos-ed25519-dalek = { workspace = true }
+lumos-ed25519-dalek-bip32 = { workspace = true }
 lumos-rand = { workspace = true }
 
 lumos-frozen-abi = { workspace = true }
@@ -60,19 +64,12 @@ lumos-frozen-abi-macro = { workspace = true }
 lumos-logger = { workspace = true }
 lumos-program = { workspace = true }
 lumos-sdk-macro = { workspace = true }
-
+lumos-sdk = { workspace = true }
 
 [target.'cfg(target_arch = "wasm32")'.dependencies]
 js-sys = { workspace = true }
 
-[dev-dependencies]
-anyhow = { workspace = true }
-hex = { workspace = true }
-static_assertions = { workspace = true }
-tiny-bip39 = { workspace = true }
 
-lumos-curve25519-dalek = { workspace = true }
-lumos-sdk = { workspace = true }
 
 
 [build-dependencies]

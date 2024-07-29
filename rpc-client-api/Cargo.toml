@@ -22,10 +22,8 @@ lumos-account-decoder = { workspace = true }
 lumos-sdk = { workspace = true }
 lumos-transaction-status = { workspace = true }
 lumos-version = { workspace = true }
-lpl-token-2022 = { workspace = true, features = ["no-entrypoint"] }
+lpl-token-2022 = { workspace = true }
 thiserror = { workspace = true }
-
-[dev-dependencies]
 
 [package.metadata.docs.rs]
 targets = ["x86_64-unknown-linux-gnu"]

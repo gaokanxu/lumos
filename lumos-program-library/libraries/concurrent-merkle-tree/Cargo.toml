@@ -1,6 +1,5 @@
 [package]
-name = "
-"
+name = "lpl-concurrent-merkle-tree"
 version = "0.3.0"
 description = "Lumos Program Library Concurrent Merkle Tree"
 authors = ["Gao Kanxu <gaokanxu@gmail.com>"]
@@ -8,22 +7,17 @@ repository = "https://github.com/gaokanxu/lumos"
 license = "Apache-2.0"
 edition = "2021"
 
-[features]
-log = []
-sol-log = ["log"]
 
 [dependencies]
 thiserror = { workspace =  true }
 
-lumos-program = { workspace =  true }
 lumos-bytemuck = { workspace =  true }
-
-[dev-dependencies]
-rand_distr = { workspace =  true }
-rand = { workspace =  true }
-
-lpl-merkle-tree-reference = { workspace =  true }
+lumos-rand-distr = { workspace =  true }
+lumos-rand = { workspace =  true }
 lumos-tokio = { workspace =  true }
+
+lumos-program = { workspace =  true }
+lpl-merkle-tree-reference = { workspace =  true }
 
 [lib]
 crate-type = ["cdylib", "lib"]

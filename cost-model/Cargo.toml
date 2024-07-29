@@ -12,6 +12,9 @@ edition = { workspace = true }
 [dependencies]
 lazy_static = { workspace = true }
 log = { workspace = true }
+static_assertions = { workspace = true }
+test-case = { workspace = true }
+
 lumos-address-lookup-table-program = { workspace = true }
 lumos-bpf-loader-program = { workspace = true }
 lumos-compute-budget-program = { workspace = true }
@@ -25,16 +28,13 @@ lumos-sdk = { workspace = true }
 lumos-stake-program = { workspace = true }
 lumos-system-program = { workspace = true }
 lumos-vote-program = { workspace = true }
+lumos-logger = { workspace = true }
+
+
 
 [lib]
 crate-type = ["lib"]
 name = "lumos_cost_model"
-
-[dev-dependencies]
-lumos-logger = { workspace = true }
-lumos-sdk = { workspace = true, features = ["dev-context-only-utils"] }
-static_assertions = { workspace = true }
-test-case = { workspace = true }
 
 [package.metadata.docs.rs]
 targets = ["x86_64-unknown-linux-gnu"]

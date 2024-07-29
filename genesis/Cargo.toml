@@ -30,8 +30,6 @@ lumos-version = { workspace = true }
 lumos-vote-program = { workspace = true }
 tempfile = { workspace = true }
 
-[dev-dependencies]
-lumos-runtime = { workspace = true, features = ["dev-context-only-utils"] }
 
 [[bin]]
 name = "lumos-genesis"

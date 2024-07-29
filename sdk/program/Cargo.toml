@@ -34,12 +34,19 @@ sha2 = { workspace = true }
 sha3 = { workspace = true }
 thiserror = { workspace = true }
 
-lumos-bytemuck = { workspace = true, features = ["derive"] }
+lumos-rand = { workspace = true }
+lumos-bytemuck = { workspace = true }
+lumos-curve25519-dalek = { workspace = true }
 
 lumos-frozen-abi = { workspace = true }
 lumos-frozen-abi-macro = { workspace = true }
 lumos-sdk-macro = { workspace = true }
-lumos-curve25519-dalek = { workspace = true, features = ["serde"] }
+
+anyhow = { workspace = true }
+array-bytes = { workspace = true }
+assert_matches = { workspace = true }
+static_assertions = { workspace = true }
+
 
 # This is currently needed to build on-chain programs reliably.
 # Borsh 0.10 may pull in hashbrown 0.13, which uses ahash 0.8, which uses
@@ -61,7 +68,6 @@ libc = { workspace = true }
 libsecp256k1 = { workspace = true }
 light-poseidon = { workspace = true }
 num-bigint = { workspace = true }
-lumos-rand = { workspace = true }
 tiny-bip39 = { workspace = true }
 wasm-bindgen = { workspace = true }
 zeroize = { workspace = true }
@@ -80,12 +86,6 @@ js-sys = { workspace = true }
 [target.'cfg(not(target_pointer_width = "64"))'.dependencies]
 parking_lot = { workspace = true }
 
-[dev-dependencies]
-anyhow = { workspace = true }
-array-bytes = { workspace = true }
-assert_matches = { workspace = true }
-serde_json = { workspace = true }
-static_assertions = { workspace = true }
 
 [build-dependencies]
 rustc_version = { workspace = true }

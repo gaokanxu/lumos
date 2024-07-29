@@ -11,7 +11,7 @@ edition = { workspace = true }
 
 [dependencies]
 lumos-program = { workspace = true }
-lumos-sbf-rust-mem = { workspace = true, features = ["no-entrypoint"] }
+lumos-sbf-rust-mem = { workspace = true }
 
 [lib]
 crate-type = ["cdylib"]

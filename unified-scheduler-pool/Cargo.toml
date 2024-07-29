@@ -16,6 +16,7 @@ log = { workspace = true }
 
 lumos-crossbeam-channel = { workspace = true }
 
+lumos-logger = { workspace = true }
 lumos-ledger = { workspace = true }
 lumos-program-runtime = { workspace = true }
 lumos-runtime = { workspace = true }
@@ -23,7 +24,3 @@ lumos-sdk = { workspace = true }
 lumos-unified-scheduler-logic = { workspace = true }
 lumos-vote = { workspace = true }
 
-[dev-dependencies]
-assert_matches = { workspace = true }
-lumos-logger = { workspace = true }
-lumos-runtime = { workspace = true, features = ["dev-context-only-utils"] }

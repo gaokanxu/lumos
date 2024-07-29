@@ -7,13 +7,12 @@ repository = "https://github.com/gaokanxu/lumos"
 license = "Apache-2.0"
 edition = "2021"
 
-[features]
-serde-traits = ["dep:serde"]
-test-sbf = []
-
 [dependencies]
-bytemuck = { version = "1.16.1", features = ["derive"] }
-serde = { version = "1.0.204", optional = true }
+serde = { workspace = true }
+futures =  { workspace = true }
+futures-util =  { workspace = true }
+
+lumos-bytemuck = { workspace = true }
 
 lumos-program = { workspace = true }
 lumos-client = { workspace = true }
@@ -25,10 +24,6 @@ lpl-program-error = { workspace = true }
 lpl-pod = { workspace = true }
 lpl-type-length-value = { workspace = true }
 lpl-tlv-account-resolution = { workspace = true }
-
-[dev-dependencies]
-futures = "0.3.30"
-futures-util = "0.3"
 
 [lib]
 crate-type = ["cdylib", "lib"]

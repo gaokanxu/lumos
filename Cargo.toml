@@ -258,7 +258,7 @@ criterion-stats = "0.3.0"
 csv = "1.3.0"
 ctrlc = "3.4.2"
 dashmap = "5.5.3"
-derivation-path = { version = "0.2.0", default-features = false }
+derivation-path = { version = "0.2.0" }
 derivative = "2.2.0"
 dialoguer = "0.10.4"
 digest = "0.10.7"
@@ -266,8 +266,6 @@ dir-diff = "0.3.3"
 dirs-next = "2.0.0"
 dlopen2 = "0.5.0"
 eager = "0.1.0"
-ed25519-dalek = "=1.0.1"
-ed25519-dalek-bip32 = "0.2.0"
 either = "1.10.0"
 enum-iterator = "1.5.0"
 env_logger = "0.9.3"
@@ -280,12 +278,12 @@ fs_extra = "1.3.0"
 futures = "0.3.30"
 futures-util = "0.3.29"
 gag = "1.0.0"
-generic-array = { version = "0.14.7", default-features = false }
+generic-array = { version = "0.14.7" }
 gethostname = "0.2.3"
 getrandom = "0.2.10"
 goauth = "0.13.1"
 hex = "0.4.3"
-hidapi = { version = "2.6.1", default-features = false }
+hidapi = { version = "2.6.1"}
 histogram = "0.6.9"
 hmac = "0.12.1"
 http = "0.2.12"
@@ -330,10 +328,10 @@ num_cpus = "1.16.0"
 num_enum = "0.7.2"
 openssl = "0.10"
 parking_lot = "0.12"
-pbkdf2 = { version = "0.11.0", default-features = false }
+pbkdf2 = { version = "0.11.0" }
 pem = "1.1.1"
 percentage = "0.1.0"
-pickledb = { version = "0.5.1", default-features = false }
+pickledb = { version = "0.5.1" }
 predicates = "2.1"
 pretty-hex = "0.3.0"
 prio-graph = "0.2.1"
@@ -344,7 +342,7 @@ prost-build = "0.11.9"
 prost-types = "0.11.9"
 protobuf-src = "1.1.0"
 qstring = "0.7.2"
-qualifier_attr = { version = "0.2.2", default-features = false }
+qualifier_attr = { version = "0.2.2" }
 quinn = "0.10.2"
 quinn-proto = "0.10.6"
 quote = "1.0"
@@ -352,7 +350,7 @@ raptorq = "1.8.1"
 rayon = "1.9.0"
 reed-solomon-erasure = "6.0.0"
 regex = "1.10.3"
-reqwest = { version = "0.11.23", default-features = false }
+reqwest = { version = "0.11.23" }
 rolling-file = "0.2.0"
 rpassword = "7.3"
 rustc_version = "0.4"
@@ -365,7 +363,7 @@ serde = "1.0.197"
 serde_bytes = "0.11.14"
 serde_derive = "1.0.103"
 serde_json = "1.0.114"
-serde_with = { version = "2.3.3" }
+serde_with = "2.3.3"
 serde_yaml = "0.9.32"
 serial_test = "2.0.0"
 sha2 = "0.10.8"
@@ -410,26 +408,24 @@ zstd = "0.11.2"
 
 
 # Update lumos-tokio patch below when updating this version
-lumos-tokio = "1.29.1"
-lumos-tokio-stream = "0.1.14"
-lumos-tokio-tungstenite = "0.23.1"
-lumos-tokio-util = "0.7.10"
-lumos-rand = "0.9"
-lumos-rand-chacha = "0.9"
-lumos-rand-distr = "0.9"
-
-
-# Update lumos-tokio-serde patch below when updating this version
-lumos-tokio-serde = "0.9.0"
-
-lumos-security-txt = "1.1.1"
-lumos-rbpf = "=0.8.2"
-lumos-nohash-hasher = "0.2.1"
-lumos-curve25519-dalek = "4.1.3"
-lumos-crossbeam-channel = "0.5.6"
-lumos-ed25519-dalek = "2.1.1"
-lumos-bytemuck = "1.16.1"
-lumos-bytemuck-derive = "1.7.0"
+lumos-tokio = { git = "https://github.com/gaokanxu/lumos-tokio.git", branch = "main", package = "tokio" }
+lumos-tokio-stream = { git = "https://github.com/gaokanxu/lumos-tokio.git", branch = "main", package = "tokio-stream" }
+lumos-tokio-util = { git = "https://github.com/gaokanxu/lumos-tokio.git", branch = "main", package = "tokio-util" }
+lumos-tokio-serde = { git = "https://github.com/gaokanxu/lumos-tokio-serde.git", branch = "main", package = "tokio-serde" }
+lumos-tokio-tungstenite = { git = "https://github.com/gaokanxu/lumos-tokio-tungstenite.git", branch = "main", package = "tokio-tungstenite" }
+lumos-rand = { git = "https://github.com/gaokanxu/lumos-rand.git", branch = "main", package = "rand" }
+lumos-rand-chacha = { git = "https://github.com/gaokanxu/lumos-rand.git", branch = "main", package = "rand_chacha" }
+lumos-rand-distr = { git = "https://github.com/gaokanxu/lumos-rand.git", branch = "main", package = "rand_distr" }
+lumos-security-txt = { git = "https://github.com/gaokanxu/lumos-security-txt.git", branch = "main", package = "security-txt" }
+lumos-rbpf = { git = "https://github.com/gaokanxu/lumos-rbpf.git", branch = "main", package = "rbpf" }
+lumos-nohash-hasher = { git = "https://github.com/gaokanxu/lumos-nohash-hasher.git", branch = "main", package = "nohash-hasher" }
+lumos-curve25519-dalek = { git = "https://github.com/gaokanxu/lumos-curve25519-dalek.git", branch = "main", package = "curve25519-dalek" }
+lumos-curve25519-dalek-derive = { git = "https://github.com/gaokanxu/lumos-curve25519-dalek.git", branch = "main", package = "curve25519-dalek-derive" }
+lumos-ed25519-dalek = { git = "https://github.com/gaokanxu/lumos-curve25519-dalek.git", branch = "main", package = "ed25519-dalek" }
+lumos-ed25519-dalek-bip32 = { git = "https://github.com/gaokanxu/lumos-ed25519-dalek-bip32.git", branch = "main", package = "ed25519-dalek-bip32" }
+lumos-crossbeam-channel = { git = "https://github.com/gaokanxu/lumos-crossbeam.git", branch = "main", package = "crossbeam-channel" }
+lumos-bytemuck = { git = "https://github.com/gaokanxu/lumos-bytemuck.git", branch = "main", package = "bytemuck" }
+lumos-bytemuck-derive = { git = "https://github.com/gaokanxu/lumos-bytemuck.git", branch = "main", package = "bytemuck_derive" }
 
 
 
@@ -550,63 +546,3 @@ lpl-token-upgrade = { path = "lumos-program-library/token-upgrade/program" }
 lpl-token-confidential-transfer-proof-generation = { path = "lumos-program-library/token/confidential-transfer/proof-generation" }
 lpl-token-confidential-transfer-proof-extraction = { path = "lumos-program-library/token/confidential-transfer/proof-extraction" }
 
-[patch.crates-io.lumos-crossbeam-channel]
-git = "https://github.com/gaokanxu/lumos-crossbeam"
-branch = "main"
-
-[patch.crates-io.aes-gcm-siv]
-git = "https://github.com/RustCrypto/AEADs"
-rev = "6105d7a5591aefa646a95d12b5e8d3f55a9214ef"
-
-[patch.crates-io.lumos-curve25519-dalek]
-git = "https://github.com/gaokanxu/lumos-curve25519-dalek.git"
-branch = "main"
-
-[patch.crates-io.lumos-tokio]
-git = "https://github.com/gaokanxu/lumos-tokio.git"
-branch = "main"
-
-[patch.crates-io.lumos-tokio-stream]
-git = "https://github.com/gaokanxu/lumos-tokio.git"
-branch = "main"
-
-[patch.crates-io.lumos-tokio-util]
-git = "https://github.com/gaokanxu/lumos-tokio.git"
-branch = "main"
-
-[patch.crates-io.lumos-tokio-serde]
-git = "https://github.com/gaokanxu/lumos-tokio-serde.git"
-branch = "main"
-
-[patch.crates-io.lumos-tokio-tungstenite]
-git = "https://github.com/gaokanxu/lumos-tokio-tungstenite.git"
-branch = "main"
-
-[patch.crates-io.lumos-rbpf]
-git = "https://github.com/gaokanxu/lumos-rbpf.git"
-branch = "main"
-
-[patch.crates-io.lumos-nohash-hasher]
-git = "https://github.com/gaokanxu/lumos-nohash-hasher.git"
-branch = "main"
-
-[patch.crates-io.lumos-security-txt]
- git = "https://github.com/gaokanxu/lumos-security-txt.git"
- branch = "main"
- 
- [patch.crates-io.lumos-bytemuck]
- git = "https://github.com/gaokanxu/lumos-bytemuck.git"
- branch = "main"
- 
- [patch.crates-io.lumos-bytemuck-derive]
- git = "https://github.com/gaokanxu/lumos-bytemuck.git"
- branch = "main"
- 
- [patch.crates-io.lumos-rand]
- git = "https://github.com/gaokanxu/lumos-rand.git"
- branch = "main"
- 
- [patch.crates-io.lumos-rand-chacha]
- git = "https://github.com/gaokanxu/lumos-rand.git"
- branch = "main"
- 

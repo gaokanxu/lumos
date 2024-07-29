@@ -11,17 +11,16 @@ edition = { workspace = true }
 
 [dependencies]
 clap = { workspace = true }
+
 lumos-clap-utils = { workspace = true }
 lumos-cli-config = { workspace = true }
-lumos-remote-wallet = { workspace = true, features = ["default"] }
-lumos-rpc-client = { workspace = true, features = ["default"] }
+lumos-remote-wallet = { workspace = true }
+lumos-rpc-client = { workspace = true }
 lumos-rpc-client-api = { workspace = true }
 lumos-sdk = { workspace = true }
 lumos-stake-program = { workspace = true }
 lumos-version = { workspace = true }
-
-[dev-dependencies]
-lumos-runtime = { workspace = true, features = ["dev-context-only-utils"] }
+lumos-runtime = { workspace = true }
 
 [package.metadata.docs.rs]
 targets = ["x86_64-unknown-linux-gnu"]

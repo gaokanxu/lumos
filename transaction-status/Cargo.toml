@@ -24,10 +24,10 @@ serde_derive = { workspace = true }
 serde_json = { workspace = true }
 lumos-account-decoder = { workspace = true }
 lumos-sdk = { workspace = true }
-lpl-associated-token-account = { workspace = true, features = ["no-entrypoint"] }
-lpl-memo = { workspace = true, features = ["no-entrypoint"] }
-lpl-token = { workspace = true, features = ["no-entrypoint"] }
-lpl-token-2022 = { workspace = true, features = ["no-entrypoint"] }
+lpl-associated-token-account = { workspace = true }
+lpl-memo = { workspace = true }
+lpl-token = { workspace = true }
+lpl-token-2022 = { workspace = true }
 thiserror = { workspace = true }
 
 [package.metadata.docs.rs]

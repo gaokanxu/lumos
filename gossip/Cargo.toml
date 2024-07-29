@@ -27,6 +27,9 @@ serde_bytes = { workspace = true }
 serde_derive = { workspace = true }
 static_assertions = { workspace = true }
 thiserror = { workspace = true }
+num_cpus = { workspace = true }
+serial_test = { workspace = true }
+test-case = { workspace = true }
 
 lumos-crossbeam-channel = { workspace = true }
 lumos-rand = { workspace = true }
@@ -54,12 +57,6 @@ lumos-version = { workspace = true }
 lumos-vote = { workspace = true }
 lumos-vote-program = { workspace = true }
 
-
-[dev-dependencies]
-num_cpus = { workspace = true }
-serial_test = { workspace = true }
-lumos-runtime = { workspace = true, features = ["dev-context-only-utils"] }
-test-case = { workspace = true }
 
 [build-dependencies]
 rustc_version = { workspace = true }

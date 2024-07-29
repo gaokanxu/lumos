@@ -12,11 +12,11 @@ edition = { workspace = true }
 [dependencies]
 bzip2 = { workspace = true }
 cargo_metadata = { workspace = true }
-clap = { version = "3.1.5", features = ["cargo", "env"] }
+clap = { workspace = true }
 itertools = { workspace = true }
-log = { workspace = true, features = ["std"] }
+log = { workspace = true }
 regex = { workspace = true }
-reqwest = { workspace = true, features = ["blocking", "rustls-tls"] }
+reqwest = { workspace = true }
 semver = { workspace = true }
 lumos-download-utils = { workspace = true }
 lumos-logger = { workspace = true }
@@ -27,7 +27,7 @@ tar = { workspace = true }
 assert_cmd = { workspace = true }
 predicates = { workspace = true }
 serial_test = { workspace = true }
-lumos-sdk = { workspace = true, features = ["dev-context-only-utils"] }
+lumos-sdk = { workspace = true }
 
 [features]
 program = []

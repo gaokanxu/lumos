@@ -40,6 +40,8 @@ strum_macros = { workspace = true }
 tempfile = { workspace = true }
 thiserror = { workspace = true }
 trees = { workspace = true }
+test-case = { workspace = true }
+bs58 = { workspace = true }
 
 
 lumos-crossbeam-channel = { workspace = true }
@@ -55,6 +57,7 @@ lumos-cost-model = { workspace = true }
 lumos-entry = { workspace = true }
 lumos-frozen-abi = { workspace = true }
 lumos-frozen-abi-macro = { workspace = true }
+lumos-logger = { workspace = true }
 lumos-measure = { workspace = true }
 lumos-metrics = { workspace = true }
 lumos-perf = { workspace = true }
@@ -69,8 +72,15 @@ lumos-lvm = { workspace = true }
 lumos-transaction-status = { workspace = true }
 lumos-vote = { workspace = true }
 lumos-vote-program = { workspace = true }
+lpl-pod = { workspace = true }
 lpl-token = { workspace = true }
 lpl-token-2022 = { workspace = true }
+
+
+
+
+
+
 
 [dependencies.rocksdb]
 # Avoid the vendored bzip2 within rocksdb-sys that can cause linker conflicts
@@ -79,19 +89,10 @@ version = "0.21.0"
 default-features = false
 features = ["lz4"]
 
-[dev-dependencies]
-bs58 = { workspace = true }
-lumos-account-decoder = { workspace = true }
-lumos-logger = { workspace = true }
-lumos-runtime = { workspace = true, features = ["dev-context-only-utils"] }
-lpl-pod = { workspace = true }
-test-case = { workspace = true }
 
 [build-dependencies]
 rustc_version = { workspace = true }
 
-[features]
-dev-context-only-utils = []
 
 [lib]
 crate-type = ["lib"]

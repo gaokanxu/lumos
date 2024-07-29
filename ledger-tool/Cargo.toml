@@ -11,7 +11,7 @@ edition = { workspace = true }
 
 [dependencies]
 bs58 = { workspace = true }
-chrono = { workspace = true, features = ["default"] }
+chrono = { workspace = true }
 clap = { workspace = true }
 csv = { workspace = true }
 dashmap = { workspace = true }
@@ -21,7 +21,7 @@ itertools = { workspace = true }
 log = { workspace = true }
 num_cpus = { workspace = true }
 regex = { workspace = true }
-serde = { workspace = true, features = ["derive"] }
+serde = { workspace = true }
 serde_json = { workspace = true }
 thiserror = { workspace = true }
 
@@ -42,7 +42,7 @@ lumos-logger = { workspace = true }
 lumos-measure = { workspace = true }
 lumos-program-runtime = { workspace = true }
 lumos-rpc = { workspace = true }
-lumos-runtime = { workspace = true, features = ["dev-context-only-utils"] }
+lumos-runtime = { workspace = true }
 lumos-sdk = { workspace = true }
 lumos-stake-program = { workspace = true }
 lumos-storage-bigtable = { workspace = true }
@@ -51,8 +51,8 @@ lumos-transaction-status = { workspace = true }
 lumos-unified-scheduler-pool = { workspace = true }
 lumos-version = { workspace = true }
 lumos-vote-program = { workspace = true }
-lumos-rbpf = { workspace = true, features = ["debugger"] }
-lumos-tokio = { workspace = true, features = ["full"] }
+lumos-rbpf = { workspace = true }
+lumos-tokio = { workspace = true }
 
 [target.'cfg(not(target_env = "msvc"))'.dependencies]
 jemallocator = { workspace = true }
@@ -61,8 +61,6 @@ jemallocator = { workspace = true }
 assert_cmd = { workspace = true }
 bytecount = { workspace = true }
 
-[features]
-dev-context-only-utils = []
 
 [target."cfg(unix)".dependencies]
 signal-hook = { workspace = true }

@@ -10,26 +10,26 @@ license = { workspace = true }
 edition = { workspace = true }
 
 [dependencies]
-chrono = { workspace = true, features = ["default", "serde"] }
-clap = "2.33.0"
+chrono = { workspace = true }
+clap = { workspace = true }
 console = { workspace = true }
 csv = { workspace = true }
-ctrlc = { workspace = true, features = ["termination"] }
+ctrlc = { workspace = true }
 indexmap = { workspace = true }
 indicatif = { workspace = true }
-pickledb = { workspace = true, features = ["yaml"] }
-serde = { workspace = true, features = ["derive"] }
+pickledb = { workspace = true }
+serde = { workspace = true }
 lumos-account-decoder = { workspace = true }
 lumos-clap-utils = { workspace = true }
 lumos-cli-config = { workspace = true }
-lumos-remote-wallet = { workspace = true, features = ["default"] }
-lumos-rpc-client = { workspace = true, features = ["default"] }
+lumos-remote-wallet = { workspace = true }
+lumos-rpc-client = { workspace = true }
 lumos-rpc-client-api = { workspace = true }
 lumos-sdk = { workspace = true }
 lumos-transaction-status = { workspace = true }
 lumos-version = { workspace = true }
 lpl-associated-token-account = { workspace = true }
-lpl-token = { workspace = true, features = ["no-entrypoint"] }
+lpl-token = { workspace = true }
 tempfile = { workspace = true }
 thiserror = { workspace = true }
 

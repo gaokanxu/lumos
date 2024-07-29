@@ -44,17 +44,17 @@ lumos-loader-v4-program = { workspace = true }
 lumos-logger = { workspace = true }
 lumos-program-runtime = { workspace = true }
 lumos-pubsub-client = { workspace = true }
-lumos-remote-wallet = { workspace = true, features = ["default"] }
-lumos-rpc-client = { workspace = true, features = ["default"] }
+lumos-remote-wallet = { workspace = true }
+lumos-rpc-client = { workspace = true }
 lumos-rpc-client-api = { workspace = true }
 lumos-rpc-client-nonce-utils = { workspace = true }
 lumos-sdk = { workspace = true }
-lumos-tpu-client = { workspace = true, features = ["default"] }
+lumos-tpu-client = { workspace = true }
 lumos-transaction-status = { workspace = true }
 lumos-version = { workspace = true }
 lumos-vote-program = { workspace = true }
 lumos-rbpf = { workspace = true }
-lpl-memo = { workspace = true, features = ["no-entrypoint"] }
+lpl-memo = { workspace = true }
 
 [dev-dependencies]
 assert_matches = { workspace = true }
