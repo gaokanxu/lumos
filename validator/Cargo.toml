@@ -33,8 +33,8 @@ serde_yaml = { workspace = true }
 symlink = { workspace = true }
 thiserror = { workspace = true }
 
-lumos-crossbeam-channel = { workspace = true }
-lumos-rand = { workspace = true }
+crossbeam-channel = { workspace = true }
+rand = { workspace = true }
 lumos-account-decoder = { workspace = true }
 lumos-accounts-db = { workspace = true }
 lumos-clap-utils = { workspace = true }
@@ -68,7 +68,7 @@ lumos-tpu-client = { workspace = true }
 lumos-unified-scheduler-pool = { workspace = true }
 lumos-version = { workspace = true }
 lumos-vote-program = { workspace = true }
-lumos-tokio = { workspace = true }
+tokio = { workspace = true }
 lpl-token-2022 = { workspace = true }
 
 

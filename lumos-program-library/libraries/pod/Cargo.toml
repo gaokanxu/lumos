@@ -12,8 +12,8 @@ base64 = { workspace = true }
 borsh = { workspace = true }
 serde = { workspace = true }
 
-lumos-bytemuck = { workspace = true }
-lumos-bytemuck-derive = { workspace = true }
+bytemuck = { workspace = true }
+bytemuck-derive = { workspace = true }
 
 lumos-program = { workspace = true }
 lumos-zk-token-sdk = { workspace = true }

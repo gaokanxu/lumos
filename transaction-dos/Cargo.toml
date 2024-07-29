@@ -14,7 +14,7 @@ clap = { workspace = true }
 log = { workspace = true }
 rayon = { workspace = true }
 
-lumos-rand = { workspace = true }
+rand = { workspace = true }
 
 lumos-clap-utils = { workspace = true }
 lumos-cli = { workspace = true }

@@ -35,7 +35,7 @@ lumos-sdk = { workspace = true }
 lumos-storage-proto = { workspace = true }
 lumos-transaction-status = { workspace = true }
 thiserror = { workspace = true }
-lumos-tokio = { workspace = true }
+tokio = { workspace = true }
 
 # openssl is a dependency of the goauth and smpl_jwt crates, but explicitly
 # declare it here as well to activate the "vendored" feature that builds OpenSSL

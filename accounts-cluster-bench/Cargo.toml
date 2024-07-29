@@ -13,7 +13,7 @@ clap = { workspace = true }
 log = { workspace = true }
 rayon = { workspace = true }
 
-lumos-rand = { workspace = true }
+rand = { workspace = true }
 
 lumos-account-decoder = { workspace = true }
 lumos-accounts-db = { workspace = true }

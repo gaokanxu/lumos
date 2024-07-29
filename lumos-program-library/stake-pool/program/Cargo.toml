@@ -21,7 +21,7 @@ num_enum = "0.7.2"
 serde = "1.0.204"
 serde_derive = "1.0.103"
 
-lumos-security-txt = { workspace = true }
+security-txt = { workspace = true }
 lumos-program = { workspace = true }
 #lpl-math = { workspace = true }
 lpl-pod = { workspace = true }

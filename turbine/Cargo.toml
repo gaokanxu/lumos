@@ -21,9 +21,9 @@ rayon = { workspace = true }
 rustls = { workspace = true }
 thiserror = { workspace = true }
 
-lumos-crossbeam-channel = { workspace = true }
-lumos-rand = { workspace = true }
-lumos-rand-chacha = { workspace = true }
+crossbeam-channel = { workspace = true }
+rand = { workspace = true }
+rand-chacha = { workspace = true }
 
 lumos-entry = { workspace = true }
 lumos-gossip = { workspace = true }
@@ -39,7 +39,7 @@ lumos-rpc-client-api = { workspace = true }
 lumos-runtime = { workspace = true }
 lumos-sdk = { workspace = true }
 lumos-streamer = { workspace = true }
-lumos-tokio = { workspace = true }
+tokio = { workspace = true }
 
 
 [dev-dependencies]

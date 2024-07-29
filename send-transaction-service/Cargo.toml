@@ -12,7 +12,7 @@ edition = { workspace = true }
 [dependencies]
 log = { workspace = true }
 
-lumos-crossbeam-channel = { workspace = true }
+crossbeam-channel = { workspace = true }
 lumos-client = { workspace = true }
 lumos-measure = { workspace = true }
 lumos-metrics = { workspace = true }

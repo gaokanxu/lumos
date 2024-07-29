@@ -44,11 +44,11 @@ test-case = { workspace = true }
 bs58 = { workspace = true }
 
 
-lumos-crossbeam-channel = { workspace = true }
-lumos-rand = { workspace = true }
-lumos-rand-chacha = { workspace = true }
-lumos-tokio = { workspace = true }
-lumos-tokio-stream = { workspace = true }
+crossbeam-channel = { workspace = true }
+rand = { workspace = true }
+rand-chacha = { workspace = true }
+tokio = { workspace = true }
+tokio-stream = { workspace = true }
 
 lumos-account-decoder = { workspace = true }
 lumos-accounts-db = { workspace = true }

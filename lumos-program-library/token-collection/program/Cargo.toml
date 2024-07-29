@@ -7,25 +7,19 @@ repository = "https://github.com/gaokanxu/lumos"
 license = "Apache-2.0"
 edition = "2021"
 
-[features]
-no-entrypoint = []
-test-sbf = []
-
 [dependencies]
 lumos-program = { workspace = true }
-lpl-pod = { version = "0.3.0", path = "../../libraries/pod" }
-lpl-program-error = { version = "0.5.0" , path = "../../libraries/program-error" }
-lpl-token-2022 = { version = "4.0.0", path = "../../token/program-2022", features = ["no-entrypoint"] }
-lpl-token-group-example = { version = "0.2", path = "../../token-group/example", features = ["no-entrypoint"] }
-lpl-token-group-interface = { version = "0.3.0", path = "../../token-group/interface" }
-lpl-token-metadata-interface = { version = "0.4.0", path = "../../token-metadata/interface" }
-lpl-type-length-value = { version = "0.5.0", path = "../../libraries/type-length-value" }
-
-[dev-dependencies]
 lumos-program-test = { workspace = true }
 lumos-sdk = { workspace = true }
-lpl-discriminator = { version = "0.3.0", path = "../../libraries/discriminator" }
-lpl-token-client = { version = "0.11.0", path = "../../token/client" }
+lpl-pod = { workspace = true }
+lpl-program-error = { workspace = true }
+lpl-token-2022 = { workspace = true }
+lpl-token-group-example = { workspace = true }
+lpl-token-group-interface = { workspace = true }
+lpl-token-metadata-interface = { workspace = true }
+lpl-type-length-value = { workspace = true }
+lpl-discriminator = { workspace = true }
+lpl-token-client = { workspace = true }
 
 [lib]
 crate-type = ["cdylib", "lib"]

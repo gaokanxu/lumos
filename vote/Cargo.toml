@@ -17,8 +17,8 @@ serde_derive = { workspace = true }
 thiserror = { workspace = true }
 bincode = { workspace = true }
 
-lumos-crossbeam-channel = { workspace = true }
-lumos-rand = { workspace = true }
+crossbeam-channel = { workspace = true }
+rand = { workspace = true }
 
 lumos-frozen-abi = { workspace = true }
 lumos-frozen-abi-macro = { workspace = true }

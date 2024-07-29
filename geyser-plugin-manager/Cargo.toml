@@ -18,7 +18,7 @@ log = { workspace = true }
 serde_json = { workspace = true }
 thiserror = { workspace = true }
 
-lumos-crossbeam-channel = { workspace = true }
+crossbeam-channel = { workspace = true }
 
 lumos-accounts-db = { workspace = true }
 lumos-entry = { workspace = true }
@@ -30,7 +30,7 @@ lumos-rpc = { workspace = true }
 lumos-runtime = { workspace = true }
 lumos-sdk = { workspace = true }
 lumos-transaction-status = { workspace = true }
-lumos-tokio = { workspace = true }
+tokio = { workspace = true }
 
 [package.metadata.docs.rs]
 targets = ["x86_64-unknown-linux-gnu"]

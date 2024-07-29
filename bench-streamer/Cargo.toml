@@ -11,7 +11,7 @@ edition = { workspace = true }
 [dependencies]
 clap = { workspace = true, features = ["cargo"] }
 
-lumos-crossbeam-channel = { workspace = true }
+crossbeam-channel = { workspace = true }
 lumos-net-utils = { workspace = true }
 lumos-streamer = { workspace = true }
 lumos-version = { workspace = true }

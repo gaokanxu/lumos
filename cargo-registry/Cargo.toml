@@ -32,7 +32,7 @@ lumos-rpc-client = { workspace = true }
 lumos-rpc-client-api = { workspace = true }
 lumos-sdk = { workspace = true }
 lumos-version = { workspace = true }
-lumos-tokio = { workspace = true }
+tokio = { workspace = true }
 
 [dev-dependencies]
 

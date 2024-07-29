@@ -17,7 +17,7 @@ num-traits = { workspace = true }
 serde = { workspace = true }
 thiserror = { workspace = true }
 
-lumos-bytemuck = { workspace = true }
+bytemuck = { workspace = true }
 lumos-frozen-abi = { workspace = true }
 lumos-frozen-abi-macro = { workspace = true }
 lumos-program = { workspace = true }

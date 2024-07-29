@@ -31,7 +31,7 @@ tar = { workspace = true }
 tempfile = { workspace = true }
 url = { workspace = true }
 
-lumos-crossbeam-channel = { workspace = true }
+crossbeam-channel = { workspace = true }
 
 lumos-clap-utils = { workspace = true }
 lumos-config-program = { workspace = true }

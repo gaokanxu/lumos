@@ -67,7 +67,7 @@ lumos-lvm = { workspace = true }
 lumos-transaction-status = { workspace = true }
 lumos-validator = { workspace = true }
 lumos-zk-token-sdk = { workspace = true }
-lumos-rbpf = { workspace = true }
+rbpf = { workspace = true }
 
 
 [features]
@@ -103,7 +103,7 @@ lumos-sbf-rust-realloc-invoke = { workspace = true }
 lumos-sdk = { workspace = true }
 lumos-lvm = { workspace = true }
 lumos-transaction-status = { workspace = true }
-lumos-rbpf = { workspace = true }
+rbpf = { workspace = true }
 lumos-program = { workspace = true }
 lumos-zk-token-sdk = { workspace = true }
 

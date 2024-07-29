@@ -18,8 +18,8 @@ thiserror = { workspace = true }
 env_logger = { workspace = true }
 serial_test = { workspace = true }
 
-lumos-crossbeam-channel = { workspace = true }
-lumos-rand = { workspace = true }
+crossbeam-channel = { workspace = true }
+rand = { workspace = true }
 
 lumos-sdk = { workspace = true }
 

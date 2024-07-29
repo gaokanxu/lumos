@@ -16,8 +16,8 @@ serde_json = { workspace = true }
 serde_yaml = { workspace = true }
 thiserror = { workspace = true }
 
-lumos-crossbeam-channel = { workspace = true }
-lumos-rand = { workspace = true }
+crossbeam-channel = { workspace = true }
+rand = { workspace = true }
 
 lumos-clap-utils = { workspace = true }
 lumos-cli-config = { workspace = true }

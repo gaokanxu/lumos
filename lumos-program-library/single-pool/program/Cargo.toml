@@ -23,7 +23,7 @@ bincode = "1.3.1"
 rand = "0.8.5"
 approx = "0.5.1"
 
-lumos-security-txt = { workspace =  true }
+security-txt = { workspace =  true }
 
 lumos-program = { workspace = true }
 lumos-sdk = { workspace = true }

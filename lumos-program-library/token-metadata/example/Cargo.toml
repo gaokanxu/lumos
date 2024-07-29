@@ -7,22 +7,19 @@ repository = "https://github.com/gaokanxu/lumos"
 license = "Apache-2.0"
 edition = "2021"
 
-[features]
-no-entrypoint = []
-test-sbf = []
-
 [dependencies]
-lumos-program = { workspace = true }
-lpl-token-2022 = { version = "4.0.0", path = "../../token/program-2022", features = ["no-entrypoint"] }
-lpl-token-metadata-interface = { version = "0.4.0", path = "../interface" }
-lpl-type-length-value = { version = "0.5.0" , path = "../../libraries/type-length-value" }
-lpl-pod = { version = "0.3.0", path = "../../libraries/pod" }
+test-case = { workspace = true }
 
-[dev-dependencies]
+lumos-program = { workspace = true }
 lumos-program-test = { workspace = true }
 lumos-sdk = { workspace = true }
-lpl-token-client = { version = "0.11.0", path = "../../token/client" }
-test-case = "3.3"
+
+lpl-token-2022 = { workspace = true }
+lpl-token-metadata-interface = { workspace = true }
+lpl-type-length-value = { workspace = true }
+lpl-pod = { workspace = true }
+lpl-token-client = { workspace = true }
+
 
 [lib]
 crate-type = ["cdylib", "lib"]

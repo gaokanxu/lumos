@@ -8,14 +8,12 @@ license = "Apache-2.0"
 edition = "2021"
 
 [dependencies]
-bytemuck = "1.16.1"
+bytemuck = { workspace = true }
 lumos-program = { workspace = true }
-lpl-discriminator = { version = "0.3.0" , path = "../../libraries/discriminator" }
-lpl-pod = { version = "0.3.0" , path = "../../libraries/pod", features = ["borsh"] }
-lpl-program-error = { version = "0.5.0" , path = "../../libraries/program-error" }
-
-[dev-dependencies]
-lpl-type-length-value = { version = "0.5.0", path = "../../libraries/type-length-value", features = ["derive"] }
+lpl-discriminator = { workspace = true }
+lpl-pod = { workspace = true }
+lpl-program-error = { workspace = true }
+lpl-type-length-value = { workspace = true }
 
 [lib]
 crate-type = ["cdylib", "lib"]

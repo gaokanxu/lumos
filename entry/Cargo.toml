@@ -17,8 +17,8 @@ log = { workspace = true }
 rayon = { workspace = true }
 serde = { workspace = true }
 
-lumos-crossbeam-channel = { workspace = true }
-lumos-rand = { workspace = true }
+crossbeam-channel = { workspace = true }
+rand = { workspace = true }
 
 lumos-measure = { workspace = true }
 lumos-merkle-tree = { workspace = true }

@@ -23,10 +23,10 @@ proptest = { workspace = true }
 serial_test = { workspace = true }
 serde_json = { workspace = true }
 
-lumos-bytemuck = { workspace = true }
+bytemuck = { workspace = true }
 
 lumos-program = { workspace = true }
-lumos-security-txt = { workspace = true }
+security-txt = { workspace = true }
 lumos-zk-token-sdk = { workspace = true }
 lpl-memo = { workspace = true }
 lpl-token = { workspace = true }
@@ -39,8 +39,6 @@ lumos-transaction-status = { workspace = true }
 lumos-program-test = { workspace = true }
 lumos-sdk = { workspace = true }
 lpl-tlv-account-resolution = { workspace = true }
-
-
 
 [lib]
 crate-type = ["cdylib", "lib"]

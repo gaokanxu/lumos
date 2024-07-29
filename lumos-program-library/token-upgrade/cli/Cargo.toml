@@ -11,8 +11,10 @@ edition = "2021"
 walkdir = "2"
 
 [dependencies]
-clap = { version = "3", features = ["cargo"] }
-futures-util = "0.3.30"
+clap = { workspace = true }
+futures-util = { workspace = true }
+
+tokio = { workspace = true }
 
 lumos-clap-v3-utils = { workspace = true }
 lumos-cli-config = { workspace = true }
@@ -20,17 +22,16 @@ lumos-client = { workspace = true }
 lumos-logger = { workspace = true }
 lumos-remote-wallet = { workspace = true }
 lumos-sdk = { workspace = true }
-
-lpl-associated-token-account = { workspace = true, features = ["no-entrypoint"] }
-lpl-token = { workspace = true, features = ["no-entrypoint"] }
-lpl-token-2022 = { workspace = true, features = ["no-entrypoint"] }
-lpl-token-client = { workspace = true }
-lpl-token-upgrade = { workspace = true, features = ["no-entrypoint"] }
-
-tokio = { version = "1", features = ["full"] }
-
-[dev-dependencies]
 lumos-test-validator = { workspace = true }
+
+lpl-associated-token-account = { workspace = true }
+lpl-token = { workspace = true }
+lpl-token-2022 = { workspace = true }
+lpl-token-client = { workspace = true }
+lpl-token-upgrade = { workspace = true }
+
+
+
 
 [[bin]]
 name = "lpl-token-upgrade"

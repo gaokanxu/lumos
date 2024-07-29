@@ -33,9 +33,9 @@ soketto = { workspace = true }
 stream-cancel = { workspace = true }
 thiserror = { workspace = true }
 
-lumos-crossbeam-channel = { workspace = true }
-lumos-tokio = { workspace = true }
-lumos-tokio-util = { workspace = true }
+crossbeam-channel = { workspace = true }
+tokio = { workspace = true }
+tokio-util = { workspace = true }
 
 lumos-account-decoder = { workspace = true }
 lumos-accounts-db = { workspace = true }

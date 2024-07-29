@@ -21,7 +21,7 @@ serde = { workspace = true }
 test-case = { workspace = true }
 thiserror = { workspace = true }
 
-lumos-crossbeam-channel = { workspace = true }
+crossbeam-channel = { workspace = true }
 
 lumos-accounts-db = { workspace = true }
 lumos-banks-client = { workspace = true }
@@ -34,8 +34,8 @@ lumos-runtime = { workspace = true }
 lumos-sdk = { workspace = true }
 lumos-lvm = { workspace = true }
 lumos-vote-program = { workspace = true }
-lumos-rbpf = { workspace = true }
-lumos-tokio = { workspace = true, features = ["full"] }
+rbpf = { workspace = true }
+tokio = { workspace = true, features = ["full"] }
 
 
 [dev-dependencies]

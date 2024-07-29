@@ -20,8 +20,8 @@ log = { workspace = true }
 rayon = { workspace = true }
 serde = { workspace = true }
 
-lumos-curve25519-dalek = { workspace = true }
-lumos-rand = { workspace = true }
+curve25519-dalek = { workspace = true }
+rand = { workspace = true }
 
 lumos-frozen-abi = { workspace = true }
 lumos-frozen-abi-macro = { workspace = true }
@@ -40,7 +40,7 @@ name = "lumos_perf"
 
 [dev-dependencies]
 assert_matches = { workspace = true }
-lumos-rand-chacha = { workspace = true }
+rand-chacha = { workspace = true }
 lumos-logger = { workspace = true }
 test-case = { workspace = true }
 

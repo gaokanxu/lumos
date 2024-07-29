@@ -14,7 +14,7 @@ assert_matches = { workspace = true }
 derivative = { workspace = true }
 log = { workspace = true }
 
-lumos-crossbeam-channel = { workspace = true }
+crossbeam-channel = { workspace = true }
 
 lumos-logger = { workspace = true }
 lumos-ledger = { workspace = true }

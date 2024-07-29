@@ -17,8 +17,8 @@ static_assertions = { workspace = true }
 tempfile = { workspace = true }
 trees = { workspace = true }
 
-lumos-crossbeam-channel = { workspace = true }
-lumos-rand = { workspace = true }
+crossbeam-channel = { workspace = true }
+rand = { workspace = true }
 
 lumos-accounts-db = { workspace = true }
 lumos-client = { workspace = true }

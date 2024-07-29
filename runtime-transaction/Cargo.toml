@@ -14,7 +14,7 @@ log = { workspace = true }
 thiserror = { workspace = true }
 bincode = { workspace = true }
 
-lumos-rand = { workspace = true }
+rand = { workspace = true }
 
 lumos-program ={ workspace = true }
 lumos-program-runtime = { workspace = true }

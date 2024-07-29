@@ -8,9 +8,9 @@ license = { workspace = true }
 edition = { workspace = true }
 
 [dev-dependencies]
-lumos-bytemuck = { workspace = true }
+bytemuck = { workspace = true }
 
-lumos-curve25519-dalek = { workspace = true }
+curve25519-dalek = { workspace = true }
 lumos-program-runtime = { workspace = true }
 lumos-program-test = { workspace = true }
 lumos-sdk = { workspace = true }

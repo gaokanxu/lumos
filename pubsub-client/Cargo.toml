@@ -21,10 +21,10 @@ thiserror = { workspace = true }
 tungstenite = { workspace = true, features = ["rustls-tls-webpki-roots"] }
 url = { workspace = true }
 
-lumos-crossbeam-channel = { workspace = true }
-lumos-tokio = { workspace = true, features = ["full"] }
-lumos-tokio-stream = { workspace = true }
-lumos-tokio-tungstenite = { workspace = true, features = ["rustls-tls-webpki-roots"] }
+crossbeam-channel = { workspace = true }
+tokio = { workspace = true, features = ["full"] }
+tokio-stream = { workspace = true }
+tokio-tungstenite = { workspace = true, features = ["rustls-tls-webpki-roots"] }
 
 lumos-account-decoder = { workspace = true }
 lumos-rpc-client-api = { workspace = true }

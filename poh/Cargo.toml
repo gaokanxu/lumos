@@ -16,14 +16,14 @@ thiserror = { workspace = true }
 assert_matches = { workspace = true }
 bincode = { workspace = true }
 
-lumos-crossbeam-channel = { workspace = true }
+crossbeam-channel = { workspace = true }
 lumos-entry = { workspace = true }
 lumos-ledger = { workspace = true }
 lumos-measure = { workspace = true }
 lumos-metrics = { workspace = true }
 lumos-runtime = { workspace = true }
 lumos-sdk = { workspace = true }
-lumos-rand = { workspace = true }
+rand = { workspace = true }
 lumos-logger = { workspace = true }
 lumos-perf = { workspace = true }
 lumos-poh = { workspace = true }

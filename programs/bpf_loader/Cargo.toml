@@ -21,12 +21,12 @@ lumos-measure = { workspace = true }
 lumos-program-runtime = { workspace = true }
 lumos-sdk = { workspace = true }
 lumos-zk-token-sdk = { workspace = true }
-lumos-rbpf = { workspace = true }
+rbpf = { workspace = true }
 
 [dev-dependencies]
 assert_matches = { workspace = true }
 memoffset = { workspace = true }
-lumos-rand = { workspace = true }
+rand = { workspace = true }
 test-case = { workspace = true }
 
 lumos-sdk = { workspace = true }

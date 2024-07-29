@@ -28,9 +28,9 @@ lumos-net-utils = { workspace = true }
 lumos-rpc-client-api = { workspace = true }
 lumos-sdk = { workspace = true }
 lumos-streamer = { workspace = true }
-lumos-tokio = { workspace = true, features = ["full"] }
+tokio = { workspace = true, features = ["full"] }
 
 [dev-dependencies]
-lumos-crossbeam-channel = { workspace = true }
+crossbeam-channel = { workspace = true }
 lumos-logger = { workspace = true }
 lumos-perf = { workspace = true }

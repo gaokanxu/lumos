@@ -53,11 +53,11 @@ thiserror = { workspace = true }
 uriparse = { workspace = true }
 wasm-bindgen = { workspace = true }
 
-lumos-bytemuck = { workspace = true }
-lumos-curve25519-dalek = { workspace = true }
-lumos-ed25519-dalek = { workspace = true }
-lumos-ed25519-dalek-bip32 = { workspace = true }
-lumos-rand = { workspace = true }
+bytemuck = { workspace = true }
+curve25519-dalek = { workspace = true }
+ed25519-dalek = { workspace = true }
+ed25519-dalek-bip32 = { workspace = true }
+rand = { workspace = true }
 
 lumos-frozen-abi = { workspace = true }
 lumos-frozen-abi-macro = { workspace = true }

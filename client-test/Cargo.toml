@@ -16,7 +16,7 @@ serde_json = { workspace = true }
 systemstat = { workspace = true }
 tungstenite = { workspace = true }
 
-lumos-rand = { workspace = true }
+rand = { workspace = true }
 
 lumos-client = { workspace = true }
 lumos-ledger = { workspace = true }
@@ -35,7 +35,7 @@ lumos-streamer = { workspace = true }
 lumos-test-validator = { workspace = true }
 lumos-transaction-status = { workspace = true }
 lumos-version = { workspace = true }
-lumos-tokio = { workspace = true, features = ["full"] }
+tokio = { workspace = true, features = ["full"] }
 lumos-logger = { workspace = true }
 
 [package.metadata.docs.rs]

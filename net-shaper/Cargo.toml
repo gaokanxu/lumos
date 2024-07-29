@@ -14,7 +14,7 @@ clap = { version = "3.1.5", features = ["cargo"] }
 serde = { workspace = true, features = ["derive"] }
 serde_json = { workspace = true }
 
-lumos-rand = { workspace = true }
+rand = { workspace = true }
 lumos-logger = { workspace = true }
 
 [[bin]]

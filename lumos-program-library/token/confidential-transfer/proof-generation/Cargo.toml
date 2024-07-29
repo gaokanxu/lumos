@@ -8,7 +8,7 @@ license = "Apache-2.0"
 edition = "2021"
 
 [dependencies]
-lumos-curve25519-dalek = { workspace = true }
+curve25519-dalek = { workspace = true }
 lumos-zk-token-sdk = { workspace = true }
 thiserror = { workspace = true }
 

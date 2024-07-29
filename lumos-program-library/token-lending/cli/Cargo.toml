@@ -9,15 +9,15 @@ repository = "https://github.com/gaokanxu/lumos"
 version = "0.2.0"
 
 [dependencies]
-clap = "2.33.3"
+clap = { workspace = true }
 lumos-clap-utils = { workspace = true }
 lumos-cli-config = { workspace = true }
 lumos-client = { workspace = true }
 lumos-logger = { workspace = true }
 lumos-sdk = { workspace = true }
 lumos-program = { workspace = true }
-lpl-token-lending = { workspace = true, features = [ "no-entrypoint" ] }
-lpl-token = { workspace = true, features = [ "no-entrypoint" ]  }
+lpl-token-lending = { workspace = true }
+lpl-token = { workspace = true }
 
 [[bin]]
 name = "lpl-token-lending"

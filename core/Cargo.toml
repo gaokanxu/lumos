@@ -46,9 +46,9 @@ tempfile = { workspace = true }
 thiserror = { workspace = true }
 trees = { workspace = true }
 
-lumos-crossbeam-channel = { workspace = true }
-lumos-rand = { workspace = true }
-lumos-rand-chacha = { workspace = true }
+crossbeam-channel = { workspace = true }
+rand = { workspace = true }
+rand-chacha = { workspace = true }
 
 lumos-accounts-db = { workspace = true }
 lumos-bloom = { workspace = true }
@@ -83,7 +83,7 @@ lumos-version = { workspace = true }
 lumos-vote = { workspace = true }
 lumos-vote-program = { workspace = true }
 lumos-wen-restart = { workspace = true }
-lumos-tokio = { workspace = true }
+tokio = { workspace = true }
 
 
 [dev-dependencies]

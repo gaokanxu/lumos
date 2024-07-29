@@ -14,15 +14,15 @@ bincode = { workspace = true }
 tarpc = { workspace = true, features = ["full"] }
 futures = { workspace = true }
 
-lumos-crossbeam-channel = { workspace = true }
+crossbeam-channel = { workspace = true }
 lumos-banks-interface = { workspace = true }
 lumos-client = { workspace = true }
 lumos-runtime = { workspace = true }
 lumos-sdk = { workspace = true }
 lumos-send-transaction-service = { workspace = true }
 lumos-lvm = { workspace = true }
-lumos-tokio = { workspace = true, features = ["full"] }
-lumos-tokio-serde = { workspace = true, features = ["bincode"] }
+tokio = { workspace = true, features = ["full"] }
+tokio-serde = { workspace = true, features = ["bincode"] }
 
 [lib]
 crate-type = ["lib"]

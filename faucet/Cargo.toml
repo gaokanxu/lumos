@@ -19,9 +19,9 @@ serde_derive = { workspace = true }
 thiserror = { workspace = true }
 
 
-lumos-crossbeam-channel = { workspace = true }
+crossbeam-channel = { workspace = true }
 
-lumos-tokio = { workspace = true }
+tokio = { workspace = true }
 lumos-clap-utils = { workspace = true }
 lumos-cli-config = { workspace = true }
 lumos-logger = { workspace = true }

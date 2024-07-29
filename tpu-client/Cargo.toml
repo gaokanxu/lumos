@@ -26,7 +26,7 @@ lumos-pubsub-client = { workspace = true }
 lumos-rpc-client = { workspace = true }
 lumos-rpc-client-api = { workspace = true }
 lumos-sdk = { workspace = true }
-lumos-tokio = { workspace = true, features = ["full"] }
+tokio = { workspace = true, features = ["full"] }
 
 [features]
 default = ["spinner"]

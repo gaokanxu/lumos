@@ -31,9 +31,9 @@ num_cpus = { workspace = true }
 serial_test = { workspace = true }
 test-case = { workspace = true }
 
-lumos-crossbeam-channel = { workspace = true }
-lumos-rand = { workspace = true }
-lumos-rand-chacha = { workspace = true }
+crossbeam-channel = { workspace = true }
+rand = { workspace = true }
+rand-chacha = { workspace = true }
 
 lumos-bloom = { workspace = true }
 lumos-clap-utils = { workspace = true }

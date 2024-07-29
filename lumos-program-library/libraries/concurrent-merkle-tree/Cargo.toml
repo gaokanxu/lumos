@@ -11,10 +11,10 @@ edition = "2021"
 [dependencies]
 thiserror = { workspace =  true }
 
-lumos-bytemuck = { workspace =  true }
-lumos-rand-distr = { workspace =  true }
-lumos-rand = { workspace =  true }
-lumos-tokio = { workspace =  true }
+bytemuck = { workspace =  true }
+rand-distr = { workspace =  true }
+rand = { workspace =  true }
+tokio = { workspace =  true }
 
 lumos-program = { workspace =  true }
 lpl-merkle-tree-reference = { workspace =  true }

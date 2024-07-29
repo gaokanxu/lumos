@@ -28,13 +28,13 @@ thiserror = { workspace = true }
 x509-parser = { workspace = true }
 assert_matches = { workspace = true }
 
-lumos-crossbeam-channel = { workspace = true }
-lumos-rand = { workspace = true }
+crossbeam-channel = { workspace = true }
+rand = { workspace = true }
 
 lumos-metrics = { workspace = true }
 lumos-perf = { workspace = true }
 lumos-sdk = { workspace = true }
-lumos-tokio = { workspace = true, features = ["full"] }
+tokio = { workspace = true, features = ["full"] }
 lumos-logger = { workspace = true }
 
 [lib]

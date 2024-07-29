@@ -16,7 +16,7 @@ num-derive = { workspace = true }
 num-traits = { workspace = true }
 thiserror = { workspace = true }
 
-lumos-bytemuck = { workspace = true, features = ["derive"] }
+bytemuck = { workspace = true, features = ["derive"] }
 lumos-program = { workspace = true }
 
 [dev-dependencies]
@@ -37,7 +37,7 @@ serde_json = { workspace = true }
 subtle = { workspace = true }
 zeroize = { workspace = true, features = ["zeroize_derive"] }
 
-lumos-curve25519-dalek = { workspace = true }
+curve25519-dalek = { workspace = true }
 lumos-sdk = { workspace = true }
 
 [lib]

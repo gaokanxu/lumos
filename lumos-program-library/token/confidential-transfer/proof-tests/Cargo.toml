@@ -10,7 +10,7 @@ edition = "2021"
 [dev-dependencies]
 thiserror = "1.0.63"
 
-lumos-curve25519-dalek = { workspace =  true }
+curve25519-dalek = { workspace =  true }
 lumos-zk-token-sdk = { workspace =  true }
 lpl-token-confidential-transfer-proof-extraction = { workspace =  true }
 lpl-token-confidential-transfer-proof-generation = { workspace =  true }

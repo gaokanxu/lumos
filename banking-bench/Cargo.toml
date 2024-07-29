@@ -13,8 +13,8 @@ clap = { workspace = true, features = ["derive"] }
 log = { workspace = true }
 rayon = { workspace = true }
 
-lumos-crossbeam-channel = { workspace = true }
-lumos-rand = { workspace = true }
+crossbeam-channel = { workspace = true }
+rand = { workspace = true }
 
 lumos-client = { workspace = true }
 lumos-core = { workspace = true }

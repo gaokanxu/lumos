@@ -18,8 +18,8 @@ modular-bitfield = { workspace = true }
 num_enum = { workspace = true }
 tempfile = { workspace = true }
 
-lumos-bytemuck = { workspace = true }
-lumos-rand = { workspace = true }
+bytemuck = { workspace = true }
+rand = { workspace = true }
 
 lumos-measure = { workspace = true }
 lumos-sdk = { workspace = true }

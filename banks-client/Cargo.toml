@@ -15,8 +15,8 @@ futures = { workspace = true }
 tarpc = { workspace = true }
 thiserror = { workspace = true }
 
-lumos-tokio = { workspace = true }
-lumos-tokio-serde = { workspace = true }
+tokio = { workspace = true }
+tokio-serde = { workspace = true }
 
 lumos-banks-interface = { workspace = true }
 lumos-program = { workspace = true }

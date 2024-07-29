@@ -17,4 +17,4 @@ lumos-connection-cache = { workspace = true }
 lumos-net-utils = { workspace = true }
 lumos-sdk = { workspace = true }
 lumos-streamer = { workspace = true }
-lumos-tokio = { workspace = true, features = ["full"] }
+tokio = { workspace = true, features = ["full"] }

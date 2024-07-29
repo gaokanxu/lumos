@@ -19,13 +19,13 @@ serde_derive = { workspace = true }
 socket2 = { workspace = true }
 url = { workspace = true }
 
-lumos-crossbeam-channel = { workspace = true }
-lumos-rand = { workspace = true }
+crossbeam-channel = { workspace = true }
+rand = { workspace = true }
 
 lumos-logger = { workspace = true }
 lumos-sdk = { workspace = true }
 lumos-version = { workspace = true }
-lumos-tokio = { workspace = true }
+tokio = { workspace = true }
 
 
 [lib]

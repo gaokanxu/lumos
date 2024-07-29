@@ -13,7 +13,7 @@ log = { workspace = true }
 lumos-measure = { workspace = true }
 lumos-program-runtime = { workspace = true }
 lumos-sdk = { workspace = true }
-lumos-rbpf = { workspace = true }
+rbpf = { workspace = true }
 
 [dev-dependencies]
 bincode = { workspace = true }

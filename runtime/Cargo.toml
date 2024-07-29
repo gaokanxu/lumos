@@ -56,11 +56,11 @@ libsecp256k1 = { workspace = true }
 memoffset = { workspace = true }
 test-case = { workspace = true }
 
-lumos-crossbeam-channel = { workspace = true }
-lumos-bytemuck = { workspace = true }
-lumos-ed25519-dalek = { workspace = true }
-lumos-rand = { workspace = true }
-lumos-rand-chacha = { workspace = true }
+crossbeam-channel = { workspace = true }
+bytemuck = { workspace = true }
+ed25519-dalek = { workspace = true }
+rand = { workspace = true }
+rand-chacha = { workspace = true }
 
 lumos-accounts-db = { workspace = true }
 lumos-address-lookup-table-program = { workspace = true }
