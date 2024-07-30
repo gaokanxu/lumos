@@ -40,7 +40,7 @@ name = "lumos_perf"
 
 [dev-dependencies]
 assert_matches = { workspace = true }
-rand-chacha = { workspace = true }
+rand_chacha = { workspace = true }
 lumos-logger = { workspace = true }
 test-case = { workspace = true }
 

@@ -11,10 +11,9 @@ edition = { workspace = true }
 
 [dependencies]
 fast-math = { workspace = true }
-lumos-program = { workspace = true }
-
-[dev-dependencies]
 hex = { workspace = true }
+
+lumos-program = { workspace = true }
 
 [lib]
 crate-type = ["lib"]

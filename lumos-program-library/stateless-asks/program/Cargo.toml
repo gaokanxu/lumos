@@ -3,25 +3,12 @@ name = "stateless-asks"
 version = "0.1.0"
 edition = "2021"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
-
-[features]
-no-entrypoint = []
-test-sbf = []
-
 [dependencies]
-borsh = "1.5.1"
+borsh = { workspace = true }
 lumos-program = { workspace = true }
-lpl-token = { version = "6.0", path = "../../token/program", features = [
-  "no-entrypoint",
-] }
-lpl-associated-token-account = { version = "4.0.0", path = "../../associated-token-account/program", features = [
-  "no-entrypoint",
-] }
-thiserror = "1.0"
-
-[dev-dependencies]
+lpl-token = { workspace = true }
+lpl-associated-token-account = { workspace = true }
+thiserror = { workspace = true }
 lumos-program-test = { workspace = true }
 lumos-sdk = { workspace = true }
 

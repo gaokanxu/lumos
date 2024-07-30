@@ -8,8 +8,8 @@ license = "Apache-2.0"
 edition = "2021"
 
 [dependencies]
-chrono = "0.4.38"
-clap = "2.33.3"
+chrono = { workspace = true }
+clap = { workspace = true }
 
 lumos-clap-utils = { workspace = true }
 lumos-cli-config = { workspace = true }

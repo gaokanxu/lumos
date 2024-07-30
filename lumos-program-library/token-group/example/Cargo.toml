@@ -9,7 +9,7 @@ edition = "2021"
 
 [dependencies]
 lumos-program = { workspace = true }
-lumos-program-test = { workspace = true }
+#lumos-program-test = { workspace = true }
 lumos-sdk = { workspace = true }
 
 lpl-pod = { workspace = true }

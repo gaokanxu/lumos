@@ -12,7 +12,7 @@ edition = "2021"
 thiserror = { workspace =  true }
 
 bytemuck = { workspace =  true }
-rand-distr = { workspace =  true }
+rand_distr = { workspace =  true }
 rand = { workspace =  true }
 tokio = { workspace =  true }
 

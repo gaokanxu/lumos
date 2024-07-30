@@ -23,11 +23,12 @@ serde_json = { workspace = true }
 thiserror = { workspace = true }
 zstd = { workspace = true }
 
-lumos-transaction-status = { workspace = true }
+#lumos-transaction-status = { workspace = true }
 lumos-config-program = { workspace = true }
 lumos-sdk = { workspace = true }
+
 lpl-token = { workspace = true }
-lpl-token-2022 = { workspace = true }
+#lpl-token-2022 = { workspace = true }
 lpl-token-group-interface = { workspace = true }
 lpl-token-metadata-interface = { workspace = true }
 lpl-pod = { workspace = true }

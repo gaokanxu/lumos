@@ -33,7 +33,7 @@ test-case = { workspace = true }
 
 crossbeam-channel = { workspace = true }
 rand = { workspace = true }
-rand-chacha = { workspace = true }
+rand_chacha = { workspace = true }
 
 lumos-bloom = { workspace = true }
 lumos-clap-utils = { workspace = true }

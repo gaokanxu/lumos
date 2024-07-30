@@ -60,7 +60,7 @@ crossbeam-channel = { workspace = true }
 bytemuck = { workspace = true }
 ed25519-dalek = { workspace = true }
 rand = { workspace = true }
-rand-chacha = { workspace = true }
+rand_chacha = { workspace = true }
 
 lumos-accounts-db = { workspace = true }
 lumos-address-lookup-table-program = { workspace = true }
@@ -87,7 +87,6 @@ lumos-vote-program = { workspace = true }
 lumos-zk-token-proof-program = { workspace = true }
 lumos-zk-token-sdk = { workspace = true }
 lumos-logger = { workspace = true }
-lumos-runtime = { workspace = true }
 
 
 [lib]

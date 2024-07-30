@@ -7,25 +7,19 @@ repository = "https://github.com/gaokanxu/lumos"
 license = "Apache-2.0"
 edition = "2021"
 
-[features]
-no-entrypoint = []
-test-sbf = []
-
 [dependencies]
-num-derive = "0.4"
-num-traits = "0.2"
-num_enum = "0.7.2"
-thiserror = "1.0"
+num-derive = { workspace = true }
+num-traits = { workspace = true }
+num_enum = { workspace = true }
+thiserror = { workspace = true }
+test-case = { workspace = true }
 
+#lumos-program-test = { workspace = true }
 lumos-program = { workspace = true }
 lumos-sdk = { workspace = true }
-lpl-token = { workspace = true, features = ["no-entrypoint"] }
+lpl-token = { workspace = true }
 lpl-token-client = { workspace = true }
-lpl-token-2022 = { workspace = true, features = ["no-entrypoint"] }
-
-[dev-dependencies]
-lumos-program-test = { workspace = true }
-test-case = "3.3"
+lpl-token-2022 = { workspace = true }
 
 [lib]
 crate-type = ["cdylib", "lib"]

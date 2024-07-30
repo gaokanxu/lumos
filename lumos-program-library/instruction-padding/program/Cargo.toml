@@ -8,15 +8,11 @@ license = "Apache-2.0"
 homepage = "https://lumos.com/"
 edition = "2021"
 
-[features]
-no-entrypoint = []
-test-sbf = []
-
 [dependencies]
-num_enum = "0.7.2"
+num_enum = { workspace = true }
 
 lumos-program = { workspace = true }
-lumos-program-test = { workspace = true }
+#lumos-program-test = { workspace = true }
 lumos-sdk = { workspace = true }
 
 [lib]

@@ -9,7 +9,7 @@ license = { workspace = true }
 edition = { workspace = true }
 
 [dependencies]
-clap = { workspace = true, features = ["derive"] }
+clap = { workspace = true}
 log = { workspace = true }
 rayon = { workspace = true }
 

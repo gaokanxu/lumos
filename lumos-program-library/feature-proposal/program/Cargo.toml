@@ -14,7 +14,7 @@ test-sbf = []
 [dependencies]
 borsh = "1.5.1"
 lumos-program = { workspace = true }
-lumos-program-test = { workspace = true }
+#lumos-program-test = { workspace = true }
 lumos-sdk = { workspace = true }
 lpl-token = { workspace = true }
 

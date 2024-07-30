@@ -15,15 +15,15 @@ futures-util =  { workspace = true }
 bytemuck = { workspace = true }
 
 lumos-program = { workspace = true }
-lumos-client = { workspace = true }
-lumos-program-test = { workspace = true }
+#lumos-client = { workspace = true }
+#lumos-program-test = { workspace = true }
 lumos-sdk = { workspace = true }
 
 lpl-discriminator = { workspace = true }
 lpl-program-error = { workspace = true }
 lpl-pod = { workspace = true }
 lpl-type-length-value = { workspace = true }
-lpl-tlv-account-resolution = { workspace = true }
+#lpl-tlv-account-resolution = { workspace = true }
 
 [lib]
 crate-type = ["cdylib", "lib"]

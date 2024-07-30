@@ -7,39 +7,28 @@ repository = "https://github.com/gaokanxu/lumos"
 license = "Apache-2.0"
 edition = "2021"
 
-[features]
-no-entrypoint = []
-test-sbf = []
-
 [dependencies]
-arrayref = "0.3.8"
-borsh = "1.5.1"
-num-derive = "0.4"
-num-traits = "0.2"
-num_enum = "0.7.2"
-thiserror = "1.0"
-test-case = "3.3"
-bincode = "1.3.1"
-rand = "0.8.5"
-approx = "0.5.1"
+arrayref = { workspace =  true }
+borsh = { workspace =  true }
+num-derive = { workspace =  true }
+num-traits = { workspace =  true }
+num_enum = { workspace =  true }
+thiserror = { workspace =  true }
+test-case = { workspace =  true }
+bincode = { workspace =  true }
+rand = { workspace =  true }
+approx = { workspace =  true }
 
 security-txt = { workspace =  true }
 
 lumos-program = { workspace = true }
 lumos-sdk = { workspace = true }
 lumos-vote-program = { workspace = true }
+#lumos-program-test = { workspace = true }
 
 lpl-token = { workspace = true }
 lpl-associated-token-account = { workspace = true }
 
-[dev-dependencies]
-lumos-program-test = { workspace = true }
-
-
-
 [lib]
 crate-type = ["cdylib", "lib"]
 
-[patch.crates-io.lumos-security-txt]
- git = "https://github.com/gaokanxu/lumos-security-txt"
- branch = "main"

@@ -70,19 +70,6 @@ lumos-vote-program = { workspace = true }
 crate-type = ["lib"]
 name = "lumos_accounts_db"
 
-assert_matches = { workspace = true }
-criterion = { workspace = true }
-libsecp256k1 = { workspace = true }
-memoffset = { workspace = true }
-static_assertions = { workspace = true }
-test-case = { workspace = true }
-
-ed25519-dalek = { workspace = true }
-rand-chacha = { workspace = true }
-
-lumos-accounts-db = { workspace = true }
-lumos-logger = { workspace = true }
-lumos-sdk = { workspace = true }
 
 [package.metadata.docs.rs]
 targets = ["x86_64-unknown-linux-gnu"]

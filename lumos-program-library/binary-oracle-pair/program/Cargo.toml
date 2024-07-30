@@ -11,14 +11,14 @@ edition = "2021"
 test-sbf = []
 
 [dependencies]
-num-derive = "0.4"
-num-traits = "0.2"
-thiserror = "1.0"
-uint = "0.9"
-borsh = "1.5.1"
+num-derive = { workspace = true }
+num-traits = { workspace = true }
+thiserror = { workspace = true }
+uint = { workspace = true }
+borsh = { workspace = true }
 
 lumos-program = { workspace = true }
-lumos-program-test = { workspace = true }
+#lumos-program-test = { workspace = true }
 lumos-sdk = { workspace = true }
 lpl-token = { workspace = true }
 

@@ -15,7 +15,7 @@ test-sbf = []
 [dependencies]
 lumos-program = { workspace = true }
 lumos-sdk = { workspace = true }
-lumos-program-test = { workspace = true }
+#lumos-program-test = { workspace = true }
 
 [lib]
 crate-type = ["cdylib", "lib"]

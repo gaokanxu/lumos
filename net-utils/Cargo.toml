@@ -11,7 +11,7 @@ edition = { workspace = true }
 
 [dependencies]
 bincode = { workspace = true }
-clap = { workspace=true, features = ["cargo"] }
+clap = { workspace=true }
 log = { workspace = true }
 nix = { workspace = true }
 serde = { workspace = true }

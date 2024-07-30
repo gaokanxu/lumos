@@ -24,20 +24,21 @@ serial_test = { workspace = true }
 serde_json = { workspace = true }
 
 bytemuck = { workspace = true }
+security-txt = { workspace = true }
 
 lumos-program = { workspace = true }
-security-txt = { workspace = true }
+lumos-transaction-status = { workspace = true }
+#lumos-program-test = { workspace = true }
+lumos-sdk = { workspace = true }
 lumos-zk-token-sdk = { workspace = true }
+
 lpl-memo = { workspace = true }
-lpl-token = { workspace = true }
+#lpl-token = { workspace = true }
 lpl-token-group-interface = { workspace = true }
 lpl-token-metadata-interface = { workspace = true }
 lpl-transfer-hook-interface = { workspace = true }
 lpl-type-length-value = { workspace = true }
 lpl-pod = { workspace = true }
-lumos-transaction-status = { workspace = true }
-lumos-program-test = { workspace = true }
-lumos-sdk = { workspace = true }
 lpl-tlv-account-resolution = { workspace = true }
 
 [lib]
@@ -46,6 +47,3 @@ crate-type = ["cdylib", "lib"]
 [package.metadata.docs.rs]
 targets = ["x86_64-unknown-linux-gnu"]
 
-[patch.crates-io.lumos-security-txt]
- git = "https://github.com/gaokanxu/lumos-security-txt"
- branch = "main"

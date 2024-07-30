@@ -4,9 +4,9 @@ version = "1.0.0"
 edition = "2021"
 
 [dependencies]
-arrayref = "0.3.8"
+arrayref = { workspace = true }
 lumos-program = { workspace = true }
-lpl-token = { version = "6.0", path = "../../token/program", features=["no-entrypoint"] }
+lpl-token = { workspace = true }
 
 [lib]
 crate-type = ["cdylib", "lib"]

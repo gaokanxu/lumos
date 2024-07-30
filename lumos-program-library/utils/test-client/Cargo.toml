@@ -9,6 +9,6 @@ edition = "2021"
 
 [dependencies]
 lumos-sdk = { workspace = true }
-lpl-memo = { path = "../../memo/program", features = [ "no-entrypoint" ] }
-lpl-token = { path = "../../token/program", features = [ "no-entrypoint" ] }
-lpl-token-swap = { path = "../../token-swap/program", features = [ "no-entrypoint" ] }
+lpl-memo = { workspace = true }
+lpl-token = { workspace = true }
+lpl-token-swap = { workspace = true }

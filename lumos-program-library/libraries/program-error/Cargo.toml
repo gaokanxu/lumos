@@ -15,7 +15,6 @@ thiserror = "1.0"
 lumos-program = { workspace = true }
 lumos-sdk = { workspace = true }
 lpl-program-error-derive = { workspace = true }
-lpl-program-error = { workspace = true }
 
 
 [dev-dependencies]

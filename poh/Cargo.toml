@@ -26,7 +26,6 @@ lumos-sdk = { workspace = true }
 rand = { workspace = true }
 lumos-logger = { workspace = true }
 lumos-perf = { workspace = true }
-lumos-poh = { workspace = true }
 
 [lib]
 crate-type = ["lib"]

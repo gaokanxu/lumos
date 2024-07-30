@@ -7,12 +7,9 @@ name = "lpl-associated-token-account-test"
 repository = "https://github.com/gaokanxu/lumos"
 version = "0.0.1"
 
-[features]
-test-sbf = []
-
 [dependencies]
 lumos-program = { workspace = true }
-lumos-program-test = { workspace = true }
+#lumos-program-test = { workspace = true }
 lumos-sdk = { workspace = true }
 lpl-associated-token-account = { workspace = true }
 lpl-token = { workspace = true }

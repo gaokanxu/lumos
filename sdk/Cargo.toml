@@ -38,8 +38,6 @@ anyhow = { workspace = true }
 hex = { workspace = true }
 static_assertions = { workspace = true }
 tiny-bip39 = { workspace = true }
-
-#rand0-7 = { package = "rand", version = "0.7", optional = true }
 rustversion = { workspace = true }
 serde = { workspace = true }
 serde_bytes = { workspace = true }
@@ -64,7 +62,6 @@ lumos-frozen-abi-macro = { workspace = true }
 lumos-logger = { workspace = true }
 lumos-program = { workspace = true }
 lumos-sdk-macro = { workspace = true }
-lumos-sdk = { workspace = true }
 
 [target.'cfg(target_arch = "wasm32")'.dependencies]
 js-sys = { workspace = true }

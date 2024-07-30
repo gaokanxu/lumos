@@ -22,16 +22,13 @@ lumos-client = { workspace = true }
 lumos-logger = { workspace = true }
 lumos-remote-wallet = { workspace = true }
 lumos-sdk = { workspace = true }
-lumos-test-validator = { workspace = true }
+#lumos-test-validator = { workspace = true }
 
 lpl-associated-token-account = { workspace = true }
 lpl-token = { workspace = true }
 lpl-token-2022 = { workspace = true }
 lpl-token-client = { workspace = true }
 lpl-token-upgrade = { workspace = true }
-
-
-
 
 [[bin]]
 name = "lpl-token-upgrade"

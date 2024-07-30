@@ -48,7 +48,7 @@ trees = { workspace = true }
 
 crossbeam-channel = { workspace = true }
 rand = { workspace = true }
-rand-chacha = { workspace = true }
+rand_chacha = { workspace = true }
 
 lumos-accounts-db = { workspace = true }
 lumos-bloom = { workspace = true }
