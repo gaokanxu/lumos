@@ -27,7 +27,7 @@ bytemuck = { workspace = true }
 security-txt = { workspace = true }
 
 lumos-program = { workspace = true }
-lumos-transaction-status = { workspace = true }
+#lumos-transaction-status = { workspace = true }
 #lumos-program-test = { workspace = true }
 lumos-sdk = { workspace = true }
 lumos-zk-token-sdk = { workspace = true }

@@ -2,6 +2,7 @@
 name = "lumos-account-decoder"
 description = "Lumos account decoder"
 documentation = "https://docs.rs/lumos-account-decoder"
+
 version = { workspace = true }
 authors = { workspace = true }
 repository = { workspace = true }

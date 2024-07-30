@@ -9,14 +9,14 @@ repository = { workspace = true }
 homepage = { workspace = true }
 license = { workspace = true }
 edition = { workspace = true }
-rust-version = "1.75.0" # lumos platform-tools rust version
+rust-version = { workspace = true } # lumos platform-tools rust version
 
 [dependencies]
 bincode = { workspace = true }
 blake3 = { workspace = true, features = ["digest", "traits-preview"] }
 borsh = { workspace = true }
-borsh0-10 = { package = "borsh", version = "0.10.3" }
-borsh0-9 = { package = "borsh", version = "0.9.3" }
+borsh0-10 = { workspace = true }
+borsh0-9 = { workspace = true }
 bs58 = { workspace = true }
 bv = { workspace = true, features = ["serde"] }
 itertools =  { workspace = true }

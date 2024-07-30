@@ -20,7 +20,7 @@ num-traits = { workspace = true }
 
 lumos-program = { workspace = true }
 #lpl-token = { workspace = true }
-#lpl-token-2022 = { workspace = true }
+lpl-token-2022 = { workspace = true }
 
 
 [lib]

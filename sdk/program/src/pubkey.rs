@@ -168,6 +168,8 @@ pub fn bytes_are_curve_point<T: AsRef<[u8]>>(_bytes: T) -> bool {
     #[cfg(not(target_os = "lumos"))]
     {
         curve25519_dalek::edwards::CompressedEdwardsY::from_slice(_bytes.as_ref())
+            //gaokanxu 2024.07.30 add below line 
+            .expect("Failed to convert slice to CompressedEdwardsY")
             .decompress()
             .is_some()
     }

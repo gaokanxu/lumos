@@ -63,11 +63,10 @@ lumos-logger = { workspace = true }
 lumos-program = { workspace = true }
 lumos-sdk-macro = { workspace = true }
 
+
+
 [target.'cfg(target_arch = "wasm32")'.dependencies]
 js-sys = { workspace = true }
-
-
-
 
 [build-dependencies]
 rustc_version = { workspace = true }
