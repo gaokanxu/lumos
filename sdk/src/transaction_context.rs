@@ -1,9 +1,8 @@
 //! Data shared between program runtime and built-in programs as well as SBF programs.
 #![deny(clippy::indexing_slicing)]
-
 #[cfg(all(not(target_os = "lumos"), debug_assertions))]
-use crate::signature::Signature;
 #[cfg(not(target_os = "lumos"))]
+
 use {
     crate::{
         account::WritableAccount,
@@ -28,6 +27,7 @@ use {
         rc::Rc,
     },
 };
+use crate::signature::Signature;
 
 /// Index of an account inside of the TransactionContext or an InstructionContext.
 pub type IndexOfAccount = u16;

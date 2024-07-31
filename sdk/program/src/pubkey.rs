@@ -2,6 +2,7 @@
 
 #![allow(clippy::arithmetic_side_effects)]
 
+
 #[cfg(test)]
 use arbitrary::Arbitrary;
 use {
@@ -995,3 +996,4 @@ mod tests {
         assert!(pubkey_from_seed_by_marker(&PDA_MARKER[1..]).is_ok());
     }
 }
+
