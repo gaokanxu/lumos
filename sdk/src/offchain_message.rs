@@ -1,7 +1,5 @@
 //! Off-chain message container for storing non-transaction messages.
 
-#![cfg(feature = "full")]
-
 use {
     crate::{
         hash::Hash,

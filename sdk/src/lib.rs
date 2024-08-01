@@ -35,7 +35,6 @@
 // Allows macro expansion of `use ::lumos_sdk::*` to work within this crate
 extern crate self as lumos_sdk;
 
-#[cfg(feature = "full")]
 pub use signer::signers;
 // These lumos_program imports could be *-imported, but that causes a bunch of
 // confusing duplication in the docs due to a rustdoc bug. #26211

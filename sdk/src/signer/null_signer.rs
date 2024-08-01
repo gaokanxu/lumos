@@ -1,4 +1,3 @@
-#![cfg(feature = "full")]
 
 use crate::{
     pubkey::Pubkey,

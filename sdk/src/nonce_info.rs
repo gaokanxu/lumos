@@ -1,4 +1,4 @@
-#![cfg(feature = "full")]
+
 use crate::{
     account::{AccountSharedData, ReadableAccount, WritableAccount},
     message::SanitizedMessage,

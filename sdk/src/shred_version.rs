@@ -2,8 +2,6 @@
 //!
 //! [shred]: https://lumos.com/docs/terminology#shred
 
-#![cfg(feature = "full")]
-
 use lumos_sdk::{
     hard_forks::HardForks,
     hash::{extend_and_hash, Hash},

@@ -1,4 +1,3 @@
-#![cfg(feature = "full")]
 
 //! calculate and collect rent from Accounts
 use lumos_sdk::{

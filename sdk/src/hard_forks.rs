@@ -1,8 +1,6 @@
 //! The list of slot boundaries at which a hard fork should
 //! occur.
 
-#![cfg(feature = "full")]
-
 use {
     byteorder::{ByteOrder, LittleEndian},
     lumos_sdk::clock::Slot,

@@ -1,7 +1,5 @@
 //! Defines a transaction which supports multiple versions of messages.
 
-#![cfg(feature = "full")]
-
 use {
     crate::{
         hash::Hash,

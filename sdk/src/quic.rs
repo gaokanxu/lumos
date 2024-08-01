@@ -1,4 +1,4 @@
-#![cfg(feature = "full")]
+
 //! Definitions related to Lumos over QUIC.
 use {crate::signer::keypair::Keypair, std::time::Duration};
 

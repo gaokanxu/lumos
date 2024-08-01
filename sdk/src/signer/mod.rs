@@ -1,7 +1,5 @@
 //! Abstractions and implementations for transaction signers.
 
-#![cfg(feature = "full")]
-
 use {
     crate::{
         derivation_path::DerivationPath,

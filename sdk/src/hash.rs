@@ -10,7 +10,7 @@ pub use lumos_program::hash::*;
     since = "1.17.0",
     note = "Please use `Hash::new_unique()` for testing, or fill 32 bytes with any source of randomness"
 )]
-#[cfg(feature = "full")]
+
 pub fn new_rand<R: ?Sized>(rng: &mut R) -> Hash
 where
     R: rand0_7::Rng,

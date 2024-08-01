@@ -1,4 +1,3 @@
-#![cfg(feature = "full")]
 
 pub use crate::message::{AddressLoader, SimpleAddressLoader};
 use {

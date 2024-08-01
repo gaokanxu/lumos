@@ -1,7 +1,5 @@
 //! Lumos precompiled programs.
 
-#![cfg(feature = "full")]
-
 use {
     crate::{
         decode_error::DecodeError, feature_set::FeatureSet, instruction::CompiledInstruction,

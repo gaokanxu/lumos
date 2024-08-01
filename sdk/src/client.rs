@@ -7,7 +7,6 @@
 //! Asynchronous implementations are expected to create transactions, sign them, and send
 //! them but without waiting to see if the server accepted it.
 
-#![cfg(feature = "full")]
 
 use crate::{
     account::Account,

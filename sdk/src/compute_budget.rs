@@ -1,6 +1,5 @@
 //! The compute budget native program.
 
-#![cfg(feature = "full")]
 
 use {
     crate::instruction::Instruction,

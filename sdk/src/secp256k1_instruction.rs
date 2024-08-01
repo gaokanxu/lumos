@@ -785,7 +785,6 @@
 //! }
 //! ```
 
-#![cfg(feature = "full")]
 
 use {
     crate::{

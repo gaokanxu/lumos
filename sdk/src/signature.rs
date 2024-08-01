@@ -1,6 +1,4 @@
 //! Functionality for public and private keys.
-#![cfg(feature = "full")]
-
 // legacy module paths
 pub use crate::signer::{keypair::*, null_signer::*, presigner::*, *};
 use {

@@ -3,12 +3,11 @@
 pub use lumos_program::pubkey::*;
 
 /// New random Pubkey for tests and benchmarks.
-#[cfg(feature = "full")]
 pub fn new_rand() -> Pubkey {
     Pubkey::from(rand::random::<[u8; PUBKEY_BYTES]>())
 }
 
-#[cfg(feature = "full")]
+
 pub fn write_pubkey_file(outfile: &str, pubkey: Pubkey) -> Result<(), Box<dyn std::error::Error>> {
     use std::io::Write;
 
@@ -24,7 +23,6 @@ pub fn write_pubkey_file(outfile: &str, pubkey: Pubkey) -> Result<(), Box<dyn st
     Ok(())
 }
 
-#[cfg(feature = "full")]
 pub fn read_pubkey_file(infile: &str) -> Result<Pubkey, Box<dyn std::error::Error>> {
     let f = std::fs::File::open(infile)?;
     let printable: String = serde_json::from_reader(f)?;

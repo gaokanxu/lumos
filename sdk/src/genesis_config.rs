@@ -1,6 +1,5 @@
 //! The chain's genesis config.
 
-#![cfg(feature = "full")]
 
 use {
     crate::{

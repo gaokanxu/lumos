@@ -2,7 +2,6 @@
 //!
 //! [np]: https://docs.lumoslabs.com/runtime/programs#ed25519-program
 
-#![cfg(feature = "full")]
 
 use {
     crate::{feature_set::FeatureSet, instruction::Instruction, precompiles::PrecompileError},

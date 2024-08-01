@@ -11,7 +11,6 @@
 //! appear to import from that crate.
 
 #![doc(hidden)]
-#![cfg(feature = "full")]
 
 pub mod lumos_rpc_client {
     pub mod rpc_client {

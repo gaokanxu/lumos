@@ -2,8 +2,6 @@
 //! New reserved account keys may be added as long as they specify a feature
 //! gate that transitions the key into read-only at an epoch boundary.
 
-#![cfg(feature = "full")]
-
 use {
     crate::{
         address_lookup_table, bpf_loader, bpf_loader_deprecated, bpf_loader_upgradeable,
