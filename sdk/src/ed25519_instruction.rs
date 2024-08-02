@@ -6,10 +6,15 @@
 use {
     crate::{feature_set::FeatureSet, instruction::Instruction, precompiles::PrecompileError},
     bytemuck::{bytes_of, Pod, Zeroable},
-    ed25519_dalek::{ed25519::signature::Signature, Signer, Verifier},
+    
+     
+    //ed25519_dalek::{ed25519::signature::Signature, Signer, Verifier},
+    //2024.08.01 gaokanxu
+    ed25519_dalek::{Signature, Signer, Verifier},
+    
 };
 
-pub const PUBKEY_SERIALIZED_SIZE: usize = 32;
+pub const PUBKEY_SERIALIZED_SIZE: usize  = 32;
 pub const SIGNATURE_SERIALIZED_SIZE: usize = 64;
 pub const SIGNATURE_OFFSETS_SERIALIZED_SIZE: usize = 14;
 // bytemuck requires structures to be aligned

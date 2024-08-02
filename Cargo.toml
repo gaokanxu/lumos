@@ -9,10 +9,7 @@ inherits = "release"
 debug = true
 split-debuginfo = "packed"
 
-
-
 [workspace]
-
 members = [
     "account-decoder",
     "accounts-bench",
@@ -194,10 +191,7 @@ members = [
     "lumos-program-library/utils/cgen",
     "lumos-program-library/utils/test-client",
     "lumos-program-library/token-lending/flash_loan_receiver",
-
-
 ]
-
 
 exclude = ["programs/sbf"]
 
@@ -423,22 +417,21 @@ tokio-stream = { git = "https://github.com/gaokanxu/lumos-tokio.git", branch = "
 tokio-util = { git = "https://github.com/gaokanxu/lumos-tokio.git", branch = "main", package = "tokio-util" }
 tokio-serde = { git = "https://github.com/gaokanxu/lumos-tokio-serde.git", branch = "main", package = "tokio-serde" }
 tokio-tungstenite = { git = "https://github.com/gaokanxu/lumos-tokio-tungstenite.git", branch = "main", package = "tokio-tungstenite" }
-rand = { git = "https://github.com/gaokanxu/lumos-rand.git", branch = "main", package = "rand" }
-rand_core = { git = "https://github.com/gaokanxu/lumos-rand.git", branch = "main", package = "rand_core" }
-rand_chacha = { git = "https://github.com/gaokanxu/lumos-rand.git", branch = "main", package = "rand_chacha" }
-rand_distr = { git = "https://github.com/gaokanxu/lumos-rand.git", branch = "main", package = "rand_distr" }
+rand = { git = "https://github.com/gaokanxu/rand0_8.git", branch = "main", package = "rand" }
+rand_core = { git = "https://github.com/gaokanxu/rand0_8.git", branch = "main", package = "rand_core" }
+rand_chacha = { git = "https://github.com/gaokanxu/rand0_8.git", branch = "main", package = "rand_chacha" }
+rand_distr = { git = "https://github.com/gaokanxu/rand0_8.git", branch = "main", package = "rand_distr" }
+rand0_7 = { git = "https://github.com/gaokanxu/rand0_7.git", branch = "main", package = "rand" }
 security-txt = { git = "https://github.com/gaokanxu/lumos-security-txt.git", branch = "main", package = "security-txt" }
 rbpf = { git = "https://github.com/gaokanxu/lumos-rbpf.git", branch = "main", package = "rbpf" }
 nohash-hasher = { git = "https://github.com/gaokanxu/lumos-nohash-hasher.git", branch = "main", package = "nohash-hasher" }
-curve25519-dalek = { git = "https://github.com/gaokanxu/lumos-curve25519-dalek.git", branch = "main", package = "curve25519-dalek" }
-curve25519-dalek-derive = { git = "https://github.com/gaokanxu/lumos-curve25519-dalek.git", branch = "main", package = "curve25519-dalek-derive" }
-ed25519-dalek = { git = "https://github.com/gaokanxu/lumos-curve25519-dalek.git", branch = "main", package = "ed25519-dalek" }
-ed25519-dalek-bip32 = { git = "https://github.com/gaokanxu/lumos-ed25519-dalek-bip32.git", branch = "main", package = "ed25519-dalek-bip32" }
+curve25519-dalek = { git = "https://github.com/gaokanxu/curve25519-dalek.git", branch = "main", package = "curve25519-dalek", features = ["digest"] }
+curve25519-dalek-derive = { git = "https://github.com/gaokanxu/curve25519-dalek.git", branch = "main", package = "curve25519-dalek-derive" }
+ed25519-dalek = { git = "https://github.com/gaokanxu/curve25519-dalek.git", branch = "main", package = "ed25519-dalek", features = ["std", "digest", "rand", "u64_backend"] }
+ed25519-dalek-bip32 = { git = "https://github.com/gaokanxu/curve25519-dalek.git", branch = "main", package = "ed25519-dalek-bip32", features = ["std"] }
 crossbeam-channel = { git = "https://github.com/gaokanxu/lumos-crossbeam.git", branch = "main", package = "crossbeam-channel" }
 bytemuck = { git = "https://github.com/gaokanxu/lumos-bytemuck.git", branch = "main", package = "bytemuck", features = ["derive"] }
 bytemuck-derive = { git = "https://github.com/gaokanxu/lumos-bytemuck.git", branch = "main", package = "bytemuck_derive" }
-
-
 
 lumos-account-decoder = { path = "account-decoder" }
 lumos-accounts-db = { path = "accounts-db" }
@@ -520,7 +513,6 @@ lumos-wen-restart = { path = "wen-restart" }
 lumos-zk-keygen = { path = "zk-keygen" }
 lumos-zk-token-proof-program = { path = "programs/zk-token-proof" }
 lumos-zk-token-sdk = { path = "zk-token-sdk" } 
-
 
 lpl-associated-token-account = { path = "lumos-program-library/associated-token-account/program" }
 lpl-instruction-padding = { path = "lumos-program-library/instruction-padding/program" }

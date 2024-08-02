@@ -56,6 +56,7 @@ curve25519-dalek = { workspace = true }
 ed25519-dalek = { workspace = true }
 ed25519-dalek-bip32 = { workspace = true }
 rand = { workspace = true }
+rand0_7 = { workspace = true }
 
 lumos-frozen-abi = { workspace = true }
 lumos-frozen-abi-macro = { workspace = true }
