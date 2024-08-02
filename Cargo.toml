@@ -425,10 +425,17 @@ rand0_7 = { git = "https://github.com/gaokanxu/rand0_7.git", branch = "main", pa
 security-txt = { git = "https://github.com/gaokanxu/lumos-security-txt.git", branch = "main", package = "security-txt" }
 rbpf = { git = "https://github.com/gaokanxu/lumos-rbpf.git", branch = "main", package = "rbpf" }
 nohash-hasher = { git = "https://github.com/gaokanxu/lumos-nohash-hasher.git", branch = "main", package = "nohash-hasher" }
-curve25519-dalek = { git = "https://github.com/gaokanxu/curve25519-dalek.git", branch = "main", package = "curve25519-dalek", features = ["digest"] }
-curve25519-dalek-derive = { git = "https://github.com/gaokanxu/curve25519-dalek.git", branch = "main", package = "curve25519-dalek-derive" }
-ed25519-dalek = { git = "https://github.com/gaokanxu/curve25519-dalek.git", branch = "main", package = "ed25519-dalek", features = ["std", "digest", "rand", "u64_backend"] }
-ed25519-dalek-bip32 = { git = "https://github.com/gaokanxu/curve25519-dalek.git", branch = "main", package = "ed25519-dalek-bip32", features = ["std"] }
+
+#curve25519-dalek = { git = "https://github.com/gaokanxu/curve25519-dalek.git", branch = "main", package = "curve25519-dalek", features = ["digest"] }
+#curve25519-dalek-derive = { git = "https://github.com/gaokanxu/curve25519-dalek.git", branch = "main", package = "curve25519-dalek-derive" }
+#ed25519-dalek = { git = "https://github.com/gaokanxu/curve25519-dalek.git", branch = "main", package = "ed25519-dalek", features = ["std", "digest", "rand", "u64_backend"] }
+#ed25519-dalek-bip32 = { git = "https://github.com/gaokanxu/curve25519-dalek.git", branch = "main", package = "ed25519-dalek-bip32", features = ["std"] }
+
+curve25519-dalek = { path = "../curve25519-dalek/curve25519-dalek", features = ["alloc", "precomputed-tables", "zeroize", "digest"] }
+curve25519-dalek-derive = { path = "../curve25519-dalek/curve25519-dalek-derive" }
+ed25519-dalek = { path = "../curve25519-dalek/ed25519-dalek", features = ["fast", "std", "zeroize", "digest", "rand", "u64_backend"] }
+ed25519-dalek-bip32 = { path = "../curve25519-dalek/ed25519-dalek-bip32", features = ["std"] }
+
 crossbeam-channel = { git = "https://github.com/gaokanxu/lumos-crossbeam.git", branch = "main", package = "crossbeam-channel" }
 bytemuck = { git = "https://github.com/gaokanxu/lumos-bytemuck.git", branch = "main", package = "bytemuck", features = ["derive"] }
 bytemuck-derive = { git = "https://github.com/gaokanxu/lumos-bytemuck.git", branch = "main", package = "bytemuck_derive" }
