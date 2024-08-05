@@ -4,6 +4,7 @@ use {
     bincode::{Options, Result},
     bitflags::bitflags,
     serde::{Deserialize, Serialize},
+    serde::{Serializer,  Deserializer},
     serde_with::{serde_as, Bytes},
     std::{
         fmt, io,
@@ -19,6 +20,8 @@ static_assertions::const_assert_eq!(PACKET_DATA_SIZE, 1232);
 ///   40 bytes is the size of the IPv6 header
 ///   8 bytes is the size of the fragment header
 pub const PACKET_DATA_SIZE: usize = 1280 - 40 - 8;
+
+
 
 bitflags! {
     #[repr(C)]
@@ -321,3 +324,27 @@ mod tests {
         );
     }
 }
+
+
+
+// 手动实现 Serialize
+impl Serialize for PacketFlags {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        serializer.serialize_u8(self.bits())
+    }
+}
+
+// 手动实现 Deserialize
+impl<'de> Deserialize<'de> for PacketFlags {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        let bits = u8::deserialize(deserializer)?;
+        PacketFlags::from_bits(bits).ok_or_else(|| serde::de::Error::custom("invalid flags"))
+    }
+}
+

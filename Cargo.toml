@@ -286,7 +286,6 @@ gethostname = "0.2.3"
 getrandom = "0.2.10"
 goauth = "0.13.1"
 hex = "0.4.3"
-hidapi = "2.6.1"
 histogram = "0.6.9"
 honggfuzz = "0.5"
 hmac = "0.12.1"
@@ -407,38 +406,41 @@ wasm-bindgen = "0.2"
 winapi = "0.3.8"
 winreg = "0.50"
 x509-parser = "0.14.0"
-zeroize = "1.3"
+zeroize = "1.8.1"
+zeroize_derive = "1.4.2"
 zstd = "0.11.2"
 
 
 # Update lumos-tokio patch below when updating this version
-tokio = { git = "https://github.com/gaokanxu/lumos-tokio.git", branch = "main", package = "tokio" }
-tokio-stream = { git = "https://github.com/gaokanxu/lumos-tokio.git", branch = "main", package = "tokio-stream" }
-tokio-util = { git = "https://github.com/gaokanxu/lumos-tokio.git", branch = "main", package = "tokio-util" }
-tokio-serde = { git = "https://github.com/gaokanxu/lumos-tokio-serde.git", branch = "main", package = "tokio-serde" }
-tokio-tungstenite = { git = "https://github.com/gaokanxu/lumos-tokio-tungstenite.git", branch = "main", package = "tokio-tungstenite" }
+tokio = { git = "https://github.com/gaokanxu/tokio.git", branch = "main", package = "tokio" }
+tokio-stream = { git = "https://github.com/gaokanxu/tokio.git", branch = "main", package = "tokio-stream" }
+tokio-util = { git = "https://github.com/gaokanxu/tokio.git", branch = "main", package = "tokio-util" }
+tokio-serde = { git = "https://github.com/gaokanxu/tokio-serde.git", branch = "main", package = "tokio-serde" }
+tokio-tungstenite = { git = "https://github.com/gaokanxu/tokio-tungstenite.git", branch = "main", package = "tokio-tungstenite" }
 rand = { git = "https://github.com/gaokanxu/rand0_8.git", branch = "main", package = "rand" }
 rand_core = { git = "https://github.com/gaokanxu/rand0_8.git", branch = "main", package = "rand_core" }
 rand_chacha = { git = "https://github.com/gaokanxu/rand0_8.git", branch = "main", package = "rand_chacha" }
 rand_distr = { git = "https://github.com/gaokanxu/rand0_8.git", branch = "main", package = "rand_distr" }
 rand0_7 = { git = "https://github.com/gaokanxu/rand0_7.git", branch = "main", package = "rand" }
-security-txt = { git = "https://github.com/gaokanxu/lumos-security-txt.git", branch = "main", package = "security-txt" }
-rbpf = { git = "https://github.com/gaokanxu/lumos-rbpf.git", branch = "main", package = "rbpf" }
-nohash-hasher = { git = "https://github.com/gaokanxu/lumos-nohash-hasher.git", branch = "main", package = "nohash-hasher" }
+security-txt = { git = "https://github.com/gaokanxu/security-txt.git", branch = "main", package = "security-txt" }
+rbpf = { git = "https://github.com/gaokanxu/rbpf.git", branch = "main", package = "rbpf" }
+nohash-hasher = { git = "https://github.com/gaokanxu/nohash-hasher.git", branch = "main", package = "nohash-hasher" }
+hidapi =  { git = "https://github.com/gaokanxu/hidapi.git", branch = "main", package = "hidapi" }
+crossbeam-channel = { git = "https://github.com/gaokanxu/crossbeam.git", branch = "main", package = "crossbeam-channel" }
+bytemuck = { git = "https://github.com/gaokanxu/bytemuck.git", branch = "main", package = "bytemuck", features = ["derive"] }
+bytemuck-derive = { git = "https://github.com/gaokanxu/bytemuck.git", branch = "main", package = "bytemuck_derive" }
 
 #curve25519-dalek = { git = "https://github.com/gaokanxu/curve25519-dalek.git", branch = "main", package = "curve25519-dalek", features = ["digest"] }
 #curve25519-dalek-derive = { git = "https://github.com/gaokanxu/curve25519-dalek.git", branch = "main", package = "curve25519-dalek-derive" }
 #ed25519-dalek = { git = "https://github.com/gaokanxu/curve25519-dalek.git", branch = "main", package = "ed25519-dalek", features = ["std", "digest", "rand", "u64_backend"] }
 #ed25519-dalek-bip32 = { git = "https://github.com/gaokanxu/curve25519-dalek.git", branch = "main", package = "ed25519-dalek-bip32", features = ["std"] }
 
-curve25519-dalek = { path = "../curve25519-dalek/curve25519-dalek", features = ["alloc", "precomputed-tables", "zeroize", "digest"] }
+curve25519-dalek = { path = "../curve25519-dalek/curve25519-dalek", features = ["alloc", "precomputed-tables", "zeroize"] }
 curve25519-dalek-derive = { path = "../curve25519-dalek/curve25519-dalek-derive" }
 ed25519-dalek = { path = "../curve25519-dalek/ed25519-dalek", features = ["fast", "std", "zeroize", "digest", "rand", "u64_backend"] }
 ed25519-dalek-bip32 = { path = "../curve25519-dalek/ed25519-dalek-bip32", features = ["std"] }
 
-crossbeam-channel = { git = "https://github.com/gaokanxu/lumos-crossbeam.git", branch = "main", package = "crossbeam-channel" }
-bytemuck = { git = "https://github.com/gaokanxu/lumos-bytemuck.git", branch = "main", package = "bytemuck", features = ["derive"] }
-bytemuck-derive = { git = "https://github.com/gaokanxu/lumos-bytemuck.git", branch = "main", package = "bytemuck_derive" }
+
 
 lumos-account-decoder = { path = "account-decoder" }
 lumos-accounts-db = { path = "accounts-db" }

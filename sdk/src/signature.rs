@@ -1,4 +1,12 @@
 //! Functionality for public and private keys.
+
+//gaokanxu 2024.08.05 begin
+use ed25519_dalek;
+use std::convert::TryFrom;
+use serde::{Deserialize, Serialize};
+//gaokanxu end
+
+
 // legacy module paths
 pub use crate::signer::{keypair::*, null_signer::*, presigner::*, *};
 use {
@@ -209,3 +217,5 @@ mod tests {
         assert!(signature.verify_verbose(pubkey.as_ref(), &[0u8]).is_err());
     }
 }
+
+

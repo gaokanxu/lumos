@@ -6,13 +6,17 @@
 use {
     crate::{feature_set::FeatureSet, instruction::Instruction, precompiles::PrecompileError},
     bytemuck::{bytes_of, Pod, Zeroable},
-    
-     
+         
     //ed25519_dalek::{ed25519::signature::Signature, Signer, Verifier},
-    //2024.08.01 gaokanxu
-    ed25519_dalek::{Signature, Signer, Verifier},
-    
 };
+
+//gaokanxu 2024.08.05
+use ed25519_dalek::PublicKey;
+use ed25519_dalek::Signature;
+use ed25519_dalek::Signer;      // 确保引入了Signer trait
+use ed25519_dalek::Verifier;    //Verifier trait
+
+
 
 pub const PUBKEY_SERIALIZED_SIZE: usize  = 32;
 pub const SIGNATURE_SERIALIZED_SIZE: usize = 64;
@@ -124,8 +128,10 @@ pub fn verify(
             SIGNATURE_SERIALIZED_SIZE,
         )?;
 
-        let signature =
-            Signature::from_bytes(signature).map_err(|_| PrecompileError::InvalidSignature)?;
+        //let signature = Signature::from_bytes(signature).map_err(|_| PrecompileError::InvalidSignature)?;
+        //gaokanxu 2024.08.04
+        let signature = Signature::try_from(signature).map_err(|_| PrecompileError::InvalidSignature)?;
+
 
         // Parse out pubkey
         let pubkey = get_data_slice(
