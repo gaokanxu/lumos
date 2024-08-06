@@ -10,6 +10,7 @@ use {
     ed25519_dalek_bip32::Error as Bip32Error,
     hmac::Hmac,
     rand0_7::{rngs::OsRng, CryptoRng, RngCore},
+    
     std::{
         error,
         io::{Read, Write},
@@ -17,6 +18,12 @@ use {
     },
     wasm_bindgen::prelude::*,
 };
+
+
+//gaokanxu 2024.08.06
+use ed25519_dalek::{Keypair, PublicKey};
+use rand_core::{CryptoRng, RngCore};
+
 
 /// A vanilla Ed25519 key pair
 #[wasm_bindgen]
@@ -28,12 +35,6 @@ impl Keypair {
     pub const SECRET_KEY_LENGTH: usize = 32;
 
     /// Constructs a new, random `Keypair` using a caller-provided RNG
-    pub fn generate<R>(csprng: &mut R) -> Self
-    where
-        R: CryptoRng + RngCore,
-    {
-        Self(ed25519_dalek::Keypair::generate(csprng))
-    }
 
     /// Constructs a new, random `Keypair` using `OsRng`
     pub fn new() -> Self {

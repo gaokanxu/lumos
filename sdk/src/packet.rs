@@ -25,7 +25,7 @@ pub const PACKET_DATA_SIZE: usize = 1280 - 40 - 8;
 
 bitflags! {
     #[repr(C)]
-    #[derive(Copy, Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+    #[derive(Copy, Clone, Debug, PartialEq, Eq)]
     pub struct PacketFlags: u8 {
         const DISCARD        = 0b0000_0001;
         const FORWARDED      = 0b0000_0010;
@@ -329,7 +329,7 @@ mod tests {
 
 // 手动实现 Serialize
 impl Serialize for PacketFlags {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    fn serialize<S>(&self, serializer: S) -> std::result::Result<S::Ok, S::Error>
     where
         S: Serializer,
     {
@@ -339,7 +339,7 @@ impl Serialize for PacketFlags {
 
 // 手动实现 Deserialize
 impl<'de> Deserialize<'de> for PacketFlags {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    fn deserialize<D>(deserializer: D) -> std::result::Result<Self, D::Error>
     where
         D: Deserializer<'de>,
     {
