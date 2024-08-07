@@ -9,8 +9,8 @@ use {
     ed25519_dalek::Signer as DalekSigner,
     ed25519_dalek_bip32::Error as Bip32Error,
     hmac::Hmac,
-    rand0_7::{rngs::OsRng, CryptoRng, RngCore},
-    
+    rand::rngs::OsRng,
+    rand_core::{CryptoRng, RngCore},
     std::{
         error,
         io::{Read, Write},
@@ -21,26 +21,38 @@ use {
 
 
 //gaokanxu 2024.08.06
-use ed25519_dalek::{Keypair, PublicKey};
-use rand_core::{CryptoRng, RngCore};
+use ed25519_dalek::{Keypair as DalekKeypair, PublicKey};
 
 
 /// A vanilla Ed25519 key pair
 #[wasm_bindgen]
 #[derive(Debug)]
-pub struct Keypair(ed25519_dalek::Keypair);
+pub struct Keypair(DalekKeypair);
 
 impl Keypair {
     /// Can be used for generating a Keypair without a dependency on `rand` types
     pub const SECRET_KEY_LENGTH: usize = 32;
-
+    
+    //gaokanxu 2024.08.06 begin
     /// Constructs a new, random `Keypair` using a caller-provided RNG
-
+    pub fn generate<R>(mut csprng: R) -> Self
+    where
+        R: CryptoRng + RngCore,
+    {
+        Self(DalekKeypair::generate(&mut csprng))
+    }
+    pub fn public(&self) -> PublicKey {
+        self.0.public
+    }
+    //gaokanxu end
+    
+    
     /// Constructs a new, random `Keypair` using `OsRng`
     pub fn new() -> Self {
         let mut rng = OsRng;
         Self::generate(&mut rng)
     }
+  
 
     /// Recovers a `Keypair` from a byte array
     pub fn from_bytes(bytes: &[u8]) -> Result<Self, ed25519_dalek::SignatureError> {
