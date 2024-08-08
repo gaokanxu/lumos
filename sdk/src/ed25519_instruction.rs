@@ -11,7 +11,7 @@ use {
 };
 
 //gaokanxu 2024.08.05
-use ed25519_dalek::PublicKey;
+//use ed25519_dalek::PublicKey;
 use ed25519_dalek::Signature;
 use ed25519_dalek::Signer;      // 确保引入了Signer trait
 use ed25519_dalek::Verifier;    //Verifier trait
