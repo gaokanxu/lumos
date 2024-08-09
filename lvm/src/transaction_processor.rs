@@ -927,7 +927,7 @@ mod tests {
     use {
         super::*,
         lumos_program_runtime::{
-            loaded_programs::BlockRelation, lumos_rbpf::program::BuiltinProgram,
+            loaded_programs::BlockRelation, rbpf::program::BuiltinProgram,
         },
         lumos_sdk::{
             account::WritableAccount,

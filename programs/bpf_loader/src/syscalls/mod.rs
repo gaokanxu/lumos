@@ -15,7 +15,7 @@ use {
         compute_budget::ComputeBudget, ic_logger_msg, ic_msg, invoke_context::InvokeContext,
         stable_log, timings::ExecuteTimings,
     },
-    lumos_rbpf::{
+    rbpf::{
         declare_builtin_function,
         memory_region::{AccessType, MemoryMapping},
         program::{BuiltinFunction, BuiltinProgram, FunctionRegistry},
@@ -1733,7 +1733,7 @@ declare_builtin_function!(
         let budget = invoke_context.get_compute_budget();
         consume_compute_meter(invoke_context, budget.syscall_base_cost)?;
 
-        use lumos_rbpf::vm::ContextObject;
+        use rbpf::vm::ContextObject;
         Ok(invoke_context.get_remaining())
     }
 );
@@ -1917,7 +1917,7 @@ mod tests {
         assert_matches::assert_matches,
         core::slice,
         lumos_program_runtime::{invoke_context::InvokeContext, with_mock_invoke_context},
-        lumos_rbpf::{
+        rbpf::{
             error::EbpfError, memory_region::MemoryRegion, program::SBPFVersion, vm::Config,
         },
         lumos_sdk::{

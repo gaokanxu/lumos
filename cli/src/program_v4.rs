@@ -24,7 +24,7 @@ use {
         tpu_client::{TpuClient, TpuClientConfig},
     },
     lumos_program_runtime::{compute_budget::ComputeBudget, invoke_context::InvokeContext},
-    lumos_rbpf::{elf::Executable, verifier::RequisiteVerifier},
+    rbpf::{elf::Executable, verifier::RequisiteVerifier},
     lumos_remote_wallet::remote_wallet::RemoteWalletManager,
     lumos_rpc_client::rpc_client::RpcClient,
     lumos_rpc_client_api::{

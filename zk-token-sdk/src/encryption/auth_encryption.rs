@@ -5,7 +5,10 @@
 #[cfg(not(target_os = "lumos"))]
 use {
     aes_gcm_siv::{
-        aead::{Aead, NewAead},
+        //aead::{Aead, NewAead},
+        //gaokanxu 2024.08.09
+        aead::{Aead, KeyInit},
+        
         Aes128GcmSiv,
     },
     rand::{rngs::OsRng, Rng},

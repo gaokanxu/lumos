@@ -7,7 +7,7 @@ use {
     percentage::PercentageInteger,
     rand::{thread_rng, Rng},
     lumos_measure::measure::Measure,
-    lumos_rbpf::{
+    rbpf::{
         elf::Executable,
         program::{BuiltinProgram, FunctionRegistry},
         verifier::RequisiteVerifier,
@@ -1163,7 +1163,7 @@ mod tests {
         },
         assert_matches::assert_matches,
         percentage::Percentage,
-        lumos_rbpf::program::BuiltinProgram,
+        rbpf::program::BuiltinProgram,
         lumos_sdk::{clock::Slot, pubkey::Pubkey},
         std::{
             ops::ControlFlow,

@@ -9,7 +9,7 @@ extern crate eager;
 #[macro_use]
 extern crate lumos_metrics;
 
-pub use lumos_rbpf;
+pub use rbpf;
 pub mod compute_budget;
 pub mod compute_budget_processor;
 pub mod invoke_context;

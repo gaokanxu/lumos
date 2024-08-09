@@ -69,7 +69,7 @@ pub use {
     lumos_banks_client::{BanksClient, BanksClientError},
     lumos_banks_interface::BanksTransactionResultWithMetadata,
     lumos_program_runtime::invoke_context::InvokeContext,
-    lumos_rbpf::{
+    rbpf::{
         error::EbpfError,
         vm::{get_runtime_environment_key, EbpfVm},
     },
@@ -485,7 +485,7 @@ impl Default for ProgramTest {
     ///
     fn default() -> Self {
         lumos_logger::setup_with_default(
-            "lumos_rbpf::vm=debug,\
+            "rbpf::vm=debug,\
              lumos_runtime::message_processor=debug,\
              lumos_runtime::system_instruction_processor=trace,\
              lumos_program_test=info",

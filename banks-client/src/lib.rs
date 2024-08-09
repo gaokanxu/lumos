@@ -541,7 +541,11 @@ where
     })
 }
 
-pub async fn start_tcp_client<T: ToSocketAddrs>(addr: T) -> Result<BanksClient, BanksClientError> {
+pub async fn start_tcp_client<T: ToSocketAddrs>(addr: T) -> Result<BanksClient, BanksClientError> 
+//gaokanxu 2024.08.09 add where
+where
+    T: ToSocketAddrs,
+{
     let transport = tcp::connect(addr, Bincode::default).await?;
     Ok(BanksClient {
         inner: TarpcClient::new(client::Config::default(), transport).spawn(),

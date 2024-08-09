@@ -19,7 +19,7 @@ serde_derive = { workspace = true }
 thiserror = { workspace = true }
 
 lumos-program = { workspace = true }
-#lumos-program-test = { workspace = true }
+lumos-program-test = { workspace = true }
 lumos-sdk = { workspace = true }
 lpl-token = { workspace = true }
   

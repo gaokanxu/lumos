@@ -1,4 +1,4 @@
-use {super::*, lumos_rbpf::vm::ContextObject};
+use {super::*, rbpf::vm::ContextObject};
 
 declare_builtin_function!(
     /// Log a user's info message

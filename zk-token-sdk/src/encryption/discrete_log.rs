@@ -52,6 +52,8 @@ pub struct DiscreteLog {
     /// Generator point for discrete log
     pub generator: RistrettoPoint,
     /// Target point for discrete log
+    //gaokanxu 2024.08.09, 同时添加代码ristretto_point_serde.rs文件 
+    #[serde(with = "ristretto_point_serde")]
     pub target: RistrettoPoint,
     /// Number of threads used for discrete log computation
     num_threads: usize,

@@ -20,7 +20,7 @@ use {
         compute_budget::ComputeBudget,
         compute_budget_processor::process_compute_budget_instructions, timings::ExecuteTimings,
     },
-    lumos_rbpf::vm::ContextObject,
+    rbpf::vm::ContextObject,
     lumos_runtime::{
         bank::TransactionBalancesSet,
         loader_utils::{

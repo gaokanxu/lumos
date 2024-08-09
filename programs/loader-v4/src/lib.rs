@@ -10,7 +10,7 @@ use {
         log_collector::LogCollector,
         stable_log,
     },
-    lumos_rbpf::{
+    rbpf::{
         aligned_memory::AlignedMemory,
         declare_builtin_function, ebpf,
         elf::Executable,

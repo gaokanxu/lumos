@@ -1,6 +1,6 @@
 use {
     super::*,
-    lumos_rbpf::{error::EbpfError, memory_region::MemoryRegion},
+    rbpf::{error::EbpfError, memory_region::MemoryRegion},
     std::slice,
 };
 
@@ -515,7 +515,7 @@ mod tests {
     use {
         super::*,
         assert_matches::assert_matches,
-        lumos_rbpf::{ebpf::MM_PROGRAM_START, program::SBPFVersion},
+        rbpf::{ebpf::MM_PROGRAM_START, program::SBPFVersion},
         test_case::test_case,
     };
 

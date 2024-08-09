@@ -9,7 +9,7 @@ use {
         timings::{ExecuteDetailsTimings, ExecuteTimings},
     },
     lumos_measure::measure::Measure,
-    lumos_rbpf::{
+    rbpf::{
         ebpf::MM_HEAP_START,
         error::{EbpfError, ProgramResult},
         memory_region::MemoryMapping,
@@ -45,7 +45,7 @@ pub type BuiltinFunctionWithContext = BuiltinFunction<InvokeContext<'static>>;
 #[macro_export]
 macro_rules! declare_process_instruction {
     ($process_instruction:ident, $cu_to_consume:expr, |$invoke_context:ident| $inner:tt) => {
-        $crate::lumos_rbpf::declare_builtin_function!(
+        $crate::rbpf::declare_builtin_function!(
             $process_instruction,
             fn rust(
                 invoke_context: &mut $crate::invoke_context::InvokeContext,
@@ -54,7 +54,7 @@ macro_rules! declare_process_instruction {
                 _arg2: u64,
                 _arg3: u64,
                 _arg4: u64,
-                _memory_mapping: &mut $crate::lumos_rbpf::memory_region::MemoryMapping,
+                _memory_mapping: &mut $crate::rbpf::memory_region::MemoryMapping,
             ) -> std::result::Result<u64, Box<dyn std::error::Error>> {
                 fn process_instruction_inner(
                     $invoke_context: &mut $crate::invoke_context::InvokeContext,

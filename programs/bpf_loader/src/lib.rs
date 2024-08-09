@@ -16,7 +16,7 @@ use {
         stable_log,
         sysvar_cache::get_sysvar_with_account_check,
     },
-    lumos_rbpf::{
+    rbpf::{
         aligned_memory::AlignedMemory,
         declare_builtin_function,
         ebpf::{self, HOST_ALIGN, MM_HEAP_START},
@@ -272,11 +272,11 @@ macro_rules! create_vm {
         ));
         let mut allocations = None;
         let $vm = heap_cost_result.and_then(|_| {
-            let mut stack = lumos_rbpf::aligned_memory::AlignedMemory::<
-                { lumos_rbpf::ebpf::HOST_ALIGN },
+            let mut stack = rbpf::aligned_memory::AlignedMemory::<
+                { rbpf::ebpf::HOST_ALIGN },
             >::zero_filled(stack_size);
-            let mut heap = lumos_rbpf::aligned_memory::AlignedMemory::<
-                { lumos_rbpf::ebpf::HOST_ALIGN },
+            let mut heap = rbpf::aligned_memory::AlignedMemory::<
+                { rbpf::ebpf::HOST_ALIGN },
             >::zero_filled(usize::try_from(heap_size).unwrap());
             let vm = $crate::create_vm(
                 $program,
@@ -296,8 +296,8 @@ macro_rules! create_vm {
 macro_rules! mock_create_vm {
     ($vm:ident, $additional_regions:expr, $accounts_metadata:expr, $invoke_context:expr $(,)?) => {
         let loader = std::sync::Arc::new(BuiltinProgram::new_mock());
-        let function_registry = lumos_rbpf::program::FunctionRegistry::default();
-        let executable = lumos_rbpf::elf::Executable::<InvokeContext>::from_text_bytes(
+        let function_registry = rbpf::program::FunctionRegistry::default();
+        let executable = rbpf::elf::Executable::<InvokeContext>::from_text_bytes(
             &[0x95, 0, 0, 0, 0, 0, 0, 0],
             loader,
             SBPFVersion::V2,
@@ -305,7 +305,7 @@ macro_rules! mock_create_vm {
         )
         .unwrap();
         executable
-            .verify::<lumos_rbpf::verifier::RequisiteVerifier>()
+            .verify::<rbpf::verifier::RequisiteVerifier>()
             .unwrap();
         $crate::create_vm!(
             $vm,
@@ -1528,7 +1528,7 @@ mod tests {
         lumos_program_runtime::{
             invoke_context::mock_process_instruction, with_mock_invoke_context,
         },
-        lumos_rbpf::vm::ContextObject,
+        rbpf::vm::ContextObject,
         lumos_sdk::{
             account::{
                 create_account_shared_data_for_test as create_account_for_test, AccountSharedData,

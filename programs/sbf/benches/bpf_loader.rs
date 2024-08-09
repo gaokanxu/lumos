@@ -8,7 +8,7 @@
 )]
 
 use {
-    lumos_rbpf::memory_region::MemoryState,
+    rbpf::memory_region::MemoryState,
     lumos_sdk::{feature_set::bpf_account_data_direct_mapping, signer::keypair::Keypair},
     std::slice,
 };
@@ -23,7 +23,7 @@ use {
     },
     lumos_measure::measure::Measure,
     lumos_program_runtime::{compute_budget::ComputeBudget, invoke_context::InvokeContext},
-    lumos_rbpf::{
+    rbpf::{
         ebpf::MM_INPUT_START, elf::Executable, memory_region::MemoryRegion,
         verifier::RequisiteVerifier, vm::ContextObject,
     },

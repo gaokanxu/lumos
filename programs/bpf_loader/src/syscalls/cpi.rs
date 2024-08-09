@@ -3,7 +3,7 @@ use {
     crate::serialization::account_data_region_memory_state,
     scopeguard::defer,
     lumos_program_runtime::invoke_context::SerializedAccountMetadata,
-    lumos_rbpf::{
+    rbpf::{
         ebpf,
         memory_region::{MemoryRegion, MemoryState},
     },
@@ -1583,7 +1583,7 @@ mod tests {
         lumos_program_runtime::{
             invoke_context::SerializedAccountMetadata, with_mock_invoke_context,
         },
-        lumos_rbpf::{
+        rbpf::{
             ebpf::MM_INPUT_START, memory_region::MemoryRegion, program::SBPFVersion, vm::Config,
         },
         lumos_sdk::{
