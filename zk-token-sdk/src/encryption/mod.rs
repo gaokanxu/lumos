@@ -15,3 +15,4 @@ pub mod discrete_log;
 pub mod elgamal;
 pub mod grouped_elgamal;
 pub mod pedersen;
+

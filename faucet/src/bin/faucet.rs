@@ -26,7 +26,11 @@ async fn main() {
         .version(lumos_version::version!())
         .arg(
             Arg::with_name("keypair")
-                .short("k")
+            
+                //.short("k")
+                //gaokanxu 2024.08.10
+                .short('k')
+                
                 .long("keypair")
                 .value_name("PATH")
                 .takes_value(true)

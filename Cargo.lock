@@ -1251,9 +1251,9 @@ dependencies = [
 
 [[package]]
 name = "clap"
-version = "4.5.14"
+version = "4.5.15"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c937d4061031a6d0c8da4b9a4f98a172fc2976dfb1c19213a9cf7d0d3c837e36"
+checksum = "11d8838454fda655dafd3accb2b6e2bea645b9e4078abe84a22ceb947235c5cc"
 dependencies = [
  "clap_builder",
  "clap_derive 4.5.13",
@@ -1261,9 +1261,9 @@ dependencies = [
 
 [[package]]
 name = "clap_builder"
-version = "4.5.14"
+version = "4.5.15"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "85379ba512b21a328adf887e85f7742d12e96eb31f3ef077df4ffc26b506ffed"
+checksum = "216aec2b177652e3846684cbfe25c9964d18ec45234f0f5da5157b207ed1aab6"
 dependencies = [
  "anstream",
  "anstyle",
@@ -1465,7 +1465,7 @@ dependencies = [
  "anes",
  "cast 0.3.0",
  "ciborium",
- "clap 4.5.14",
+ "clap 4.5.15",
  "criterion-plot",
  "is-terminal",
  "itertools",
@@ -3291,7 +3291,7 @@ version = "0.7.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "cc0bda45ed5b3a2904262c1bb91e526127aa70e7ef3758aba2ef93cf896b9b58"
 dependencies = [
- "clap 4.5.14",
+ "clap 4.5.15",
  "escape8259",
  "termcolor",
  "threadpool",
@@ -3493,7 +3493,7 @@ name = "lpl-feature-proposal-cli"
 version = "1.2.0"
 dependencies = [
  "chrono",
- "clap 3.2.25",
+ "clap 4.5.15",
  "lpl-feature-proposal",
  "lumos-clap-utils",
  "lumos-cli-config",
@@ -3834,7 +3834,7 @@ dependencies = [
  "bincode",
  "borsh 1.5.1",
  "bs58",
- "clap 3.2.25",
+ "clap 4.5.15",
  "lpl-associated-token-account",
  "lpl-stake-pool",
  "lpl-token",
@@ -4107,7 +4107,7 @@ dependencies = [
 name = "lpl-token-lending-cli"
 version = "0.2.0"
 dependencies = [
- "clap 3.2.25",
+ "clap 4.5.15",
  "lpl-token",
  "lpl-token-lending",
  "lumos-clap-utils",
@@ -4198,7 +4198,7 @@ dependencies = [
 name = "lpl-token-upgrade-cli"
 version = "0.1.1"
 dependencies = [
- "clap 3.2.25",
+ "clap 4.5.15",
  "futures-util",
  "lpl-associated-token-account",
  "lpl-token",
@@ -4232,7 +4232,7 @@ dependencies = [
 name = "lpl-transfer-hook-cli"
 version = "0.2.0"
 dependencies = [
- "clap 3.2.25",
+ "clap 4.5.15",
  "futures-util",
  "lpl-tlv-account-resolution",
  "lpl-token-2022",
@@ -4350,7 +4350,7 @@ dependencies = [
 name = "lumos-accounts-bench"
 version = "2.0.0"
 dependencies = [
- "clap 3.2.25",
+ "clap 4.5.15",
  "log",
  "lumos-accounts-db",
  "lumos-logger",
@@ -4364,7 +4364,7 @@ dependencies = [
 name = "lumos-accounts-cluster-bench"
 version = "2.0.0"
 dependencies = [
- "clap 3.2.25",
+ "clap 4.5.15",
  "log",
  "lpl-token",
  "lumos-account-decoder",
@@ -4484,7 +4484,7 @@ dependencies = [
 name = "lumos-banking-bench"
 version = "2.0.0"
 dependencies = [
- "clap 3.2.25",
+ "clap 4.5.15",
  "crossbeam-channel 0.5.6",
  "log",
  "lumos-client",
@@ -4552,7 +4552,7 @@ dependencies = [
 name = "lumos-bench-streamer"
 version = "2.0.0"
 dependencies = [
- "clap 3.2.25",
+ "clap 4.5.15",
  "crossbeam-channel 0.5.6",
  "lumos-net-utils",
  "lumos-streamer",
@@ -4563,7 +4563,7 @@ dependencies = [
 name = "lumos-bench-tps"
 version = "2.0.0"
 dependencies = [
- "clap 3.2.25",
+ "clap 4.5.15",
  "crossbeam-channel 0.5.6",
  "log",
  "lpl-instruction-padding",
@@ -4683,7 +4683,7 @@ dependencies = [
  "assert_cmd",
  "bzip2",
  "cargo_metadata",
- "clap 3.2.25",
+ "clap 4.5.15",
  "itertools",
  "log",
  "lumos-download-utils",
@@ -4701,7 +4701,7 @@ dependencies = [
 name = "lumos-cargo-registry"
 version = "2.0.0"
 dependencies = [
- "clap 3.2.25",
+ "clap 4.5.15",
  "flate2",
  "hex",
  "hyper",
@@ -4783,7 +4783,7 @@ dependencies = [
  "assert_matches",
  "bincode",
  "bs58",
- "clap 3.2.25",
+ "clap 4.5.15",
  "console",
  "const_format",
  "criterion-stats",
@@ -4852,7 +4852,7 @@ dependencies = [
  "Inflector",
  "base64 0.22.1",
  "chrono",
- "clap 3.2.25",
+ "clap 4.5.15",
  "console",
  "ed25519-dalek",
  "humantime",
@@ -5092,7 +5092,7 @@ name = "lumos-dos"
 version = "2.0.0"
 dependencies = [
  "bincode",
- "clap 3.2.25",
+ "clap 4.5.15",
  "crossbeam-channel 0.5.6",
  "itertools",
  "log",
@@ -5168,7 +5168,7 @@ version = "2.0.0"
 dependencies = [
  "bincode",
  "byteorder",
- "clap 3.2.25",
+ "clap 4.5.15",
  "crossbeam-channel 0.5.6",
  "log",
  "lpl-memo",
@@ -5224,7 +5224,7 @@ version = "2.0.0"
 dependencies = [
  "base64 0.22.1",
  "bincode",
- "clap 3.2.25",
+ "clap 4.5.15",
  "itertools",
  "lumos-accounts-db",
  "lumos-clap-utils",
@@ -5296,7 +5296,7 @@ dependencies = [
  "assert_matches",
  "bincode",
  "bv",
- "clap 3.2.25",
+ "clap 4.5.15",
  "crossbeam-channel 0.5.6",
  "flate2",
  "indexmap 2.3.0",
@@ -5348,7 +5348,7 @@ dependencies = [
  "bincode",
  "bzip2",
  "chrono",
- "clap 3.2.25",
+ "clap 4.5.15",
  "console",
  "crossbeam-channel 0.5.6",
  "ctrlc",
@@ -5470,7 +5470,7 @@ dependencies = [
  "bs58",
  "bytecount",
  "chrono",
- "clap 3.2.25",
+ "clap 4.5.15",
  "crossbeam-channel 0.5.6",
  "csv",
  "dashmap",
@@ -5623,7 +5623,7 @@ version = "2.0.0"
 name = "lumos-merkle-root-bench"
 version = "2.0.0"
 dependencies = [
- "clap 3.2.25",
+ "clap 4.5.15",
  "log",
  "lumos-accounts-db",
  "lumos-logger",
@@ -5673,7 +5673,7 @@ name = "lumos-net-utils"
 version = "2.0.0"
 dependencies = [
  "bincode",
- "clap 3.2.25",
+ "clap 4.5.15",
  "crossbeam-channel 0.5.6",
  "log",
  "lumos-logger",
@@ -6076,7 +6076,7 @@ name = "lumos-rpc-client-nonce-utils"
 version = "2.0.0"
 dependencies = [
  "anyhow",
- "clap 3.2.25",
+ "clap 4.5.15",
  "futures 0.3.30",
  "lumos-account-decoder",
  "lumos-clap-utils",
@@ -6300,7 +6300,7 @@ dependencies = [
 name = "lumos-stake-accounts"
 version = "2.0.0"
 dependencies = [
- "clap 3.2.25",
+ "clap 4.5.15",
  "lumos-clap-utils",
  "lumos-cli-config",
  "lumos-remote-wallet",
@@ -6381,7 +6381,7 @@ dependencies = [
 name = "lumos-store-tool"
 version = "2.0.0"
 dependencies = [
- "clap 3.2.25",
+ "clap 4.5.15",
  "log",
  "lumos-accounts-db",
  "lumos-logger",
@@ -6484,7 +6484,7 @@ dependencies = [
  "assert_matches",
  "bincode",
  "chrono",
- "clap 3.2.25",
+ "clap 4.5.15",
  "console",
  "csv",
  "ctrlc",
@@ -6537,7 +6537,7 @@ name = "lumos-transaction-dos"
 version = "2.0.0"
 dependencies = [
  "bincode",
- "clap 3.2.25",
+ "clap 4.5.15",
  "log",
  "lumos-clap-utils",
  "lumos-cli",
@@ -6667,7 +6667,7 @@ name = "lumos-validator"
 version = "2.0.0"
 dependencies = [
  "chrono",
- "clap 3.2.25",
+ "clap 4.5.15",
  "console",
  "core_affinity",
  "crossbeam-channel 0.5.6",
@@ -6789,7 +6789,7 @@ dependencies = [
 name = "lumos-watchtower"
 version = "2.0.0"
 dependencies = [
- "clap 3.2.25",
+ "clap 4.5.15",
  "humantime",
  "log",
  "lumos-clap-utils",
@@ -8617,9 +8617,9 @@ dependencies = [
 
 [[package]]
 name = "scc"
-version = "2.1.9"
+version = "2.1.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "06ff467073ddaff34c3a39e5b454f25dd982484a26fff50254ca793c56a1b714"
+checksum = "792be3bdd5f9200189dca1f43c223dcd9452c122cafb5db76a602c003789f901"
 dependencies = [
  "sdd",
 ]

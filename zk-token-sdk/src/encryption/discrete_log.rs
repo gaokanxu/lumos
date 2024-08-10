@@ -25,10 +25,17 @@ use {
         traits::{Identity, IsIdentity},
     },
     itertools::Itertools,
-    serde::{Deserialize, Serialize},
+    //gaokanxu 2024.08.10
+    //serde::{Deserialize, Serialize},
     std::{collections::HashMap, thread},
     thiserror::Error,
 };
+
+//gaokanxu 2024.08.10 3lines
+use serde::{Serialize, Deserialize};
+//use curve25519_dalek::ristretto::RistrettoPoint;
+//use crate::encryption::ristretto_point_serde;
+
 
 const TWO16: u64 = 65536; // 2^16
 const TWO17: u64 = 131072; // 2^17
@@ -47,13 +54,13 @@ pub enum DiscreteLogError {
 /// Type that captures a discrete log challenge.
 ///
 /// The goal of discrete log is to find x such that x * generator = target.
-#[derive(Serialize, Deserialize, Copy, Clone, Debug, Eq, PartialEq)]
+//#[derive(Serialize, Deserialize, Copy, Clone, Debug, Eq, PartialEq)]
+//gaokanxu 2024.08.10
+#[derive(Copy, Clone, Debug, Eq, PartialEq)]
 pub struct DiscreteLog {
     /// Generator point for discrete log
     pub generator: RistrettoPoint,
     /// Target point for discrete log
-    //gaokanxu 2024.08.09, 同时添加代码ristretto_point_serde.rs文件 
-    #[serde(with = "ristretto_point_serde")]
     pub target: RistrettoPoint,
     /// Number of threads used for discrete log computation
     num_threads: usize,

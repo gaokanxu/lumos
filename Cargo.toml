@@ -249,7 +249,7 @@ cargo_metadata = "0.15.4"
 cc = "1.0.83"
 chrono = "0.4.34"
 chrono-humanize = "0.2.3"
-clap = { version = "3", features = ["cargo"] }
+clap = { version = "4.5.15", features = ["cargo"] }
 console = "0.15.8"
 console_error_panic_hook = "0.1.7"
 console_log = "0.2.2"

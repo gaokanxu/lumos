@@ -33,7 +33,8 @@ use {
         serde_transport::tcp,
         ClientMessage, Response, Transport,
     },
-    tokio::net::ToSocketAddrs,
+    //gaokanxu 2024.08.10
+    //tokio::net::ToSocketAddrs,
     tokio_serde::formats::Bincode,
 };
 
@@ -541,10 +542,9 @@ where
     })
 }
 
-pub async fn start_tcp_client<T: ToSocketAddrs>(addr: T) -> Result<BanksClient, BanksClientError> 
-//gaokanxu 2024.08.09 add where
-where
-    T: ToSocketAddrs,
+//pub async fn start_tcp_client<T: ToSocketAddrs>(addr: T) -> Result<BanksClient, BanksClientError>
+//gaokanxu 2024.08.10
+pub async fn start_tcp_client<T: tokio::net::ToSocketAddrs>(addr: T) -> Result<BanksClient, BanksClientError>
 {
     let transport = tcp::connect(addr, Bincode::default).await?;
     Ok(BanksClient {
