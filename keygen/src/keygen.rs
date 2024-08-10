@@ -1068,7 +1068,10 @@ mod tests {
             "--no-bip39-passphrase",
             "--no-outfile",
             "--derivation-path",
-            "m/44'/501'/0'/0'", // default derivation path
+            
+            //"m/44'/501'/0'/0'", // default derivation path
+            //gaokanxu 2024.08.11 使用lumos的派生路径
+            "m/44'/696'/0'/0'",
         ])
         .unwrap();
 

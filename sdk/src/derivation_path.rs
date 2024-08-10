@@ -5,7 +5,7 @@
 //! Includes definitions and helpers for Lumos derivation paths.
 //! The standard Lumos BIP-44 derivation path prefix is
 //!
-//! > `m/44'/501'`
+//! > `m/44'/696'`
 //!
 //! with 501 being the Lumos coin type.
 
@@ -320,17 +320,17 @@ mod tests {
             DerivationPath::from_absolute_path_str(s).unwrap(),
             DerivationPath::default()
         );
-        let s = "m/44'/501'";
+        let s = "m/44'/696'";
         assert_eq!(
             DerivationPath::from_absolute_path_str(s).unwrap(),
             DerivationPath::default()
         );
-        let s = "m/44'/501'/1/2";
+        let s = "m/44'/696'/1/2";
         assert_eq!(
             DerivationPath::from_absolute_path_str(s).unwrap(),
             DerivationPath::new_bip44(Some(1), Some(2))
         );
-        let s = "m/44'/501'/1'/2'";
+        let s = "m/44'/696'/1'/2'";
         assert_eq!(
             DerivationPath::from_absolute_path_str(s).unwrap(),
             DerivationPath::new_bip44(Some(1), Some(2))
@@ -760,12 +760,12 @@ mod tests {
     #[test]
     fn test_derivation_path_debug() {
         let path = DerivationPath::default();
-        assert_eq!(format!("{path:?}"), "m/44'/501'".to_string());
+        assert_eq!(format!("{path:?}"), "m/44'/696'".to_string());
 
         let path = DerivationPath::new_bip44(Some(1), None);
-        assert_eq!(format!("{path:?}"), "m/44'/501'/1'".to_string());
+        assert_eq!(format!("{path:?}"), "m/44'/696'/1'".to_string());
 
         let path = DerivationPath::new_bip44(Some(1), Some(2));
-        assert_eq!(format!("{path:?}"), "m/44'/501'/1'/2'".to_string());
+        assert_eq!(format!("{path:?}"), "m/44'/696'/1'/2'".to_string());
     }
 }
