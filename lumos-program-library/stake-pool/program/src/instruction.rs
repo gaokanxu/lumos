@@ -41,9 +41,9 @@ pub enum PreferredValidatorType {
 pub enum FundingType {
     /// Sets the stake deposit authority
     StakeDeposit,
-    /// Sets the SOL deposit authority
+    /// Sets the LUM deposit authority
     SolDeposit,
-    /// Sets the SOL withdraw authority
+    /// Sets the LUM withdraw authority
     SolWithdraw,
 }
 
@@ -205,7 +205,7 @@ pub enum StakePoolInstruction {
     /// the stake pool
     ///
     /// In order to avoid users abusing the stake pool as a free conversion
-    /// between SOL staked on different validators, the staker can force all
+    /// between LUM staked on different validators, the staker can force all
     /// deposits and/or withdraws to go to one chosen account, or unset that
     /// account.
     ///
@@ -294,7 +294,7 @@ pub enum StakePoolInstruction {
 
     ///   Withdraw the token from the pool at the current ratio.
     ///
-    ///   Succeeds if the stake account has enough SOL to cover the desired
+    ///   Succeeds if the stake account has enough LUM to cover the desired
     ///   amount of pool tokens, and if the withdrawal keeps the total
     ///   staked amount above the minimum of rent-exempt amount + `max(
     ///     crate::MINIMUM_ACTIVE_STAKE,
@@ -353,13 +353,13 @@ pub enum StakePoolInstruction {
     ///  2. '[]` New staker pubkey
     SetStaker,
 
-    ///   Deposit SOL directly into the pool's reserve account. The output is a
+    ///   Deposit LUM directly into the pool's reserve account. The output is a
     ///   "pool" token representing ownership into the pool. Inputs are
     ///   converted to the current ratio.
     ///
     ///   0. `[w]` Stake pool
     ///   1. `[]` Stake pool withdraw authority
-    ///   2. `[w]` Reserve stake account, to deposit SOL
+    ///   2. `[w]` Reserve stake account, to deposit LUM
     ///   3. `[s]` Account providing the lamports to be deposited into the pool
     ///   4. `[w]` User account to receive pool tokens
     ///   5. `[w]` Account to receive fee tokens
@@ -370,7 +370,7 @@ pub enum StakePoolInstruction {
     ///  10. `[s]` (Optional) Stake pool sol deposit authority.
     DepositSol(u64),
 
-    ///  (Manager only) Update SOL deposit, stake deposit, or SOL withdrawal
+    ///  (Manager only) Update LUM deposit, stake deposit, or LUM withdrawal
     /// authority.
     ///
     ///  0. `[w]` StakePool
@@ -378,14 +378,14 @@ pub enum StakePoolInstruction {
     ///  2. '[]` New authority pubkey or none
     SetFundingAuthority(FundingType),
 
-    ///   Withdraw SOL directly from the pool's reserve account. Fails if the
-    ///   reserve does not have enough SOL.
+    ///   Withdraw LUM directly from the pool's reserve account. Fails if the
+    ///   reserve does not have enough LUM.
     ///
     ///   0. `[w]` Stake pool
     ///   1. `[]` Stake pool withdraw authority
     ///   2. `[s]` User transfer authority, for pool token account
     ///   3. `[w]` User account to burn pool tokens
-    ///   4. `[w]` Reserve stake account, to withdraw SOL
+    ///   4. `[w]` Reserve stake account, to withdraw LUM
     ///   5. `[w]` Account receiving the lamports from the reserve, must be a
     ///      system account
     ///   6. `[w]` Account to receive pool fee tokens
@@ -410,7 +410,7 @@ pub enum StakePoolInstruction {
     CreateTokenMetadata {
         /// Token name
         name: String,
-        /// Token symbol e.g. stkSOL
+        /// Token symbol e.g. stkLUM
         symbol: String,
         /// URI of the uploaded metadata of the spl-token
         uri: String,
@@ -426,7 +426,7 @@ pub enum StakePoolInstruction {
     UpdateTokenMetadata {
         /// Token name
         name: String,
-        /// Token symbol e.g. stkSOL
+        /// Token symbol e.g. stkLUM
         symbol: String,
         /// URI of the uploaded metadata of the spl-token
         uri: String,
@@ -647,7 +647,7 @@ pub enum StakePoolInstruction {
     ///   Withdraw the token from the pool at the current ratio, specifying a
     ///   minimum expected output lamport amount.
     ///
-    ///   Succeeds if the stake account has enough SOL to cover the desired
+    ///   Succeeds if the stake account has enough LUM to cover the desired
     ///   amount of pool tokens, and if the withdrawal keeps the total
     ///   staked amount above the minimum of rent-exempt amount + `max(
     ///     crate::MINIMUM_ACTIVE_STAKE,
@@ -675,14 +675,14 @@ pub enum StakePoolInstruction {
         minimum_lamports_out: u64,
     },
 
-    ///   Deposit SOL directly into the pool's reserve account, with a
+    ///   Deposit LUM directly into the pool's reserve account, with a
     ///   specified slippage constraint. The output is a "pool" token
     ///   representing ownership into the pool. Inputs are converted at the
     ///   current ratio.
     ///
     ///   0. `[w]` Stake pool
     ///   1. `[]` Stake pool withdraw authority
-    ///   2. `[w]` Reserve stake account, to deposit SOL
+    ///   2. `[w]` Reserve stake account, to deposit LUM
     ///   3. `[s]` Account providing the lamports to be deposited into the pool
     ///   4. `[w]` User account to receive pool tokens
     ///   5. `[w]` Account to receive fee tokens
@@ -698,15 +698,15 @@ pub enum StakePoolInstruction {
         minimum_pool_tokens_out: u64,
     },
 
-    ///   Withdraw SOL directly from the pool's reserve account. Fails if the
-    ///   reserve does not have enough SOL or if the slippage constraint is not
+    ///   Withdraw LUM directly from the pool's reserve account. Fails if the
+    ///   reserve does not have enough LUM or if the slippage constraint is not
     ///   met.
     ///
     ///   0. `[w]` Stake pool
     ///   1. `[]` Stake pool withdraw authority
     ///   2. `[s]` User transfer authority, for pool token account
     ///   3. `[w]` User account to burn pool tokens
-    ///   4. `[w]` Reserve stake account, to withdraw SOL
+    ///   4. `[w]` Reserve stake account, to withdraw LUM
     ///   5. `[w]` Account receiving the lamports from the reserve, must be a
     ///      system account
     ///   6. `[w]` Account to receive pool fee tokens
@@ -1940,8 +1940,8 @@ pub fn deposit_stake_with_authority_and_slippage(
     )
 }
 
-/// Creates instructions required to deposit SOL directly into a stake pool.
-fn deposit_sol_internal(
+/// Creates instructions required to deposit LUM directly into a stake pool.
+fn deposit_lum_internal(
     program_id: &Pubkey,
     stake_pool: &Pubkey,
     stake_pool_withdraw_authority: &Pubkey,
@@ -1990,8 +1990,8 @@ fn deposit_sol_internal(
     }
 }
 
-/// Creates instruction to deposit SOL directly into a stake pool.
-pub fn deposit_sol(
+/// Creates instruction to deposit LUM directly into a stake pool.
+pub fn deposit_lum(
     program_id: &Pubkey,
     stake_pool: &Pubkey,
     stake_pool_withdraw_authority: &Pubkey,
@@ -2004,7 +2004,7 @@ pub fn deposit_sol(
     token_program_id: &Pubkey,
     lamports_in: u64,
 ) -> Instruction {
-    deposit_sol_internal(
+    deposit_lum_internal(
         program_id,
         stake_pool,
         stake_pool_withdraw_authority,
@@ -2021,9 +2021,9 @@ pub fn deposit_sol(
     )
 }
 
-/// Creates instruction to deposit SOL directly into a stake pool with slippage
+/// Creates instruction to deposit LUM directly into a stake pool with slippage
 /// constraint.
-pub fn deposit_sol_with_slippage(
+pub fn deposit_lum_with_slippage(
     program_id: &Pubkey,
     stake_pool: &Pubkey,
     stake_pool_withdraw_authority: &Pubkey,
@@ -2037,7 +2037,7 @@ pub fn deposit_sol_with_slippage(
     lamports_in: u64,
     minimum_pool_tokens_out: u64,
 ) -> Instruction {
-    deposit_sol_internal(
+    deposit_lum_internal(
         program_id,
         stake_pool,
         stake_pool_withdraw_authority,
@@ -2054,10 +2054,10 @@ pub fn deposit_sol_with_slippage(
     )
 }
 
-/// Creates instruction required to deposit SOL directly into a stake pool.
-/// The difference with `deposit_sol()` is that a deposit
+/// Creates instruction required to deposit LUM directly into a stake pool.
+/// The difference with `deposit_lum()` is that a deposit
 /// authority must sign this instruction.
-pub fn deposit_sol_with_authority(
+pub fn deposit_lum_with_authority(
     program_id: &Pubkey,
     stake_pool: &Pubkey,
     sol_deposit_authority: &Pubkey,
@@ -2071,7 +2071,7 @@ pub fn deposit_sol_with_authority(
     token_program_id: &Pubkey,
     lamports_in: u64,
 ) -> Instruction {
-    deposit_sol_internal(
+    deposit_lum_internal(
         program_id,
         stake_pool,
         stake_pool_withdraw_authority,
@@ -2088,9 +2088,9 @@ pub fn deposit_sol_with_authority(
     )
 }
 
-/// Creates instruction to deposit SOL directly into a stake pool with slippage
+/// Creates instruction to deposit LUM directly into a stake pool with slippage
 /// constraint.
-pub fn deposit_sol_with_authority_and_slippage(
+pub fn deposit_lum_with_authority_and_slippage(
     program_id: &Pubkey,
     stake_pool: &Pubkey,
     sol_deposit_authority: &Pubkey,
@@ -2105,7 +2105,7 @@ pub fn deposit_sol_with_authority_and_slippage(
     lamports_in: u64,
     minimum_pool_tokens_out: u64,
 ) -> Instruction {
-    deposit_sol_internal(
+    deposit_lum_internal(
         program_id,
         stake_pool,
         stake_pool_withdraw_authority,
@@ -2241,7 +2241,7 @@ pub fn withdraw_stake_with_slippage(
     )
 }
 
-fn withdraw_sol_internal(
+fn withdraw_lum_internal(
     program_id: &Pubkey,
     stake_pool: &Pubkey,
     stake_pool_withdraw_authority: &Pubkey,
@@ -2292,8 +2292,8 @@ fn withdraw_sol_internal(
     }
 }
 
-/// Creates instruction required to withdraw SOL directly from a stake pool.
-pub fn withdraw_sol(
+/// Creates instruction required to withdraw LUM directly from a stake pool.
+pub fn withdraw_lum(
     program_id: &Pubkey,
     stake_pool: &Pubkey,
     stake_pool_withdraw_authority: &Pubkey,
@@ -2306,7 +2306,7 @@ pub fn withdraw_sol(
     token_program_id: &Pubkey,
     pool_tokens_in: u64,
 ) -> Instruction {
-    withdraw_sol_internal(
+    withdraw_lum_internal(
         program_id,
         stake_pool,
         stake_pool_withdraw_authority,
@@ -2323,9 +2323,9 @@ pub fn withdraw_sol(
     )
 }
 
-/// Creates instruction required to withdraw SOL directly from a stake pool with
+/// Creates instruction required to withdraw LUM directly from a stake pool with
 /// slippage constraints.
-pub fn withdraw_sol_with_slippage(
+pub fn withdraw_lum_with_slippage(
     program_id: &Pubkey,
     stake_pool: &Pubkey,
     stake_pool_withdraw_authority: &Pubkey,
@@ -2339,7 +2339,7 @@ pub fn withdraw_sol_with_slippage(
     pool_tokens_in: u64,
     minimum_lamports_out: u64,
 ) -> Instruction {
-    withdraw_sol_internal(
+    withdraw_lum_internal(
         program_id,
         stake_pool,
         stake_pool_withdraw_authority,
@@ -2356,10 +2356,10 @@ pub fn withdraw_sol_with_slippage(
     )
 }
 
-/// Creates instruction required to withdraw SOL directly from a stake pool.
-/// The difference with `withdraw_sol()` is that the sol withdraw authority
+/// Creates instruction required to withdraw LUM directly from a stake pool.
+/// The difference with `withdraw_lum()` is that the sol withdraw authority
 /// must sign this instruction.
-pub fn withdraw_sol_with_authority(
+pub fn withdraw_lum_with_authority(
     program_id: &Pubkey,
     stake_pool: &Pubkey,
     sol_withdraw_authority: &Pubkey,
@@ -2373,7 +2373,7 @@ pub fn withdraw_sol_with_authority(
     token_program_id: &Pubkey,
     pool_tokens_in: u64,
 ) -> Instruction {
-    withdraw_sol_internal(
+    withdraw_lum_internal(
         program_id,
         stake_pool,
         stake_pool_withdraw_authority,
@@ -2390,11 +2390,11 @@ pub fn withdraw_sol_with_authority(
     )
 }
 
-/// Creates instruction required to withdraw SOL directly from a stake pool with
+/// Creates instruction required to withdraw LUM directly from a stake pool with
 /// a slippage constraint.
-/// The difference with `withdraw_sol()` is that the sol withdraw authority
+/// The difference with `withdraw_lum()` is that the sol withdraw authority
 /// must sign this instruction.
-pub fn withdraw_sol_with_authority_and_slippage(
+pub fn withdraw_lum_with_authority_and_slippage(
     program_id: &Pubkey,
     stake_pool: &Pubkey,
     sol_withdraw_authority: &Pubkey,
@@ -2409,7 +2409,7 @@ pub fn withdraw_sol_with_authority_and_slippage(
     pool_tokens_in: u64,
     minimum_lamports_out: u64,
 ) -> Instruction {
-    withdraw_sol_internal(
+    withdraw_lum_internal(
         program_id,
         stake_pool,
         stake_pool_withdraw_authority,
@@ -2489,14 +2489,14 @@ pub fn set_funding_authority(
     program_id: &Pubkey,
     stake_pool: &Pubkey,
     manager: &Pubkey,
-    new_sol_deposit_authority: Option<&Pubkey>,
+    new_lum_deposit_authority: Option<&Pubkey>,
     funding_type: FundingType,
 ) -> Instruction {
     let mut accounts = vec![
         AccountMeta::new(*stake_pool, false),
         AccountMeta::new_readonly(*manager, true),
     ];
-    if let Some(auth) = new_sol_deposit_authority {
+    if let Some(auth) = new_lum_deposit_authority {
         accounts.push(AccountMeta::new_readonly(*auth, false))
     }
     Instruction {

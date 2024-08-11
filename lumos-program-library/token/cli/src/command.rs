@@ -126,8 +126,8 @@ async fn check_wallet_balance(
         Err(format!(
             "Wallet {}, has insufficient balance: {} required, {} available",
             wallet,
-            lamports_to_sol(required_balance),
-            lamports_to_sol(balance)
+            lamports_to_lum(required_balance),
+            lamports_to_lum(balance)
         )
         .into())
     } else {
@@ -1873,7 +1873,7 @@ async fn command_wrap(
     config: &Config<'_>,
     sol: f64,
     wallet_address: Pubkey,
-    wrapped_sol_account: Option<Pubkey>,
+    wrapped_lum_account: Option<Pubkey>,
     immutable_owner: bool,
     bulk_signers: BulkSigners,
 ) -> CommandResult {
@@ -1881,9 +1881,9 @@ async fn command_wrap(
     let token = native_token_client_from_config(config)?;
 
     let account =
-        wrapped_sol_account.unwrap_or_else(|| token.get_associated_token_address(&wallet_address));
+        wrapped_lum_account.unwrap_or_else(|| token.get_associated_token_address(&wallet_address));
 
-    println_display(config, format!("Wrapping {} SOL into {}", sol, account));
+    println_display(config, format!("Wrapping {} LUM into {}", sol, account));
 
     if !config.sign_only {
         if let Some(account_data) = config.program_client.get_account(account).await? {
@@ -1953,15 +1953,15 @@ async fn command_unwrap(
 
         if account_data.lamports == 0 {
             if use_associated_account {
-                return Err("No wrapped SOL in associated account; did you mean to specify an auxiliary address?".to_string().into());
+                return Err("No wrapped LUM in associated account; did you mean to specify an auxiliary address?".to_string().into());
             } else {
-                return Err(format!("No wrapped SOL in {}", account).into());
+                return Err(format!("No wrapped LUM in {}", account).into());
             }
         }
 
         println_display(
             config,
-            format!("  Amount: {} SOL", lamports_to_sol(account_data.lamports)),
+            format!("  Amount: {} LUM", lamports_to_lum(account_data.lamports)),
         );
     }
 

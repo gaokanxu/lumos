@@ -5,7 +5,7 @@ use {
     crate::config::*,
     lumos_sdk::{
         instruction::Instruction,
-        native_token::LAMPORTS_PER_SOL,
+        native_token::LAMPORTS_PER_LUM,
         pubkey::Pubkey,
         stake::{
             self,
@@ -30,7 +30,7 @@ pub async fn get_rent(config: &Config) -> Result<Rent, Error> {
 pub async fn get_minimum_delegation(config: &Config) -> Result<u64, Error> {
     Ok(std::cmp::max(
         config.rpc_client.get_stake_minimum_delegation().await?,
-        LAMPORTS_PER_SOL,
+        LAMPORTS_PER_LUM,
     ))
 }
 

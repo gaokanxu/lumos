@@ -2170,7 +2170,7 @@ mod tests {
 
     #[test]
     #[should_panic(expected = "Panic(\"Gaggablaghblagh!\", 42, 84)")]
-    fn test_syscall_sol_panic() {
+    fn test_syscall_lum_panic() {
         prepare_mockup!(invoke_context, program_id, bpf_loader::id());
 
         let string = "Gaggablaghblagh!";
@@ -2211,7 +2211,7 @@ mod tests {
     }
 
     #[test]
-    fn test_syscall_sol_log() {
+    fn test_syscall_lum_log() {
         prepare_mockup!(invoke_context, program_id, bpf_loader::id());
 
         let string = "Gaggablaghblagh!";
@@ -2280,7 +2280,7 @@ mod tests {
     }
 
     #[test]
-    fn test_syscall_sol_log_u64() {
+    fn test_syscall_lum_log_u64() {
         prepare_mockup!(invoke_context, program_id, bpf_loader::id());
         let cost = invoke_context.get_compute_budget().log_64_units;
 
@@ -2301,7 +2301,7 @@ mod tests {
     }
 
     #[test]
-    fn test_syscall_sol_pubkey() {
+    fn test_syscall_lum_pubkey() {
         prepare_mockup!(invoke_context, program_id, bpf_loader::id());
         let cost = invoke_context.get_compute_budget().log_pubkey_units;
 
@@ -2356,7 +2356,7 @@ mod tests {
     }
 
     #[test]
-    fn test_syscall_sol_alloc_free() {
+    fn test_syscall_lum_alloc_free() {
         // large alloc
         {
             prepare_mockup!(invoke_context, program_id, bpf_loader::id());
@@ -3669,7 +3669,7 @@ mod tests {
     }
 
     #[test]
-    fn test_syscall_sol_get_processed_sibling_instruction() {
+    fn test_syscall_lum_get_processed_sibling_instruction() {
         let transaction_accounts = (0..9)
             .map(|_| {
                 (

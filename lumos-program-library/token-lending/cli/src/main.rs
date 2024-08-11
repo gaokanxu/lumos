@@ -11,7 +11,7 @@ use {
         keypair::signer_from_path,
     },
     lumos_client::rpc_client::RpcClient,
-    lumos_program::{native_token::lamports_to_sol, program_pack::Pack, pubkey::Pubkey},
+    lumos_program::{native_token::lamports_to_lum, program_pack::Pack, pubkey::Pubkey},
     lumos_sdk::{
         commitment_config::CommitmentConfig,
         message::Message,
@@ -699,8 +699,8 @@ fn check_fee_payer_balance(config: &Config, required_balance: u64) -> Result<(),
         Err(format!(
             "Fee payer, {}, has insufficient balance: {} required, {} available",
             config.fee_payer.pubkey(),
-            lamports_to_sol(required_balance),
-            lamports_to_sol(balance)
+            lamports_to_lum(required_balance),
+            lamports_to_lum(balance)
         )
         .into())
     } else {

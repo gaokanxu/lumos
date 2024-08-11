@@ -50,7 +50,7 @@ fn process_instruction(
 
     assert!(!bpf_loader::check_id(program_id));
 
-    // test_sol_alloc_free_no_longer_deployable calls this program with
+    // test_lum_alloc_free_no_longer_deployable calls this program with
     // bpf_loader instead of bpf_loader_deprecated, so instruction_data isn't
     // deserialized correctly and is empty.
     match instruction_data.first() {

@@ -127,7 +127,7 @@ pub(crate) fn calculate_stake_points_and_credits(
             //    history sysvar. And properly handling all the cases
             //    regarding deactivation epoch/warm-up/cool-down without
             //    introducing incentive skew is hard.
-            //  - Conceptually, it should be acceptable for the staked SOLs at
+            //  - Conceptually, it should be acceptable for the staked LUMs at
             //    the recreated vote to receive rewards again immediately after
             //    rewind even if it looks like instant activation. That's
             //    because it must have passed the required warmed-up at least
@@ -219,7 +219,7 @@ mod tests {
         let mut vote_state = VoteState::default();
 
         // bootstrap means fully-vested stake at epoch 0 with
-        //  10_000_000 SOL is a big but not unreasaonable stake
+        //  10_000_000 LUM is a big but not unreasaonable stake
         let stake = new_stake(
             native_token::sol_to_lamports(10_000_000f64),
             &Pubkey::default(),

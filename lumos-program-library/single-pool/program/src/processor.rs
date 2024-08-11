@@ -22,7 +22,7 @@ use {
         borsh1::{get_packed_len, try_from_slice_unchecked},
         entrypoint::ProgramResult,
         msg,
-        native_token::LAMPORTS_PER_SOL,
+        native_token::LAMPORTS_PER_LUM,
         program::invoke_signed,
         program_error::ProgramError,
         program_pack::Pack,
@@ -324,7 +324,7 @@ fn check_account_owner(
 fn minimum_delegation() -> Result<u64, ProgramError> {
     Ok(std::cmp::max(
         stake::tools::get_minimum_delegation()?,
-        LAMPORTS_PER_SOL,
+        LAMPORTS_PER_LUM,
     ))
 }
 
@@ -1379,8 +1379,8 @@ mod tests {
         // minnow_range is under the minimum for cases where we test that
         // op_range is how we roll whether to deposit, withdraw, or reward
         // std_range is a standard probability
-        let deposit_range = Uniform::from(LAMPORTS_PER_SOL..LAMPORTS_PER_SOL * 1000);
-        let minnow_range = Uniform::from(1..LAMPORTS_PER_SOL);
+        let deposit_range = Uniform::from(LAMPORTS_PER_LUM..LAMPORTS_PER_LUM * 1000);
+        let minnow_range = Uniform::from(1..LAMPORTS_PER_LUM);
         let op_range = Uniform::from(if with_rewards { 0.0..1.0 } else { 0.0..0.65 });
         let std_range = Uniform::from(0.0..1.0);
 

@@ -379,7 +379,7 @@ fn test_program_sbf_loader_deprecated() {
 #[should_panic(
     expected = "called `Result::unwrap()` on an `Err` value: TransactionError(InstructionError(1, InvalidAccountData))"
 )]
-fn test_sol_alloc_free_no_longer_deployable_with_upgradeable_loader() {
+fn test_lum_alloc_free_no_longer_deployable_with_upgradeable_loader() {
     lumos_logger::setup();
 
     let GenesisConfigInfo {

@@ -9,7 +9,7 @@ use {
     },
     lumos_remote_wallet::remote_wallet::RemoteWalletManager,
     lumos_sdk::{
-        message::Message, native_token::lamports_to_sol, native_token::Sol, program_pack::Pack,
+        message::Message, native_token::lamports_to_lum, native_token::Sol, program_pack::Pack,
         pubkey::Pubkey, signature::Signer, system_instruction,
     },
     lpl_associated_token_account::*,
@@ -361,8 +361,8 @@ async fn check_fee_payer_balance(config: &Config<'_>, required_balance: u64) -> 
         Err(format!(
             "Fee payer, {}, has insufficient balance: {} required, {} available",
             config.fee_payer()?.pubkey(),
-            lamports_to_sol(required_balance),
-            lamports_to_sol(balance)
+            lamports_to_lum(required_balance),
+            lamports_to_lum(balance)
         )
         .into())
     } else {

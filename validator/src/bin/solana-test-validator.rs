@@ -304,7 +304,7 @@ fn main() {
         None
     };
 
-    let faucet_lamports = sol_to_lamports(value_of(&matches, "faucet_sol").unwrap());
+    let faucet_lamports = sol_to_lamports(value_of(&matches, "faucet_lum").unwrap());
     let faucet_keypair_file = ledger_path.join("faucet-keypair.json");
     if !faucet_keypair_file.exists() {
         write_keypair_file(&Keypair::new(), faucet_keypair_file.to_str().unwrap()).unwrap_or_else(
@@ -331,10 +331,10 @@ fn main() {
     let faucet_pubkey = faucet_keypair.pubkey();
 
     let faucet_time_slice_secs = value_t_or_exit!(matches, "faucet_time_slice_secs", u64);
-    let faucet_per_time_cap = value_t!(matches, "faucet_per_time_sol_cap", f64)
+    let faucet_per_time_cap = value_t!(matches, "faucet_per_time_lum_cap", f64)
         .ok()
         .map(sol_to_lamports);
-    let faucet_per_request_cap = value_t!(matches, "faucet_per_request_sol_cap", f64)
+    let faucet_per_request_cap = value_t!(matches, "faucet_per_request_lum_cap", f64)
         .ok()
         .map(sol_to_lamports);
 
@@ -364,7 +364,7 @@ fn main() {
             ("mint_address", "--mint"),
             ("ticks_per_slot", "--ticks-per-slot"),
             ("slots_per_epoch", "--slots-per-epoch"),
-            ("faucet_sol", "--faucet-sol"),
+            ("faucet_lum", "--faucet-sol"),
             ("deactivate_feature", "--deactivate-feature"),
         ] {
             if matches.is_present(name) {
@@ -374,7 +374,7 @@ fn main() {
     } else if random_mint {
         println_name_value(
             "\nNotice!",
-            "No wallet available. `lumos airdrop` localnet SOL after creating one\n",
+            "No wallet available. `lumos airdrop` localnet LUM after creating one\n",
         );
     }
 

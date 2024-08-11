@@ -49,7 +49,7 @@ async fn setup(
     .await;
 
     let error = stake_pool_accounts
-        .deposit_sol(
+        .deposit_lum(
             &mut context.banks_client,
             &context.payer,
             &context.last_blockhash,

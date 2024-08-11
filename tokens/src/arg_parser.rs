@@ -50,7 +50,7 @@ where
         )
         .subcommand(
             SubCommand::with_name("distribute-tokens")
-                .about("Distribute SOL")
+                .about("Distribute LUM")
                 .arg(
                     Arg::with_name("db_path")
                         .long("db-path")
@@ -77,7 +77,7 @@ where
                         .takes_value(true)
                         .value_name("AMOUNT")
                         .validator(is_amount)
-                        .help("The amount to send to each recipient, in SOL"),
+                        .help("The amount to send to each recipient, in LUM"),
                 )
                 .arg(
                     Arg::with_name("dry_run")
@@ -157,12 +157,12 @@ where
                         .help("Keypair to fund accounts"),
                 )
                 .arg(
-                    Arg::with_name("unlocked_sol")
+                    Arg::with_name("unlocked_lum")
                         .default_value("1.0")
                         .long("unlocked-sol")
                         .takes_value(true)
-                        .value_name("SOL_AMOUNT")
-                        .help("Amount of SOL to put in system account to pay for fees"),
+                        .value_name("LUM_AMOUNT")
+                        .help("Amount of LUM to put in system account to pay for fees"),
                 )
                 .arg(
                     Arg::with_name("lockup_authority")
@@ -237,12 +237,12 @@ where
                         .help("Stake Account Address"),
                 )
                 .arg(
-                    Arg::with_name("unlocked_sol")
+                    Arg::with_name("unlocked_lum")
                         .default_value("1.0")
                         .long("unlocked-sol")
                         .takes_value(true)
-                        .value_name("SOL_AMOUNT")
-                        .help("Amount of SOL to put in system account to pay for fees"),
+                        .value_name("LUM_AMOUNT")
+                        .help("Amount of LUM to put in system account to pay for fees"),
                 )
                 .arg(
                     Arg::with_name("stake_authority")
@@ -478,7 +478,7 @@ fn parse_create_stake_args(
         .transpose()?;
 
     let stake_args = StakeArgs {
-        unlocked_sol: sol_to_lamports(value_t_or_exit!(matches, "unlocked_sol", f64)),
+        unlocked_lum: sol_to_lamports(value_t_or_exit!(matches, "unlocked_lum", f64)),
         lockup_authority,
         sender_stake_args: None,
     };
@@ -562,7 +562,7 @@ fn parse_distribute_stake_args(
         rent_exempt_reserve: None,
     };
     let stake_args = StakeArgs {
-        unlocked_sol: sol_to_lamports(value_t_or_exit!(matches, "unlocked_sol", f64)),
+        unlocked_lum: sol_to_lamports(value_t_or_exit!(matches, "unlocked_lum", f64)),
         lockup_authority: lockup_authority_address,
         sender_stake_args: Some(sender_stake_args),
     };

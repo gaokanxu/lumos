@@ -774,7 +774,7 @@ impl RepairService {
                     Some((
                         *pubkey,
                         peer_repair_addr,
-                        (*stake / lumos_sdk::native_token::LAMPORTS_PER_SOL) as u32,
+                        (*stake / lumos_sdk::native_token::LAMPORTS_PER_LUM) as u32,
                     ))
                 } else {
                     None

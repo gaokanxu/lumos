@@ -4,11 +4,11 @@ use {
         cli::CliError,
     },
     clap::ArgMatches,
-    lumos_clap_utils::{input_parsers::lamports_of_sol, offline::SIGN_ONLY_ARG},
+    lumos_clap_utils::{input_parsers::lamports_of_lum, offline::SIGN_ONLY_ARG},
     lumos_rpc_client::rpc_client::RpcClient,
     lumos_sdk::{
         commitment_config::CommitmentConfig, hash::Hash, message::Message,
-        native_token::lamports_to_sol, pubkey::Pubkey,
+        native_token::lamports_to_lum, pubkey::Pubkey,
     },
 };
 
@@ -35,7 +35,7 @@ impl SpendAmount {
     }
 
     pub fn new_from_matches(matches: &ArgMatches<'_>, name: &str) -> Self {
-        let amount = lamports_of_sol(matches, name);
+        let amount = lamports_of_lum(matches, name);
         let sign_only = matches.is_present(SIGN_ONLY_ARG.name);
         SpendAmount::new(amount, sign_only)
     }
@@ -118,22 +118,22 @@ where
         if from_pubkey == fee_pubkey {
             if from_balance == 0 || from_balance < spend + fee {
                 return Err(CliError::InsufficientFundsForSpendAndFee(
-                    lamports_to_sol(spend),
-                    lamports_to_sol(fee),
+                    lamports_to_lum(spend),
+                    lamports_to_lum(fee),
                     *from_pubkey,
                 ));
             }
         } else {
             if from_balance < spend {
                 return Err(CliError::InsufficientFundsForSpend(
-                    lamports_to_sol(spend),
+                    lamports_to_lum(spend),
                     *from_pubkey,
                 ));
             }
             if !check_account_for_balance_with_commitment(rpc_client, fee_pubkey, fee, commitment)?
             {
                 return Err(CliError::InsufficientFundsForFee(
-                    lamports_to_sol(fee),
+                    lamports_to_lum(fee),
                     *fee_pubkey,
                 ));
             }

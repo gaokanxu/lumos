@@ -1,13 +1,13 @@
 use {
     lumos_account_decoder::parse_token::real_number_string_trimmed,
-    lumos_sdk::native_token::lamports_to_sol,
+    lumos_sdk::native_token::lamports_to_lum,
     std::{
         fmt::{Debug, Display, Formatter, Result},
         ops::Add,
     },
 };
 
-const SOL_SYMBOL: &str = "◎";
+const LUM_SYMBOL: &str = "◎";
 
 #[derive(PartialEq, Eq)]
 pub enum TokenType {
@@ -25,8 +25,8 @@ impl Token {
     fn write_with_symbol(&self, f: &mut Formatter) -> Result {
         match &self.token_type {
             TokenType::Sol => {
-                let amount = lamports_to_sol(self.amount);
-                write!(f, "{SOL_SYMBOL}{amount}")
+                let amount = lamports_to_lum(self.amount);
+                write!(f, "{LUM_SYMBOL}{amount}")
             }
             TokenType::SplToken => {
                 let amount = real_number_string_trimmed(self.amount, self.decimals);

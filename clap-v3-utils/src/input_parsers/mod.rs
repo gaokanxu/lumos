@@ -63,7 +63,7 @@ pub fn unix_timestamp_from_rfc3339_datetime(
     since = "1.17.0",
     note = "please use `Amount::parse_decimal` and `Amount::sol_to_lamport` instead"
 )]
-pub fn lamports_of_sol(matches: &ArgMatches, name: &str) -> Option<u64> {
+pub fn lamports_of_lum(matches: &ArgMatches, name: &str) -> Option<u64> {
     value_of(matches, name).map(sol_to_lamports)
 }
 
@@ -160,8 +160,8 @@ impl Amount {
     }
 
     pub fn sol_to_lamport(&self) -> Amount {
-        const NATIVE_SOL_DECIMALS: u8 = 9;
-        self.to_raw_amount(NATIVE_SOL_DECIMALS)
+        const NATIVE_LUM_DECIMALS: u8 = 9;
+        self.to_raw_amount(NATIVE_LUM_DECIMALS)
     }
 }
 
@@ -486,7 +486,7 @@ mod tests {
     }
 
     #[test]
-    fn test_sol_to_lamports() {
+    fn test_lum_to_lamports() {
         let command = Command::new("test").arg(
             Arg::new("amount")
                 .long("amount")

@@ -18,7 +18,7 @@ use {
         account::{AccountSharedData, ReadableAccount},
         clock::{Slot, UnixTimestamp},
         hash::Hash,
-        native_token::lamports_to_sol,
+        native_token::lamports_to_lum,
         pubkey::Pubkey,
     },
     lumos_transaction_status::{
@@ -232,14 +232,14 @@ impl fmt::Display for CliBlockWithEntries {
                     format!(
                         "{}◎{:<14.9}",
                         sign,
-                        lamports_to_sol(reward.lamports.unsigned_abs())
+                        lamports_to_lum(reward.lamports.unsigned_abs())
                     ),
                     if reward.post_balance == 0 {
                         "          -                 -".to_string()
                     } else {
                         format!(
                             "◎{:<19.9}  {:>13.9}%",
-                            lamports_to_sol(reward.post_balance),
+                            lamports_to_lum(reward.post_balance),
                             (reward.lamports.abs() as f64
                                 / (reward.post_balance as f64 - reward.lamports as f64))
                                 * 100.0
@@ -257,7 +257,7 @@ impl fmt::Display for CliBlockWithEntries {
                 f,
                 "Total Rewards: {}◎{:<12.9}",
                 sign,
-                lamports_to_sol(total_rewards.unsigned_abs())
+                lamports_to_lum(total_rewards.unsigned_abs())
             )?;
         }
         for (index, entry) in self.encoded_confirmed_block.entries.iter().enumerate() {
@@ -349,8 +349,8 @@ pub fn output_slot_rewards(blockstore: &Blockstore, slot: Slot, method: &OutputF
                             "-".to_string()
                         },
                         sign,
-                        lamports_to_sol(reward.lamports.unsigned_abs()),
-                        lamports_to_sol(reward.post_balance),
+                        lamports_to_lum(reward.lamports.unsigned_abs()),
+                        lamports_to_lum(reward.post_balance),
                         reward
                             .commission
                             .map(|commission| format!("{commission:>9}%"))
@@ -761,7 +761,7 @@ pub fn output_account(
     encoding: UiAccountEncoding,
 ) {
     println!("{pubkey}:");
-    println!("  balance: {} SOL", lamports_to_sol(account.lamports()));
+    println!("  balance: {} LUM", lamports_to_lum(account.lamports()));
     println!("  owner: '{}'", account.owner());
     println!("  executable: {}", account.executable());
     if let Some(slot) = modified_slot {

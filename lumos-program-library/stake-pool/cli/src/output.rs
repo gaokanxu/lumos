@@ -68,7 +68,7 @@ pub(crate) struct CliStakePool {
     pub sol_referral_fee: u8,
     pub sol_withdraw_authority: Option<String>,
     pub sol_withdrawal_fee: CliStakePoolFee,
-    pub next_sol_withdrawal_fee: Option<CliStakePoolFee>,
+    pub next_lum_withdrawal_fee: Option<CliStakePoolFee>,
     pub last_epoch_pool_token_supply: u64,
     pub last_epoch_total_lamports: u64,
     pub details: Option<CliStakePoolDetails>,
@@ -90,7 +90,7 @@ impl VerboseDisplay for CliStakePool {
         writeln!(w, "Depositor: {}", &self.stake_deposit_authority)?;
         writeln!(
             w,
-            "SOL Deposit Authority: {}",
+            "LUM Deposit Authority: {}",
             &self
                 .sol_deposit_authority
                 .as_ref()
@@ -98,7 +98,7 @@ impl VerboseDisplay for CliStakePool {
         )?;
         writeln!(
             w,
-            "SOL Withdraw Authority: {}",
+            "LUM Withdraw Authority: {}",
             &self
                 .sol_withdraw_authority
                 .as_ref()
@@ -137,14 +137,14 @@ impl VerboseDisplay for CliStakePool {
         }
         writeln!(
             w,
-            "SOL Withdrawal Fee: {} of withdrawal amount",
+            "LUM Withdrawal Fee: {} of withdrawal amount",
             &self.sol_withdrawal_fee
         )?;
-        if let Some(next_sol_withdrawal_fee) = &self.next_sol_withdrawal_fee {
+        if let Some(next_lum_withdrawal_fee) = &self.next_lum_withdrawal_fee {
             writeln!(
                 w,
-                "Next SOL Withdrawal Fee: {} of withdrawal amount",
-                next_sol_withdrawal_fee
+                "Next LUM Withdrawal Fee: {} of withdrawal amount",
+                next_lum_withdrawal_fee
             )?;
         }
         writeln!(
@@ -154,7 +154,7 @@ impl VerboseDisplay for CliStakePool {
         )?;
         writeln!(
             w,
-            "SOL Deposit Fee: {} of deposit amount",
+            "LUM Deposit Fee: {} of deposit amount",
             &self.sol_deposit_fee
         )?;
         writeln!(
@@ -164,7 +164,7 @@ impl VerboseDisplay for CliStakePool {
         )?;
         writeln!(
             w,
-            "SOL Deposit Referral Fee: {}% of SOL Deposit Fee",
+            "LUM Deposit Referral Fee: {}% of LUM Deposit Fee",
             &self.sol_referral_fee
         )?;
         writeln!(w)?;
@@ -208,7 +208,7 @@ impl Display for CliStakePool {
         )?;
         writeln!(
             f,
-            "SOL Withdrawal Fee: {} of withdrawal amount",
+            "LUM Withdrawal Fee: {} of withdrawal amount",
             &self.sol_withdrawal_fee
         )?;
         writeln!(
@@ -218,7 +218,7 @@ impl Display for CliStakePool {
         )?;
         writeln!(
             f,
-            "SOL Deposit Fee: {} of deposit amount",
+            "LUM Deposit Fee: {} of deposit amount",
             &self.sol_deposit_fee
         )?;
         writeln!(
@@ -228,7 +228,7 @@ impl Display for CliStakePool {
         )?;
         writeln!(
             f,
-            "SOL Deposit Referral Fee: {}% of SOL Deposit Fee",
+            "LUM Deposit Referral Fee: {}% of LUM Deposit Fee",
             &self.sol_referral_fee
         )?;
         Ok(())
@@ -495,7 +495,7 @@ impl From<(Pubkey, StakePool, ValidatorList, Pubkey)> for CliStakePool {
             sol_referral_fee: stake_pool.sol_referral_fee,
             sol_withdraw_authority: stake_pool.sol_withdraw_authority.map(|x| x.to_string()),
             sol_withdrawal_fee: CliStakePoolFee::from(stake_pool.sol_withdrawal_fee),
-            next_sol_withdrawal_fee: Option::<Fee>::from(stake_pool.next_sol_withdrawal_fee)
+            next_lum_withdrawal_fee: Option::<Fee>::from(stake_pool.next_lum_withdrawal_fee)
                 .map(CliStakePoolFee::from),
             last_epoch_pool_token_supply: stake_pool.last_epoch_pool_token_supply,
             last_epoch_total_lamports: stake_pool.last_epoch_total_lamports,

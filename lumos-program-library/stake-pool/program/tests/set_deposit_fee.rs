@@ -180,7 +180,7 @@ async fn fail_stake_high_deposit_fee() {
 }
 
 #[tokio::test]
-async fn success_sol() {
+async fn success_lum() {
     let (mut context, stake_pool_accounts, new_deposit_fee) = setup(None).await;
 
     let transaction = Transaction::new_signed_with_payer(
@@ -210,7 +210,7 @@ async fn success_sol() {
 }
 
 #[tokio::test]
-async fn fail_sol_wrong_manager() {
+async fn fail_lum_wrong_manager() {
     let (mut context, stake_pool_accounts, new_deposit_fee) = setup(None).await;
 
     let wrong_manager = Keypair::new();
@@ -243,7 +243,7 @@ async fn fail_sol_wrong_manager() {
 }
 
 #[tokio::test]
-async fn fail_sol_high_deposit_fee() {
+async fn fail_lum_high_deposit_fee() {
     let (mut context, stake_pool_accounts, _new_deposit_fee) = setup(None).await;
 
     let new_deposit_fee = Fee {

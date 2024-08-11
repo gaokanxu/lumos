@@ -32,7 +32,7 @@ use {
     lumos_rpc_client_nonce_utils::blockhash_query::BlockhashQuery,
     lumos_sdk::{
         account::Account, commitment_config::CommitmentConfig, feature, message::Message,
-        native_token::lamports_to_sol, pubkey::Pubkey, system_instruction::SystemError,
+        native_token::lamports_to_lum, pubkey::Pubkey, system_instruction::SystemError,
         transaction::Transaction,
     },
     lumos_vote_program::{
@@ -334,7 +334,7 @@ impl VoteSubCommands for App<'_, '_> {
                     Arg::with_name("lamports")
                         .long("lamports")
                         .takes_value(false)
-                        .help("Display balance in lamports instead of SOL"),
+                        .help("Display balance in lamports instead of LUM"),
                 )
                 .arg(
                     Arg::with_name("with_rewards")
@@ -377,7 +377,7 @@ impl VoteSubCommands for App<'_, '_> {
                         .index(2)
                         .value_name("RECIPIENT_ADDRESS")
                         .required(true),
-                    "The recipient of withdrawn SOL."
+                    "The recipient of withdrawn LUM."
                 ))
                 .arg(
                     Arg::with_name("amount")
@@ -387,7 +387,7 @@ impl VoteSubCommands for App<'_, '_> {
                         .required(true)
                         .validator(is_amount_or_all)
                         .help(
-                            "The amount to withdraw, in SOL; accepts keyword ALL, which for this \
+                            "The amount to withdraw, in LUM; accepts keyword ALL, which for this \
                              command means account balance minus rent-exempt minimum",
                         ),
                 )
@@ -420,7 +420,7 @@ impl VoteSubCommands for App<'_, '_> {
                         .index(2)
                         .value_name("RECIPIENT_ADDRESS")
                         .required(true),
-                    "The recipient of all withdrawn SOL."
+                    "The recipient of all withdrawn LUM."
                 ))
                 .arg(
                     Arg::with_name("authorized_withdrawer")
@@ -1352,9 +1352,9 @@ pub fn process_withdraw_from_vote_account(
             let balance_remaining = current_balance.saturating_sub(withdraw_amount);
             if balance_remaining < minimum_balance && balance_remaining != 0 {
                 return Err(CliError::BadParameter(format!(
-                    "Withdraw amount too large. The vote account balance must be at least {} SOL \
+                    "Withdraw amount too large. The vote account balance must be at least {} LUM \
                      to remain rent exempt",
-                    lamports_to_sol(minimum_balance)
+                    lamports_to_lum(minimum_balance)
                 ))
                 .into());
             }

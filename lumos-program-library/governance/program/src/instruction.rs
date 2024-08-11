@@ -480,9 +480,9 @@ pub enum GovernanceInstruction {
     ///  2. `[]` System
     UpdateProgramMetadata {},
 
-    /// Creates native SOL treasury account for a Governance account
+    /// Creates native LUM treasury account for a Governance account
     /// The account has no data and can be used as a payer for instructions
-    /// signed by Governance PDAs or as a native SOL treasury
+    /// signed by Governance PDAs or as a native LUM treasury
     ///
     ///  0. `[]` Governance account the treasury account is for
     ///  1. `[writable]` NativeTreasury account.

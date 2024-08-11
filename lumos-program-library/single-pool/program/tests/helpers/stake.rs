@@ -6,7 +6,7 @@ use {
     lumos_program_test::BanksClient,
     lumos_sdk::{
         hash::Hash,
-        native_token::LAMPORTS_PER_SOL,
+        native_token::LAMPORTS_PER_LUM,
         pubkey::Pubkey,
         signature::{Keypair, Signer},
         stake::{
@@ -62,7 +62,7 @@ pub async fn get_pool_minimum_delegation(
     data.resize(8, 0);
     let stake_program_minimum = data.try_into().map(u64::from_le_bytes).unwrap();
 
-    std::cmp::max(stake_program_minimum, LAMPORTS_PER_SOL)
+    std::cmp::max(stake_program_minimum, LAMPORTS_PER_LUM)
 }
 
 #[allow(clippy::too_many_arguments)]

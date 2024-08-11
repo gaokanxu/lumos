@@ -134,7 +134,7 @@ use {
         inner_instruction::InnerInstructions,
         message::{AccountKeys, SanitizedMessage},
         native_loader,
-        native_token::LAMPORTS_PER_SOL,
+        native_token::LAMPORTS_PER_LUM,
         nonce::{self, state::DurableNonce, NONCED_TX_MARKER_IX_INDEX},
         nonce_account,
         nonce_info::{NonceInfo, NoncePartial},
@@ -2634,7 +2634,7 @@ impl Bank {
             let num_stake_delegations = stakes.stake_delegations().len();
             let min_stake_delegation =
                 lumos_stake_program::get_minimum_delegation(&self.feature_set)
-                    .max(LAMPORTS_PER_SOL);
+                    .max(LAMPORTS_PER_LUM);
 
             let (stake_delegations, filter_timer) = measure!(stakes
                 .stake_delegations()

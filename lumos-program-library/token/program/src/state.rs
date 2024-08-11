@@ -100,7 +100,7 @@ pub struct Account {
     pub state: AccountState,
     /// If is_native.is_some, this is a native token, and the value logs the
     /// rent-exempt reserve. An Account is required to be rent-exempt, so
-    /// the value is used by the Processor to ensure that wrapped SOL
+    /// the value is used by the Processor to ensure that wrapped LUM
     /// accounts do not drop below this threshold.
     pub is_native: COption<u64>,
     /// The amount delegated

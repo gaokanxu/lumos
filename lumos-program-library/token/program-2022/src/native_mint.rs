@@ -1,9 +1,9 @@
 //! The Mint that represents the native token
 
-/// There are 10^9 lamports in one SOL
+/// There are 10^9 lamports in one LUM
 pub const DECIMALS: u8 = 9;
 
-// The Mint for native SOL Token accounts
+// The Mint for native LUM Token accounts
 lumos_program::declare_id!("9pan9bMn5HatX4EJdBwg9VgCa7Uz5HL8N1m5D3NdXejP");
 
 /// Seed for the native_mint's program-derived address
@@ -19,7 +19,7 @@ mod tests {
     #[test]
     fn test_decimals() {
         assert!(
-            (lamports_to_sol(42) - crate::amount_to_ui_amount(42, DECIMALS)).abs() < f64::EPSILON
+            (lamports_to_lum(42) - crate::amount_to_ui_amount(42, DECIMALS)).abs() < f64::EPSILON
         );
         assert_eq!(
             sol_to_lamports(42.),

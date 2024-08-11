@@ -8,7 +8,7 @@ use {
         bpf_loader_upgradeable,
         clock::Epoch,
         epoch_schedule::{EpochSchedule, MINIMUM_SLOTS_PER_EPOCH},
-        native_token::LAMPORTS_PER_SOL,
+        native_token::LAMPORTS_PER_LUM,
         pubkey::Pubkey,
         signature::{write_keypair_file, Keypair, Signer},
         stake::{
@@ -220,7 +220,7 @@ async fn create_and_delegate_stake_account(
             &stake_account.pubkey(),
             &Authorized::auto(&payer.pubkey()),
             &Lockup::default(),
-            stake_rent + LAMPORTS_PER_SOL,
+            stake_rent + LAMPORTS_PER_LUM,
         ),
         Some(&payer.pubkey()),
     );
@@ -290,7 +290,7 @@ async fn deposit(use_default: bool) {
                 &env.config_file_path,
                 "--vote-account",
                 &env.vote_account.to_string(),
-                &LAMPORTS_PER_SOL.to_string(),
+                &LAMPORTS_PER_LUM.to_string(),
             ])
             .status()
             .unwrap();

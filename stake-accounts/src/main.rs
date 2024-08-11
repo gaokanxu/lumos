@@ -15,7 +15,7 @@ use {
     lumos_rpc_client_api::client_error::Error as ClientError,
     lumos_sdk::{
         message::Message,
-        native_token::lamports_to_sol,
+        native_token::lamports_to_lum,
         pubkey::Pubkey,
         signature::{unique_signers, Signature, Signer},
         signers::Signers,
@@ -263,8 +263,8 @@ fn main() -> Result<(), Box<dyn Error>> {
             );
             let balances = get_balances(&client, addresses)?;
             let lamports: u64 = balances.into_iter().map(|(_, bal)| bal).sum();
-            let sol = lamports_to_sol(lamports);
-            println!("{sol} SOL");
+            let lum = lamports_to_lum(lamports);
+            println!("{lum} LUM");
         }
         Command::Authorize(args) => {
             process_authorize_stake_accounts(&client, &args)?;

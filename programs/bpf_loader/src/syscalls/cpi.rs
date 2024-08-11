@@ -236,7 +236,7 @@ impl<'a, 'b> CallerAccount<'a, 'b> {
     }
 
     // Create a CallerAccount given a SolAccountInfo.
-    fn from_sol_account_info(
+    fn from_lum_account_info(
         invoke_context: &InvokeContext,
         memory_mapping: &'b MemoryMapping<'a>,
         vm_addr: u64,
@@ -742,7 +742,7 @@ impl SyscallInvokeSigned for SyscallInvokeSignedC {
             is_loader_deprecated,
             invoke_context,
             memory_mapping,
-            CallerAccount::from_sol_account_info,
+            CallerAccount::from_lum_account_info,
         )
     }
 

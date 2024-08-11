@@ -82,7 +82,7 @@ pub enum TokenInstruction<'a> {
     },
     /// Initializes a new account to hold tokens.  If this account is associated
     /// with the native mint then the token balance of the initialized account
-    /// will be equal to the amount of SOL in the account. If this account is
+    /// will be equal to the amount of LUM in the account. If this account is
     /// associated with another mint, that mint must be initialized before this
     /// command can succeed.
     ///
@@ -128,7 +128,7 @@ pub enum TokenInstruction<'a> {
     ///
     /// Transfers tokens from one account to another either directly or via a
     /// delegate.  If this account is associated with the native mint then equal
-    /// amounts of SOL and Tokens will be transferred to the destination
+    /// amounts of LUM and Tokens will be transferred to the destination
     /// account.
     ///
     /// If either account contains an `TransferFeeAmount` extension, this will
@@ -245,7 +245,7 @@ pub enum TokenInstruction<'a> {
         /// The amount of tokens to burn.
         amount: u64,
     },
-    /// Close an account by transferring all its SOL to the destination account.
+    /// Close an account by transferring all its LUM to the destination account.
     /// Non-native accounts may only be closed if its token amount is zero.
     ///
     /// Accounts with the `TransferFeeAmount` extension may only be closed if
@@ -315,7 +315,7 @@ pub enum TokenInstruction<'a> {
 
     /// Transfers tokens from one account to another either directly or via a
     /// delegate.  If this account is associated with the native mint then equal
-    /// amounts of SOL and Tokens will be transferred to the destination
+    /// amounts of LUM and Tokens will be transferred to the destination
     /// account.
     ///
     /// This instruction differs from Transfer in that the token mint and
@@ -439,9 +439,9 @@ pub enum TokenInstruction<'a> {
         #[cfg_attr(feature = "serde-traits", serde(with = "As::<DisplayFromStr>"))]
         owner: Pubkey,
     },
-    /// Given a wrapped / native token account (a token account containing SOL)
+    /// Given a wrapped / native token account (a token account containing LUM)
     /// updates its amount field based on the account's underlying `lamports`.
-    /// This is useful if a non-wrapped SOL account uses
+    /// This is useful if a non-wrapped LUM account uses
     /// `system_instruction::transfer` to move lamports to a wrapped token
     /// account, and needs to have its token `amount` field updated.
     ///
@@ -619,7 +619,7 @@ pub enum TokenInstruction<'a> {
     /// Creates the native mint.
     ///
     /// This instruction only needs to be invoked once after deployment and is
-    /// permissionless, Wrapped SOL (`native_mint::id()`) will not be
+    /// permissionless, Wrapped LUM (`native_mint::id()`) will not be
     /// available until this instruction is successfully executed.
     ///
     /// Accounts expected by this instruction:
@@ -688,7 +688,7 @@ pub enum TokenInstruction<'a> {
     /// for further details about the extended instructions that share this
     /// instruction prefix
     ConfidentialTransferFeeExtension,
-    /// This instruction is to be used to rescue SOLs sent to any TokenProgram
+    /// This instruction is to be used to rescue LUMs sent to any TokenProgram
     /// owned account by sending them to any other account, leaving behind only
     /// lamports for rent exemption.
     ///

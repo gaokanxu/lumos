@@ -293,7 +293,7 @@ fn process_deposit(
         return Err(TokenError::MintMismatch.into());
     }
 
-    // Wrapped SOL deposits are not supported because lamports cannot be vanished.
+    // Wrapped LUM deposits are not supported because lamports cannot be vanished.
     assert!(!token_account.base.is_native());
 
     token_account.base.amount = u64::from(token_account.base.amount)
@@ -393,7 +393,7 @@ fn process_withdraw(
         return Err(TokenError::MintMismatch.into());
     }
 
-    // Wrapped SOL withdrawals are not supported because lamports cannot be
+    // Wrapped LUM withdrawals are not supported because lamports cannot be
     // apparated.
     assert!(!token_account.base.is_native());
 

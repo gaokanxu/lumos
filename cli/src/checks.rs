@@ -3,7 +3,7 @@ use {
     lumos_rpc_client::rpc_client::RpcClient,
     lumos_rpc_client_api::client_error::{Error as ClientError, Result as ClientResult},
     lumos_sdk::{
-        commitment_config::CommitmentConfig, message::Message, native_token::lamports_to_sol,
+        commitment_config::CommitmentConfig, message::Message, native_token::lamports_to_lum,
         pubkey::Pubkey,
     },
 };
@@ -92,13 +92,13 @@ pub fn check_account_for_spend_and_fee_with_commitment(
     {
         if balance > 0 {
             return Err(CliError::InsufficientFundsForSpendAndFee(
-                lamports_to_sol(balance),
-                lamports_to_sol(fee),
+                lamports_to_lum(balance),
+                lamports_to_lum(fee),
                 *account_pubkey,
             ));
         } else {
             return Err(CliError::InsufficientFundsForFee(
-                lamports_to_sol(fee),
+                lamports_to_lum(fee),
                 *account_pubkey,
             ));
         }

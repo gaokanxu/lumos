@@ -93,7 +93,7 @@ async fn test_create_realm_for_existing_pda() {
 
     governance_test
         .bench
-        .transfer_sol(&realm_address, rent_exempt)
+        .transfer_lum(&realm_address, rent_exempt)
         .await;
 
     // Act

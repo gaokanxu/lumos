@@ -96,7 +96,7 @@ pub fn process_initialize(
     };
 
     // allocate a TLV entry for the space and write it in, assumes that there's
-    // enough SOL for the new rent-exemption
+    // enough LUM for the new rent-exemption
     alloc_and_serialize_variable_len_extension::<PodMint, _>(
         metadata_info,
         &token_metadata,

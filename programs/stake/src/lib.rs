@@ -8,7 +8,7 @@ pub use lumos_sdk::stake::program::{check_id, id};
 use lumos_sdk::{
     feature_set::{self, FeatureSet},
     genesis_config::GenesisConfig,
-    native_token::LAMPORTS_PER_SOL,
+    native_token::LAMPORTS_PER_LUM,
 };
 
 pub mod config;
@@ -27,9 +27,9 @@ pub fn add_genesis_accounts(genesis_config: &mut GenesisConfig) -> u64 {
 /// rent exempt reserve _plus_ the minimum stake delegation.
 #[inline(always)]
 pub fn get_minimum_delegation(feature_set: &FeatureSet) -> u64 {
-    if feature_set.is_active(&feature_set::stake_raise_minimum_delegation_to_1_sol::id()) {
-        const MINIMUM_DELEGATION_SOL: u64 = 1;
-        MINIMUM_DELEGATION_SOL * LAMPORTS_PER_SOL
+    if feature_set.is_active(&feature_set::stake_raise_minimum_delegation_to_1_lum::id()) {
+        const MINIMUM_DELEGATION_LUM: u64 = 1;
+        MINIMUM_DELEGATION_LUM * LAMPORTS_PER_LUM
     } else {
         #[allow(deprecated)]
         lumos_sdk::stake::MINIMUM_STAKE_DELEGATION

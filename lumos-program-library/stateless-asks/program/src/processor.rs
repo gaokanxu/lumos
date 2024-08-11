@@ -362,7 +362,7 @@ fn pay_creator_fees<'a>(
                     }
                 } else if creator_fee > 0 {
                     if !seeds.is_empty() {
-                        msg!("Maker cannot pay with native SOL");
+                        msg!("Maker cannot pay with native LUM");
                         return Err(ProgramError::InvalidAccountData);
                     }
                     match system_program_info {

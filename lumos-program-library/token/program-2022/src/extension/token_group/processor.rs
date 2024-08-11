@@ -87,7 +87,7 @@ pub fn process_initialize_group(
     }
 
     // Allocate a TLV entry for the space and write it in
-    // Assumes that there's enough SOL for the new rent-exemption
+    // Assumes that there's enough LUM for the new rent-exemption
     let group = TokenGroup::new(mint_info.key, data.update_authority, data.max_size.into());
     alloc_and_serialize::<PodMint, TokenGroup>(group_info, &group, false)?;
 

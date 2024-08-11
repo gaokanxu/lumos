@@ -36,7 +36,7 @@ use {
 pub const QUOTE_CURRENCY: [u8; 32] =
     *b"USD\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0";
 
-pub const LAMPORTS_TO_SOL: u64 = 1_000_000_000;
+pub const LAMPORTS_TO_LUM: u64 = 1_000_000_000;
 pub const FRACTIONAL_TO_USDC: u64 = 1_000_000;
 
 pub const TEST_RESERVE_CONFIG: ReserveConfig = ReserveConfig {
@@ -56,8 +56,8 @@ pub const TEST_RESERVE_CONFIG: ReserveConfig = ReserveConfig {
     },
 };
 
-pub const SOL_PYTH_PRODUCT: &str = "3Mnn2fX6rQyUsyELYms1sBJyChWofzSNRoqYzvgMVz5E";
-pub const SOL_PYTH_PRICE: &str = "J83w4HKfqxwcq3BEMMkPFSppX3gqekLyLJBexebFVkix";
+pub const LUM_PYTH_PRODUCT: &str = "3Mnn2fX6rQyUsyELYms1sBJyChWofzSNRoqYzvgMVz5E";
+pub const LUM_PYTH_PRICE: &str = "J83w4HKfqxwcq3BEMMkPFSppX3gqekLyLJBexebFVkix";
 
 pub const SRM_PYTH_PRODUCT: &str = "6MEwdxe4g1NeAF9u6KDG14anJpFsVEa2cvr5H6iriFZ8";
 pub const SRM_PYTH_PRICE: &str = "992moaMQKs32GKZ9dxi8keyM2bUmbrwBZpK4p2K6X5Vs";
@@ -1069,12 +1069,12 @@ pub struct TestOracle {
     pub price: Decimal,
 }
 
-pub fn add_sol_oracle(test: &mut ProgramTest) -> TestOracle {
+pub fn add_lum_oracle(test: &mut ProgramTest) -> TestOracle {
     add_oracle(
         test,
-        Pubkey::from_str(SOL_PYTH_PRODUCT).unwrap(),
-        Pubkey::from_str(SOL_PYTH_PRICE).unwrap(),
-        // Set SOL price to $20
+        Pubkey::from_str(LUM_PYTH_PRODUCT).unwrap(),
+        Pubkey::from_str(LUM_PYTH_PRICE).unwrap(),
+        // Set LUM price to $20
         Decimal::from(20u64),
     )
 }

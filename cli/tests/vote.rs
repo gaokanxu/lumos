@@ -71,7 +71,7 @@ fn test_vote_authorize_and_withdraw() {
         .max(1);
     check_balance!(expected_balance, &rpc_client, &vote_account_pubkey);
 
-    // Transfer in some more SOL
+    // Transfer in some more LUM
     config.signers = vec![&default_signer];
     config.command = CliCommand::Transfer {
         amount: SpendAmount::Some(10_000),
@@ -298,7 +298,7 @@ fn test_offline_vote_authorize_and_withdraw() {
         .max(1);
     check_balance!(expected_balance, &rpc_client, &vote_account_pubkey);
 
-    // Transfer in some more SOL
+    // Transfer in some more LUM
     config_payer.signers = vec![&default_signer];
     config_payer.command = CliCommand::Transfer {
         amount: SpendAmount::Some(10_000),

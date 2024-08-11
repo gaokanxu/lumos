@@ -123,7 +123,7 @@ pub enum SinglePoolInstruction {
     UpdateTokenMetadata {
         /// Token name
         name: String,
-        /// Token symbol e.g. stkSOL
+        /// Token symbol e.g. stkLUM
         symbol: String,
         /// URI of the uploaded metadata of the spl-token
         uri: String,

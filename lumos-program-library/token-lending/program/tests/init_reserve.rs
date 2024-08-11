@@ -32,7 +32,7 @@ async fn test_success() {
 
     let user_accounts_owner = Keypair::new();
     let lending_market = add_lending_market(&mut test);
-    let sol_oracle = add_sol_oracle(&mut test);
+    let sol_oracle = add_lum_oracle(&mut test);
 
     let (mut banks_client, payer, _recent_blockhash) = test.start().await;
 
@@ -68,13 +68,13 @@ async fn test_success() {
     let sol_liquidity_supply =
         get_token_balance(&mut banks_client, sol_reserve.liquidity_supply_pubkey).await;
     assert_eq!(sol_liquidity_supply, RESERVE_AMOUNT);
-    let user_sol_balance =
+    let user_lum_balance =
         get_token_balance(&mut banks_client, sol_reserve.user_liquidity_pubkey).await;
-    assert_eq!(user_sol_balance, 0);
-    let user_sol_collateral_balance =
+    assert_eq!(user_lum_balance, 0);
+    let user_lum_collateral_balance =
         get_token_balance(&mut banks_client, sol_reserve.user_collateral_pubkey).await;
     assert_eq!(
-        user_sol_collateral_balance,
+        user_lum_collateral_balance,
         RESERVE_AMOUNT * INITIAL_COLLATERAL_RATIO
     );
 }
@@ -157,7 +157,7 @@ async fn test_invalid_fees() {
 
     let user_accounts_owner = Keypair::new();
     let lending_market = add_lending_market(&mut test);
-    let sol_oracle = add_sol_oracle(&mut test);
+    let sol_oracle = add_lum_oracle(&mut test);
 
     let (mut banks_client, payer, _recent_blockhash) = test.start().await;
 

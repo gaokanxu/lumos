@@ -3837,7 +3837,7 @@ where
     }
 
     /// Update a token-metadata field on a mint. Includes a transfer for any
-    /// additional rent-exempt SOL required.
+    /// additional rent-exempt LUM required.
     #[allow(clippy::too_many_arguments)]
     pub async fn token_metadata_update_field_with_rent_transfer<S: Signers>(
         &self,

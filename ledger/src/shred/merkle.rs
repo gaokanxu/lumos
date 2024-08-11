@@ -45,8 +45,8 @@ const_assert_eq!(ShredData::SIZE_OF_PAYLOAD, 1203);
 // https://en.wikipedia.org/wiki/Merkle_tree#Second_preimage_attack
 // Following Certificate Transparency, 0x00 and 0x01 bytes are prepended to
 // hash data when computing leaf and internal node hashes respectively.
-const MERKLE_HASH_PREFIX_LEAF: &[u8] = b"\x00SOLANA_MERKLE_SHREDS_LEAF";
-const MERKLE_HASH_PREFIX_NODE: &[u8] = b"\x01SOLANA_MERKLE_SHREDS_NODE";
+const MERKLE_HASH_PREFIX_LEAF: &[u8] = b"\x00LUMOS_MERKLE_SHREDS_LEAF";
+const MERKLE_HASH_PREFIX_NODE: &[u8] = b"\x01LUMOS_MERKLE_SHREDS_NODE";
 
 type MerkleProofEntry = [u8; 20];
 

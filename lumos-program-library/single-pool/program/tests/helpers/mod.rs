@@ -4,7 +4,7 @@ use {
     lumos_program_test::*,
     lumos_sdk::{
         account::Account as LumosAccount,
-        feature_set::stake_raise_minimum_delegation_to_1_sol,
+        feature_set::stake_raise_minimum_delegation_to_1_lum,
         hash::Hash,
         program_error::ProgramError,
         pubkey::Pubkey,
@@ -43,7 +43,7 @@ pub fn program_test(enable_minimum_delegation: bool) -> ProgramTest {
     program_test.prefer_bpf(false);
 
     if !enable_minimum_delegation {
-        program_test.deactivate_feature(stake_raise_minimum_delegation_to_1_sol::id());
+        program_test.deactivate_feature(stake_raise_minimum_delegation_to_1_lum::id());
     }
 
     program_test

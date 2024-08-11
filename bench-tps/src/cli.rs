@@ -18,7 +18,7 @@ use {
     },
 };
 
-const NUM_LAMPORTS_PER_ACCOUNT_DEFAULT: u64 = lumos_sdk::native_token::LAMPORTS_PER_SOL;
+const NUM_LAMPORTS_PER_ACCOUNT_DEFAULT: u64 = lumos_sdk::native_token::LAMPORTS_PER_LUM;
 
 #[derive(Eq, PartialEq, Debug)]
 pub enum ExternalClientType {

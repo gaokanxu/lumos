@@ -131,13 +131,13 @@ pub struct StakePool {
     /// this `sol_deposit_authority`
     pub sol_deposit_authority: Option<Pubkey>,
 
-    /// Fee assessed on SOL deposits
+    /// Fee assessed on LUM deposits
     pub sol_deposit_fee: Fee,
 
-    /// Fees paid out to referrers on referred SOL deposits.
-    /// Expressed as a percentage (0 - 100) of SOL deposit fees.
-    /// i.e. `sol_deposit_fee`% of SOL deposited is collected as deposit fees
-    /// for every deposit and `sol_referral_fee`% of the collected SOL
+    /// Fees paid out to referrers on referred LUM deposits.
+    /// Expressed as a percentage (0 - 100) of LUM deposit fees.
+    /// i.e. `sol_deposit_fee`% of LUM deposited is collected as deposit fees
+    /// for every deposit and `sol_referral_fee`% of the collected LUM
     /// deposit fees is paid out to the referrer
     pub sol_referral_fee: u8,
 
@@ -145,11 +145,11 @@ pub struct StakePool {
     /// the `deposit_authority`
     pub sol_withdraw_authority: Option<Pubkey>,
 
-    /// Fee assessed on SOL withdrawals
+    /// Fee assessed on LUM withdrawals
     pub sol_withdrawal_fee: Fee,
 
-    /// Future SOL withdrawal fee, to be set for the following epoch
-    pub next_sol_withdrawal_fee: FutureEpoch<Fee>,
+    /// Future LUM withdrawal fee, to be set for the following epoch
+    pub next_lum_withdrawal_fee: FutureEpoch<Fee>,
 
     /// Last epoch's total pool tokens, used only for APR estimation
     pub last_epoch_pool_token_supply: u64,
@@ -196,7 +196,7 @@ impl StakePool {
 
     /// calculate pool tokens to be deducted as withdrawal fees
     #[inline]
-    pub fn calc_pool_tokens_sol_withdrawal_fee(&self, pool_tokens: u64) -> Option<u64> {
+    pub fn calc_pool_tokens_lum_withdrawal_fee(&self, pool_tokens: u64) -> Option<u64> {
         u64::try_from(self.sol_withdrawal_fee.apply(pool_tokens)?).ok()
     }
 
@@ -217,16 +217,16 @@ impl StakePool {
         .ok()
     }
 
-    /// calculate pool tokens to be deducted as SOL deposit fees
+    /// calculate pool tokens to be deducted as LUM deposit fees
     #[inline]
-    pub fn calc_pool_tokens_sol_deposit_fee(&self, pool_tokens_minted: u64) -> Option<u64> {
+    pub fn calc_pool_tokens_lum_deposit_fee(&self, pool_tokens_minted: u64) -> Option<u64> {
         u64::try_from(self.sol_deposit_fee.apply(pool_tokens_minted)?).ok()
     }
 
-    /// calculate pool tokens to be deducted from SOL deposit fees as referral
+    /// calculate pool tokens to be deducted from LUM deposit fees as referral
     /// fees
     #[inline]
-    pub fn calc_pool_tokens_sol_referral_fee(&self, sol_deposit_fee: u64) -> Option<u64> {
+    pub fn calc_pool_tokens_lum_referral_fee(&self, sol_deposit_fee: u64) -> Option<u64> {
         u64::try_from(
             (sol_deposit_fee as u128)
                 .checked_mul(self.sol_referral_fee as u128)?
@@ -349,18 +349,18 @@ impl StakePool {
     /// Checks that the deposit authority is valid
     /// Does nothing if `sol_deposit_authority` is currently not set
     #[inline]
-    pub(crate) fn check_sol_deposit_authority(
+    pub(crate) fn check_lum_deposit_authority(
         &self,
-        maybe_sol_deposit_authority: Result<&AccountInfo, ProgramError>,
+        maybe_lum_deposit_authority: Result<&AccountInfo, ProgramError>,
     ) -> Result<(), ProgramError> {
         if let Some(auth) = self.sol_deposit_authority {
-            let sol_deposit_authority = maybe_sol_deposit_authority?;
+            let sol_deposit_authority = maybe_lum_deposit_authority?;
             if auth != *sol_deposit_authority.key {
                 msg!("Expected {}, received {}", auth, sol_deposit_authority.key);
                 return Err(StakePoolError::InvalidSolDepositAuthority.into());
             }
             if !sol_deposit_authority.is_signer {
-                msg!("SOL Deposit authority signature missing");
+                msg!("LUM Deposit authority signature missing");
                 return Err(StakePoolError::SignatureMissing.into());
             }
         }
@@ -370,17 +370,17 @@ impl StakePool {
     /// Checks that the sol withdraw authority is valid
     /// Does nothing if `sol_withdraw_authority` is currently not set
     #[inline]
-    pub(crate) fn check_sol_withdraw_authority(
+    pub(crate) fn check_lum_withdraw_authority(
         &self,
-        maybe_sol_withdraw_authority: Result<&AccountInfo, ProgramError>,
+        maybe_lum_withdraw_authority: Result<&AccountInfo, ProgramError>,
     ) -> Result<(), ProgramError> {
         if let Some(auth) = self.sol_withdraw_authority {
-            let sol_withdraw_authority = maybe_sol_withdraw_authority?;
+            let sol_withdraw_authority = maybe_lum_withdraw_authority?;
             if auth != *sol_withdraw_authority.key {
                 return Err(StakePoolError::InvalidSolWithdrawAuthority.into());
             }
             if !sol_withdraw_authority.is_signer {
-                msg!("SOL withdraw authority signature missing");
+                msg!("LUM withdraw authority signature missing");
                 return Err(StakePoolError::SignatureMissing.into());
             }
         }
@@ -489,7 +489,7 @@ impl StakePool {
             }
             FeeType::SolWithdrawal(new_fee) => {
                 new_fee.check_withdrawal(&self.sol_withdrawal_fee)?;
-                self.next_sol_withdrawal_fee = FutureEpoch::new(*new_fee)
+                self.next_lum_withdrawal_fee = FutureEpoch::new(*new_fee)
             }
             FeeType::SolDeposit(new_fee) => self.sol_deposit_fee = *new_fee,
             FeeType::StakeDeposit(new_fee) => self.stake_deposit_fee = *new_fee,
@@ -1003,7 +1003,7 @@ impl fmt::Display for Fee {
 /// The type of fees that can be set on the stake pool
 #[derive(Clone, Debug, PartialEq, BorshDeserialize, BorshSerialize, BorshSchema)]
 pub enum FeeType {
-    /// Referral fees for SOL deposits
+    /// Referral fees for LUM deposits
     SolReferral(u8),
     /// Referral fees for stake deposits
     StakeReferral(u8),
@@ -1011,11 +1011,11 @@ pub enum FeeType {
     Epoch(Fee),
     /// Stake withdrawal fee
     StakeWithdrawal(Fee),
-    /// Deposit fee for SOL deposits
+    /// Deposit fee for LUM deposits
     SolDeposit(Fee),
     /// Deposit fee for stake deposits
     StakeDeposit(Fee),
-    /// SOL withdrawal fee
+    /// LUM withdrawal fee
     SolWithdrawal(Fee),
 }
 
@@ -1058,7 +1058,7 @@ mod test {
         lumos_program::{
             borsh1::{get_packed_len, try_from_slice_unchecked},
             clock::{DEFAULT_SLOTS_PER_EPOCH, DEFAULT_S_PER_SLOT, SECONDS_PER_DAY},
-            native_token::LAMPORTS_PER_SOL,
+            native_token::LAMPORTS_PER_LUM,
         },
     };
 
@@ -1251,18 +1251,18 @@ mod test {
 
     #[test]
     fn specific_fee_calculation() {
-        // 10% of 10 SOL in rewards should be 1 SOL in fees
+        // 10% of 10 LUM in rewards should be 1 LUM in fees
         let epoch_fee = Fee {
             numerator: 1,
             denominator: 10,
         };
         let mut stake_pool = StakePool {
-            total_lamports: 100 * LAMPORTS_PER_SOL,
-            pool_token_supply: 100 * LAMPORTS_PER_SOL,
+            total_lamports: 100 * LAMPORTS_PER_LUM,
+            pool_token_supply: 100 * LAMPORTS_PER_LUM,
             epoch_fee,
             ..StakePool::default()
         };
-        let reward_lamports = 10 * LAMPORTS_PER_SOL;
+        let reward_lamports = 10 * LAMPORTS_PER_LUM;
         let pool_token_fee = stake_pool.calc_epoch_fee_amount(reward_lamports).unwrap();
 
         stake_pool.total_lamports += reward_lamports;
@@ -1271,7 +1271,7 @@ mod test {
         let fee_lamports = stake_pool
             .calc_lamports_withdraw_amount(pool_token_fee)
             .unwrap();
-        assert_eq!(fee_lamports, LAMPORTS_PER_SOL - 1); // off-by-one due to
+        assert_eq!(fee_lamports, LAMPORTS_PER_LUM - 1); // off-by-one due to
                                                         // truncation
     }
 

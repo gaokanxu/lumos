@@ -56,7 +56,7 @@ async fn setup(
     .unwrap();
 
     let error = stake_pool_accounts
-        .deposit_sol(
+        .deposit_lum(
             &mut context.banks_client,
             &context.payer,
             &context.last_blockhash,
@@ -104,7 +104,7 @@ async fn success(token_program_id: Pubkey) {
     .lamports;
 
     let error = stake_pool_accounts
-        .withdraw_sol(
+        .withdraw_lum(
             &mut context.banks_client,
             &context.payer,
             &context.last_blockhash,
@@ -161,7 +161,7 @@ async fn fail_with_wrong_withdraw_authority() {
     stake_pool_accounts.withdraw_authority = Pubkey::new_unique();
 
     let error = stake_pool_accounts
-        .withdraw_sol(
+        .withdraw_lum(
             &mut context.banks_client,
             &context.payer,
             &context.last_blockhash,
@@ -216,7 +216,7 @@ async fn fail_overdraw_reserve() {
 
     // try to withdraw one lamport after fees, will overdraw
     let error = stake_pool_accounts
-        .withdraw_sol(
+        .withdraw_lum(
             &mut context.banks_client,
             &context.payer,
             &context.last_blockhash,
@@ -239,7 +239,7 @@ async fn fail_overdraw_reserve() {
 }
 
 #[tokio::test]
-async fn success_with_sol_withdraw_authority() {
+async fn success_with_lum_withdraw_authority() {
     let (mut context, stake_pool_accounts, user, pool_token_account, pool_tokens) =
         setup(lpl_token::id()).await;
     let sol_withdraw_authority = Keypair::new();
@@ -263,7 +263,7 @@ async fn success_with_sol_withdraw_authority() {
         .unwrap();
 
     let error = stake_pool_accounts
-        .withdraw_sol(
+        .withdraw_lum(
             &mut context.banks_client,
             &context.payer,
             &context.last_blockhash,
@@ -277,7 +277,7 @@ async fn success_with_sol_withdraw_authority() {
 }
 
 #[tokio::test]
-async fn fail_without_sol_withdraw_authority_signature() {
+async fn fail_without_lum_withdraw_authority_signature() {
     let (mut context, stake_pool_accounts, user, pool_token_account, pool_tokens) =
         setup(lpl_token::id()).await;
     let sol_withdraw_authority = Keypair::new();
@@ -302,7 +302,7 @@ async fn fail_without_sol_withdraw_authority_signature() {
 
     let wrong_withdrawer = Keypair::new();
     let error = stake_pool_accounts
-        .withdraw_sol(
+        .withdraw_lum(
             &mut context.banks_client,
             &context.payer,
             &context.last_blockhash,
@@ -342,7 +342,7 @@ async fn success_with_slippage(token_program_id: Pubkey) {
     .lamports;
 
     let error = stake_pool_accounts
-        .withdraw_sol_with_slippage(
+        .withdraw_lum_with_slippage(
             &mut context.banks_client,
             &context.payer,
             &context.last_blockhash,
@@ -363,7 +363,7 @@ async fn success_with_slippage(token_program_id: Pubkey) {
     );
 
     let error = stake_pool_accounts
-        .withdraw_sol_with_slippage(
+        .withdraw_lum_with_slippage(
             &mut context.banks_client,
             &context.payer,
             &context.last_blockhash,

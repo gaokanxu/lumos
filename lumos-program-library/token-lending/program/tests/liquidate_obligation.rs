@@ -29,16 +29,16 @@ async fn test_success() {
     // limit to track compute unit increase
     test.set_compute_max_units(68_000);
 
-    // 100 SOL collateral
-    const SOL_DEPOSIT_AMOUNT_LAMPORTS: u64 = 100 * LAMPORTS_TO_SOL * INITIAL_COLLATERAL_RATIO;
-    // 100 SOL * 80% LTV -> 80 SOL * 20 USDC -> 1600 USDC borrow
+    // 100 LUM collateral
+    const LUM_DEPOSIT_AMOUNT_LAMPORTS: u64 = 100 * LAMPORTS_TO_LUM * INITIAL_COLLATERAL_RATIO;
+    // 100 LUM * 80% LTV -> 80 LUM * 20 USDC -> 1600 USDC borrow
     const USDC_BORROW_AMOUNT_FRACTIONAL: u64 = 1_600 * FRACTIONAL_TO_USDC;
     // 1600 USDC * 50% -> 800 USDC liquidation
     const USDC_LIQUIDATION_AMOUNT_FRACTIONAL: u64 = USDC_BORROW_AMOUNT_FRACTIONAL / 2;
-    // 800 USDC / 20 USDC per SOL -> 40 SOL + 10% bonus -> 44 SOL
-    const SOL_LIQUIDATION_AMOUNT_LAMPORTS: u64 = 44 * LAMPORTS_TO_SOL * INITIAL_COLLATERAL_RATIO;
+    // 800 USDC / 20 USDC per LUM -> 40 LUM + 10% bonus -> 44 LUM
+    const LUM_LIQUIDATION_AMOUNT_LAMPORTS: u64 = 44 * LAMPORTS_TO_LUM * INITIAL_COLLATERAL_RATIO;
 
-    const SOL_RESERVE_COLLATERAL_LAMPORTS: u64 = 2 * SOL_DEPOSIT_AMOUNT_LAMPORTS;
+    const LUM_RESERVE_COLLATERAL_LAMPORTS: u64 = 2 * LUM_DEPOSIT_AMOUNT_LAMPORTS;
     const USDC_RESERVE_LIQUIDITY_FRACTIONAL: u64 = 2 * USDC_BORROW_AMOUNT_FRACTIONAL;
 
     let user_accounts_owner = Keypair::new();
@@ -50,14 +50,14 @@ async fn test_success() {
     reserve_config.liquidation_threshold = 80;
     reserve_config.liquidation_bonus = 10;
 
-    let sol_oracle = add_sol_oracle(&mut test);
+    let sol_oracle = add_lum_oracle(&mut test);
     let sol_test_reserve = add_reserve(
         &mut test,
         &lending_market,
         &sol_oracle,
         &user_accounts_owner,
         AddReserveArgs {
-            collateral_amount: SOL_RESERVE_COLLATERAL_LAMPORTS,
+            collateral_amount: LUM_RESERVE_COLLATERAL_LAMPORTS,
             liquidity_mint_pubkey: lpl_token::native_mint::id(),
             liquidity_mint_decimals: 9,
             config: reserve_config,
@@ -90,7 +90,7 @@ async fn test_success() {
         &lending_market,
         &user_accounts_owner,
         AddObligationArgs {
-            deposits: &[(&sol_test_reserve, SOL_DEPOSIT_AMOUNT_LAMPORTS)],
+            deposits: &[(&sol_test_reserve, LUM_DEPOSIT_AMOUNT_LAMPORTS)],
             borrows: &[(&usdc_test_reserve, USDC_BORROW_AMOUNT_FRACTIONAL)],
             ..AddObligationArgs::default()
         },
@@ -164,20 +164,20 @@ async fn test_success() {
         get_token_balance(&mut banks_client, sol_test_reserve.user_collateral_pubkey).await;
     assert_eq!(
         user_collateral_balance,
-        initial_user_collateral_balance + SOL_LIQUIDATION_AMOUNT_LAMPORTS
+        initial_user_collateral_balance + LUM_LIQUIDATION_AMOUNT_LAMPORTS
     );
 
     let collateral_supply_balance =
         get_token_balance(&mut banks_client, sol_test_reserve.collateral_supply_pubkey).await;
     assert_eq!(
         collateral_supply_balance,
-        initial_collateral_supply_balance - SOL_LIQUIDATION_AMOUNT_LAMPORTS
+        initial_collateral_supply_balance - LUM_LIQUIDATION_AMOUNT_LAMPORTS
     );
 
     let obligation = test_obligation.get_state(&mut banks_client).await;
     assert_eq!(
         obligation.deposits[0].deposited_amount,
-        SOL_DEPOSIT_AMOUNT_LAMPORTS - SOL_LIQUIDATION_AMOUNT_LAMPORTS
+        LUM_DEPOSIT_AMOUNT_LAMPORTS - LUM_LIQUIDATION_AMOUNT_LAMPORTS
     );
     assert_eq!(
         obligation.borrows[0].borrowed_amount_wads,

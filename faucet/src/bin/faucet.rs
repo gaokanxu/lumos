@@ -1,7 +1,7 @@
 use {
     clap::{crate_description, crate_name, values_t, App, Arg},
     log::*,
-    lumos_clap_utils::input_parsers::{lamports_of_sol, value_of},
+    lumos_clap_utils::input_parsers::{lamports_of_lum, value_of},
     lumos_faucet::{
         faucet::{run_faucet, Faucet, FAUCET_PORT},
         socketaddr,
@@ -51,14 +51,14 @@ async fn main() {
                 .alias("cap")
                 .value_name("NUM")
                 .takes_value(true)
-                .help("Request limit for time slice, in SOL"),
+                .help("Request limit for time slice, in LUM"),
         )
         .arg(
             Arg::with_name("per_request_cap")
                 .long("per-request-cap")
                 .value_name("NUM")
                 .takes_value(true)
-                .help("Request limit for a single request, in SOL"),
+                .help("Request limit for a single request, in LUM"),
         )
         .arg(
             Arg::with_name("allowed_ip")
@@ -77,8 +77,8 @@ async fn main() {
         .expect("failed to read client keypair");
 
     let time_slice = value_of(&matches, "slice");
-    let per_time_cap = lamports_of_sol(&matches, "per_time_cap");
-    let per_request_cap = lamports_of_sol(&matches, "per_request_cap");
+    let per_time_cap = lamports_of_lum(&matches, "per_time_cap");
+    let per_request_cap = lamports_of_lum(&matches, "per_request_cap");
 
     let allowed_ips: HashSet<_> = values_t!(matches.values_of("allowed_ip"), IpAddr)
         .unwrap_or_default()

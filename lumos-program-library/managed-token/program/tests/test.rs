@@ -4,7 +4,7 @@ use {
     lumos_sdk::{
         commitment_config::CommitmentLevel,
         instruction::Instruction,
-        native_token::LAMPORTS_PER_SOL,
+        native_token::LAMPORTS_PER_LUM,
         pubkey::Pubkey,
         signature::{Keypair, Signature, Signer},
         system_instruction,
@@ -18,7 +18,7 @@ use {
 };
 
 pub fn sol(amount: f64) -> u64 {
-    (amount * LAMPORTS_PER_SOL as f64) as u64
+    (amount * LAMPORTS_PER_LUM as f64) as u64
 }
 
 async fn process_transaction(

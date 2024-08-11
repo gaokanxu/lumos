@@ -3,7 +3,7 @@
 use {
     lumos_program_test::{processor, tokio, ProgramTest},
     lumos_sdk::{
-        instruction::AccountMeta, native_token::LAMPORTS_PER_SOL, pubkey::Pubkey,
+        instruction::AccountMeta, native_token::LAMPORTS_PER_LUM, pubkey::Pubkey,
         signature::Signer, system_instruction, transaction::Transaction,
     },
     lpl_instruction_padding::{instruction::wrap_instruction, processor::process},
@@ -17,7 +17,7 @@ async fn success_with_padded_transfer_data() {
     let mut context = program_test.start_with_context().await;
     let to = Pubkey::new_unique();
 
-    let transfer_amount = LAMPORTS_PER_SOL;
+    let transfer_amount = LAMPORTS_PER_LUM;
     let transfer_instruction =
         system_instruction::transfer(&context.payer.pubkey(), &to, transfer_amount);
 

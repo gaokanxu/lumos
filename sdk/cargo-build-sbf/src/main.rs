@@ -662,7 +662,7 @@ fn build_lumos_package(
         );
         env::remove_var("RUSTC")
     }
-    let cargo_target = "CARGO_TARGET_SBF_SOLANA_SOLANA_RUSTFLAGS";
+    let cargo_target = "CARGO_TARGET_SBF_LUMOS_LUMOS_RUSTFLAGS";
     let rustflags = env::var("RUSTFLAGS").ok().unwrap_or_default();
     if env::var("RUSTFLAGS").is_ok() {
         warn!(

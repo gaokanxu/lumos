@@ -214,7 +214,7 @@ async fn success(token_program_id: Pubkey) {
         get_token_balance(&mut context.banks_client, &pool_token_account).await;
     let tokens_issued_user = tokens_issued
         - post_stake_pool
-            .calc_pool_tokens_sol_deposit_fee(stake_rent)
+            .calc_pool_tokens_lum_deposit_fee(stake_rent)
             .unwrap()
         - post_stake_pool
             .calc_pool_tokens_stake_deposit_fee(stake_lamports - stake_rent)
@@ -237,7 +237,7 @@ async fn success(token_program_id: Pubkey) {
         pre_validator_stake_item.stake_lamports().unwrap() + stake_lamports - stake_rent,
     );
 
-    // Check validator stake account actual SOL balance
+    // Check validator stake account actual LUM balance
     let validator_stake_account = get_account(
         &mut context.banks_client,
         &validator_stake_account.stake_account,
@@ -392,7 +392,7 @@ async fn success_with_extra_stake_lamports() {
         get_token_balance(&mut context.banks_client, &pool_token_account).await;
 
     let fee_tokens = post_stake_pool
-        .calc_pool_tokens_sol_deposit_fee(extra_lamports + stake_rent)
+        .calc_pool_tokens_lum_deposit_fee(extra_lamports + stake_rent)
         .unwrap()
         + post_stake_pool
             .calc_pool_tokens_stake_deposit_fee(stake_lamports - stake_rent)
@@ -434,7 +434,7 @@ async fn success_with_extra_stake_lamports() {
         pre_validator_stake_item.stake_lamports().unwrap() + stake_lamports - stake_rent,
     );
 
-    // Check validator stake account actual SOL balance
+    // Check validator stake account actual LUM balance
     let validator_stake_account = get_account(
         &mut context.banks_client,
         &validator_stake_account.stake_account,
@@ -831,7 +831,7 @@ async fn success_with_slippage(token_program_id: Pubkey) {
     let tokens_issued = stake_lamports; // For now tokens are 1:1 to stake
     let tokens_issued_user = tokens_issued
         - pre_stake_pool
-            .calc_pool_tokens_sol_deposit_fee(stake_rent)
+            .calc_pool_tokens_lum_deposit_fee(stake_rent)
             .unwrap()
         - pre_stake_pool
             .calc_pool_tokens_stake_deposit_fee(stake_lamports - stake_rent)

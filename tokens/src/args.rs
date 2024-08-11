@@ -9,7 +9,7 @@ pub struct SenderStakeArgs {
 }
 
 pub struct StakeArgs {
-    pub unlocked_sol: u64,
+    pub unlocked_lum: u64,
     pub lockup_authority: Option<Pubkey>,
     pub sender_stake_args: Option<SenderStakeArgs>,
 }

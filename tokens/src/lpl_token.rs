@@ -6,7 +6,7 @@ use {
     console::style,
     lumos_account_decoder::parse_token::{real_number_string, real_number_string_trimmed},
     lumos_rpc_client::rpc_client::RpcClient,
-    lumos_sdk::{instruction::Instruction, message::Message, native_token::lamports_to_sol},
+    lumos_sdk::{instruction::Instruction, message::Message, native_token::lamports_to_lum},
     lpl_associated_token_account::{
         get_associated_token_address, instruction::create_associated_token_account,
     },
@@ -94,7 +94,7 @@ pub(crate) fn check_lpl_token_balances(
     if fee_payer_balance < fees + account_creation_amount {
         return Err(Error::InsufficientFunds(
             vec![FundingSource::FeePayer].into(),
-            lamports_to_sol(fees + account_creation_amount).to_string(),
+            lamports_to_lum(fees + account_creation_amount).to_string(),
         ));
     }
     let source_token_account = client

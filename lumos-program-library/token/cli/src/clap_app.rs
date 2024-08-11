@@ -1543,7 +1543,7 @@ pub fn app<'a, 'b>(
         )
         .subcommand(
             SubCommand::with_name(CommandName::Wrap.into())
-                .about("Wrap native SOL in a SOL token account")
+                .about("Wrap native LUM in a LUM token account")
                 .arg(
                     Arg::with_name("amount")
                         .validator(is_amount)
@@ -1551,7 +1551,7 @@ pub fn app<'a, 'b>(
                         .takes_value(true)
                         .index(1)
                         .required(true)
-                        .help("Amount of SOL to wrap"),
+                        .help("Amount of LUM to wrap"),
                 )
                 .arg(
                     Arg::with_name("wallet_keypair")
@@ -1560,8 +1560,8 @@ pub fn app<'a, 'b>(
                         .validator(is_valid_signer)
                         .takes_value(true)
                         .help(
-                            "Specify the keypair for the wallet which will have its native SOL wrapped. \
-                             This wallet will be assigned as the owner of the wrapped SOL token account. \
+                            "Specify the keypair for the wallet which will have its native LUM wrapped. \
+                             This wallet will be assigned as the owner of the wrapped LUM token account. \
                              This may be a keypair file or the ASK keyword. \
                              Defaults to the client keypair."
                         ),
@@ -1570,7 +1570,7 @@ pub fn app<'a, 'b>(
                     Arg::with_name("create_aux_account")
                         .takes_value(false)
                         .long("create-aux-account")
-                        .help("Wrap SOL in an auxiliary account instead of associated token account"),
+                        .help("Wrap LUM in an auxiliary account instead of associated token account"),
                 )
                 .arg(
                     Arg::with_name("immutable")
@@ -1585,7 +1585,7 @@ pub fn app<'a, 'b>(
         )
         .subcommand(
             SubCommand::with_name(CommandName::Unwrap.into())
-                .about("Unwrap a SOL token account")
+                .about("Unwrap a LUM token account")
                 .arg(
                     Arg::with_name("account")
                         .validator(is_valid_pubkey)
@@ -1602,8 +1602,8 @@ pub fn app<'a, 'b>(
                         .validator(is_valid_signer)
                         .takes_value(true)
                         .help(
-                            "Specify the keypair for the wallet which owns the wrapped SOL. \
-                             This wallet will receive the unwrapped SOL. \
+                            "Specify the keypair for the wallet which owns the wrapped LUM. \
+                             This wallet will receive the unwrapped LUM. \
                              This may be a keypair file or the ASK keyword. \
                              Defaults to the client keypair."
                         ),
@@ -1689,7 +1689,7 @@ pub fn app<'a, 'b>(
                         .validator(is_valid_pubkey)
                         .value_name("REFUND_ACCOUNT_ADDRESS")
                         .takes_value(true)
-                        .help("The address of the account to receive remaining SOL [default: --owner]"),
+                        .help("The address of the account to receive remaining LUM [default: --owner]"),
                 )
                 .arg(
                     Arg::with_name("close_authority")
@@ -1737,7 +1737,7 @@ pub fn app<'a, 'b>(
                         .validator(is_valid_pubkey)
                         .value_name("REFUND_ACCOUNT_ADDRESS")
                         .takes_value(true)
-                        .help("The address of the account to receive remaining SOL [default: --owner]"),
+                        .help("The address of the account to receive remaining LUM [default: --owner]"),
                 )
                 .arg(
                     Arg::with_name("close_authority")
@@ -1926,12 +1926,12 @@ pub fn app<'a, 'b>(
                     Arg::with_name("close_empty_associated_accounts")
                     .long("close-empty-associated-accounts")
                     .takes_value(false)
-                    .help("close all empty associated token accounts (to get SOL back)")
+                    .help("close all empty associated token accounts (to get LUM back)")
                 )
         )
         .subcommand(
             SubCommand::with_name(CommandName::SyncNative.into())
-                .about("Sync a native SOL token account to its underlying lamports")
+                .about("Sync a native LUM token account to its underlying lamports")
                 .arg(
                     owner_address_arg()
                         .index(1)

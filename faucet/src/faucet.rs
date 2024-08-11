@@ -15,7 +15,7 @@ use {
         hash::Hash,
         instruction::Instruction,
         message::Message,
-        native_token::lamports_to_sol,
+        native_token::lamports_to_lum,
         packet::PACKET_DATA_SIZE,
         pubkey::Pubkey,
         signature::{Keypair, Signer},
@@ -126,10 +126,10 @@ impl Faucet {
         if let Some((per_request_cap, per_time_cap)) = per_request_cap.zip(per_time_cap) {
             if per_time_cap < per_request_cap {
                 warn!(
-                    "per_time_cap {} SOL < per_request_cap {} SOL; \
+                    "per_time_cap {} LUM < per_request_cap {} LUM; \
                     maximum single requests will fail",
-                    lamports_to_sol(per_time_cap),
-                    lamports_to_sol(per_request_cap),
+                    lamports_to_lum(per_time_cap),
+                    lamports_to_lum(per_request_cap),
                 );
             }
         }
@@ -154,10 +154,10 @@ impl Faucet {
         if let Some(cap) = self.per_time_cap {
             if new_total > cap {
                 return Err(FaucetError::PerTimeCapExceeded(
-                    lamports_to_sol(request_amount),
+                    lamports_to_lum(request_amount),
                     to.to_string(),
-                    lamports_to_sol(new_total),
-                    lamports_to_sol(cap),
+                    lamports_to_lum(new_total),
+                    lamports_to_lum(cap),
                 ));
             }
         }
@@ -172,7 +172,7 @@ impl Faucet {
     /// Checks per-request and per-time-ip limits; if both pass, this method returns a signed
     /// SystemProgram::Transfer transaction from the faucet keypair to the requested recipient. If
     /// the request exceeds this per-request limit, this method returns a signed SPL Memo
-    /// transaction with the memo: `"request too large; req: <REQUEST> SOL cap: <CAP> SOL"`
+    /// transaction with the memo: `"request too large; req: <REQUEST> LUM cap: <CAP> LUM"`
     pub fn build_airdrop_transaction(
         &mut self,
         req: FaucetRequest,
@@ -187,8 +187,8 @@ impl Faucet {
             } => {
                 let mint_pubkey = self.faucet_keypair.pubkey();
                 info!(
-                    "Requesting airdrop of {} SOL to {:?}",
-                    lamports_to_sol(lamports),
+                    "Requesting airdrop of {} LUM to {:?}",
+                    lamports_to_lum(lamports),
                     to
                 );
 
@@ -197,8 +197,8 @@ impl Faucet {
                         let memo = format!(
                             "{}",
                             FaucetError::PerRequestCapExceeded(
-                                lamports_to_sol(lamports),
-                                lamports_to_sol(cap),
+                                lamports_to_lum(lamports),
+                                lamports_to_lum(cap),
                             )
                         );
                         let memo_instruction = Instruction {

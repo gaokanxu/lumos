@@ -135,7 +135,7 @@ pub enum StakePoolError {
     InvalidSolWithdrawAuthority,
 
     // 35.
-    /// Too much SOL withdrawn from the stake pool's reserve account
+    /// Too much LUM withdrawn from the stake pool's reserve account
     #[error("SolWithdrawalTooLarge")]
     SolWithdrawalTooLarge,
     /// Provided metadata account does not match metadata account derived for
@@ -153,11 +153,11 @@ pub enum StakePoolError {
     ExceededSlippage,
 
     // 40.
-    /// Provided mint does not have 9 decimals to match SOL
+    /// Provided mint does not have 9 decimals to match LUM
     #[error("IncorrectMintDecimals")]
     IncorrectMintDecimals,
     /// Pool reserve does not have enough lamports to fund rent-exempt reserve
-    /// in split destination. Deposit more SOL in reserve, or pre-fund split
+    /// in split destination. Deposit more LUM in reserve, or pre-fund split
     /// destination with the rent-exempt reserve for a stake account.
     #[error("ReserveDepleted")]
     ReserveDepleted,

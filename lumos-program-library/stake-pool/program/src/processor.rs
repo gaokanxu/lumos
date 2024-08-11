@@ -944,7 +944,7 @@ impl Processor {
         stake_pool.sol_referral_fee = referral_fee;
         stake_pool.sol_withdraw_authority = None;
         stake_pool.sol_withdrawal_fee = withdrawal_fee;
-        stake_pool.next_sol_withdrawal_fee = FutureEpoch::None;
+        stake_pool.next_lum_withdrawal_fee = FutureEpoch::None;
         stake_pool.last_epoch_pool_token_supply = 0;
         stake_pool.last_epoch_total_lamports = 0;
 
@@ -2642,10 +2642,10 @@ impl Processor {
             }
             stake_pool.next_stake_withdrawal_fee.update_epoch();
 
-            if let Some(fee) = stake_pool.next_sol_withdrawal_fee.get() {
+            if let Some(fee) = stake_pool.next_lum_withdrawal_fee.get() {
                 stake_pool.sol_withdrawal_fee = *fee;
             }
-            stake_pool.next_sol_withdrawal_fee.update_epoch();
+            stake_pool.next_lum_withdrawal_fee.update_epoch();
 
             stake_pool.last_update_epoch = clock.epoch;
             stake_pool.last_epoch_total_lamports = previous_lamports;
@@ -2846,7 +2846,7 @@ impl Processor {
         let new_pool_tokens_from_stake = stake_pool
             .calc_pool_tokens_for_deposit(stake_deposit_lamports)
             .ok_or(StakePoolError::CalculationFailure)?;
-        let new_pool_tokens_from_sol = new_pool_tokens
+        let new_pool_tokens_from_lum = new_pool_tokens
             .checked_sub(new_pool_tokens_from_stake)
             .ok_or(StakePoolError::CalculationFailure)?;
 
@@ -2854,7 +2854,7 @@ impl Processor {
             .calc_pool_tokens_stake_deposit_fee(new_pool_tokens_from_stake)
             .ok_or(StakePoolError::CalculationFailure)?;
         let sol_deposit_fee = stake_pool
-            .calc_pool_tokens_sol_deposit_fee(new_pool_tokens_from_sol)
+            .calc_pool_tokens_lum_deposit_fee(new_pool_tokens_from_lum)
             .ok_or(StakePoolError::CalculationFailure)?;
 
         let total_fee = stake_deposit_fee
@@ -2959,7 +2959,7 @@ impl Processor {
 
     /// Processes [DepositSol](enum.Instruction.html).
     #[inline(never)] // needed to avoid stack size violation
-    fn process_deposit_sol(
+    fn process_deposit_lum(
         program_id: &Pubkey,
         accounts: &[AccountInfo],
         deposit_lamports: u64,
@@ -2991,7 +2991,7 @@ impl Processor {
             program_id,
             stake_pool_info.key,
         )?;
-        stake_pool.check_sol_deposit_authority(sol_deposit_authority_info)?;
+        stake_pool.check_lum_deposit_authority(sol_deposit_authority_info)?;
         stake_pool.check_mint(pool_mint_info)?;
         stake_pool.check_reserve_stake(reserve_stake_account_info)?;
 
@@ -3007,7 +3007,7 @@ impl Processor {
         // don't hold user funds hostage, so if the fee account is invalid, users
         // cannot deposit in the pool.  Let it fail here!
 
-        // We want this to hold to ensure that deposit_sol mints pool tokens
+        // We want this to hold to ensure that deposit_lum mints pool tokens
         // at the right price
         if stake_pool.last_update_epoch < clock.epoch {
             return Err(StakePoolError::StakeListAndPoolOutOfDate.into());
@@ -3017,17 +3017,17 @@ impl Processor {
             .calc_pool_tokens_for_deposit(deposit_lamports)
             .ok_or(StakePoolError::CalculationFailure)?;
 
-        let pool_tokens_sol_deposit_fee = stake_pool
-            .calc_pool_tokens_sol_deposit_fee(new_pool_tokens)
+        let pool_tokens_lum_deposit_fee = stake_pool
+            .calc_pool_tokens_lum_deposit_fee(new_pool_tokens)
             .ok_or(StakePoolError::CalculationFailure)?;
         let pool_tokens_user = new_pool_tokens
-            .checked_sub(pool_tokens_sol_deposit_fee)
+            .checked_sub(pool_tokens_lum_deposit_fee)
             .ok_or(StakePoolError::CalculationFailure)?;
 
         let pool_tokens_referral_fee = stake_pool
-            .calc_pool_tokens_sol_referral_fee(pool_tokens_sol_deposit_fee)
+            .calc_pool_tokens_lum_referral_fee(pool_tokens_lum_deposit_fee)
             .ok_or(StakePoolError::CalculationFailure)?;
-        let pool_tokens_manager_deposit_fee = pool_tokens_sol_deposit_fee
+        let pool_tokens_manager_deposit_fee = pool_tokens_lum_deposit_fee
             .checked_sub(pool_tokens_referral_fee)
             .ok_or(StakePoolError::CalculationFailure)?;
 
@@ -3422,7 +3422,7 @@ impl Processor {
 
     /// Processes [WithdrawSol](enum.Instruction.html).
     #[inline(never)] // needed to avoid stack size violation
-    fn process_withdraw_sol(
+    fn process_withdraw_lum(
         program_id: &Pubkey,
         accounts: &[AccountInfo],
         pool_tokens: u64,
@@ -3454,7 +3454,7 @@ impl Processor {
             program_id,
             stake_pool_info.key,
         )?;
-        stake_pool.check_sol_withdraw_authority(sol_withdraw_authority_info)?;
+        stake_pool.check_lum_withdraw_authority(sol_withdraw_authority_info)?;
         let decimals = stake_pool.check_mint(pool_mint_info)?;
         stake_pool.check_reserve_stake(reserve_stake_info)?;
 
@@ -3467,7 +3467,7 @@ impl Processor {
             return Err(StakePoolError::InvalidFeeAccount.into());
         }
 
-        // We want this to hold to ensure that withdraw_sol burns pool tokens
+        // We want this to hold to ensure that withdraw_lum burns pool tokens
         // at the right price
         if stake_pool.last_update_epoch < Clock::get()?.epoch {
             return Err(StakePoolError::StakeListAndPoolOutOfDate.into());
@@ -3482,7 +3482,7 @@ impl Processor {
             0
         } else {
             stake_pool
-                .calc_pool_tokens_sol_withdrawal_fee(pool_tokens)
+                .calc_pool_tokens_lum_withdrawal_fee(pool_tokens)
                 .ok_or(StakePoolError::CalculationFailure)?
         };
         let pool_tokens_burnt = pool_tokens
@@ -3512,7 +3512,7 @@ impl Processor {
         if let stake::state::StakeStateV2::Initialized(meta) = stake_state {
             let minimum_reserve_lamports = minimum_reserve_lamports(&meta);
             if new_reserve_lamports < minimum_reserve_lamports {
-                msg!("Attempting to withdraw {} lamports, maximum possible SOL withdrawal is {} lamports",
+                msg!("Attempting to withdraw {} lamports, maximum possible LUM withdrawal is {} lamports",
                     withdraw_lamports,
                     reserve_stake_info.lamports().saturating_sub(minimum_reserve_lamports)
                 );
@@ -3998,11 +3998,11 @@ impl Processor {
             }
             StakePoolInstruction::DepositSol(lamports) => {
                 msg!("Instruction: DepositSol");
-                Self::process_deposit_sol(program_id, accounts, lamports, None)
+                Self::process_deposit_lum(program_id, accounts, lamports, None)
             }
             StakePoolInstruction::WithdrawSol(pool_tokens) => {
                 msg!("Instruction: WithdrawSol");
-                Self::process_withdraw_sol(program_id, accounts, pool_tokens, None)
+                Self::process_withdraw_lum(program_id, accounts, pool_tokens, None)
             }
             StakePoolInstruction::CreateTokenMetadata { name, symbol, uri } => {
                 msg!("Instruction: CreateTokenMetadata");
@@ -4051,7 +4051,7 @@ impl Processor {
                 minimum_pool_tokens_out,
             } => {
                 msg!("Instruction: DepositSolWithSlippage");
-                Self::process_deposit_sol(
+                Self::process_deposit_lum(
                     program_id,
                     accounts,
                     lamports_in,
@@ -4063,7 +4063,7 @@ impl Processor {
                 minimum_lamports_out,
             } => {
                 msg!("Instruction: WithdrawSolWithSlippage");
-                Self::process_withdraw_sol(
+                Self::process_withdraw_lum(
                     program_id,
                     accounts,
                     pool_tokens_in,
@@ -4117,13 +4117,13 @@ impl PrintProgramError for StakePoolError {
             StakePoolError::InvalidPreferredValidator => msg!("Error: Provided preferred validator is invalid"),
             StakePoolError::TransientAccountInUse => msg!("Error: Provided validator stake account already has a transient stake account in use"),
             StakePoolError::InvalidSolWithdrawAuthority => msg!("Error: Provided sol withdraw authority does not match the program's"),
-            StakePoolError::SolWithdrawalTooLarge => msg!("Error: Too much SOL withdrawn from the stake pool's reserve account"),
+            StakePoolError::SolWithdrawalTooLarge => msg!("Error: Too much LUM withdrawn from the stake pool's reserve account"),
             StakePoolError::InvalidMetadataAccount => msg!("Error: Metadata account derived from pool mint account does not match the one passed to program"),
             StakePoolError::UnsupportedMintExtension => msg!("Error: mint has an unsupported extension"),
             StakePoolError::UnsupportedFeeAccountExtension => msg!("Error: fee account has an unsupported extension"),
             StakePoolError::ExceededSlippage => msg!("Error: instruction exceeds desired slippage limit"),
-            StakePoolError::IncorrectMintDecimals => msg!("Error: Provided mint does not have 9 decimals to match SOL"),
-            StakePoolError::ReserveDepleted => msg!("Error: Pool reserve does not have enough lamports to fund rent-exempt reserve in split destination. Deposit more SOL in reserve, or pre-fund split destination with the rent-exempt reserve for a stake account."),
+            StakePoolError::IncorrectMintDecimals => msg!("Error: Provided mint does not have 9 decimals to match LUM"),
+            StakePoolError::ReserveDepleted => msg!("Error: Pool reserve does not have enough lamports to fund rent-exempt reserve in split destination. Deposit more LUM in reserve, or pre-fund split destination with the rent-exempt reserve for a stake account."),
             StakePoolError::MissingRequiredSysvar => msg!("Missing required sysvar account"),
         }
     }

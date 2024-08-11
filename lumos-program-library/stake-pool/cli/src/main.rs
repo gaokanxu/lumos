@@ -1047,7 +1047,7 @@ fn command_deposit_all_stake(
     Ok(())
 }
 
-fn command_deposit_sol(
+fn command_deposit_lum(
     config: &Config,
     stake_pool_address: &Pubkey,
     from: &Option<Keypair>,
@@ -1068,7 +1068,7 @@ fn command_deposit_sol(
     let from_balance = config.rpc_client.get_balance(&from_pubkey)?;
     if from_balance < amount {
         return Err(format!(
-            "Not enough SOL to deposit into pool: {}.\nMaximum deposit amount is {} SOL.",
+            "Not enough LUM to deposit into pool: {}.\nMaximum deposit amount is {} LUM.",
             Sol(amount),
             Sol(from_balance)
         )
@@ -1079,19 +1079,19 @@ fn command_deposit_sol(
 
     let mut instructions: Vec<Instruction> = vec![];
 
-    // ephemeral SOL account just to do the transfer
-    let user_sol_transfer = Keypair::new();
-    let mut signers = vec![config.fee_payer.as_ref(), &user_sol_transfer];
+    // ephemeral LUM account just to do the transfer
+    let user_lum_transfer = Keypair::new();
+    let mut signers = vec![config.fee_payer.as_ref(), &user_lum_transfer];
     if let Some(keypair) = from.as_ref() {
         signers.push(keypair)
     }
 
     let mut total_rent_free_balances: u64 = 0;
 
-    // Create the ephemeral SOL account
+    // Create the ephemeral LUM account
     instructions.push(system_instruction::transfer(
         &from_pubkey,
-        &user_sol_transfer.pubkey(),
+        &user_lum_transfer.pubkey(),
         amount,
     ));
 
@@ -1111,26 +1111,26 @@ fn command_deposit_sol(
         find_withdraw_authority_program_address(&lpl_stake_pool::id(), stake_pool_address).0;
 
     let deposit_instruction = if let Some(deposit_authority) = config.funding_authority.as_ref() {
-        let expected_sol_deposit_authority = stake_pool.sol_deposit_authority.ok_or_else(|| {
-            "SOL deposit authority specified in arguments but stake pool has none".to_string()
+        let expected_lum_deposit_authority = stake_pool.sol_deposit_authority.ok_or_else(|| {
+            "LUM deposit authority specified in arguments but stake pool has none".to_string()
         })?;
         signers.push(deposit_authority.as_ref());
-        if deposit_authority.pubkey() != expected_sol_deposit_authority {
+        if deposit_authority.pubkey() != expected_lum_deposit_authority {
             let error = format!(
                 "Invalid deposit authority specified, expected {}, received {}",
-                expected_sol_deposit_authority,
+                expected_lum_deposit_authority,
                 deposit_authority.pubkey()
             );
             return Err(error.into());
         }
 
-        lpl_stake_pool::instruction::deposit_sol_with_authority(
+        lpl_stake_pool::instruction::deposit_lum_with_authority(
             &lpl_stake_pool::id(),
             stake_pool_address,
             &deposit_authority.pubkey(),
             &pool_withdraw_authority,
             &stake_pool.reserve_stake,
-            &user_sol_transfer.pubkey(),
+            &user_lum_transfer.pubkey(),
             &pool_token_receiver_account,
             &stake_pool.manager_fee_account,
             &referrer_token_account,
@@ -1139,12 +1139,12 @@ fn command_deposit_sol(
             amount,
         )
     } else {
-        lpl_stake_pool::instruction::deposit_sol(
+        lpl_stake_pool::instruction::deposit_lum(
             &lpl_stake_pool::id(),
             stake_pool_address,
             &pool_withdraw_authority,
             &stake_pool.reserve_stake,
-            &user_sol_transfer.pubkey(),
+            &user_lum_transfer.pubkey(),
             &pool_token_receiver_account,
             &stake_pool.manager_fee_account,
             &referrer_token_account,
@@ -1735,7 +1735,7 @@ fn command_withdraw_stake(
     Ok(())
 }
 
-fn command_withdraw_sol(
+fn command_withdraw_lum(
     config: &Config,
     stake_pool_address: &Pubkey,
     pool_token_account: &Option<Pubkey>,
@@ -1794,21 +1794,21 @@ fn command_withdraw_sol(
         find_withdraw_authority_program_address(&lpl_stake_pool::id(), stake_pool_address).0;
 
     let withdraw_instruction = if let Some(withdraw_authority) = config.funding_authority.as_ref() {
-        let expected_sol_withdraw_authority =
+        let expected_lum_withdraw_authority =
             stake_pool.sol_withdraw_authority.ok_or_else(|| {
-                "SOL withdraw authority specified in arguments but stake pool has none".to_string()
+                "LUM withdraw authority specified in arguments but stake pool has none".to_string()
             })?;
         signers.push(withdraw_authority.as_ref());
-        if withdraw_authority.pubkey() != expected_sol_withdraw_authority {
+        if withdraw_authority.pubkey() != expected_lum_withdraw_authority {
             let error = format!(
                 "Invalid deposit withdraw specified, expected {}, received {}",
-                expected_sol_withdraw_authority,
+                expected_lum_withdraw_authority,
                 withdraw_authority.pubkey()
             );
             return Err(error.into());
         }
 
-        lpl_stake_pool::instruction::withdraw_sol_with_authority(
+        lpl_stake_pool::instruction::withdraw_lum_with_authority(
             &lpl_stake_pool::id(),
             stake_pool_address,
             &withdraw_authority.pubkey(),
@@ -1823,7 +1823,7 @@ fn command_withdraw_sol(
             pool_amount,
         )
     } else {
-        lpl_stake_pool::instruction::withdraw_sol(
+        lpl_stake_pool::instruction::withdraw_lum(
             &lpl_stake_pool::id(),
             stake_pool_address,
             &pool_withdraw_authority,
@@ -2366,7 +2366,7 @@ fn main() {
                     .validator(is_amount)
                     .value_name("AMOUNT")
                     .takes_value(true)
-                    .help("Amount in SOL to add to the validator stake account. Must be at least the rent-exempt amount for a stake plus 1 SOL for merging."),
+                    .help("Amount in LUM to add to the validator stake account. Must be at least the rent-exempt amount for a stake plus 1 LUM for merging."),
             )
         )
         .subcommand(SubCommand::with_name("decrease-validator-stake")
@@ -2395,7 +2395,7 @@ fn main() {
                     .validator(is_amount)
                     .value_name("AMOUNT")
                     .takes_value(true)
-                    .help("Amount in SOL to remove from the validator stake account. Must be at least the rent-exempt amount for a stake."),
+                    .help("Amount in LUM to remove from the validator stake account. Must be at least the rent-exempt amount for a stake."),
             )
         )
         .subcommand(SubCommand::with_name("set-preferred-validator")
@@ -2533,7 +2533,7 @@ fn main() {
             )
         )
         .subcommand(SubCommand::with_name("deposit-sol")
-            .about("Deposit SOL into the stake pool in exchange for pool tokens")
+            .about("Deposit LUM into the stake pool in exchange for pool tokens")
             .arg(
                 Arg::with_name("pool")
                     .index(1)
@@ -2548,7 +2548,7 @@ fn main() {
                     .validator(is_amount)
                     .value_name("AMOUNT")
                     .takes_value(true)
-                    .help("Amount in SOL to deposit into the stake pool reserve account."),
+                    .help("Amount in LUM to deposit into the stake pool reserve account."),
             )
             .arg(
                 Arg::with_name("from")
@@ -2677,7 +2677,7 @@ fn main() {
             )
         )
         .subcommand(SubCommand::with_name("withdraw-sol")
-            .about("Withdraw SOL from the stake pool's reserve in exchange for pool tokens")
+            .about("Withdraw LUM from the stake pool's reserve in exchange for pool tokens")
             .arg(
                 Arg::with_name("pool")
                     .index(1)
@@ -2694,7 +2694,7 @@ fn main() {
                     .value_name("SYSTEM_ACCOUNT_ADDRESS_OR_KEYPAIR")
                     .takes_value(true)
                     .required(true)
-                    .help("System account to receive SOL from the stake pool. Defaults to the payer."),
+                    .help("System account to receive LUM from the stake pool. Defaults to the payer."),
             )
             .arg(
                 Arg::with_name("amount")
@@ -2703,7 +2703,7 @@ fn main() {
                     .value_name("AMOUNT")
                     .takes_value(true)
                     .required(true)
-                    .help("Amount of pool tokens to withdraw for SOL."),
+                    .help("Amount of pool tokens to withdraw for LUM."),
             )
             .arg(
                 Arg::with_name("pool_account")
@@ -3106,7 +3106,7 @@ fn main() {
             let referrer: Option<Pubkey> = pubkey_of(arg_matches, "referrer");
             let from = keypair_of(arg_matches, "from");
             let amount = value_t_or_exit!(arg_matches, "amount", f64);
-            command_deposit_sol(
+            command_deposit_lum(
                 &config,
                 &stake_pool_address,
                 &from,
@@ -3157,7 +3157,7 @@ fn main() {
                 },
             )
             .pubkey();
-            command_withdraw_sol(
+            command_withdraw_lum(
                 &config,
                 &stake_pool_address,
                 &pool_account,

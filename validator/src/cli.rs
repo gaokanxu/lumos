@@ -888,7 +888,7 @@ pub fn app<'a>(version: &'a str, default_args: &'a DefaultArgs) -> App<'a, 'a> {
                      identities. Overriding the amount of stake this validator considers as valid \
                      for other peers in network. The stake amount is used for calculating the \
                      number of QUIC streams permitted from the peer and vote packet sender stage. \
-                     Format of the file: `staked_map_id: {<pubkey>: <SOL stake amount>}",
+                     Format of the file: `staked_map_id: {<pubkey>: <LUM stake amount>}",
                 ),
         )
         .arg(
@@ -2675,13 +2675,13 @@ pub fn test_app<'a>(version: &'a str, default_args: &'a DefaultTestArgs) -> App<
                 .help("Keep this amount of shreds in root slots."),
         )
         .arg(
-            Arg::with_name("faucet_sol")
+            Arg::with_name("faucet_lum")
                 .long("faucet-sol")
                 .takes_value(true)
-                .value_name("SOL")
-                .default_value(default_args.faucet_sol.as_str())
+                .value_name("LUM")
+                .default_value(default_args.faucet_lum.as_str())
                 .help(
-                    "Give the faucet address this much SOL in genesis. If the ledger already \
+                    "Give the faucet address this much LUM in genesis. If the ledger already \
                      exists then this parameter is silently ignored",
                 ),
         )
@@ -2694,22 +2694,22 @@ pub fn test_app<'a>(version: &'a str, default_args: &'a DefaultTestArgs) -> App<
                 .help("Time slice (in secs) over which to limit faucet requests"),
         )
         .arg(
-            Arg::with_name("faucet_per_time_sol_cap")
+            Arg::with_name("faucet_per_time_lum_cap")
                 .long("faucet-per-time-sol-cap")
                 .takes_value(true)
-                .value_name("SOL")
+                .value_name("LUM")
                 .min_values(0)
                 .max_values(1)
-                .help("Per-time slice limit for faucet requests, in SOL"),
+                .help("Per-time slice limit for faucet requests, in LUM"),
         )
         .arg(
-            Arg::with_name("faucet_per_request_sol_cap")
+            Arg::with_name("faucet_per_request_lum_cap")
                 .long("faucet-per-request-sol-cap")
                 .takes_value(true)
-                .value_name("SOL")
+                .value_name("LUM")
                 .min_values(0)
                 .max_values(1)
-                .help("Per-request limit for faucet requests, in SOL"),
+                .help("Per-request limit for faucet requests, in LUM"),
         )
         .arg(
             Arg::with_name("geyser_plugin_config")
@@ -2760,7 +2760,7 @@ pub struct DefaultTestArgs {
     pub rpc_port: String,
     pub faucet_port: String,
     pub limit_ledger_size: String,
-    pub faucet_sol: String,
+    pub faucet_lum: String,
     pub faucet_time_slice_secs: String,
 }
 
@@ -2774,7 +2774,7 @@ impl DefaultTestArgs {
              * 40MB-150MB range when running `lumos-test-validator`
              */
             limit_ledger_size: 10_000.to_string(),
-            faucet_sol: (1_000_000.).to_string(),
+            faucet_lum: (1_000_000.).to_string(),
             faucet_time_slice_secs: (faucet::TIME_SLICE).to_string(),
         }
     }

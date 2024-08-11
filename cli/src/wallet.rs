@@ -79,7 +79,7 @@ impl WalletSubCommands for App<'_, '_> {
                     Arg::with_name("lamports")
                         .long("lamports")
                         .takes_value(false)
-                        .help("Display balance in lamports instead of SOL"),
+                        .help("Display balance in lamports instead of LUM"),
                 ),
         )
         .subcommand(
@@ -94,7 +94,7 @@ impl WalletSubCommands for App<'_, '_> {
         )
         .subcommand(
             SubCommand::with_name("airdrop")
-                .about("Request SOL from a faucet")
+                .about("Request LUM from a faucet")
                 .arg(
                     Arg::with_name("amount")
                         .index(1)
@@ -102,7 +102,7 @@ impl WalletSubCommands for App<'_, '_> {
                         .takes_value(true)
                         .validator(is_amount)
                         .required(true)
-                        .help("The airdrop amount to request, in SOL"),
+                        .help("The airdrop amount to request, in LUM"),
                 )
                 .arg(pubkey!(
                     Arg::with_name("to")
@@ -124,7 +124,7 @@ impl WalletSubCommands for App<'_, '_> {
                     Arg::with_name("lamports")
                         .long("lamports")
                         .takes_value(false)
-                        .help("Display balance in lamports instead of SOL"),
+                        .help("Display balance in lamports instead of LUM"),
                 ),
         )
         .subcommand(
@@ -274,7 +274,7 @@ impl WalletSubCommands for App<'_, '_> {
                         .takes_value(true)
                         .validator(is_amount_or_all)
                         .required(true)
-                        .help("The amount to send, in SOL; accepts keyword ALL"),
+                        .help("The amount to send, in LUM; accepts keyword ALL"),
                 )
                 .arg(pubkey!(
                     Arg::with_name("from")
@@ -428,7 +428,7 @@ pub fn parse_airdrop(
     } else {
         vec![default_signer.signer_from_path(matches, wallet_manager)?]
     };
-    let lamports = lamports_of_sol(matches, "amount").unwrap();
+    let lamports = lamports_of_lum(matches, "amount").unwrap();
     Ok(CliCommandInfo {
         command: CliCommand::Airdrop { pubkey, lamports },
         signers,

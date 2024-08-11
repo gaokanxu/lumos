@@ -915,12 +915,12 @@ impl StakePoolAccounts {
         deposit_fee_collected * self.referral_fee as u64 / 100
     }
 
-    pub fn calculate_sol_deposit_fee(&self, pool_tokens: u64) -> u64 {
+    pub fn calculate_lum_deposit_fee(&self, pool_tokens: u64) -> u64 {
         (pool_tokens * self.sol_deposit_fee.numerator + self.sol_deposit_fee.denominator - 1)
             / self.sol_deposit_fee.denominator
     }
 
-    pub fn calculate_sol_referral_fee(&self, deposit_fee_collected: u64) -> u64 {
+    pub fn calculate_lum_referral_fee(&self, deposit_fee_collected: u64) -> u64 {
         deposit_fee_collected * self.sol_referral_fee as u64 / 100
     }
 
@@ -1123,7 +1123,7 @@ impl StakePoolAccounts {
     }
 
     #[allow(clippy::too_many_arguments)]
-    pub async fn deposit_sol(
+    pub async fn deposit_lum(
         &self,
         banks_client: &mut BanksClient,
         payer: &Keypair,
@@ -1135,7 +1135,7 @@ impl StakePoolAccounts {
         let mut signers = vec![payer];
         let instruction = if let Some(sol_deposit_authority) = sol_deposit_authority {
             signers.push(sol_deposit_authority);
-            instruction::deposit_sol_with_authority(
+            instruction::deposit_lum_with_authority(
                 &id(),
                 &self.stake_pool.pubkey(),
                 &sol_deposit_authority.pubkey(),
@@ -1150,7 +1150,7 @@ impl StakePoolAccounts {
                 amount,
             )
         } else {
-            instruction::deposit_sol(
+            instruction::deposit_lum(
                 &id(),
                 &self.stake_pool.pubkey(),
                 &self.withdraw_authority,
@@ -1180,7 +1180,7 @@ impl StakePoolAccounts {
     }
 
     #[allow(clippy::too_many_arguments)]
-    pub async fn deposit_sol_with_slippage(
+    pub async fn deposit_lum_with_slippage(
         &self,
         banks_client: &mut BanksClient,
         payer: &Keypair,
@@ -1189,7 +1189,7 @@ impl StakePoolAccounts {
         lamports_in: u64,
         minimum_pool_tokens_out: u64,
     ) -> Option<TransportError> {
-        let mut instructions = vec![instruction::deposit_sol_with_slippage(
+        let mut instructions = vec![instruction::deposit_lum_with_slippage(
             &id(),
             &self.stake_pool.pubkey(),
             &self.withdraw_authority,
@@ -1304,7 +1304,7 @@ impl StakePoolAccounts {
     }
 
     #[allow(clippy::too_many_arguments)]
-    pub async fn withdraw_sol_with_slippage(
+    pub async fn withdraw_lum_with_slippage(
         &self,
         banks_client: &mut BanksClient,
         payer: &Keypair,
@@ -1314,7 +1314,7 @@ impl StakePoolAccounts {
         amount_in: u64,
         minimum_lamports_out: u64,
     ) -> Option<TransportError> {
-        let mut instructions = vec![instruction::withdraw_sol_with_slippage(
+        let mut instructions = vec![instruction::withdraw_lum_with_slippage(
             &id(),
             &self.stake_pool.pubkey(),
             &self.withdraw_authority,
@@ -1343,7 +1343,7 @@ impl StakePoolAccounts {
     }
 
     #[allow(clippy::too_many_arguments)]
-    pub async fn withdraw_sol(
+    pub async fn withdraw_lum(
         &self,
         banks_client: &mut BanksClient,
         payer: &Keypair,
@@ -1356,7 +1356,7 @@ impl StakePoolAccounts {
         let mut signers = vec![payer, user];
         let instruction = if let Some(sol_withdraw_authority) = sol_withdraw_authority {
             signers.push(sol_withdraw_authority);
-            instruction::withdraw_sol_with_authority(
+            instruction::withdraw_lum_with_authority(
                 &id(),
                 &self.stake_pool.pubkey(),
                 &sol_withdraw_authority.pubkey(),
@@ -1371,7 +1371,7 @@ impl StakePoolAccounts {
                 amount,
             )
         } else {
-            instruction::withdraw_sol(
+            instruction::withdraw_lum(
                 &id(),
                 &self.stake_pool.pubkey(),
                 &self.withdraw_authority,
@@ -2051,7 +2051,7 @@ impl StakePoolAccounts {
             sol_deposit_authority: None,
             sol_withdraw_authority: None,
             sol_withdrawal_fee: state::Fee::default(),
-            next_sol_withdrawal_fee: FutureEpoch::None,
+            next_lum_withdrawal_fee: FutureEpoch::None,
             last_epoch_pool_token_supply: 0,
             last_epoch_total_lamports: 0,
         };
@@ -2153,7 +2153,7 @@ pub async fn simple_add_validator_to_pool(
     .await
     .unwrap();
     let error = stake_pool_accounts
-        .deposit_sol(
+        .deposit_lum(
             banks_client,
             payer,
             recent_blockhash,

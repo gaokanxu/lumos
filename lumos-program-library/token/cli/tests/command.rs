@@ -103,7 +103,7 @@ async fn main() {
         async_trial!(balance_after_mint_with_owner, test_validator, payer),
         async_trial!(accounts, test_validator, payer),
         async_trial!(accounts_with_owner, test_validator, payer),
-        async_trial!(wrapped_sol, test_validator, payer),
+        async_trial!(wrapped_lum, test_validator, payer),
         async_trial!(transfer, test_validator, payer),
         async_trial!(transfer_fund_recipient, test_validator, payer),
         async_trial!(transfer_non_standard_recipient, test_validator, payer),
@@ -809,7 +809,7 @@ async fn accounts_with_owner(test_validator: &TestValidator, payer: &Keypair) {
     }
 }
 
-async fn wrapped_sol(test_validator: &TestValidator, payer: &Keypair) {
+async fn wrapped_lum(test_validator: &TestValidator, payer: &Keypair) {
     for program_id in VALID_TOKEN_PROGRAM_IDS.iter() {
         let config = test_config_with_default_signer(test_validator, payer, program_id);
         let native_mint = *Token::new_native(

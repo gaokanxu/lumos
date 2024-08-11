@@ -35,9 +35,9 @@ async fn test_borrow_usdc_fixed_amount() {
     const FEE_AMOUNT: u64 = 100;
     const HOST_FEE_AMOUNT: u64 = 20;
 
-    const SOL_DEPOSIT_AMOUNT_LAMPORTS: u64 = 100 * LAMPORTS_TO_SOL * INITIAL_COLLATERAL_RATIO;
+    const LUM_DEPOSIT_AMOUNT_LAMPORTS: u64 = 100 * LAMPORTS_TO_LUM * INITIAL_COLLATERAL_RATIO;
     const USDC_BORROW_AMOUNT_FRACTIONAL: u64 = USDC_TOTAL_BORROW_FRACTIONAL - FEE_AMOUNT;
-    const SOL_RESERVE_COLLATERAL_LAMPORTS: u64 = 2 * SOL_DEPOSIT_AMOUNT_LAMPORTS;
+    const LUM_RESERVE_COLLATERAL_LAMPORTS: u64 = 2 * LUM_DEPOSIT_AMOUNT_LAMPORTS;
     const USDC_RESERVE_LIQUIDITY_FRACTIONAL: u64 = 2 * USDC_TOTAL_BORROW_FRACTIONAL;
 
     let user_accounts_owner = Keypair::new();
@@ -46,14 +46,14 @@ async fn test_borrow_usdc_fixed_amount() {
     let mut reserve_config = TEST_RESERVE_CONFIG;
     reserve_config.loan_to_value_ratio = 50;
 
-    let sol_oracle = add_sol_oracle(&mut test);
+    let sol_oracle = add_lum_oracle(&mut test);
     let sol_test_reserve = add_reserve(
         &mut test,
         &lending_market,
         &sol_oracle,
         &user_accounts_owner,
         AddReserveArgs {
-            collateral_amount: SOL_RESERVE_COLLATERAL_LAMPORTS,
+            collateral_amount: LUM_RESERVE_COLLATERAL_LAMPORTS,
             liquidity_mint_pubkey: lpl_token::native_mint::id(),
             liquidity_mint_decimals: 9,
             config: reserve_config,
@@ -84,7 +84,7 @@ async fn test_borrow_usdc_fixed_amount() {
         &lending_market,
         &user_accounts_owner,
         AddObligationArgs {
-            deposits: &[(&sol_test_reserve, SOL_DEPOSIT_AMOUNT_LAMPORTS)],
+            deposits: &[(&sol_test_reserve, LUM_DEPOSIT_AMOUNT_LAMPORTS)],
             ..AddObligationArgs::default()
         },
     );
@@ -169,7 +169,7 @@ async fn test_borrow_usdc_fixed_amount() {
 }
 
 #[tokio::test]
-async fn test_borrow_sol_max_amount() {
+async fn test_borrow_lum_max_amount() {
     let mut test = ProgramTest::new(
         "lpl_token_lending",
         lpl_token_lending::id(),
@@ -184,9 +184,9 @@ async fn test_borrow_sol_max_amount() {
 
     const USDC_DEPOSIT_AMOUNT_FRACTIONAL: u64 =
         2_000 * FRACTIONAL_TO_USDC * INITIAL_COLLATERAL_RATIO;
-    const SOL_BORROW_AMOUNT_LAMPORTS: u64 = 50 * LAMPORTS_TO_SOL;
+    const LUM_BORROW_AMOUNT_LAMPORTS: u64 = 50 * LAMPORTS_TO_LUM;
     const USDC_RESERVE_COLLATERAL_FRACTIONAL: u64 = 2 * USDC_DEPOSIT_AMOUNT_FRACTIONAL;
-    const SOL_RESERVE_LIQUIDITY_LAMPORTS: u64 = 2 * SOL_BORROW_AMOUNT_LAMPORTS;
+    const LUM_RESERVE_LIQUIDITY_LAMPORTS: u64 = 2 * LUM_BORROW_AMOUNT_LAMPORTS;
 
     let user_accounts_owner = Keypair::new();
     let lending_market = add_lending_market(&mut test);
@@ -211,14 +211,14 @@ async fn test_borrow_sol_max_amount() {
         },
     );
 
-    let sol_oracle = add_sol_oracle(&mut test);
+    let sol_oracle = add_lum_oracle(&mut test);
     let sol_test_reserve = add_reserve(
         &mut test,
         &lending_market,
         &sol_oracle,
         &user_accounts_owner,
         AddReserveArgs {
-            liquidity_amount: SOL_RESERVE_LIQUIDITY_LAMPORTS,
+            liquidity_amount: LUM_RESERVE_LIQUIDITY_LAMPORTS,
             liquidity_mint_pubkey: lpl_token::native_mint::id(),
             liquidity_mint_decimals: 9,
             config: reserve_config,
@@ -275,7 +275,7 @@ async fn test_borrow_sol_max_amount() {
     let (total_fee, host_fee) = sol_reserve
         .config
         .fees
-        .calculate_borrow_fees(SOL_BORROW_AMOUNT_LAMPORTS.into(), FeeCalculation::Inclusive)
+        .calculate_borrow_fees(LUM_BORROW_AMOUNT_LAMPORTS.into(), FeeCalculation::Inclusive)
         .unwrap();
 
     assert_eq!(total_fee, FEE_AMOUNT);
@@ -283,19 +283,19 @@ async fn test_borrow_sol_max_amount() {
 
     let borrow_amount =
         get_token_balance(&mut banks_client, sol_test_reserve.user_liquidity_pubkey).await;
-    assert_eq!(borrow_amount, SOL_BORROW_AMOUNT_LAMPORTS - FEE_AMOUNT);
+    assert_eq!(borrow_amount, LUM_BORROW_AMOUNT_LAMPORTS - FEE_AMOUNT);
 
     let liquidity = &obligation.borrows[0];
     assert_eq!(
         liquidity.borrowed_amount_wads,
-        Decimal::from(SOL_BORROW_AMOUNT_LAMPORTS)
+        Decimal::from(LUM_BORROW_AMOUNT_LAMPORTS)
     );
 
     let liquidity_supply =
         get_token_balance(&mut banks_client, sol_test_reserve.liquidity_supply_pubkey).await;
     assert_eq!(
         liquidity_supply,
-        initial_liquidity_supply - SOL_BORROW_AMOUNT_LAMPORTS
+        initial_liquidity_supply - LUM_BORROW_AMOUNT_LAMPORTS
     );
 
     let fee_balance = get_token_balance(
@@ -318,9 +318,9 @@ async fn test_borrow_too_large() {
         processor!(process_instruction),
     );
 
-    const SOL_DEPOSIT_AMOUNT_LAMPORTS: u64 = 100 * LAMPORTS_TO_SOL * INITIAL_COLLATERAL_RATIO;
+    const LUM_DEPOSIT_AMOUNT_LAMPORTS: u64 = 100 * LAMPORTS_TO_LUM * INITIAL_COLLATERAL_RATIO;
     const USDC_BORROW_AMOUNT_FRACTIONAL: u64 = 1_000 * FRACTIONAL_TO_USDC + 1;
-    const SOL_RESERVE_COLLATERAL_LAMPORTS: u64 = 2 * SOL_DEPOSIT_AMOUNT_LAMPORTS;
+    const LUM_RESERVE_COLLATERAL_LAMPORTS: u64 = 2 * LUM_DEPOSIT_AMOUNT_LAMPORTS;
     const USDC_RESERVE_LIQUIDITY_FRACTIONAL: u64 = 2 * USDC_BORROW_AMOUNT_FRACTIONAL;
 
     let user_accounts_owner = Keypair::new();
@@ -329,14 +329,14 @@ async fn test_borrow_too_large() {
     let mut reserve_config = TEST_RESERVE_CONFIG;
     reserve_config.loan_to_value_ratio = 50;
 
-    let sol_oracle = add_sol_oracle(&mut test);
+    let sol_oracle = add_lum_oracle(&mut test);
     let sol_test_reserve = add_reserve(
         &mut test,
         &lending_market,
         &sol_oracle,
         &user_accounts_owner,
         AddReserveArgs {
-            collateral_amount: SOL_RESERVE_COLLATERAL_LAMPORTS,
+            collateral_amount: LUM_RESERVE_COLLATERAL_LAMPORTS,
             liquidity_mint_pubkey: lpl_token::native_mint::id(),
             liquidity_mint_decimals: 9,
             config: reserve_config,
@@ -367,7 +367,7 @@ async fn test_borrow_too_large() {
         &lending_market,
         &user_accounts_owner,
         AddObligationArgs {
-            deposits: &[(&sol_test_reserve, SOL_DEPOSIT_AMOUNT_LAMPORTS)],
+            deposits: &[(&sol_test_reserve, LUM_DEPOSIT_AMOUNT_LAMPORTS)],
             ..AddObligationArgs::default()
         },
     );
@@ -430,10 +430,10 @@ async fn test_borrow_max_receive_minimum() {
 
     const USDC_DEPOSIT_AMOUNT_FRACTIONAL: u64 =
         2_000 * FRACTIONAL_TO_USDC * INITIAL_COLLATERAL_RATIO;
-    const SOL_BORROW_AMOUNT_LAMPORTS: u64 = 50 * LAMPORTS_TO_SOL;
+    const LUM_BORROW_AMOUNT_LAMPORTS: u64 = 50 * LAMPORTS_TO_LUM;
     const USDC_RESERVE_COLLATERAL_FRACTIONAL: u64 = 2 * USDC_DEPOSIT_AMOUNT_FRACTIONAL;
-    const SOL_RESERVE_LIQUIDITY_LAMPORTS: u64 = 2 * SOL_BORROW_AMOUNT_LAMPORTS;
-    const SLIPPAGE_LIMIT: u64 = SOL_BORROW_AMOUNT_LAMPORTS - FEE_AMOUNT;
+    const LUM_RESERVE_LIQUIDITY_LAMPORTS: u64 = 2 * LUM_BORROW_AMOUNT_LAMPORTS;
+    const SLIPPAGE_LIMIT: u64 = LUM_BORROW_AMOUNT_LAMPORTS - FEE_AMOUNT;
 
     let user_accounts_owner = Keypair::new();
     let lending_market = add_lending_market(&mut test);
@@ -458,14 +458,14 @@ async fn test_borrow_max_receive_minimum() {
         },
     );
 
-    let sol_oracle = add_sol_oracle(&mut test);
+    let sol_oracle = add_lum_oracle(&mut test);
     let sol_test_reserve = add_reserve(
         &mut test,
         &lending_market,
         &sol_oracle,
         &user_accounts_owner,
         AddReserveArgs {
-            liquidity_amount: SOL_RESERVE_LIQUIDITY_LAMPORTS,
+            liquidity_amount: LUM_RESERVE_LIQUIDITY_LAMPORTS,
             liquidity_mint_pubkey: lpl_token::native_mint::id(),
             liquidity_mint_decimals: 9,
             config: reserve_config,
@@ -522,7 +522,7 @@ async fn test_borrow_max_receive_minimum() {
     let (total_fee, host_fee) = sol_reserve
         .config
         .fees
-        .calculate_borrow_fees(SOL_BORROW_AMOUNT_LAMPORTS.into(), FeeCalculation::Inclusive)
+        .calculate_borrow_fees(LUM_BORROW_AMOUNT_LAMPORTS.into(), FeeCalculation::Inclusive)
         .unwrap();
 
     assert_eq!(total_fee, FEE_AMOUNT);
@@ -530,19 +530,19 @@ async fn test_borrow_max_receive_minimum() {
 
     let borrow_amount =
         get_token_balance(&mut banks_client, sol_test_reserve.user_liquidity_pubkey).await;
-    assert_eq!(borrow_amount, SOL_BORROW_AMOUNT_LAMPORTS - FEE_AMOUNT);
+    assert_eq!(borrow_amount, LUM_BORROW_AMOUNT_LAMPORTS - FEE_AMOUNT);
 
     let liquidity = &obligation.borrows[0];
     assert_eq!(
         liquidity.borrowed_amount_wads,
-        Decimal::from(SOL_BORROW_AMOUNT_LAMPORTS)
+        Decimal::from(LUM_BORROW_AMOUNT_LAMPORTS)
     );
 
     let liquidity_supply =
         get_token_balance(&mut banks_client, sol_test_reserve.liquidity_supply_pubkey).await;
     assert_eq!(
         liquidity_supply,
-        initial_liquidity_supply - SOL_BORROW_AMOUNT_LAMPORTS
+        initial_liquidity_supply - LUM_BORROW_AMOUNT_LAMPORTS
     );
 
     let fee_balance = get_token_balance(
@@ -572,10 +572,10 @@ async fn test_borrow_max_receive_less_than_slippage() {
 
     const USDC_DEPOSIT_AMOUNT_FRACTIONAL: u64 =
         2_000 * FRACTIONAL_TO_USDC * INITIAL_COLLATERAL_RATIO;
-    const SOL_BORROW_AMOUNT_LAMPORTS: u64 = 50 * LAMPORTS_TO_SOL;
+    const LUM_BORROW_AMOUNT_LAMPORTS: u64 = 50 * LAMPORTS_TO_LUM;
     const USDC_RESERVE_COLLATERAL_FRACTIONAL: u64 = 2 * USDC_DEPOSIT_AMOUNT_FRACTIONAL;
-    const SOL_RESERVE_LIQUIDITY_LAMPORTS: u64 = 2 * SOL_BORROW_AMOUNT_LAMPORTS;
-    const SLIPPAGE_LIMIT: u64 = SOL_BORROW_AMOUNT_LAMPORTS - FEE_AMOUNT + 1;
+    const LUM_RESERVE_LIQUIDITY_LAMPORTS: u64 = 2 * LUM_BORROW_AMOUNT_LAMPORTS;
+    const SLIPPAGE_LIMIT: u64 = LUM_BORROW_AMOUNT_LAMPORTS - FEE_AMOUNT + 1;
 
     let user_accounts_owner = Keypair::new();
     let lending_market = add_lending_market(&mut test);
@@ -600,14 +600,14 @@ async fn test_borrow_max_receive_less_than_slippage() {
         },
     );
 
-    let sol_oracle = add_sol_oracle(&mut test);
+    let sol_oracle = add_lum_oracle(&mut test);
     let sol_test_reserve = add_reserve(
         &mut test,
         &lending_market,
         &sol_oracle,
         &user_accounts_owner,
         AddReserveArgs {
-            liquidity_amount: SOL_RESERVE_LIQUIDITY_LAMPORTS,
+            liquidity_amount: LUM_RESERVE_LIQUIDITY_LAMPORTS,
             liquidity_mint_pubkey: lpl_token::native_mint::id(),
             liquidity_mint_decimals: 9,
             config: reserve_config,
@@ -677,9 +677,9 @@ async fn test_borrow_less_than_max_with_slippage() {
     const USDC_TOTAL_BORROW_FRACTIONAL: u64 = 1_000 * FRACTIONAL_TO_USDC;
     const FEE_AMOUNT: u64 = 100;
 
-    const SOL_DEPOSIT_AMOUNT_LAMPORTS: u64 = 100 * LAMPORTS_TO_SOL * INITIAL_COLLATERAL_RATIO;
+    const LUM_DEPOSIT_AMOUNT_LAMPORTS: u64 = 100 * LAMPORTS_TO_LUM * INITIAL_COLLATERAL_RATIO;
     const USDC_BORROW_AMOUNT_FRACTIONAL: u64 = USDC_TOTAL_BORROW_FRACTIONAL - FEE_AMOUNT;
-    const SOL_RESERVE_COLLATERAL_LAMPORTS: u64 = 2 * SOL_DEPOSIT_AMOUNT_LAMPORTS;
+    const LUM_RESERVE_COLLATERAL_LAMPORTS: u64 = 2 * LUM_DEPOSIT_AMOUNT_LAMPORTS;
     const USDC_RESERVE_LIQUIDITY_FRACTIONAL: u64 = 2 * USDC_TOTAL_BORROW_FRACTIONAL;
     const SLIPPAGE_LIMIT: u64 = u64::MAX;
 
@@ -689,14 +689,14 @@ async fn test_borrow_less_than_max_with_slippage() {
     let mut reserve_config = TEST_RESERVE_CONFIG;
     reserve_config.loan_to_value_ratio = 50;
 
-    let sol_oracle = add_sol_oracle(&mut test);
+    let sol_oracle = add_lum_oracle(&mut test);
     let sol_test_reserve = add_reserve(
         &mut test,
         &lending_market,
         &sol_oracle,
         &user_accounts_owner,
         AddReserveArgs {
-            collateral_amount: SOL_RESERVE_COLLATERAL_LAMPORTS,
+            collateral_amount: LUM_RESERVE_COLLATERAL_LAMPORTS,
             liquidity_mint_pubkey: lpl_token::native_mint::id(),
             liquidity_mint_decimals: 9,
             config: reserve_config,
@@ -727,7 +727,7 @@ async fn test_borrow_less_than_max_with_slippage() {
         &lending_market,
         &user_accounts_owner,
         AddObligationArgs {
-            deposits: &[(&sol_test_reserve, SOL_DEPOSIT_AMOUNT_LAMPORTS)],
+            deposits: &[(&sol_test_reserve, LUM_DEPOSIT_AMOUNT_LAMPORTS)],
             ..AddObligationArgs::default()
         },
     );

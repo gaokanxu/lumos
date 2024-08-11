@@ -170,7 +170,7 @@
 //! - [`ProgramError`] and [`ProgramResult`] &mdash; The error type that all programs
 //!   must return, reported to the runtime as a `u64`.
 //! - [`Sol`] &mdash; The Lumos native token type, with conversions to and from
-//!   [_lamports_], the smallest fractional unit of SOL, in the [`native_token`]
+//!   [_lamports_], the smallest fractional unit of LUM, in the [`native_token`]
 //!   module.
 //!
 //! [acc]: https://lumos.com/docs/core/accounts

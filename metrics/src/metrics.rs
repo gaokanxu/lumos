@@ -28,11 +28,11 @@ pub enum MetricsError {
     VarError(#[from] env::VarError),
     #[error(transparent)]
     ReqwestError(#[from] reqwest::Error),
-    #[error("SOLANA_METRICS_CONFIG is invalid: '{0}'")]
+    #[error("LUMOS_METRICS_CONFIG is invalid: '{0}'")]
     ConfigInvalid(String),
-    #[error("SOLANA_METRICS_CONFIG is incomplete")]
+    #[error("LUMOS_METRICS_CONFIG is incomplete")]
     ConfigIncomplete,
-    #[error("SOLANA_METRICS_CONFIG database mismatch: {0}")]
+    #[error("LUMOS_METRICS_CONFIG database mismatch: {0}")]
     DbMismatch(String),
 }
 
@@ -172,10 +172,10 @@ impl MetricsWriter for InfluxDbMetricsWriter {
 
 impl Default for MetricsAgent {
     fn default() -> Self {
-        let max_points_per_sec = env::var("SOLANA_METRICS_MAX_POINTS_PER_SECOND")
+        let max_points_per_sec = env::var("LUMOS_METRICS_MAX_POINTS_PER_SECOND")
             .map(|x| {
                 x.parse()
-                    .expect("Failed to parse SOLANA_METRICS_MAX_POINTS_PER_SECOND")
+                    .expect("Failed to parse LUMOS_METRICS_MAX_POINTS_PER_SECOND")
             })
             .unwrap_or(4000);
 
@@ -404,7 +404,7 @@ impl MetricsConfig {
 
 fn get_metrics_config() -> Result<MetricsConfig, MetricsError> {
     let mut config = MetricsConfig::default();
-    let config_var = env::var("SOLANA_METRICS_CONFIG")?;
+    let config_var = env::var("LUMOS_METRICS_CONFIG")?;
     if config_var.is_empty() {
         Err(env::VarError::NotPresent)?;
     }

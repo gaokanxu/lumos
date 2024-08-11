@@ -172,8 +172,8 @@ async fn fail_without_signature() {
 }
 
 #[tokio::test]
-async fn success_set_sol_deposit_authority() {
-    let (mut banks_client, payer, recent_blockhash, stake_pool_accounts, new_sol_deposit_authority) =
+async fn success_set_lum_deposit_authority() {
+    let (mut banks_client, payer, recent_blockhash, stake_pool_accounts, new_lum_deposit_authority) =
         setup().await;
 
     let mut transaction = Transaction::new_with_payer(
@@ -181,7 +181,7 @@ async fn success_set_sol_deposit_authority() {
             &id(),
             &stake_pool_accounts.stake_pool.pubkey(),
             &stake_pool_accounts.manager.pubkey(),
-            Some(&new_sol_deposit_authority.pubkey()),
+            Some(&new_lum_deposit_authority.pubkey()),
             FundingType::SolDeposit,
         )],
         Some(&payer.pubkey()),
@@ -195,7 +195,7 @@ async fn success_set_sol_deposit_authority() {
 
     assert_eq!(
         stake_pool.sol_deposit_authority,
-        Some(new_sol_deposit_authority.pubkey())
+        Some(new_lum_deposit_authority.pubkey())
     );
 
     let mut transaction = Transaction::new_with_payer(

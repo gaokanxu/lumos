@@ -1275,7 +1275,7 @@ mod tests {
         },
         lumos_sdk::{
             genesis_config::create_genesis_config,
-            native_token::{sol_to_lamports, LAMPORTS_PER_SOL},
+            native_token::{sol_to_lamports, LAMPORTS_PER_LUM},
             signature::{Keypair, Signer},
             system_transaction,
             transaction::SanitizedTransaction,
@@ -2167,9 +2167,9 @@ mod tests {
         let incremental_snapshot_archives_dir = tempfile::TempDir::new().unwrap();
 
         let genesis_config_info = genesis_utils::create_genesis_config_with_leader(
-            1_000_000 * LAMPORTS_PER_SOL,
+            1_000_000 * LAMPORTS_PER_LUM,
             &Pubkey::new_unique(),
-            100 * LAMPORTS_PER_SOL,
+            100 * LAMPORTS_PER_LUM,
         );
         let mint = &genesis_config_info.mint_keypair;
 
