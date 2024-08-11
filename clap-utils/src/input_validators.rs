@@ -209,10 +209,10 @@ where
 
 pub fn normalize_to_url_if_moniker<T: AsRef<str>>(url_or_moniker: T) -> String {
     match url_or_moniker.as_ref() {
-        "m" | "mainnet-beta" => "https://api.mainnet-beta.lumos.com",
-        "t" | "testnet" => "https://api.testnet.lumos.com",
-        "d" | "devnet" => "https://api.devnet.lumos.com",
-        "l" | "localhost" => "http://localhost:8899",
+        "m" | "mainnet-beta" => "https://api.mainnet.uuhb.com",
+        "t" | "testnet" => "https://api.testnet.uuhb.com",
+        "d" | "devnet" => "https://api.devnet.uuhb.com",
+        "l" | "localhost" => "http://localhost:7777",
         url => url,
     }
     .to_string()

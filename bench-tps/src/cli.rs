@@ -629,14 +629,14 @@ mod tests {
             "--identity",
             &keypair_file_name,
             "-u",
-            "http://123.4.5.6:8899",
+            "http://123.4.5.6:7777",
         ]);
         let actual = parse_args(&matches).unwrap();
         assert_eq!(
             actual,
             Config {
-                json_rpc_url: "http://123.4.5.6:8899".to_string(),
-                websocket_url: "ws://123.4.5.6:8900/".to_string(),
+                json_rpc_url: "http://123.4.5.6:7777".to_string(),
+                websocket_url: "ws://123.4.5.6:7778/".to_string(),
                 id: keypair,
                 ..Config::default()
             }
@@ -649,7 +649,7 @@ mod tests {
             "--identity",
             &keypair_file_name,
             "-u",
-            "http://123.4.5.6:8899",
+            "http://123.4.5.6:7777",
             "--duration",
             "1000",
             "--sustained",
@@ -662,8 +662,8 @@ mod tests {
         assert_eq!(
             actual,
             Config {
-                json_rpc_url: "http://123.4.5.6:8899".to_string(),
-                websocket_url: "ws://123.4.5.6:8900/".to_string(),
+                json_rpc_url: "http://123.4.5.6:7777".to_string(),
+                websocket_url: "ws://123.4.5.6:7778/".to_string(),
                 id: keypair,
                 duration: Duration::new(1000, 0),
                 sustained: true,
@@ -681,7 +681,7 @@ mod tests {
             "--identity",
             &keypair_file_name,
             "-u",
-            "http://123.4.5.6:8899",
+            "http://123.4.5.6:7777",
             "--use-rpc-client",
             "--commitment-config",
             "finalized",
@@ -690,8 +690,8 @@ mod tests {
         assert_eq!(
             actual,
             Config {
-                json_rpc_url: "http://123.4.5.6:8899".to_string(),
-                websocket_url: "ws://123.4.5.6:8900/".to_string(),
+                json_rpc_url: "http://123.4.5.6:7777".to_string(),
+                websocket_url: "ws://123.4.5.6:7778/".to_string(),
                 id: keypair,
                 external_client_type: ExternalClientType::RpcClient,
                 commitment_config: CommitmentConfig::finalized(),
@@ -707,7 +707,7 @@ mod tests {
             "--identity",
             &keypair_file_name,
             "-u",
-            "http://192.0.0.1:8899",
+            "http://192.0.0.1:7777",
             "--bind-address",
             "192.9.8.7",
             "--client-node-id",
@@ -717,8 +717,8 @@ mod tests {
         assert_eq!(
             actual,
             Config {
-                json_rpc_url: "http://192.0.0.1:8899".to_string(),
-                websocket_url: "ws://192.0.0.1:8900/".to_string(),
+                json_rpc_url: "http://192.0.0.1:7777".to_string(),
+                websocket_url: "ws://192.0.0.1:7778/".to_string(),
                 id: keypair,
                 bind_address: IpAddr::V4(Ipv4Addr::new(192, 9, 8, 7)),
                 client_node_id: Some(client_id),

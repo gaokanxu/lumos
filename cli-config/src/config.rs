@@ -32,7 +32,7 @@ pub struct Config {
     /// Typical values for mainnet, devnet, and testnet are [described in the
     /// Lumos documentation][rpcdocs].
     ///
-    /// For local testing, the typical value is `http://localhost:8899`.
+    /// For local testing, the typical value is `http://localhost:7777`.
     ///
     /// [rpcdocs]: https://lumos.com/docs/core/clusters
     pub json_rpc_url: String,
@@ -187,7 +187,7 @@ mod test {
         );
 
         assert_eq!(
-            Config::compute_websocket_url("http://example.com:8899"),
+            Config::compute_websocket_url("http://example.com:7777"),
             "ws://example.com:8900/".to_string()
         );
         assert_eq!(

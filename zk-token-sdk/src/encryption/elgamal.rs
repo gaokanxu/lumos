@@ -47,6 +47,10 @@ use {
 #[cfg(not(target_os = "lumos"))]
 use {
     rand::rngs::OsRng,
+    
+    //gaokanxu 2024.08.11
+    rand::RngCore,
+    
     sha3::{Digest, Sha3_512},
     std::{
         error, fmt,
@@ -54,6 +58,8 @@ use {
         path::Path,
     },
 };
+
+
 
 /// Byte length of a decrypt handle
 const DECRYPT_HANDLE_LEN: usize = RISTRETTO_POINT_LEN;
@@ -93,9 +99,19 @@ impl ElGamal {
     #[cfg(not(target_os = "lumos"))]
     #[allow(non_snake_case)]
     fn keygen() -> ElGamalKeypair {
+    
         // secret scalar should be non-zero except with negligible probability
-        let mut s = Scalar::random(&mut OsRng);
+        //let mut s = Scalar::random(&mut OsRng);
+        //let keypair = Self::keygen_with_scalar(&s);
+        //gaokanxu 2024.08.11 erase upper 2lines and begin add below lines
+        let mut rng = OsRng;
+        let mut bytes = [0u8; 32];
+        rng.fill_bytes(&mut bytes);
+        let mut s = Scalar::from_bytes_mod_order(bytes);
         let keypair = Self::keygen_with_scalar(&s);
+        //gaokanxu 2024.08.11 end
+        
+        
 
         s.zeroize();
         keypair
@@ -327,8 +343,12 @@ impl EncodableKeypair for ElGamalKeypair {
 }
 
 /// Public key for the ElGamal encryption scheme.
-#[derive(Clone, Copy, Debug, Default, Deserialize, Eq, PartialEq, Serialize, Zeroize)]
-pub struct ElGamalPubkey(RistrettoPoint);
+//#[derive(Clone, Copy, Debug, Default, Deserialize, Eq, PartialEq, Serialize, Zeroize)]
+//pub struct ElGamalPubkey(RistrettoPoint);
+//gaokanxu 2024.08.11
+#[derive(Serialize, Deserialize, Clone, Copy, Debug, Default, Deserialize, Eq, PartialEq, Serialize, Zeroize)]
+pub struct ElGamalPubkey(#[serde(serialize_with = "serialize", deserialize_with = "deserialize")] RistrettoPoint);
+
 impl ElGamalPubkey {
     /// Derives the `ElGamalPubkey` that uniquely corresponds to an `ElGamalSecretKey`.
     #[allow(non_snake_case)]

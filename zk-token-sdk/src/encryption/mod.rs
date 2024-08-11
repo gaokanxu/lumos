@@ -16,3 +16,5 @@ pub mod elgamal;
 pub mod grouped_elgamal;
 pub mod pedersen;
 
+//gaokanxu 2024.08.11 add new mod
+pub mod ristretto_serde;
