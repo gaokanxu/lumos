@@ -834,7 +834,7 @@ fn main() {
                 .takes_value(true)
                 .value_name("HOST:PORT")
                 .conflicts_with("json_rpc_url")
-                .help("RPC entrypoint address. Usually <ip>:8899"),
+                .help("RPC entrypoint address. Usually <ip>:7777"),
         )
         .arg(
             Arg::with_name("faucet_addr")
@@ -842,7 +842,7 @@ fn main() {
                 .takes_value(true)
                 .value_name("HOST:PORT")
                 .hidden(hidden_unless_forced())
-                .help("Faucet entrypoint address. Usually <ip>:9900"),
+                .help("Faucet entrypoint address. Usually <ip>:7778"),
         )
         .arg(
             Arg::with_name("space")
