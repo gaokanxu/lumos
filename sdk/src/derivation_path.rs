@@ -7,7 +7,7 @@
 //!
 //! > `m/44'/696'`
 //!
-//! with 501 being the Lumos coin type.
+//! with 696 being the Lumos coin type.
 
 use {
     core::{iter::IntoIterator, slice::Iter},
@@ -263,7 +263,9 @@ trait Bip44 {
 struct Lumos;
 
 impl Bip44 for Lumos {
-    const COIN: u32 = 501;
+    //const COIN: u32 = 501;
+    //gaokanxu 2024.08.11
+    const COIN: u32 = 696;
 }
 
 #[cfg(test)]
@@ -315,7 +317,7 @@ mod tests {
 
     #[test]
     fn test_from_absolute_path_str() {
-        let s = "m/44/501";
+        let s = "m/44/696";
         assert_eq!(
             DerivationPath::from_absolute_path_str(s).unwrap(),
             DerivationPath::default()
@@ -349,21 +351,27 @@ mod tests {
         );
 
         // Test non-bip44 paths
-        let s = "m/501'/0'/0/0";
+        let s = "m/696'/0'/0/0";
         assert_eq!(
             DerivationPath::from_absolute_path_str(s).unwrap(),
             DerivationPath::new(vec![
-                ChildIndex::Hardened(501),
+                //ChildIndex::Hardened(501),
+                //gaokanxu 2024.8.11
+                ChildIndex::Hardened(696),
+                
                 ChildIndex::Hardened(0),
                 ChildIndex::Hardened(0),
                 ChildIndex::Hardened(0),
             ])
         );
-        let s = "m/501'/0'/0'/0'";
+        let s = "m/696'/0'/0'/0'";
         assert_eq!(
             DerivationPath::from_absolute_path_str(s).unwrap(),
             DerivationPath::new(vec![
-                ChildIndex::Hardened(501),
+                //ChildIndex::Hardened(501),
+                //gaokanxu 2024.8.11
+                ChildIndex::Hardened(696),
+                
                 ChildIndex::Hardened(0),
                 ChildIndex::Hardened(0),
                 ChildIndex::Hardened(0),
