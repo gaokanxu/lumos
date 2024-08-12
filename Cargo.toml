@@ -10,6 +10,10 @@ debug = true
 split-debuginfo = "packed"
 
 [workspace]
+authors = ["Gao Kanxu <gaokanxu@gmail.com>"]
+homepage = "https://www.uuhb.com"
+edition = "2.0.0"
+
 members = [
     "account-decoder",
     "accounts-bench",
@@ -221,7 +225,7 @@ ark-ec = "0.4.0"
 ark-ff = "0.4.0"
 ark-serialize = "0.4.0"
 array-bytes = "1.4.1"
-arrayref = "0.3.7"
+arrayref = "0.3.8"
 assert_cmd = "2.0"
 assert_matches = "1.5.0"
 async-channel = "1.9.0"
@@ -522,41 +526,42 @@ lumos-zk-keygen = { path = "zk-keygen" }
 lumos-zk-token-proof-program = { path = "programs/zk-token-proof" }
 lumos-zk-token-sdk = { path = "zk-token-sdk" } 
 
-lpl-associated-token-account = { path = "lumos-program-library/associated-token-account/program" }
-lpl-instruction-padding = { path = "lumos-program-library/instruction-padding/program" }
-lpl-memo = { path = "lumos-program-library/memo/program" }
-lpl-pod = { path = "lumos-program-library/libraries/pod" }
-lpl-single-pool = { path = "lumos-program-library/single-pool/program" }
-lpl-transfer-hook-interface = { path = "lumos-program-library/token/transfer-hook/interface" }
-lpl-type-length-value = { path = "lumos-program-library/libraries/type-length-value" }
-lpl-tlv-account-resolution = { path = "lumos-program-library/libraries/tlv-account-resolution" }
-lpl-discriminator = { path = "lumos-program-library/libraries/discriminator" }
-lpl-program-error = { path = "lumos-program-library/libraries/program-error" }
-lpl-program-error-derive = { path = "lumos-program-library/libraries/program-error/derive" }
-lpl-example-sysvar = { path = "lumos-program-library/examples/rust/sysvar" }
-lpl-example-transfer-tokens = { path = "lumos-program-library/examples/rust/transfer-tokens" }
-lpl-feature-proposal = { path = "lumos-program-library/feature-proposal/program" }
-lpl-feature-proposal-cli = { path = "lumos-program-library/feature-proposal/cli" }
-lpl-governance = { path = "lumos-program-library/governance/program" }
-lpl-governance-addin-api = { path = "lumos-program-library/governance/addin-api" }
-lpl-governance-test-sdk = { path = "lumos-program-library/governance/test-sdk" }
-lpl-governance-tools = { path = "lumos-program-library/governance/tools" }
-lpl-governance-addin-mock = { path = "lumos-program-library/governance/addin-mock/program" }
-lpl-math = { path = "lumos-program-library/libraries/math" }
-lpl-merkle-tree-reference  = { path = "lumos-program-library/libraries/merkle-tree-reference" }
-lpl-stake-pool = { path = "lumos-program-library/stake-pool/program" }
-lpl-transfer-hook-example = { path = "lumos-program-library/token/transfer-hook/example" }
-lpl-token = { path = "lumos-program-library/token/program" }
-lpl-token-2022 = { path = "lumos-program-library/token/program-2022" }
-lpl-token-cli = { path = "lumos-program-library/token/cli" }
-lpl-token-client = { path = "lumos-program-library/token/client" }
-lpl-token-group-interface = { path = "lumos-program-library/token-group/interface" }
-lpl-token-metadata-interface = { path = "lumos-program-library/token-metadata/interface" }
-lpl-token-lending = { path = "lumos-program-library/token-lending/program" }
-lpl-token-upgrade = { path = "lumos-program-library/token-upgrade/program" }
-lpl-token-confidential-transfer-proof-generation = { path = "lumos-program-library/token/confidential-transfer/proof-generation" }
-lpl-token-confidential-transfer-proof-extraction = { path = "lumos-program-library/token/confidential-transfer/proof-extraction" }
-lpl-token-group-example = { path = "lumos-program-library/token-group/example" }
-lpl-token-swap = { path = "lumos-program-library/token-swap/program" }
-lpl-token-upgrade-cli = { path = "lumos-program-library/token-upgrade/cli" }
+
+lpl-associated-token-account = { path = "../lumos-program-library/associated-token-account/program" }
+lpl-instruction-padding = { path = "../lumos-program-library/instruction-padding/program" }
+lpl-memo = { path = "../lumos-program-library/memo/program" }
+lpl-pod = { path = "../lumos-program-library/libraries/pod" }
+lpl-single-pool = { path = "../lumos-program-library/single-pool/program" }
+lpl-transfer-hook-interface = { path = "../lumos-program-library/token/transfer-hook/interface" }
+lpl-type-length-value = { path = "../lumos-program-library/libraries/type-length-value" }
+lpl-tlv-account-resolution = { path = "../lumos-program-library/libraries/tlv-account-resolution" }
+lpl-discriminator = { path = "../lumos-program-library/libraries/discriminator" }
+lpl-program-error = { path = "../lumos-program-library/libraries/program-error" }
+lpl-program-error-derive = { path = "../lumos-program-library/libraries/program-error/derive" }
+lpl-example-sysvar = { path = "../lumos-program-library/examples/rust/sysvar" }
+lpl-example-transfer-tokens = { path = "../lumos-program-library/examples/rust/transfer-tokens" }
+lpl-feature-proposal = { path = "../lumos-program-library/feature-proposal/program" }
+lpl-feature-proposal-cli = { path = "../lumos-program-library/feature-proposal/cli" }
+lpl-governance = { path = "../lumos-program-library/governance/program" }
+lpl-governance-addin-api = { path = "../lumos-program-library/governance/addin-api" }
+lpl-governance-test-sdk = { path = "../lumos-program-library/governance/test-sdk" }
+lpl-governance-tools = { path = "../lumos-program-library/governance/tools" }
+lpl-governance-addin-mock = { path = "../lumos-program-library/governance/addin-mock/program" }
+lpl-math = { path = "../lumos-program-library/libraries/math" }
+lpl-merkle-tree-reference  = { path = "../lumos-program-library/libraries/merkle-tree-reference" }
+lpl-stake-pool = { path = "../lumos-program-library/stake-pool/program" }
+lpl-transfer-hook-example = { path = "../lumos-program-library/token/transfer-hook/example" }
+lpl-token = { path = "../lumos-program-library/token/program" }
+lpl-token-2022 = { path = "../lumos-program-library/token/program-2022" }
+lpl-token-cli = { path = "../lumos-program-library/token/cli" }
+lpl-token-client = { path = "../lumos-program-library/token/client" }
+lpl-token-group-interface = { path = "../lumos-program-library/token-group/interface" }
+lpl-token-metadata-interface = { path = "../lumos-program-library/token-metadata/interface" }
+lpl-token-lending = { path = "../lumos-program-library/token-lending/program" }
+lpl-token-upgrade = { path = "../lumos-program-library/token-upgrade/program" }
+lpl-token-confidential-transfer-proof-generation = { path = "../lumos-program-library/token/confidential-transfer/proof-generation" }
+lpl-token-confidential-transfer-proof-extraction = { path = "../lumos-program-library/token/confidential-transfer/proof-extraction" }
+lpl-token-group-example = { path = "../lumos-program-library/token-group/example" }
+lpl-token-swap = { path = "../lumos-program-library/token-swap/program" }
+lpl-token-upgrade-cli = { path = "../lumos-program-library/token-upgrade/cli" }
 

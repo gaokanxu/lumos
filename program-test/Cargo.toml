@@ -2,7 +2,6 @@
 name = "lumos-program-test"
 description = "Lumos Program Test Framework"
 
-
 version = { workspace = true }
 authors = { workspace = true }
 repository = { workspace = true }
