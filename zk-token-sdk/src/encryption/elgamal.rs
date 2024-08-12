@@ -59,6 +59,9 @@ use {
     },
 };
 
+//gaokanxu 2024.08.12
+use crate::encryption::ristretto_serde::{serialize, deserialize};
+
 
 
 /// Byte length of a decrypt handle
@@ -345,8 +348,8 @@ impl EncodableKeypair for ElGamalKeypair {
 /// Public key for the ElGamal encryption scheme.
 //#[derive(Clone, Copy, Debug, Default, Deserialize, Eq, PartialEq, Serialize, Zeroize)]
 //pub struct ElGamalPubkey(RistrettoPoint);
-//gaokanxu 2024.08.11
-#[derive(Serialize, Deserialize, Clone, Copy, Debug, Default, Deserialize, Eq, PartialEq, Serialize, Zeroize)]
+//gaokanxu 2024.08.12
+#[derive(Serialize, Deserialize, Clone, Copy, Debug, Default, Eq, PartialEq, Zeroize)]
 pub struct ElGamalPubkey(#[serde(serialize_with = "serialize", deserialize_with = "deserialize")] RistrettoPoint);
 
 impl ElGamalPubkey {
@@ -354,7 +357,11 @@ impl ElGamalPubkey {
     #[allow(non_snake_case)]
     pub fn new(secret: &ElGamalSecretKey) -> Self {
         let s = &secret.0;
-        assert!(s != &Scalar::zero());
+        
+        //assert!(s != &Scalar::zero());
+        //gaokanxu 2024.08.12
+        assert!(s != &Scalar::from_bytes_mod_order([0u8; 32]));
+
 
         ElGamalPubkey(s.invert() * &(*H))
     }
@@ -372,9 +379,16 @@ impl ElGamalPubkey {
             return None;
         }
 
+        /*
         Some(ElGamalPubkey(
             CompressedRistretto::from_slice(bytes).decompress()?,
         ))
+        */
+        //gaokanxu 2024.08.12
+        let point = CompressedRistretto::from_slice(bytes).expect("Failed to parse bytes");
+        let ristretto_point = point.decompress().expect("Decompression failed");
+        Some(ElGamalPubkey(ristretto_point))
+
     }
 
     /// Encrypts an amount under the public key.
