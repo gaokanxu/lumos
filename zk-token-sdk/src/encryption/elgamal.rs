@@ -46,7 +46,10 @@ use {
 };
 #[cfg(not(target_os = "lumos"))]
 use {
-    rand::rngs::OsRng,
+
+    //rand::rngs::OsRng,
+    //gaokanxu 2024.08.14
+    rand_core::OsRng,
     
     //gaokanxu 2024.08.11
     rand::RngCore,
@@ -59,8 +62,10 @@ use {
     },
 };
 
-//gaokanxu 2024.08.12
+//gaokanxu 2024.08.14
 use crate::encryption::ristretto_serde::{serialize, deserialize};
+use serde::de::{self, Deserializer, Visitor, Error};
+use zeroize::DefaultIsZeroes;
 
 
 
@@ -126,7 +131,9 @@ impl ElGamal {
     #[cfg(not(target_os = "lumos"))]
     #[allow(non_snake_case)]
     fn keygen_with_scalar(s: &Scalar) -> ElGamalKeypair {
-        let secret = ElGamalSecretKey(*s);
+        //let secret = ElGamalSecretKey(*s);
+        //gaokanxu 2024.08.14
+        let secret = ElGamalSecretKey(ScalarWrapper(*s));
         let public = ElGamalPubkey::new(&secret);
 
         ElGamalKeypair { public, secret }
@@ -178,7 +185,9 @@ impl ElGamal {
     fn decrypt(secret: &ElGamalSecretKey, ciphertext: &ElGamalCiphertext) -> DiscreteLog {
         DiscreteLog::new(
             *G,
-            ciphertext.commitment.get_point() - &(&secret.0 * &ciphertext.handle.0),
+            //ciphertext.commitment.get_point() - &(&secret.0 * &ciphertext.handle.0),
+            //gaokanxu 2024.08.14
+            ciphertext.commitment.get_point() - &(&secret.0.0 * &ciphertext.handle.0),
         )
     }
 
@@ -360,10 +369,14 @@ impl ElGamalPubkey {
         
         //assert!(s != &Scalar::zero());
         //gaokanxu 2024.08.12
-        assert!(s != &Scalar::from_bytes_mod_order([0u8; 32]));
+        //assert!(s != &Scalar::from_bytes_mod_order([0u8; 32]));
+        //gaokanxu 2024.08.14
+        assert!(s.0 != Scalar::from_bytes_mod_order([0u8; 32]));
 
 
-        ElGamalPubkey(s.invert() * &(*H))
+        //ElGamalPubkey(s.invert() * &(*H))
+        //gaokanxu 2024.08.14
+        ElGamalPubkey(s.0.invert() * &(*H))
     }
 
     pub fn get_point(&self) -> &RistrettoPoint {
@@ -437,12 +450,30 @@ impl fmt::Display for ElGamalPubkey {
     }
 }
 
+//gaokanxu 2024.08.14 begin 应对curve25519_dalek::scalar::Scalar的孤儿准则
+#[derive(Copy, Clone, Debug, Serialize, Deserialize, Default)]
+struct ScalarWrapper(Scalar);
+
+impl From<ScalarWrapper> for Scalar {
+    fn from(wrapper: ScalarWrapper) -> Self {
+        wrapper.0
+    }
+}
+impl DefaultIsZeroes for ScalarWrapper {}
+//gaokanxu 2024.08.14 end 
+
+
+
+
 /// Secret key for the ElGamal encryption scheme.
 ///
 /// Instances of ElGamal secret key are zeroized on drop.
 #[derive(Clone, Debug, Deserialize, Serialize, Zeroize)]
 #[zeroize(drop)]
-pub struct ElGamalSecretKey(Scalar);
+//pub struct ElGamalSecretKey(Scalar);
+//gaokanxu 2024.08.14 应对curve25519_dalek::scalar::Scalar的孤儿准则
+pub struct ElGamalSecretKey(ScalarWrapper);
+
 impl ElGamalSecretKey {
     /// Deterministically derives an ElGamal secret key from a Lumos signer and a public seed.
     ///
@@ -483,7 +514,14 @@ impl ElGamalSecretKey {
     ///
     /// This function is randomized. It internally samples a scalar element using `OsRng`.
     pub fn new_rand() -> Self {
-        ElGamalSecretKey(Scalar::random(&mut OsRng))
+    
+        //ElGamalSecretKey(Scalar::random(&mut OsRng))
+        //gaokanxu 2024.08.14 begin
+        let mut rng = OsRng;
+        let random_scalar = Scalar::random(&mut rng);
+        let random_scalar_wrapper = ScalarWrapper(random_scalar);
+        ElGamalSecretKey(random_scalar_wrapper)
+        //gaokanxu 2024.08.14 end
     }
 
     /// Derive an ElGamal secret key from an entropy seed.
@@ -497,11 +535,15 @@ impl ElGamalSecretKey {
         if seed.len() > MAXIMUM_SEED_LEN {
             return Err(ElGamalError::SeedLengthTooLong);
         }
-        Ok(ElGamalSecretKey(Scalar::hash_from_bytes::<Sha3_512>(seed)))
+        //Ok(ElGamalSecretKey(Scalar::hash_from_bytes::<Sha3_512>(seed)))
+        //gaokanxu 2024.08.14
+        Ok(ElGamalSecretKey(ScalarWrapper(Scalar::hash_from_bytes::<Sha3_512>(seed))))
     }
 
     pub fn get_scalar(&self) -> &Scalar {
-        &self.0
+        //&self.0
+        //gaokanxu 2024.08.14
+        &self.0.0
     }
 
     /// Decrypts a ciphertext using the ElGamal secret key.
@@ -518,16 +560,22 @@ impl ElGamalSecretKey {
     }
 
     pub fn as_bytes(&self) -> &[u8; ELGAMAL_SECRET_KEY_LEN] {
-        self.0.as_bytes()
+        //self.0.as_bytes()
+        //gaokanxu 2024.08.14
+        self.0.0.as_bytes()
     }
 
     pub fn to_bytes(&self) -> [u8; ELGAMAL_SECRET_KEY_LEN] {
-        self.0.to_bytes()
+        //self.0.to_bytes()
+        //gaokanxu 2024.08.14
+        self.0.0.to_bytes()
     }
 
     pub fn from_bytes(bytes: &[u8]) -> Option<ElGamalSecretKey> {
         match bytes.try_into() {
-            Ok(bytes) => Scalar::from_canonical_bytes(bytes).map(ElGamalSecretKey),
+            //Ok(bytes) => Scalar::from_canonical_bytes(bytes).map(ElGamalSecretKey),
+            //gaokanxu 2024.08.14
+            Ok(bytes) => Scalar::from_canonical_bytes(bytes).map(|scalar: Scalar| ElGamalSecretKey(ScalarWrapper(scalar))).into(),
             _ => None,
         }
     }
@@ -576,7 +624,9 @@ impl SeedDerivable for ElGamalSecretKey {
 
 impl From<Scalar> for ElGamalSecretKey {
     fn from(scalar: Scalar) -> ElGamalSecretKey {
-        ElGamalSecretKey(scalar)
+        //ElGamalSecretKey(scalar)
+        //gaokanxu 2024.08.14
+        ElGamalSecretKey(ScalarWrapper(scalar))
     }
 }
 
@@ -588,7 +638,9 @@ impl PartialEq for ElGamalSecretKey {
 }
 impl ConstantTimeEq for ElGamalSecretKey {
     fn ct_eq(&self, other: &Self) -> Choice {
-        self.0.ct_eq(&other.0)
+        //self.0.ct_eq(&other.0)
+        //gaokanxu 2024.08.14
+        self.0.0.ct_eq(&other.0.0)
     }
 }
 

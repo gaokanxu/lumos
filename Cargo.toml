@@ -440,7 +440,7 @@ bytemuck-derive = { git = "https://github.com/gaokanxu/bytemuck.git", branch = "
 #ed25519-dalek = { git = "https://github.com/gaokanxu/curve25519-dalek.git", branch = "main", package = "ed25519-dalek", features = ["std", "digest", "rand", "u64_backend"] }
 #ed25519-dalek-bip32 = { git = "https://github.com/gaokanxu/curve25519-dalek.git", branch = "main", package = "ed25519-dalek-bip32", features = ["std"] }
 
-curve25519-dalek = { path = "../curve25519-dalek/curve25519-dalek", features = ["alloc", "precomputed-tables", "zeroize"] }
+curve25519-dalek = { path = "../curve25519-dalek/curve25519-dalek", features = ["alloc", "precomputed-tables", "zeroize", "serde", "rand_core"] }
 curve25519-dalek-derive = { path = "../curve25519-dalek/curve25519-dalek-derive" }
 ed25519-dalek = { path = "../curve25519-dalek/ed25519-dalek", features = ["fast", "std", "zeroize", "digest", "rand", "u64_backend", "rand_core"] }
 ed25519-dalek-bip32 = { path = "../curve25519-dalek/ed25519-dalek-bip32", features = ["std"] }
