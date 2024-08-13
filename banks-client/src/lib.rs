@@ -33,10 +33,13 @@ use {
         serde_transport::tcp,
         ClientMessage, Response, Transport,
     },
-    //gaokanxu 2024.08.10
-    tokio::net::ToSocketAddrs,
-    tokio_serde::formats::Bincode,
+    
+    
 };
+//gaokanxu 2024.08.13
+use tarpc::tokio_serde::formats::Bincode;
+use tokio::net::ToSocketAddrs;
+
 
 mod error;
 
@@ -542,11 +545,16 @@ where
     })
 }
 
-pub async fn start_tcp_client<T: ToSocketAddrs>(addr: T) -> Result<BanksClient, BanksClientError>
-//gaokanxu 2024.08.10
-//pub async fn start_tcp_client<T: tokio::net::ToSocketAddrs>(addr: T) -> Result<BanksClient, BanksClientError>
+
+//pub async fn start_tcp_client<T: ToSocketAddrs>(addr: T) -> Result<BanksClient, BanksClientError>
+//gaokanxu 2024.08.13
+pub async fn start_tcp_client<T>(addr: &str) -> Result<BanksClient, BanksClientError>
+where
+T: ToSocketAddrs,
 {
-    let transport = tcp::connect(addr, Bincode::default).await?;
+    //let transport = tcp::connect(addr, Bincode::default).await?;
+    //gaokanxu 2024.08.13 编译器需要确定的类型.那么就先用只包含一个字符串的对象吧
+    let transport = tcp::connect(addr, Bincode::<Response<BanksResponse>, ClientMessage<BanksRequest>>::default).await?;
     Ok(BanksClient {
         inner: TarpcClient::new(client::Config::default(), transport).spawn(),
     })
