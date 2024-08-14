@@ -28,10 +28,20 @@ use {
 fn ristretto_point_from_optional_slice(
     optional_slice: Option<&[u8]>,
 ) -> Result<CompressedRistretto, SigmaProofVerificationError> {
+
+    /*
     optional_slice
         .and_then(|slice| (slice.len() == RISTRETTO_POINT_LEN).then_some(slice))
         .map(CompressedRistretto::from_slice)
         .ok_or(SigmaProofVerificationError::Deserialization)
+    */
+    //gaokanxu 2024.08.15
+    optional_slice
+        .and_then(|slice| (slice.len() == RISTRETTO_POINT_LEN).then_some(slice))
+        .map(CompressedRistretto::from_slice)
+        .ok_or(SigmaProofVerificationError::Deserialization)?
+        .map_err(|_| SigmaProofVerificationError::Deserialization)
+    
 }
 
 /// Deserializes an optional slice of bytes to a scalar.
@@ -45,6 +55,9 @@ fn canonical_scalar_from_optional_slice(
     optional_slice
         .and_then(|slice| (slice.len() == SCALAR_LEN).then_some(slice)) // if chunk is the wrong length, convert to None
         .and_then(|slice| slice.try_into().ok()) // convert to array
-        .and_then(Scalar::from_canonical_bytes)
+        //.and_then(Scalar::from_canonical_bytes)
+        //gaokanxu 2024.08.15
+        .and_then(|bytes| Scalar::from_canonical_bytes(bytes).into())
+        
         .ok_or(SigmaProofVerificationError::Deserialization)
 }

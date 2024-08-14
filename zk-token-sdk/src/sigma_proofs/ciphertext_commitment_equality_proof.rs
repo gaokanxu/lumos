@@ -177,7 +177,11 @@ impl CiphertextCommitmentEqualityProof {
             vec![
                 &self.z_s,           // z_s
                 &(-&c),              // -c
-                &(-&Scalar::one()),  // -identity
+                
+                //&(-&Scalar::one()),  // -identity
+                //gaokanxu 2024.08.15
+                &(-&Scalar::from_bytes_mod_order([1u8; 32])), 
+                
                 &(&w * &self.z_x),   // w * z_x
                 &(&w * &self.z_s),   // w * z_s
                 &(&w_negated * &c),  // -w * c

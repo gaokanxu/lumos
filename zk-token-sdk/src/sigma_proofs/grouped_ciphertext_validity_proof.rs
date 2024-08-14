@@ -172,7 +172,10 @@ impl GroupedCiphertext2HandlesValidityProof {
                 &self.z_r,           // z_r
                 &self.z_x,           // z_x
                 &(-&c),              // -c
-                &-(&Scalar::one()),  // -identity
+                //&-(&Scalar::one()),  // -identity
+                //gaokanxu 2024.08.15
+                &-(&Scalar::from_bytes_mod_order([1u8; 32])),
+
                 &(&w * &self.z_r),   // w * z_r
                 &(&w_negated * &c),  // -w * c
                 &w_negated,          // -w

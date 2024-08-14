@@ -65,7 +65,10 @@ impl PubkeyValidityProof {
         // extract the relevant scalar and Ristretto points from the input
         let s = elgamal_keypair.secret().get_scalar();
 
-        assert!(s != &Scalar::zero());
+        //assert!(s != &Scalar::zero());
+        //gaokanxu 2024.08.15
+        assert!(s != &Scalar::default());
+        
         let s_inv = s.invert();
 
         // generate a random masking factor that also serves as a nonce
@@ -109,7 +112,10 @@ impl PubkeyValidityProof {
             .ok_or(SigmaProofVerificationError::Deserialization)?;
 
         let check = RistrettoPoint::vartime_multiscalar_mul(
-            vec![&self.z, &(-&c), &(-&Scalar::one())],
+            //vec![&self.z, &(-&c), &(-&Scalar::one())],
+            //gaokanxu 2024.08.15
+            vec![&self.z, &(-&c), &(-&Scalar::from_bytes_mod_order([1u8; 32]))],
+            
             vec![&(*H), P, &Y],
         );
 

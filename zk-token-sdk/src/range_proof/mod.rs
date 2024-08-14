@@ -232,7 +232,10 @@ impl RangeProof {
         let w = transcript.challenge_scalar(b"w");
         let Q = w * &(*G);
 
-        let G_factors: Vec<Scalar> = iter::repeat(Scalar::one()).take(nm).collect();
+        //let G_factors: Vec<Scalar> = iter::repeat(Scalar::one()).take(nm).collect();
+        //gaokanxu 2024.08.14
+        let G_factors: Vec<Scalar> = iter::repeat(Scalar::from_bytes_mod_order([1u8; 32])).take(nm).collect();
+        
         let H_factors: Vec<Scalar> = util::exp_iter(y.invert()).take(nm).collect();
 
         // generate challenge `c` for consistency with the verifier's transcript
@@ -333,7 +336,10 @@ impl RangeProof {
         let value_commitment_scalars = util::exp_iter(z).take(m).map(|z_exp| c * zz * z_exp);
 
         let mega_check = RistrettoPoint::optional_multiscalar_mul(
-            iter::once(Scalar::one())
+            //iter::once(Scalar::one())
+            //gaokanxu 2024.08.14
+            iter::once(Scalar::from_bytes_mod_order([1u8; 32]))
+            
                 .chain(iter::once(x))
                 .chain(iter::once(c * x))
                 .chain(iter::once(c * x * x))
@@ -395,15 +401,32 @@ impl RangeProof {
         let T_1 = CompressedRistretto(util::read32(&slice[2 * 32..]));
         let T_2 = CompressedRistretto(util::read32(&slice[3 * 32..]));
 
+        /*
         let t_x = Scalar::from_canonical_bytes(util::read32(&slice[4 * 32..]))
             .ok_or(RangeProofVerificationError::Deserialization)?;
+            
         let t_x_blinding = Scalar::from_canonical_bytes(util::read32(&slice[5 * 32..]))
             .ok_or(RangeProofVerificationError::Deserialization)?;
+        
         let e_blinding = Scalar::from_canonical_bytes(util::read32(&slice[6 * 32..]))
             .ok_or(RangeProofVerificationError::Deserialization)?;
+        */
+        //gaokanxu 2024.08.14 begin
+        let t_x: Option<Scalar> = Scalar::from_canonical_bytes(util::read32(&slice[4 * 32..]))
+            .into();     // 将 CtOption 转换为 Option
+            
+        let t_x_blinding: Option<Scalar> = Scalar::from_canonical_bytes(util::read32(&slice[5 * 32..]))
+            .into();    // 将 CtOption 转换为 Option
+            
+        let e_blinding: Option<Scalar> = Scalar::from_canonical_bytes(util::read32(&slice[6 * 32..]))
+            .into();   // 将 CtOption 转换为 Option
+        //gaokanxu 2024.08.14 end
+        
+            
+            
 
         let ipp_proof = InnerProductProof::from_bytes(&slice[7 * 32..])?;
-
+        /*
         Ok(RangeProof {
             A,
             S,
@@ -414,6 +437,19 @@ impl RangeProof {
             e_blinding,
             ipp_proof,
         })
+        */
+        //gaokanxu 2024.08.14 begin
+        Ok(RangeProof {
+            A,
+            S,
+            T_1,
+            T_2,
+            t_x : t_x.unwrap_or(Scalar::default()),
+            t_x_blinding: t_x_blinding.unwrap_or(Scalar::default()),
+            e_blinding: e_blinding.unwrap_or(Scalar::default()),
+            ipp_proof,
+        })
+        //gaokanxu 2024.08.14 end
     }
 }
 

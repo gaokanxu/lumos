@@ -358,7 +358,10 @@ impl FeeSigmaProof {
                 c_max_proof,
                 -c_max_proof * m,
                 -z_max,
-                Scalar::one(),
+                //Scalar::one(),
+                //gaokanxu 2024.08.15
+                Scalar::from_bytes_mod_order([1u8; 32]),
+                
                 w * z_x,
                 w * z_delta_real,
                 -w * c_equality,

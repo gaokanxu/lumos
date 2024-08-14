@@ -136,7 +136,10 @@ impl ZeroBalanceProof {
             vec![
                 &self.z,            // z
                 &(-&c),             // -c
-                &(-&Scalar::one()), // -identity
+                //&(-&Scalar::one()), // -identity
+                //gaokanxu 2024.08.15
+                &(-&Scalar::from_bytes_mod_order([1u8; 32])),
+                
                 &(&w * &self.z),    // w * z
                 &(&w_negated * &c), // -w * c
                 &w_negated,         // -w

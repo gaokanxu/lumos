@@ -63,9 +63,18 @@ mod target_arch {
         type Error = Curve25519Error;
 
         fn try_from(pod: &PodEdwardsPoint) -> Result<Self, Self::Error> {
+            /*
             CompressedEdwardsY::from_slice(&pod.0)
                 .decompress()
                 .ok_or(Curve25519Error::PodConversion)
+            */
+            //gaokanxu 2024.08.15  begin
+            let point = CompressedEdwardsY::from_slice(&pod.0)
+                .map_err(|err| Curve25519Error::PodConversion)?  // 处理 Slice 转换错误
+                .decompress()
+                .ok_or_else(|| Curve25519Error::SignatureError("Failed to decompress Edwards point".into()))?;  // 使用 SignatureError 处理解压失败
+                Ok(point)
+            //gaokanxu 2024.08.15  end
         }
     }
 
