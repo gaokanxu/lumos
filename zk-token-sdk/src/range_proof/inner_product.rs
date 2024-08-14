@@ -15,6 +15,9 @@ use {
     merlin::Transcript,
     std::borrow::Borrow,
 };
+//gaokanxu 2024.08.14
+use subtle::CtOption;
+
 
 #[allow(non_snake_case)]
 #[derive(Clone)]
@@ -411,11 +414,20 @@ impl InnerProductProof {
         }
 
         let pos = 2 * lg_n * 32;
+        /*
         let a = Scalar::from_canonical_bytes(util::read32(&slice[pos..]))
             .ok_or(RangeProofVerificationError::Deserialization)?;
         let b = Scalar::from_canonical_bytes(util::read32(&slice[pos + 32..]))
             .ok_or(RangeProofVerificationError::Deserialization)?;
-
+        */
+        //gaokanxu 2024.08.14 replace upper lines begin
+        let a = <CtOption<Scalar> as Into<Option<Scalar>>>::into(Scalar::from_canonical_bytes(util::read32(&slice[pos..])));
+        let a = a.ok_or_else(|| RangeProofVerificationError::Deserialization)?;
+        
+        let b: Option<Scalar> = Scalar::from_canonical_bytes(util::read32(&slice[pos + 32..])).into();
+        let b = b.ok_or_else(|| RangeProofVerificationError::Deserialization)?;
+        //gaokanxu 2024.08.14 end            
+           
         Ok(InnerProductProof { L_vec, R_vec, a, b })
     }
 }

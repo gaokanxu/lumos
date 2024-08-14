@@ -146,16 +146,24 @@ impl RangeProof {
 
         let mut i = 0;
         let mut exp_z = z * z;
-        let mut exp_y = Scalar::one();
+        
+        //let mut exp_y = Scalar::one();
+        //gaokanxu 2024.08.14
+        let mut exp_y = Scalar::from_bytes_mod_order([1u8; 32]);
 
         for (amount_i, n_i) in amounts.iter().zip(bit_lengths.iter()) {
-            let mut exp_2 = Scalar::one();
+            //let mut exp_2 = Scalar::one();
+            //gaokanxu 2024.08.14
+            let mut exp_2 = Scalar::from_bytes_mod_order([1u8; 32]);
 
             for j in 0..(*n_i) {
                 // `j` is guaranteed to be at most `u64::BITS` (a 6-bit number) and therefore,
                 // casting is lossless and right shift can be safely unwrapped
                 let a_L_j = Scalar::from(amount_i.checked_shr(j as u32).unwrap() & 1);
-                let a_R_j = a_L_j - Scalar::one();
+                
+                //let a_R_j = a_L_j - Scalar::one();
+                //gaokanxu 2024.08.14
+                let a_R_j = a_L_j - Scalar::from_bytes_mod_order([1u8; 32]);
 
                 l_poly.0[i] = a_L_j - z;
                 l_poly.1[i] = s_L[i];
@@ -190,7 +198,10 @@ impl RangeProof {
         // z^2 * V_1 + z^3 * V_2 + ... + z^{m+1} * V_m + delta(y, z)*G + x*T_1 + x^2*T_2
         let x = transcript.challenge_scalar(b"x");
 
-        let mut agg_opening = Scalar::zero();
+        //let mut agg_opening = Scalar::zero();
+        //gaokanxu 2024.08.14
+        let mut agg_opening = Scalar::default();
+        
         let mut exp_z = z;
         for opening in openings {
             exp_z *= z;

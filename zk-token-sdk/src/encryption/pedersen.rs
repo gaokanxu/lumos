@@ -99,7 +99,10 @@ impl PedersenOpening {
 
     pub fn from_bytes(bytes: &[u8]) -> Option<PedersenOpening> {
         match bytes.try_into() {
-            Ok(bytes) => Scalar::from_canonical_bytes(bytes).map(PedersenOpening),
+            //Ok(bytes) => Scalar::from_canonical_bytes(bytes).map(PedersenOpening),
+            //gaokanxu 2024.08.14 CtOption to Option
+            Ok(bytes) => Scalar::from_canonical_bytes(bytes).map(PedersenOpening).into(),
+
             _ => None,
         }
     }
@@ -194,7 +197,12 @@ impl PedersenCommitment {
         }
 
         Some(PedersenCommitment(
-            CompressedRistretto::from_slice(bytes).decompress()?,
+            //CompressedRistretto::from_slice(bytes).decompress()?,
+            //gaokanxu 2024.08.14 begin
+            CompressedRistretto::from_slice(bytes).ok()?    //将 Result 转换为 Option
+                .decompress()?  //直接解包 Option<RistrettoPoint>
+            //gaokanxu 2024.08.14 end
+
         ))
     }
 }

@@ -64,7 +64,6 @@ use {
 
 //gaokanxu 2024.08.14
 use crate::encryption::ristretto_serde::{serialize, deserialize};
-use serde::de::{self, Deserializer, Visitor, Error};
 use zeroize::DefaultIsZeroes;
 
 
@@ -802,7 +801,12 @@ impl DecryptHandle {
         }
 
         Some(DecryptHandle(
-            CompressedRistretto::from_slice(bytes).decompress()?,
+            //CompressedRistretto::from_slice(bytes).decompress()?,
+            //gaokanxu 2024.08.14 begin
+            CompressedRistretto::from_slice(bytes)
+            .ok()?  // 将 Result 转换为 Option
+            .decompress()?  // 直接使用解压缩的 Option<RistrettoPoint>
+            //gaokanxu 2024.08.14 end
         ))
     }
 }

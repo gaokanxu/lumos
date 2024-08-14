@@ -28,7 +28,9 @@ impl GeneratorsChain {
         shake.update(label);
 
         GeneratorsChain {
-            reader: shake.finalize_xof(),
+            //reader: shake.finalize_xof(),
+            //gaokanxu 2024.08.14
+            reader: Box::new(shake.finalize_xof()),
         }
     }
 
