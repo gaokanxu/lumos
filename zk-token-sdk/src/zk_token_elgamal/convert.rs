@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 use {super::pod, crate::curve25519::ristretto::PodRistrettoPoint};
 
 impl From<(pod::PedersenCommitment, pod::DecryptHandle)> for pod::ElGamalCiphertext {
@@ -60,6 +62,7 @@ mod target_arch {
         }
     }
 
+    /*
     impl TryFrom<PodScalar> for Scalar {
         type Error = ElGamalError;
 
@@ -67,6 +70,21 @@ mod target_arch {
             Scalar::from_canonical_bytes(pod.0).ok_or(ElGamalError::CiphertextDeserialization)
         }
     }
+    */
+    //gaokanxu 2024.08.15 begin
+    impl TryFrom<PodScalar> for Scalar {
+    type Error = ElGamalError;
+
+    fn try_from(pod: PodScalar) -> Result<Self, Self::Error> {
+            if let Some(scalar) = Scalar::from_canonical_bytes(pod.0).into() {
+                Ok(scalar)
+            } else {
+                Err(ElGamalError::CiphertextDeserialization)
+            }
+        }
+    }
+    //gaokanxu 2024.08.15 end
+
 
     impl From<CompressedRistretto> for pod::CompressedRistretto {
         fn from(cr: CompressedRistretto) -> Self {

@@ -16,9 +16,20 @@ mod target_arch {
 
     impl TryFrom<&PodScalar> for Scalar {
         type Error = Curve25519Error;
-
+        /*
         fn try_from(pod: &PodScalar) -> Result<Self, Self::Error> {
             Scalar::from_canonical_bytes(pod.0).ok_or(Curve25519Error::PodConversion)
         }
+        */
+        //gaokanxu 2024.08.15 begin
+        fn try_from(pod: &PodScalar) -> Result<Self, Self::Error> {
+            if let Some(scalar) = Scalar::from_canonical_bytes(pod.0).into() {
+                Ok(scalar)
+            } else {
+                Err(Curve25519Error::PodConversion)
+            }
+        }
+        //gaokanxu 2024.08.15 end
+
     }
 }

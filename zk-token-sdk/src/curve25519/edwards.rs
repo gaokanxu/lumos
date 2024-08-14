@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 use bytemuck::{Pod, Zeroable};
 pub use target_arch::*;
 
@@ -70,7 +72,7 @@ mod target_arch {
             */
             //gaokanxu 2024.08.15  begin
             let point = CompressedEdwardsY::from_slice(&pod.0)
-                .map_err(|err| Curve25519Error::PodConversion)?  // 处理 Slice 转换错误
+                .map_err(|_err| Curve25519Error::PodConversion)?  // 处理 Slice 转换错误
                 .decompress()
                 .ok_or_else(|| Curve25519Error::SignatureError("Failed to decompress Edwards point".into()))?;  // 使用 SignatureError 处理解压失败
                 Ok(point)
@@ -82,9 +84,17 @@ mod target_arch {
         type Point = Self;
 
         fn validate_point(&self) -> bool {
+            /*
             CompressedEdwardsY::from_slice(&self.0)
                 .decompress()
                 .is_some()
+            */
+            //gaokanxu 2024.08.15 begin
+            CompressedEdwardsY::from_slice(&self.0)
+                .ok()  // 将 Result<CompressedEdwardsY, TryFromSliceError> 转换为 Option<CompressedEdwardsY>
+                .and_then(|compressed| compressed.decompress())  // 解压缩，并返回 Option<EdwardsPoint>
+                .is_some()  // 如果解压成功，返回 true，否则返回 false
+            //gaokanxu 2024.08.15 end
         }
     }
 

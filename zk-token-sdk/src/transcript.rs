@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 use {
     crate::{errors::TranscriptError, zk_token_elgamal::pod},
     curve25519_dalek::{ristretto::CompressedRistretto, scalar::Scalar, traits::IsIdentity},

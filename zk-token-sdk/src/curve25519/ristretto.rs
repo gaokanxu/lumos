@@ -61,22 +61,43 @@ mod target_arch {
 
     impl TryFrom<&PodRistrettoPoint> for RistrettoPoint {
         type Error = Curve25519Error;
-
+        /*
         fn try_from(pod: &PodRistrettoPoint) -> Result<Self, Self::Error> {
             CompressedRistretto::from_slice(&pod.0)
                 .decompress()
                 .ok_or(Curve25519Error::PodConversion)
         }
+        */
+        //gaokanxu 2024.08.15 begin
+        fn try_from(pod: &PodRistrettoPoint) -> Result<Self, Self::Error> {
+            let compressed = CompressedRistretto::from_slice(&pod.0)
+                .map_err(|_err| Curve25519Error::PodConversion)?;  // 手动将错误转换为 Curve25519Error
+                
+            compressed
+                .decompress()
+                .ok_or(Curve25519Error::PodConversion)
+        }
+        //gaokanxu 2024.08.15 end
     }
 
     impl PointValidation for PodRistrettoPoint {
         type Point = Self;
-
+        /*
         fn validate_point(&self) -> bool {
             CompressedRistretto::from_slice(&self.0)
                 .decompress()
                 .is_some()
         }
+        */
+        //gaokanxu 2024.08.15 begin
+        fn validate_point(&self) -> bool {
+            match CompressedRistretto::from_slice(&self.0) {
+                Ok(compressed) => compressed.decompress().is_some(),
+                Err(_) => false, // 如果 `from_slice` 失败，返回 `false`
+            }
+        }
+        //gaokanxu 2024.08.15 end
+        
     }
 
     impl GroupOperations for PodRistrettoPoint {
