@@ -6,7 +6,7 @@
 //! - the `percentage` amount is equal to a constant (referred to as the `max_value`)
 //! - the `delta` and `claimed` amounts are equal
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 use {
     crate::{
         encryption::pedersen::{PedersenCommitment, PedersenOpening},
@@ -45,7 +45,7 @@ pub struct PercentageWithCapProofData {
 /// We refer to [`ZK ElGamal proof`] for the formal details on how the percentage-with-cap proof is
 /// computed.
 ///
-/// [`ZK ElGamal proof`]: https://docs.solanalabs.com/runtime/zk-token-proof
+/// [`ZK ElGamal proof`]: https://docs.lumoslabs.com/runtime/zk-token-proof
 #[derive(Clone, Copy, Pod, Zeroable)]
 #[repr(C)]
 pub struct PercentageWithCapProofContext {
@@ -62,7 +62,7 @@ pub struct PercentageWithCapProofContext {
     pub max_value: PodU64,
 }
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 impl PercentageWithCapProofData {
     pub fn new(
         percentage_commitment: &PedersenCommitment,
@@ -114,7 +114,7 @@ impl ZkProofData<PercentageWithCapProofContext> for PercentageWithCapProofData {
         &self.context
     }
 
-    #[cfg(not(target_os = "solana"))]
+    #[cfg(not(target_os = "lumos"))]
     fn verify_proof(&self) -> Result<(), ProofVerificationError> {
         let mut transcript = self.context.new_transcript();
 
@@ -136,7 +136,7 @@ impl ZkProofData<PercentageWithCapProofContext> for PercentageWithCapProofData {
     }
 }
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 impl PercentageWithCapProofContext {
     fn new_transcript(&self) -> Transcript {
         let mut transcript = Transcript::new(b"percentage-with-cap-instruction");

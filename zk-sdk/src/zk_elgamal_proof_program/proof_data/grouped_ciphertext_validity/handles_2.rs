@@ -15,7 +15,7 @@ use {
     },
     bytemuck_derive::{Pod, Zeroable},
 };
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 use {
     crate::{
         encryption::{
@@ -52,7 +52,7 @@ pub struct GroupedCiphertext2HandlesValidityProofContext {
     pub grouped_ciphertext: PodGroupedElGamalCiphertext2Handles, // 96 bytes
 }
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 impl GroupedCiphertext2HandlesValidityProofData {
     pub fn new(
         first_pubkey: &ElGamalPubkey,
@@ -95,7 +95,7 @@ impl ZkProofData<GroupedCiphertext2HandlesValidityProofContext>
         &self.context
     }
 
-    #[cfg(not(target_os = "solana"))]
+    #[cfg(not(target_os = "lumos"))]
     fn verify_proof(&self) -> Result<(), ProofVerificationError> {
         let mut transcript = self.context.new_transcript();
 
@@ -122,7 +122,7 @@ impl ZkProofData<GroupedCiphertext2HandlesValidityProofContext>
     }
 }
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 impl GroupedCiphertext2HandlesValidityProofContext {
     fn new_transcript(&self) -> Transcript {
         let mut transcript = Transcript::new(b"grouped-ciphertext-validity-2-handles-instruction");

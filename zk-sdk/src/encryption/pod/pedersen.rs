@@ -5,7 +5,7 @@ use {
     bytemuck_derive::{Pod, Zeroable},
     std::fmt,
 };
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 use {
     crate::{encryption::pedersen::PedersenCommitment, errors::ElGamalError},
     curve25519_dalek::ristretto::CompressedRistretto,
@@ -22,7 +22,7 @@ impl fmt::Debug for PodPedersenCommitment {
     }
 }
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 impl From<PedersenCommitment> for PodPedersenCommitment {
     fn from(decoded_commitment: PedersenCommitment) -> Self {
         Self(decoded_commitment.to_bytes())
@@ -30,14 +30,14 @@ impl From<PedersenCommitment> for PodPedersenCommitment {
 }
 
 // For proof verification, interpret pod::PedersenCommitment directly as CompressedRistretto
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 impl From<PodPedersenCommitment> for CompressedRistretto {
     fn from(pod_commitment: PodPedersenCommitment) -> Self {
         Self(pod_commitment.0)
     }
 }
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 impl TryFrom<PodPedersenCommitment> for PedersenCommitment {
     type Error = ElGamalError;
 

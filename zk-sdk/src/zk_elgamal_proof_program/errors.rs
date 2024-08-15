@@ -1,4 +1,4 @@
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 use crate::range_proof::errors::RangeProofGenerationError;
 use {
     crate::{
@@ -8,7 +8,7 @@ use {
     thiserror::Error,
 };
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 #[derive(Error, Clone, Debug, Eq, PartialEq)]
 pub enum ProofGenerationError {
     #[error("illegal number of commitments")]

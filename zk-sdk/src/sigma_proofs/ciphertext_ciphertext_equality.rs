@@ -3,7 +3,7 @@
 //! The protocol guarantees computational soundness (by the hardness of discrete log) and perfect
 //! zero-knowledge in the random oracle model.
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 use {
     crate::{
         encryption::{
@@ -49,7 +49,7 @@ pub struct CiphertextCiphertextEqualityProof {
 }
 
 #[allow(non_snake_case)]
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 impl CiphertextCiphertextEqualityProof {
     /// Creates a ciphertext-ciphertext equality proof.
     ///

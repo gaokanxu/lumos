@@ -65,7 +65,7 @@ impl From<AltBn128CompressionError> for u64 {
     }
 }
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 mod target_arch {
 
     use {
@@ -188,13 +188,13 @@ mod target_arch {
     }
 }
 
-#[cfg(target_os = "solana")]
+#[cfg(target_os = "lumos")]
 mod target_arch {
     use {
         super::*,
         alt_bn128_compression_size::{G1, G1_COMPRESSED, G2, G2_COMPRESSED},
         prelude::*,
-        solana_program::syscalls,
+        lumos_program::syscalls,
     };
 
     pub fn alt_bn128_g1_compress(

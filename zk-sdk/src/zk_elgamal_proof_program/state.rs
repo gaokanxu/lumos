@@ -2,7 +2,7 @@ use {
     crate::zk_elgamal_proof_program::proof_data::{pod::PodProofType, ProofType},
     bytemuck::{bytes_of, Pod, Zeroable},
     num_traits::ToPrimitive,
-    solana_program::{
+    lumos_program::{
         instruction::{InstructionError, InstructionError::InvalidAccountData},
         pubkey::Pubkey,
     },

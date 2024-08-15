@@ -18,11 +18,11 @@
 //! - Performing secp256k1 public key recovery generally.
 //! - Verifying a single secp256k1 signature.
 //!
-//! While `secp256k1_recover` can be used to verify secp256k1 signatures, Solana
+//! While `secp256k1_recover` can be used to verify secp256k1 signatures, Lumos
 //! also provides the [secp256k1 program][sp], which is more flexible, has lower CPU
 //! cost, and can validate many signatures at once.
 //!
-//! [sp]: https://docs.rs/solana-program/latest/solana_program/secp256k1_program/
+//! [sp]: https://docs.rs/lumos-program/latest/lumos_program/secp256k1_program/
 //! [`ecrecover`]: https://docs.soliditylang.org/en/v0.8.14/units-and-global-variables.html?highlight=ecrecover#mathematical-and-cryptographic-functions
 
 #[cfg(feature = "borsh")]
@@ -64,7 +64,7 @@ pub const SECP256K1_SIGNATURE_LENGTH: usize = 64;
 pub const SECP256K1_PUBLIC_KEY_LENGTH: usize = 64;
 
 #[repr(transparent)]
-#[cfg_attr(feature = "frozen-abi", derive(solana_frozen_abi_macro::AbiExample))]
+#[cfg_attr(feature = "frozen-abi", derive(lumos_frozen_abi_macro::AbiExample))]
 #[cfg_attr(
     feature = "borsh",
     derive(BorshSerialize, BorshDeserialize, BorshSchema),
@@ -86,8 +86,8 @@ impl Secp256k1Pubkey {
     }
 }
 
-#[cfg(target_os = "solana")]
-solana_define_syscall::define_syscall!(fn sol_secp256k1_recover(hash: *const u8, recovery_id: u64, signature: *const u8, result: *mut u8) -> u64);
+#[cfg(target_os = "lumos")]
+lumos_define_syscall::define_syscall!(fn sol_secp256k1_recover(hash: *const u8, recovery_id: u64, signature: *const u8, result: *mut u8) -> u64);
 
 /// Recover the public key from a [secp256k1] ECDSA signature and
 /// cryptographically-hashed message.
@@ -114,7 +114,7 @@ solana_define_syscall::define_syscall!(fn sol_secp256k1_recover(hash: *const u8,
 /// "overflowing" signature, and this function returns an error when parsing
 /// overflowing signatures.
 ///
-/// [`keccak`]: https://docs.rs/solana-program/latest/solana_program/keccak/
+/// [`keccak`]: https://docs.rs/lumos-program/latest/lumos_program/keccak/
 /// [`wrapping_sub`]: https://doc.rust-lang.org/std/primitive.u8.html#method.wrapping_sub
 ///
 /// On success this function returns a [`Secp256k1Pubkey`], a wrapper around a
@@ -123,11 +123,11 @@ solana_define_syscall::define_syscall!(fn sol_secp256k1_recover(hash: *const u8,
 /// `signature`.
 ///
 /// While `secp256k1_recover` can be used to verify secp256k1 signatures by
-/// comparing the recovered key against an expected key, Solana also provides
+/// comparing the recovered key against an expected key, Lumos also provides
 /// the [secp256k1 program][sp], which is more flexible, has lower CPU cost, and
 /// can validate many signatures at once.
 ///
-/// [sp]: https://docs.rs/solana-program/latest/solana_program/secp256k1_program/
+/// [sp]: https://docs.rs/lumos-program/latest/lumos_program/secp256k1_program/
 ///
 /// The `secp256k1_recover` syscall is implemented with the [`libsecp256k1`]
 /// crate, which clients may also want to use.
@@ -154,9 +154,9 @@ solana_define_syscall::define_syscall!(fn sol_secp256k1_recover(hash: *const u8,
 /// a unique representation this can be the source of bugs, potentially with
 /// security implications.
 ///
-/// **The solana `secp256k1_recover` function does not prevent signature
+/// **The lumos `secp256k1_recover` function does not prevent signature
 /// malleability**. This is in contrast to the Bitcoin secp256k1 library, which
-/// does prevent malleability by default. Solana accepts signatures with `S`
+/// does prevent malleability by default. Lumos accepts signatures with `S`
 /// values that are either in the _high order_ or in the _low order_, and it
 /// is trivial to produce one from the other.
 ///
@@ -166,7 +166,7 @@ solana_define_syscall::define_syscall!(fn sol_secp256k1_recover(hash: *const u8,
 /// this:
 ///
 /// ```rust,ignore
-/// # use solana_program::program_error::ProgramError;
+/// # use lumos_program::program_error::ProgramError;
 /// # let signature_bytes = [
 /// #     0x83, 0x55, 0x81, 0xDF, 0xB1, 0x02, 0xA7, 0xD2,
 /// #     0x2D, 0x33, 0xA4, 0x07, 0xDD, 0x7E, 0xFA, 0x9A,
@@ -188,7 +188,7 @@ solana_define_syscall::define_syscall!(fn sol_secp256k1_recover(hash: *const u8,
 ///
 /// This has the downside that the program must link to the [`libsecp256k1`]
 /// crate and parse the signature just for this check. Note that `libsecp256k1`
-/// version 0.7.0 or greater is required for running on the Solana SBF target.
+/// version 0.7.0 or greater is required for running on the Lumos SBF target.
 ///
 /// [`libsecp256k1`]: https://docs.rs/libsecp256k1/latest/libsecp256k1
 ///
@@ -240,7 +240,7 @@ solana_define_syscall::define_syscall!(fn sol_secp256k1_recover(hash: *const u8,
 /// # Examples
 ///
 /// This example demonstrates recovering a public key and using it to very a
-/// signature with the `secp256k1_recover` syscall. It has three parts: a Solana
+/// signature with the `secp256k1_recover` syscall. It has three parts: a Lumos
 /// program, an RPC client to call the program, and common definitions shared
 /// between the two.
 ///
@@ -258,16 +258,16 @@ solana_define_syscall::define_syscall!(fn sol_secp256k1_recover(hash: *const u8,
 /// }
 /// ```
 ///
-/// The Solana program. Note that it uses `libsecp256k1` version 0.7.0 to parse
+/// The Lumos program. Note that it uses `libsecp256k1` version 0.7.0 to parse
 /// the secp256k1 signature to prevent malleability.
 ///
 /// ```rust,ignore
-/// use solana_program::{
+/// use lumos_program::{
 ///     entrypoint::ProgramResult,
 ///     keccak, msg,
 ///     program_error::ProgramError,
 /// };
-/// use solana_secp256k1_recover::secp256k1_recover;
+/// use lumos_secp256k1_recover::secp256k1_recover;
 ///
 /// /// The key we expect to sign secp256k1 messages,
 /// /// as serialized by `libsecp256k1::PublicKey::serialize`.
@@ -299,7 +299,7 @@ solana_define_syscall::define_syscall!(fn sol_secp256k1_recover(hash: *const u8,
 ///     };
 ///
 ///     // Reject high-s value signatures to prevent malleability.
-///     // Solana does not do this itself.
+///     // Lumos does not do this itself.
 ///     // This may or may not be necessary depending on use case.
 ///     {
 ///         let signature = libsecp256k1::Signature::parse_standard_slice(&instruction.signature)
@@ -332,11 +332,11 @@ solana_define_syscall::define_syscall!(fn sol_secp256k1_recover(hash: *const u8,
 /// The RPC client program:
 ///
 /// ```rust,ignore
-/// # use solana_program::example_mocks::solana_rpc_client;
-/// # use solana_program::example_mocks::solana_sdk;
+/// # use lumos_program::example_mocks::lumos_rpc_client;
+/// # use lumos_program::example_mocks::lumos_sdk;
 /// use anyhow::Result;
-/// use solana_rpc_client::rpc_client::RpcClient;
-/// use solana_sdk::{
+/// use lumos_rpc_client::rpc_client::RpcClient;
+/// use lumos_sdk::{
 ///     instruction::Instruction,
 ///     keccak,
 ///     pubkey::Pubkey,
@@ -399,7 +399,7 @@ pub fn secp256k1_recover(
     recovery_id: u8,
     signature: &[u8],
 ) -> Result<Secp256k1Pubkey, Secp256k1RecoverError> {
-    #[cfg(target_os = "solana")]
+    #[cfg(target_os = "lumos")]
     {
         let mut pubkey_buffer = [0u8; SECP256K1_PUBLIC_KEY_LENGTH];
         let result = unsafe {
@@ -417,7 +417,7 @@ pub fn secp256k1_recover(
         }
     }
 
-    #[cfg(not(target_os = "solana"))]
+    #[cfg(not(target_os = "lumos"))]
     {
         let message = libsecp256k1::Message::parse_slice(hash)
             .map_err(|_| Secp256k1RecoverError::InvalidHash)?;

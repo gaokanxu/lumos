@@ -13,7 +13,7 @@
 #![allow(dead_code)]
 
 use crate::{RISTRETTO_POINT_LEN, SCALAR_LEN};
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 use {
     crate::{
         encryption::pedersen::{Pedersen, PedersenCommitment, PedersenOpening, G, H},
@@ -39,11 +39,11 @@ use {
 pub mod errors;
 pub mod pod;
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 pub mod generators;
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 pub mod inner_product;
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 pub mod util;
 
 /// Byte length of a range proof excluding the inner-product proof component
@@ -72,7 +72,7 @@ pub const RANGE_PROOF_U256_LEN: usize =
     INNER_PRODUCT_PROOF_U256_LEN + RANGE_PROOF_MODULO_INNER_PRODUCT_PROOF_LEN;
 
 #[allow(non_snake_case)]
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 #[derive(Clone)]
 pub struct RangeProof {
     pub A: CompressedRistretto,       // 32 bytes
@@ -86,7 +86,7 @@ pub struct RangeProof {
 }
 
 #[allow(non_snake_case)]
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 impl RangeProof {
     /// Create an aggregated range proof.
     ///
@@ -98,7 +98,7 @@ impl RangeProof {
     ///
     /// The sum of the bit-lengths of the commitments amounts must be a power-of-two
     #[allow(clippy::many_single_char_names)]
-    #[cfg(not(target_os = "solana"))]
+    #[cfg(not(target_os = "lumos"))]
     pub fn new(
         amounts: Vec<u64>,
         bit_lengths: Vec<usize>,
@@ -446,7 +446,7 @@ impl RangeProof {
 /// \\[
 /// \delta(y,z) = (z - z^{2}) \langle \mathbf{1}, {\mathbf{y}}^{n \cdot m} \rangle - \sum_{j=0}^{m-1} z^{j+3} \cdot \langle \mathbf{1}, {\mathbf{2}}^{n \cdot m} \rangle
 /// \\]
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 fn delta(bit_lengths: &[usize], y: &Scalar, z: &Scalar) -> Scalar {
     let nm: usize = bit_lengths.iter().sum();
     let sum_y = util::sum_of_powers(y, nm);

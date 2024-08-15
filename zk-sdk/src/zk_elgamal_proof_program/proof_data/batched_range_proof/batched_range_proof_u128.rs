@@ -1,6 +1,6 @@
 //! The 128-bit batched range proof instruction.
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 use {
     crate::{
         encryption::pedersen::{PedersenCommitment, PedersenOpening},
@@ -37,7 +37,7 @@ pub struct BatchedRangeProofU128Data {
     pub proof: PodRangeProofU128,
 }
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 impl BatchedRangeProofU128Data {
     pub fn new(
         commitments: Vec<&PedersenCommitment>,
@@ -79,7 +79,7 @@ impl ZkProofData<BatchedRangeProofContext> for BatchedRangeProofU128Data {
         &self.context
     }
 
-    #[cfg(not(target_os = "solana"))]
+    #[cfg(not(target_os = "lumos"))]
     fn verify_proof(&self) -> Result<(), ProofVerificationError> {
         let (commitments, bit_lengths) = self.context.try_into()?;
         let num_commitments = commitments.len();

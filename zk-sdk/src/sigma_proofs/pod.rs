@@ -1,6 +1,6 @@
 //! Plain Old Data types for sigma proofs.
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 use crate::sigma_proofs::{
     batched_grouped_ciphertext_validity::{
         BatchedGroupedCiphertext2HandlesValidityProof,
@@ -27,14 +27,14 @@ pub struct PodCiphertextCommitmentEqualityProof(
     pub(crate) [u8; CIPHERTEXT_COMMITMENT_EQUALITY_PROOF_LEN],
 );
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 impl From<CiphertextCommitmentEqualityProof> for PodCiphertextCommitmentEqualityProof {
     fn from(decoded_proof: CiphertextCommitmentEqualityProof) -> Self {
         Self(decoded_proof.to_bytes())
     }
 }
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 impl TryFrom<PodCiphertextCommitmentEqualityProof> for CiphertextCommitmentEqualityProof {
     type Error = EqualityProofVerificationError;
 
@@ -50,14 +50,14 @@ pub struct PodCiphertextCiphertextEqualityProof(
     pub(crate) [u8; CIPHERTEXT_CIPHERTEXT_EQUALITY_PROOF_LEN],
 );
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 impl From<CiphertextCiphertextEqualityProof> for PodCiphertextCiphertextEqualityProof {
     fn from(decoded_proof: CiphertextCiphertextEqualityProof) -> Self {
         Self(decoded_proof.to_bytes())
     }
 }
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 impl TryFrom<PodCiphertextCiphertextEqualityProof> for CiphertextCiphertextEqualityProof {
     type Error = EqualityProofVerificationError;
 
@@ -73,13 +73,13 @@ pub struct PodGroupedCiphertext2HandlesValidityProof(
     pub(crate) [u8; GROUPED_CIPHERTEXT_2_HANDLES_VALIDITY_PROOF_LEN],
 );
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 impl From<GroupedCiphertext2HandlesValidityProof> for PodGroupedCiphertext2HandlesValidityProof {
     fn from(decoded_proof: GroupedCiphertext2HandlesValidityProof) -> Self {
         Self(decoded_proof.to_bytes())
     }
 }
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 
 impl TryFrom<PodGroupedCiphertext2HandlesValidityProof> for GroupedCiphertext2HandlesValidityProof {
     type Error = ValidityProofVerificationError;
@@ -96,14 +96,14 @@ pub struct PodGroupedCiphertext3HandlesValidityProof(
     pub(crate) [u8; GROUPED_CIPHERTEXT_3_HANDLES_VALIDITY_PROOF_LEN],
 );
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 impl From<GroupedCiphertext3HandlesValidityProof> for PodGroupedCiphertext3HandlesValidityProof {
     fn from(decoded_proof: GroupedCiphertext3HandlesValidityProof) -> Self {
         Self(decoded_proof.to_bytes())
     }
 }
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 impl TryFrom<PodGroupedCiphertext3HandlesValidityProof> for GroupedCiphertext3HandlesValidityProof {
     type Error = ValidityProofVerificationError;
 
@@ -119,7 +119,7 @@ pub struct PodBatchedGroupedCiphertext2HandlesValidityProof(
     pub(crate) [u8; BATCHED_GROUPED_CIPHERTEXT_2_HANDLES_VALIDITY_PROOF_LEN],
 );
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 impl From<BatchedGroupedCiphertext2HandlesValidityProof>
     for PodBatchedGroupedCiphertext2HandlesValidityProof
 {
@@ -128,7 +128,7 @@ impl From<BatchedGroupedCiphertext2HandlesValidityProof>
     }
 }
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 impl TryFrom<PodBatchedGroupedCiphertext2HandlesValidityProof>
     for BatchedGroupedCiphertext2HandlesValidityProof
 {
@@ -148,7 +148,7 @@ pub struct PodBatchedGroupedCiphertext3HandlesValidityProof(
     pub(crate) [u8; BATCHED_GROUPED_CIPHERTEXT_3_HANDLES_VALIDITY_PROOF_LEN],
 );
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 impl From<BatchedGroupedCiphertext3HandlesValidityProof>
     for PodBatchedGroupedCiphertext3HandlesValidityProof
 {
@@ -157,7 +157,7 @@ impl From<BatchedGroupedCiphertext3HandlesValidityProof>
     }
 }
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 impl TryFrom<PodBatchedGroupedCiphertext3HandlesValidityProof>
     for BatchedGroupedCiphertext3HandlesValidityProof
 {
@@ -175,14 +175,14 @@ impl TryFrom<PodBatchedGroupedCiphertext3HandlesValidityProof>
 #[repr(transparent)]
 pub struct PodZeroCiphertextProof(pub(crate) [u8; ZERO_CIPHERTEXT_PROOF_LEN]);
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 impl From<ZeroCiphertextProof> for PodZeroCiphertextProof {
     fn from(decoded_proof: ZeroCiphertextProof) -> Self {
         Self(decoded_proof.to_bytes())
     }
 }
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 impl TryFrom<PodZeroCiphertextProof> for ZeroCiphertextProof {
     type Error = ZeroCiphertextProofVerificationError;
 
@@ -196,14 +196,14 @@ impl TryFrom<PodZeroCiphertextProof> for ZeroCiphertextProof {
 #[repr(transparent)]
 pub struct PodPercentageWithCapProof(pub(crate) [u8; PERCENTAGE_WITH_CAP_PROOF_LEN]);
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 impl From<PercentageWithCapProof> for PodPercentageWithCapProof {
     fn from(decoded_proof: PercentageWithCapProof) -> Self {
         Self(decoded_proof.to_bytes())
     }
 }
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 impl TryFrom<PodPercentageWithCapProof> for PercentageWithCapProof {
     type Error = PercentageWithCapProofVerificationError;
 
@@ -217,14 +217,14 @@ impl TryFrom<PodPercentageWithCapProof> for PercentageWithCapProof {
 #[repr(transparent)]
 pub struct PodPubkeyValidityProof(pub(crate) [u8; PUBKEY_VALIDITY_PROOF_LEN]);
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 impl From<PubkeyValidityProof> for PodPubkeyValidityProof {
     fn from(decoded_proof: PubkeyValidityProof) -> Self {
         Self(decoded_proof.to_bytes())
     }
 }
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 impl TryFrom<PodPubkeyValidityProof> for PubkeyValidityProof {
     type Error = PubkeyValidityProofVerificationError;
 

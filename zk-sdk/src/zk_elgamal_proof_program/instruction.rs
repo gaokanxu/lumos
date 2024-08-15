@@ -29,15 +29,15 @@
 //! this instruction must be signed by the context account's owner. This instruction can be used by
 //! the account owner to reclaim lamports for storage.
 //!
-//! [`ZK ElGamal proof`]: https://docs.solanalabs.com/runtime/zk-token-proof
-//! [`context-state`]: https://docs.solanalabs.com/runtime/zk-token-proof#context-data
+//! [`ZK ElGamal proof`]: https://docs.lumoslabs.com/runtime/zk-token-proof
+//! [`context-state`]: https://docs.lumoslabs.com/runtime/zk-token-proof#context-data
 
 use {
     crate::zk_elgamal_proof_program::proof_data::ZkProofData,
     bytemuck::{bytes_of, Pod},
     num_derive::{FromPrimitive, ToPrimitive},
     num_traits::{FromPrimitive, ToPrimitive},
-    solana_program::{
+    lumos_program::{
         instruction::{AccountMeta, Instruction},
         pubkey::Pubkey,
     },

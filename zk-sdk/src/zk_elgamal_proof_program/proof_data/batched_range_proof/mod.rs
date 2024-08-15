@@ -21,7 +21,7 @@ pub mod batched_range_proof_u256;
 pub mod batched_range_proof_u64;
 
 use crate::encryption::pod::pedersen::PodPedersenCommitment;
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 use {
     crate::{
         encryption::pedersen::{PedersenCommitment, PedersenOpening},
@@ -39,7 +39,7 @@ const MAX_COMMITMENTS: usize = 8;
 ///
 /// A 256-bit range proof on a single Pedersen commitment is meaningless and hence enforce an upper
 /// bound as the largest power-of-two number less than 256.
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 const MAX_SINGLE_BIT_LENGTH: usize = 128;
 
 /// The context data needed to verify a range-proof for a Pedersen committed value.
@@ -53,7 +53,7 @@ pub struct BatchedRangeProofContext {
 }
 
 #[allow(non_snake_case)]
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 impl BatchedRangeProofContext {
     fn new_transcript(&self) -> Transcript {
         let mut transcript = Transcript::new(b"batched-range-proof-instruction");
@@ -101,7 +101,7 @@ impl BatchedRangeProofContext {
     }
 }
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 impl TryInto<(Vec<PedersenCommitment>, Vec<usize>)> for BatchedRangeProofContext {
     type Error = ProofVerificationError;
 

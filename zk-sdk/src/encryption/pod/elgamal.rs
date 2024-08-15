@@ -8,7 +8,7 @@ use {
     bytemuck::Zeroable,
     std::fmt,
 };
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 use {
     crate::{
         encryption::elgamal::{DecryptHandle, ElGamalCiphertext, ElGamalPubkey},
@@ -52,14 +52,14 @@ impl_from_str!(
     BASE64_LEN = ELGAMAL_CIPHERTEXT_MAX_BASE64_LEN
 );
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 impl From<ElGamalCiphertext> for PodElGamalCiphertext {
     fn from(decoded_ciphertext: ElGamalCiphertext) -> Self {
         Self(decoded_ciphertext.to_bytes())
     }
 }
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 impl TryFrom<PodElGamalCiphertext> for ElGamalCiphertext {
     type Error = ElGamalError;
 
@@ -91,14 +91,14 @@ impl_from_str!(
     BASE64_LEN = ELGAMAL_PUBKEY_MAX_BASE64_LEN
 );
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 impl From<ElGamalPubkey> for PodElGamalPubkey {
     fn from(decoded_pubkey: ElGamalPubkey) -> Self {
         Self(decoded_pubkey.into())
     }
 }
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 impl TryFrom<PodElGamalPubkey> for ElGamalPubkey {
     type Error = ElGamalError;
 
@@ -118,7 +118,7 @@ impl fmt::Debug for PodDecryptHandle {
     }
 }
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 impl From<DecryptHandle> for PodDecryptHandle {
     fn from(decoded_handle: DecryptHandle) -> Self {
         Self(decoded_handle.to_bytes())
@@ -126,14 +126,14 @@ impl From<DecryptHandle> for PodDecryptHandle {
 }
 
 // For proof verification, interpret pod::DecryptHandle as CompressedRistretto
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 impl From<PodDecryptHandle> for CompressedRistretto {
     fn from(pod_handle: PodDecryptHandle) -> Self {
         Self(pod_handle.0)
     }
 }
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 impl TryFrom<PodDecryptHandle> for DecryptHandle {
     type Error = ElGamalError;
 

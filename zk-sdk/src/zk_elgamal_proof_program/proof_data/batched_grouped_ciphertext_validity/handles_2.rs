@@ -15,7 +15,7 @@ use {
     },
     bytemuck_derive::{Pod, Zeroable},
 };
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 use {
     crate::{
         encryption::{
@@ -54,7 +54,7 @@ pub struct BatchedGroupedCiphertext2HandlesValidityProofContext {
     pub grouped_ciphertext_hi: PodGroupedElGamalCiphertext2Handles, // 96 bytes
 }
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 impl BatchedGroupedCiphertext2HandlesValidityProofData {
     pub fn new(
         first_pubkey: &ElGamalPubkey,
@@ -104,7 +104,7 @@ impl ZkProofData<BatchedGroupedCiphertext2HandlesValidityProofContext>
         &self.context
     }
 
-    #[cfg(not(target_os = "solana"))]
+    #[cfg(not(target_os = "lumos"))]
     fn verify_proof(&self) -> Result<(), ProofVerificationError> {
         let mut transcript = self.context.new_transcript();
 
@@ -139,7 +139,7 @@ impl ZkProofData<BatchedGroupedCiphertext2HandlesValidityProofContext>
     }
 }
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 impl BatchedGroupedCiphertext2HandlesValidityProofContext {
     fn new_transcript(&self) -> Transcript {
         let mut transcript =

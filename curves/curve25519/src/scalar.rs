@@ -4,7 +4,7 @@ pub use bytemuck_derive::{Pod, Zeroable};
 #[repr(transparent)]
 pub struct PodScalar(pub [u8; 32]);
 
-#[cfg(not(target_os = "solana"))]
+#[cfg(not(target_os = "lumos"))]
 mod target_arch {
     use {super::*, crate::errors::Curve25519Error, curve25519_dalek::scalar::Scalar};
 
