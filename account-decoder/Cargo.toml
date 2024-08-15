@@ -1,7 +1,6 @@
 [package]
 name = "lumos-account-decoder"
 description = "Lumos account decoder"
-documentation = "https://docs.rs/lumos-account-decoder"
 
 version = { workspace = true }
 authors = { workspace = true }
@@ -29,7 +28,7 @@ lumos-config-program = { workspace = true }
 lumos-sdk = { workspace = true }
 
 lpl-token = { workspace = true }
-#lpl-token-2022 = { workspace = true }
+lpl-token-2022 = { workspace = true }
 lpl-token-group-interface = { workspace = true }
 lpl-token-metadata-interface = { workspace = true }
 lpl-pod = { workspace = true }

@@ -27,7 +27,7 @@ tokio = { workspace = true, features = ["full"] }
 lumos-accounts-db = { workspace = true }
 lumos-banks-client = { workspace = true }
 lumos-banks-interface = { workspace = true }
-lumos-banks-server = { workspace = true }
+#lumos-banks-server = { workspace = true }
 lumos-bpf-loader-program = { workspace = true }
 lumos-logger = { workspace = true }
 lumos-program-runtime = { workspace = true }

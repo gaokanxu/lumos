@@ -529,10 +529,11 @@ lumos-zk-token-proof-program = { path = "programs/zk-token-proof" }
 lumos-zk-token-sdk = { path = "zk-token-sdk" } 
 
 
+
 lpl-associated-token-account = { path = "../lumos-program-library/associated-token-account/program" }
 lpl-instruction-padding = { path = "../lumos-program-library/instruction-padding/program" }
 lpl-memo = { path = "../lumos-program-library/memo/program" }
-lpl-pod = { path = "../lumos-program-library/libraries/pod" }
+lpl-pod = { path = "../lumos-program-library/libraries/pod"}
 lpl-single-pool = { path = "../lumos-program-library/single-pool/program" }
 lpl-transfer-hook-interface = { path = "../lumos-program-library/token/transfer-hook/interface" }
 lpl-type-length-value = { path = "../lumos-program-library/libraries/type-length-value" }
