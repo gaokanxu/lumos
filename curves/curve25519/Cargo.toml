@@ -1,0 +1,21 @@
+[package]
+name = "lumos-curve25519"
+description = "Lumos Curve25519 Syscalls"
+
+version = { workspace = true }
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[dependencies]
+bytemuck = { workspace = true }
+bytemuck-derive = { workspace = true }
+thiserror = { workspace = true }
+
+[target.'cfg(target_os = "lumos")'.dependencies]
+lumos-program = { workspace = true }
+
+[target.'cfg(not(target_os = "lumos"))'.dependencies]
+curve25519-dalek = { workspace = true, features = ["serde"] }

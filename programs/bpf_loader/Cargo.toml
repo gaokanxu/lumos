@@ -20,6 +20,7 @@ thiserror = { workspace = true }
 lumos-measure = { workspace = true }
 lumos-program-runtime = { workspace = true }
 lumos-sdk = { workspace = true }
+lumos-zk-sdk = { workspace = true }
 lumos-zk-token-sdk = { workspace = true }
 rbpf = { workspace = true }
 

@@ -467,6 +467,7 @@ lumos-config-program = { path = "programs/config" }
 lumos-connection-cache = { path = "connection-cache" }
 lumos-core = { path = "core" }
 lumos-cost-model = { path = "cost-model" }
+lumos-curve25519 = { path = "curves/curve25519" }
 lumos-download-utils = { path = "download-utils" }
 lumos-entry = { path = "entry" }
 lumos-faucet = { path = "faucet" }
@@ -523,6 +524,7 @@ lumos-vote = { path = "vote" }
 lumos-vote-program = { path = "programs/vote" }
 lumos-wen-restart = { path = "wen-restart" }
 lumos-zk-keygen = { path = "zk-keygen" }
+lumos-zk-sdk = { path = "zk-sdk" }
 lumos-zk-token-proof-program = { path = "programs/zk-token-proof" }
 lumos-zk-token-sdk = { path = "zk-token-sdk" } 
 
