@@ -26,6 +26,7 @@ zstd = { workspace = true }
 #lumos-transaction-status = { workspace = true }
 lumos-config-program = { workspace = true }
 lumos-sdk = { workspace = true }
+lumos-parse-token = { workspace = true }
 
 lpl-token = { workspace = true }
 lpl-token-2022 = { workspace = true }

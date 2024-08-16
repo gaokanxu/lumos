@@ -1,3 +1,4 @@
+
 [profile.dev]
 incremental = true
 
@@ -9,10 +10,11 @@ inherits = "release"
 debug = true
 split-debuginfo = "packed"
 
+
 [workspace]
 authors = ["Gao Kanxu <gaokanxu@gmail.com>"]
 homepage = "https://www.uuhb.com"
-edition = "2.0.0"
+edition = "2021"
 
 members = [
     "account-decoder",
@@ -445,6 +447,8 @@ curve25519-dalek-derive = { path = "../curve25519-dalek/curve25519-dalek-derive"
 ed25519-dalek = { path = "../curve25519-dalek/ed25519-dalek", features = ["fast", "std", "zeroize", "digest", "rand", "u64_backend", "rand_core"] }
 ed25519-dalek-bip32 = { path = "../curve25519-dalek/ed25519-dalek-bip32", features = ["std"] }
 
+lumos-parse-token = { path = "../lumos-parse-token" }
+
 lumos-account-decoder = { path = "account-decoder" }
 lumos-accounts-db = { path = "accounts-db" }
 lumos-address-lookup-table-program = { path = "programs/address-lookup-table" }
@@ -467,7 +471,7 @@ lumos-config-program = { path = "programs/config" }
 lumos-connection-cache = { path = "connection-cache" }
 lumos-core = { path = "core" }
 lumos-cost-model = { path = "cost-model" }
-lumos-curve25519 = { path = "curves/curve25519" }
+lumos-curve25519 = { path = "../lumos-curve25519" }
 lumos-download-utils = { path = "download-utils" }
 lumos-entry = { path = "entry" }
 lumos-faucet = { path = "faucet" }
@@ -524,7 +528,6 @@ lumos-vote = { path = "vote" }
 lumos-vote-program = { path = "programs/vote" }
 lumos-wen-restart = { path = "wen-restart" }
 lumos-zk-keygen = { path = "zk-keygen" }
-lumos-zk-sdk = { path = "zk-sdk" }
 lumos-zk-token-proof-program = { path = "programs/zk-token-proof" }
 lumos-zk-token-sdk = { path = "zk-token-sdk" } 
 
@@ -567,4 +570,6 @@ lpl-token-confidential-transfer-proof-extraction = { path = "../lumos-program-li
 lpl-token-group-example = { path = "../lumos-program-library/token-group/example" }
 lpl-token-swap = { path = "../lumos-program-library/token-swap/program" }
 lpl-token-upgrade-cli = { path = "../lumos-program-library/token-upgrade/cli" }
+
+
 

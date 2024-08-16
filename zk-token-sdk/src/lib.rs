@@ -32,7 +32,9 @@ mod sigma_proofs;
 mod transcript;
 
 // TODO: re-organize visibility
-pub mod curve25519;
+//gaokanxu 2024.08.17
+//pub mod curve25519;
+
 pub mod instruction;
 pub mod zk_token_elgamal;
 pub mod zk_token_proof_instruction;

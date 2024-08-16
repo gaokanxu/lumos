@@ -1,9 +1,9 @@
 use {
     crate::{
         parse_account_data::{ParsableAccount, ParseAccountError},
-        parse_token_extension::{parse_extension, UiExtension},
         StringAmount, StringDecimals,
     },
+    lumos_parse_token::parse_token_extension::{parse_extension, UiExtension},
     lumos_sdk::pubkey::Pubkey,
     lpl_token_2022::{
         extension::{BaseStateWithExtensions, StateWithExtensions},

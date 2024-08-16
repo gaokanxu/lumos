@@ -24,7 +24,7 @@ serde_json = { workspace = true }
 
 ed25519-dalek = { workspace = true }
 
-#lumos-account-decoder = { workspace = true }
+lumos-account-decoder = { workspace = true }
 lumos-clap-utils = { workspace = true }
 lumos-cli-config = { workspace = true }
 #lumos-rpc-client-api = { workspace = true }
