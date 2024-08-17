@@ -2,22 +2,22 @@
 
 //use {super::pod, crate::curve25519::ristretto::PodRistrettoPoint};
 //gaokanxu 2024.08.17 begin
-use super::pod;
+use crate::pod;
 use lumos_curve25519::ristretto::PodRistrettoPoint;
 //use lumos_curve25519::scalar::MyPodScalar;
 //gaokanxu 2024.08.17 end
 
-impl From<(pod::PedersenCommitment, pod::DecryptHandle)> for pod::ElGamalCiphertext {
+impl From<(pod::PedersenCommitment, pod::DecryptHandle)> for pod::PodElGamalCiphertext {
     fn from((commitment, handle): (pod::PedersenCommitment, pod::DecryptHandle)) -> Self {
         let mut buf = [0_u8; 64];
         buf[..32].copy_from_slice(&commitment.0);
         buf[32..].copy_from_slice(&handle.0);
-        pod::ElGamalCiphertext(buf)
+        pod::PodElGamalCiphertext(buf)
     }
 }
 
-impl From<pod::ElGamalCiphertext> for (pod::PedersenCommitment, pod::DecryptHandle) {
-    fn from(ciphertext: pod::ElGamalCiphertext) -> Self {
+impl From<pod::PodElGamalCiphertext> for (pod::PedersenCommitment, pod::DecryptHandle) {
+    fn from(ciphertext: pod::PodElGamalCiphertext) -> Self {
         let commitment: [u8; 32] = ciphertext.0[..32].try_into().unwrap();
         let handle: [u8; 32] = ciphertext.0[32..].try_into().unwrap();
 

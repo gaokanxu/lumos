@@ -47,3 +47,25 @@ impl_from_transcript_error!(FeeSigmaProofVerificationError);
 #[error("public key validity proof verification failed: {0}")]
 pub struct PubkeyValidityProofVerificationError(#[from] pub(crate) SigmaProofVerificationError);
 impl_from_transcript_error!(PubkeyValidityProofVerificationError);
+
+
+
+
+//gaokanxu 2024.08.18 begin
+#[derive(Error, Clone, Debug, Eq, PartialEq)]
+#[error("percentage with cap proof verification failed: {0}")]
+pub struct PercentageWithCapProofVerificationError(#[from] pub(crate) SigmaProofVerificationError);
+impl_from_transcript_error!(PercentageWithCapProofVerificationError);
+
+#[derive(Error, Clone, Debug, Eq, PartialEq)]
+#[error("zero ciphertext proof verification failed: {0}")]
+pub struct ZeroCiphertextProofVerificationError(#[from] pub(crate) SigmaProofVerificationError);
+impl_from_transcript_error!(ZeroCiphertextProofVerificationError);
+//gaokanxu 2024.08.18 end
+
+
+
+
+
+
+

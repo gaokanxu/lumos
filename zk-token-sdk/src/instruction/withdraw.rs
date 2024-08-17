@@ -16,7 +16,9 @@ use {
 use {
     crate::{
         instruction::{ProofType, ZkProofData},
-        zk_token_elgamal::pod,
+        //zk_token_elgamal::pod,
+        //gaokanxu 2024.08.17
+        pod,
     },
     bytemuck::{Pod, Zeroable},
 };
@@ -43,11 +45,11 @@ pub struct WithdrawData {
 #[repr(C)]
 pub struct WithdrawProofContext {
     /// The source account ElGamal pubkey
-    pub pubkey: pod::ElGamalPubkey, // 32 bytes
+    pub pubkey: pod::PodElGamalPubkey, // 32 bytes
 
     /// The source account available balance *after* the withdraw (encrypted by
     /// `source_pk`
-    pub final_ciphertext: pod::ElGamalCiphertext, // 64 bytes
+    pub final_ciphertext: pod::PodElGamalCiphertext, // 64 bytes
 }
 
 #[cfg(not(target_os = "lumos"))]
@@ -69,8 +71,8 @@ impl WithdrawData {
         // current source balance
         let final_ciphertext = current_ciphertext - &ElGamal::encode(amount);
 
-        let pod_pubkey = pod::ElGamalPubkey(keypair.pubkey().to_bytes());
-        let pod_final_ciphertext: pod::ElGamalCiphertext = final_ciphertext.into();
+        let pod_pubkey = pod::PodElGamalPubkey(keypair.pubkey().to_bytes());
+        let pod_final_ciphertext: pod::PodElGamalCiphertext = final_ciphertext.into();
 
         let context = WithdrawProofContext {
             pubkey: pod_pubkey,

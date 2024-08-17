@@ -1,7 +1,10 @@
 #![allow(dead_code)]
 
 use {
-    crate::{errors::TranscriptError, zk_token_elgamal::pod},
+    //crate::{errors::TranscriptError, zk_token_elgamal::pod},
+    //gaokanxu 2024.08.17
+    crate::{errors::TranscriptError, pod},
+    
     curve25519_dalek::{ristretto::CompressedRistretto, scalar::Scalar, traits::IsIdentity},
     merlin::Transcript,
 };
@@ -34,10 +37,14 @@ pub trait TranscriptProtocol {
     fn append_point(&mut self, label: &'static [u8], point: &CompressedRistretto);
 
     /// Append an ElGamal pubkey with the given `label`.
-    fn append_pubkey(&mut self, label: &'static [u8], point: &pod::ElGamalPubkey);
+    //fn append_pubkey(&mut self, label: &'static [u8], point: &pod::ElGamalPubkey);
+    //gaokanxu 2024.08.17
+    fn append_pubkey(&mut self, label: &'static [u8], point: &pod::PodElGamalPubkey);
 
     /// Append an ElGamal ciphertext with the given `label`.
-    fn append_ciphertext(&mut self, label: &'static [u8], point: &pod::ElGamalCiphertext);
+    //fn append_ciphertext(&mut self, label: &'static [u8], point: &pod::PodElGamalCiphertext);
+    //gaokanxu 2024.08.18
+    fn append_ciphertext(&mut self, label: &'static [u8], point: &pod::PodElGamalCiphertext);
 
     /// Append a grouped ElGamal ciphertext with the given `label`.
     fn append_grouped_ciphertext_2_handles(
@@ -138,11 +145,15 @@ impl TranscriptProtocol for Transcript {
         Scalar::from_bytes_mod_order_wide(&buf)
     }
 
-    fn append_pubkey(&mut self, label: &'static [u8], pubkey: &pod::ElGamalPubkey) {
+    //fn append_pubkey(&mut self, label: &'static [u8], pubkey: &pod::ElGamalPubkey) {
+    //gaokanxu 2024.08.17
+    fn append_pubkey(&mut self, label: &'static [u8], pubkey: &pod::PodElGamalPubkey) {
         self.append_message(label, &pubkey.0);
     }
 
-    fn append_ciphertext(&mut self, label: &'static [u8], ciphertext: &pod::ElGamalCiphertext) {
+    //fn append_ciphertext(&mut self, label: &'static [u8], ciphertext: &pod::PodElGamalCiphertext) {
+    //gaokanxu 2024.08.18
+    fn append_ciphertext(&mut self, label: &'static [u8], ciphertext: &pod::PodElGamalCiphertext) {
         self.append_message(label, &ciphertext.0);
     }
 

@@ -41,6 +41,11 @@ pub mod zk_token_proof_instruction;
 pub mod zk_token_proof_program;
 pub mod zk_token_proof_state;
 
+//gaokanxu 2024.08.17 add 1 line
+pub mod pod;
+pub mod zk_elgamal_proof_program;
+
+
 /// Byte length of a compressed Ristretto point or scalar in Curve255519
 const UNIT_LEN: usize = 32;
 /// Byte length of a compressed Ristretto point in Curve25519

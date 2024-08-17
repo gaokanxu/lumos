@@ -27,7 +27,9 @@ use {
 use {
     crate::{
         instruction::{ProofType, ZkProofData},
-        zk_token_elgamal::pod,
+        //zk_token_elgamal::pod,
+        //gaokanxu 2024.08.17
+        pod,
     },
     bytemuck::{Pod, Zeroable},
 };
@@ -75,16 +77,16 @@ pub struct TransferProofContext {
     pub transfer_pubkeys: TransferPubkeys, // 96 bytes
 
     /// The final spendable ciphertext after the transfer
-    pub new_source_ciphertext: pod::ElGamalCiphertext, // 64 bytes
+    pub new_source_ciphertext: pod::PodElGamalCiphertext, // 64 bytes
 }
 
 /// The ElGamal public keys needed for a transfer
 #[derive(Clone, Copy, Pod, Zeroable)]
 #[repr(C)]
 pub struct TransferPubkeys {
-    pub source: pod::ElGamalPubkey,
-    pub destination: pod::ElGamalPubkey,
-    pub auditor: pod::ElGamalPubkey,
+    pub source: pod::PodElGamalPubkey,
+    pub destination: pod::PodElGamalPubkey,
+    pub auditor: pod::PodElGamalPubkey,
 }
 
 #[cfg(not(target_os = "lumos"))]
@@ -145,7 +147,7 @@ impl TransferData {
         };
         let pod_ciphertext_lo: pod::TransferAmountCiphertext = ciphertext_lo.into();
         let pod_ciphertext_hi: pod::TransferAmountCiphertext = ciphertext_hi.into();
-        let pod_new_source_ciphertext: pod::ElGamalCiphertext = new_source_ciphertext.into();
+        let pod_new_source_ciphertext: pod::PodElGamalCiphertext = new_source_ciphertext.into();
 
         let context = TransferProofContext {
             ciphertext_lo: pod_ciphertext_lo,

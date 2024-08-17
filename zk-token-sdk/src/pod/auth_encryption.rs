@@ -3,7 +3,10 @@
 #[cfg(not(target_os = "lumos"))]
 use crate::encryption::auth_encryption::{self as decoded, AuthenticatedEncryptionError};
 use {
-    crate::zk_token_elgamal::pod::{impl_from_str, Pod, Zeroable},
+    //crate::pod::{impl_from_str, Pod, Zeroable},
+    //gaokanxu 2024.08.17
+    crate::pod::{impl_from_str, Pod, Zeroable},
+    
     base64::{prelude::BASE64_STANDARD, Engine},
     std::fmt,
 };

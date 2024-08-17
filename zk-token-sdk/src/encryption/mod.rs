@@ -18,10 +18,5 @@ pub mod pedersen;
 
 //gaokanxu 2024.08.11 add new mod
 pub mod ristretto_serde;
-pub mod pod;
 
-//gaokanxu 2024.08.17 begin
-pub use crate::zk_token_elgamal::pod::elgamal::DECRYPT_HANDLE_LEN;
-pub use crate::zk_token_elgamal::pod::elgamal::ELGAMAL_CIPHERTEXT_LEN;
-pub use crate::zk_token_elgamal::pod::pedersen::PEDERSEN_COMMITMENT_LEN;
-//gaokanxu 2024.08.17 end
+

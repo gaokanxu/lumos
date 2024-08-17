@@ -1,40 +1,47 @@
 //! Plain Old Data types for the ElGamal encryption scheme.
 
+#[cfg(not(target_os = "lumos"))]
 use {
-    crate::encryption::{
-        //pod::impl_from_str, DECRYPT_HANDLE_LEN, ELGAMAL_CIPHERTEXT_LEN, ELGAMAL_PUBKEY_LEN,
+    crate::encryption::elgamal::{self as decoded, ElGamalError},
+    curve25519_dalek::ristretto::CompressedRistretto,
+};
+use {
+    crate::{
+        //pod::{impl_from_str, pedersen::PEDERSEN_COMMITMENT_LEN, Pod, Zeroable},
         //gaokanxu 2024.08.17
-        pod::impl_from_str,
+        pod::{impl_from_str, pedersen::PEDERSEN_COMMITMENT_LEN, Pod, Zeroable},
+        
+        RISTRETTO_POINT_LEN,
     },
     base64::{prelude::BASE64_STANDARD, Engine},
-    bytemuck::Zeroable,
     std::fmt,
 };
 
+/// Byte length of an ElGamal public key
+//const ELGAMAL_PUBKEY_LEN: usize = RISTRETTO_POINT_LEN;\
 //gaokanxu 2024.08.17
-use crate::zk_token_elgamal::pod::elgamal::{DECRYPT_HANDLE_LEN, ELGAMAL_CIPHERTEXT_LEN, ELGAMAL_PUBKEY_LEN};
-
-#[cfg(not(target_os = "lumos"))]
-use {
-    crate::{
-        encryption::elgamal::{DecryptHandle, ElGamalCiphertext, ElGamalPubkey},
-        //errors::ElGamalError,
-        //gaokanxu 2024.08.17
-        encryption::elgamal::ElGamalError,
-    },
-    curve25519_dalek::ristretto::CompressedRistretto,
-};
+pub const ELGAMAL_PUBKEY_LEN: usize = RISTRETTO_POINT_LEN;
 
 /// Maximum length of a base64 encoded ElGamal public key
 const ELGAMAL_PUBKEY_MAX_BASE64_LEN: usize = 44;
 
+/// Byte length of a decrypt handle
+//pub(crate) const DECRYPT_HANDLE_LEN: usize = RISTRETTO_POINT_LEN;\
+//gaokanxu 2024.08.17
+pub const DECRYPT_HANDLE_LEN: usize = RISTRETTO_POINT_LEN;
+
+/// Byte length of an ElGamal ciphertext
+//const ELGAMAL_CIPHERTEXT_LEN: usize = PEDERSEN_COMMITMENT_LEN + DECRYPT_HANDLE_LEN;
+//gaokanxu 2024.08.17
+pub const ELGAMAL_CIPHERTEXT_LEN: usize = PEDERSEN_COMMITMENT_LEN + DECRYPT_HANDLE_LEN;
+
 /// Maximum length of a base64 encoded ElGamal ciphertext
 const ELGAMAL_CIPHERTEXT_MAX_BASE64_LEN: usize = 88;
 
-/// The `ElGamalCiphertext` type as a `Pod`.
-#[derive(Clone, Copy, bytemuck_derive::Pod, bytemuck_derive::Zeroable, PartialEq, Eq)]
+/// The `PodElGamalCiphertext` type as a `Pod`.
+#[derive(Clone, Copy, Pod, Zeroable, PartialEq, Eq)]
 #[repr(transparent)]
-pub struct PodElGamalCiphertext(pub(crate) [u8; ELGAMAL_CIPHERTEXT_LEN]);
+pub struct PodElGamalCiphertext(pub [u8; ELGAMAL_CIPHERTEXT_LEN]);
 
 impl fmt::Debug for PodElGamalCiphertext {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
@@ -61,14 +68,14 @@ impl_from_str!(
 );
 
 #[cfg(not(target_os = "lumos"))]
-impl From<ElGamalCiphertext> for PodElGamalCiphertext {
-    fn from(decoded_ciphertext: ElGamalCiphertext) -> Self {
+impl From<decoded::ElGamalCiphertext> for PodElGamalCiphertext {
+    fn from(decoded_ciphertext: decoded::ElGamalCiphertext) -> Self {
         Self(decoded_ciphertext.to_bytes())
     }
 }
 
 #[cfg(not(target_os = "lumos"))]
-impl TryFrom<PodElGamalCiphertext> for ElGamalCiphertext {
+impl TryFrom<PodElGamalCiphertext> for decoded::ElGamalCiphertext {
     type Error = ElGamalError;
 
     fn try_from(pod_ciphertext: PodElGamalCiphertext) -> Result<Self, Self::Error> {
@@ -77,9 +84,11 @@ impl TryFrom<PodElGamalCiphertext> for ElGamalCiphertext {
 }
 
 /// The `ElGamalPubkey` type as a `Pod`.
-#[derive(Clone, Copy, Default, bytemuck_derive::Pod, bytemuck_derive::Zeroable, PartialEq, Eq)]
+#[derive(Clone, Copy, Default, Pod, Zeroable, PartialEq, Eq)]
 #[repr(transparent)]
-pub struct PodElGamalPubkey(pub(crate) [u8; ELGAMAL_PUBKEY_LEN]);
+//pub struct ElGamalPubkey(pub [u8; ELGAMAL_PUBKEY_LEN]);
+//gaokanxu 2024.08.17 
+pub struct PodElGamalPubkey(pub [u8; ELGAMAL_PUBKEY_LEN]);
 
 impl fmt::Debug for PodElGamalPubkey {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
@@ -100,52 +109,52 @@ impl_from_str!(
 );
 
 #[cfg(not(target_os = "lumos"))]
-impl From<ElGamalPubkey> for PodElGamalPubkey {
-    fn from(decoded_pubkey: ElGamalPubkey) -> Self {
-        Self(decoded_pubkey.into())
+impl From<decoded::ElGamalPubkey> for PodElGamalPubkey {
+    fn from(decoded_pubkey: decoded::ElGamalPubkey) -> Self {
+        Self(decoded_pubkey.to_bytes())
     }
 }
 
 #[cfg(not(target_os = "lumos"))]
-impl TryFrom<PodElGamalPubkey> for ElGamalPubkey {
+impl TryFrom<PodElGamalPubkey> for decoded::ElGamalPubkey {
     type Error = ElGamalError;
 
     fn try_from(pod_pubkey: PodElGamalPubkey) -> Result<Self, Self::Error> {
-        Self::try_from(pod_pubkey.0.as_slice())
+        Self::from_bytes(&pod_pubkey.0).ok_or(ElGamalError::PubkeyDeserialization)
     }
 }
 
 /// The `DecryptHandle` type as a `Pod`.
-#[derive(Clone, Copy, Default, bytemuck_derive::Pod, bytemuck_derive::Zeroable, PartialEq, Eq)]
+#[derive(Clone, Copy, Default, Pod, Zeroable, PartialEq, Eq)]
 #[repr(transparent)]
-pub struct PodDecryptHandle(pub(crate) [u8; DECRYPT_HANDLE_LEN]);
+pub struct DecryptHandle(pub [u8; DECRYPT_HANDLE_LEN]);
 
-impl fmt::Debug for PodDecryptHandle {
+impl fmt::Debug for DecryptHandle {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(f, "{:?}", self.0)
     }
 }
 
 #[cfg(not(target_os = "lumos"))]
-impl From<DecryptHandle> for PodDecryptHandle {
-    fn from(decoded_handle: DecryptHandle) -> Self {
+impl From<decoded::DecryptHandle> for DecryptHandle {
+    fn from(decoded_handle: decoded::DecryptHandle) -> Self {
         Self(decoded_handle.to_bytes())
     }
 }
 
 // For proof verification, interpret pod::DecryptHandle as CompressedRistretto
 #[cfg(not(target_os = "lumos"))]
-impl From<PodDecryptHandle> for CompressedRistretto {
-    fn from(pod_handle: PodDecryptHandle) -> Self {
+impl From<DecryptHandle> for CompressedRistretto {
+    fn from(pod_handle: DecryptHandle) -> Self {
         Self(pod_handle.0)
     }
 }
 
 #[cfg(not(target_os = "lumos"))]
-impl TryFrom<PodDecryptHandle> for DecryptHandle {
+impl TryFrom<DecryptHandle> for decoded::DecryptHandle {
     type Error = ElGamalError;
 
-    fn try_from(pod_handle: PodDecryptHandle) -> Result<Self, Self::Error> {
+    fn try_from(pod_handle: DecryptHandle) -> Result<Self, Self::Error> {
         Self::from_bytes(&pod_handle.0).ok_or(ElGamalError::CiphertextDeserialization)
     }
 }
@@ -160,8 +169,7 @@ mod tests {
         let expected_elgamal_pubkey: PodElGamalPubkey = (*elgamal_keypair.pubkey()).into();
 
         let elgamal_pubkey_base64_str = format!("{}", expected_elgamal_pubkey);
-        let computed_elgamal_pubkey =
-            PodElGamalPubkey::from_str(&elgamal_pubkey_base64_str).unwrap();
+        let computed_elgamal_pubkey = PodElGamalPubkey::from_str(&elgamal_pubkey_base64_str).unwrap();
 
         assert_eq!(expected_elgamal_pubkey, computed_elgamal_pubkey);
     }

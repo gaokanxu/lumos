@@ -1,8 +1,8 @@
     //gaokanxu 2024.08.11 new file
 
     use curve25519_dalek::ristretto::RistrettoPoint;
-    use serde::{Deserialize, Deserializer, Serialize, Serializer};
-    use zeroize::Zeroize;
+    use serde::{Deserialize, Deserializer, Serializer};
+    //use zeroize::Zeroize;
 
     pub fn serialize<S>(point: &RistrettoPoint, serializer: S) -> Result<S::Ok, S::Error>
     where
@@ -25,7 +25,8 @@
 
 
 
-
+//gaokanxu 2024.08.17 erase below 2lines, define ElGamalPubkey too in  2 files: ./elgamal.rs ../pod/elgamal.rs
+/*
 #[derive(Clone, Copy, Debug, Default, Eq, PartialEq, Zeroize, Serialize, Deserialize)]
 pub struct ElGamalPubkey(#[serde(serialize_with = "serialize", deserialize_with = "deserialize")] RistrettoPoint);
-
+*/

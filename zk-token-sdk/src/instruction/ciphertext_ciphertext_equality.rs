@@ -25,7 +25,9 @@ use {
 use {
     crate::{
         instruction::{ProofType, ZkProofData},
-        zk_token_elgamal::pod,
+        //zk_token_elgamal::pod,
+        //gaokanxu 2024.08.17
+        pod,
     },
     bytemuck::{Pod, Zeroable},
 };
@@ -47,13 +49,10 @@ pub struct CiphertextCiphertextEqualityProofData {
 #[derive(Clone, Copy, Pod, Zeroable)]
 #[repr(C)]
 pub struct CiphertextCiphertextEqualityProofContext {
-    pub source_pubkey: pod::ElGamalPubkey, // 32 bytes
-
-    pub destination_pubkey: pod::ElGamalPubkey, // 32 bytes
-
-    pub source_ciphertext: pod::ElGamalCiphertext, // 64 bytes
-
-    pub destination_ciphertext: pod::ElGamalCiphertext, // 64 bytes
+    pub source_pubkey: pod::PodElGamalPubkey, // 32 bytes
+    pub destination_pubkey: pod::PodElGamalPubkey, // 32 bytes
+    pub source_ciphertext: pod::PodElGamalCiphertext, // 64 bytes
+    pub destination_ciphertext: pod::PodElGamalCiphertext, // 64 bytes
 }
 
 #[cfg(not(target_os = "lumos"))]
@@ -66,10 +65,10 @@ impl CiphertextCiphertextEqualityProofData {
         destination_opening: &PedersenOpening,
         amount: u64,
     ) -> Result<Self, ProofGenerationError> {
-        let pod_source_pubkey = pod::ElGamalPubkey(source_keypair.pubkey().to_bytes());
-        let pod_destination_pubkey = pod::ElGamalPubkey(destination_pubkey.to_bytes());
-        let pod_source_ciphertext = pod::ElGamalCiphertext(source_ciphertext.to_bytes());
-        let pod_destination_ciphertext = pod::ElGamalCiphertext(destination_ciphertext.to_bytes());
+        let pod_source_pubkey = pod::PodElGamalPubkey(source_keypair.pubkey().to_bytes());
+        let pod_destination_pubkey = pod::PodElGamalPubkey(destination_pubkey.to_bytes());
+        let pod_source_ciphertext = pod::PodElGamalCiphertext(source_ciphertext.to_bytes());
+        let pod_destination_ciphertext = pod::PodElGamalCiphertext(destination_ciphertext.to_bytes());
 
         let context = CiphertextCiphertextEqualityProofContext {
             source_pubkey: pod_source_pubkey,

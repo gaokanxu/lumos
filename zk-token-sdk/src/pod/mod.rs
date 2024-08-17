@@ -20,7 +20,10 @@ use {
 pub use {
     auth_encryption::AeCiphertext,
     bytemuck::{Pod, Zeroable},
-    elgamal::{DecryptHandle, ElGamalCiphertext, ElGamalPubkey},
+    //elgamal::{DecryptHandle, ElGamalCiphertext, ElGamalPubkey},
+    //gaokanxu 2024.08.17
+    elgamal::{DecryptHandle, PodElGamalCiphertext, PodElGamalPubkey},
+    
     grouped_elgamal::{GroupedElGamalCiphertext2Handles, GroupedElGamalCiphertext3Handles},
     instruction::{FeeEncryption, FeeParameters, TransferAmountCiphertext},
     pedersen::PedersenCommitment,
@@ -93,7 +96,7 @@ pub struct CompressedRistrettoInPod(pub [u8; 32]);
 macro_rules! impl_from_str {
     (TYPE = $type:ident, BYTES_LEN = $bytes_len:expr, BASE64_LEN = $base64_len:expr) => {
         impl std::str::FromStr for $type {
-            type Err = crate::zk_token_elgamal::pod::ParseError;
+            type Err = crate::pod::ParseError;
 
             fn from_str(s: &str) -> Result<Self, Self::Err> {
                 if s.len() > $base64_len {
@@ -113,3 +116,11 @@ macro_rules! impl_from_str {
     };
 }
 pub(crate) use impl_from_str;
+
+//gaokanxu 2024.08.17 begin
+pub use crate::pod::elgamal::DECRYPT_HANDLE_LEN;
+pub use crate::pod::elgamal::ELGAMAL_CIPHERTEXT_LEN;
+pub use crate::pod::pedersen::PEDERSEN_COMMITMENT_LEN;
+//gaokanxu 2024.08.17 end
+
+

@@ -9,21 +9,20 @@
 use {
     crate::{
         encryption::elgamal::ElGamalKeypair,
-        errors::{ProofGenerationError, ProofVerificationError},
-        sigma_proofs::pubkey_proof::PubkeyValidityProof,
-        transcript::TranscriptProtocol,
+        sigma_proofs::pubkey_validity::PubkeyValidityProof,
+        zk_elgamal_proof_program::errors::{ProofGenerationError, ProofVerificationError},
     },
+    bytemuck::bytes_of,
     merlin::Transcript,
     std::convert::TryInto,
 };
 use {
     crate::{
-        instruction::{ProofType, ZkProofData},
-        //zk_token_elgamal::pod,
-        //gaokanxu 2024.08.17
-        pod,
+        pod::elgamal::PodElGamalPubkey,
+        pod::PodPubkeyValidityProof,
+        zk_elgamal_proof_program::proof_data::{ProofType, ZkProofData},
     },
-    bytemuck::{Pod, Zeroable},
+    bytemuck_derive::{Pod, Zeroable},
 };
 
 /// The instruction data that is needed for the `ProofInstruction::VerifyPubkeyValidity`
@@ -33,12 +32,12 @@ use {
 /// the proof.
 #[derive(Clone, Copy, Pod, Zeroable)]
 #[repr(C)]
-pub struct PubkeyValidityData {
+pub struct PubkeyValidityProofData {
     /// The context data for the public key validity proof
     pub context: PubkeyValidityProofContext, // 32 bytes
 
     /// Proof that the public key is well-formed
-    pub proof: pod::PubkeyValidityProof, // 64 bytes
+    pub proof: PodPubkeyValidityProof, // 64 bytes
 }
 
 /// The context data needed to verify a pubkey validity proof.
@@ -46,24 +45,24 @@ pub struct PubkeyValidityData {
 #[repr(C)]
 pub struct PubkeyValidityProofContext {
     /// The public key to be proved
-    pub pubkey: pod::PodElGamalPubkey, // 32 bytes
+    pub pubkey: PodElGamalPubkey, // 32 bytes
 }
 
 #[cfg(not(target_os = "lumos"))]
-impl PubkeyValidityData {
+impl PubkeyValidityProofData {
     pub fn new(keypair: &ElGamalKeypair) -> Result<Self, ProofGenerationError> {
-        let pod_pubkey = pod::PodElGamalPubkey(keypair.pubkey().to_bytes());
+        let pod_pubkey = PodElGamalPubkey(keypair.pubkey().into());
 
         let context = PubkeyValidityProofContext { pubkey: pod_pubkey };
 
         let mut transcript = context.new_transcript();
         let proof = PubkeyValidityProof::new(keypair, &mut transcript).into();
 
-        Ok(PubkeyValidityData { context, proof })
+        Ok(PubkeyValidityProofData { context, proof })
     }
 }
 
-impl ZkProofData<PubkeyValidityProofContext> for PubkeyValidityData {
+impl ZkProofData<PubkeyValidityProofContext> for PubkeyValidityProofData {
     const PROOF_TYPE: ProofType = ProofType::PubkeyValidity;
 
     fn context_data(&self) -> &PubkeyValidityProofContext {
@@ -83,8 +82,8 @@ impl ZkProofData<PubkeyValidityProofContext> for PubkeyValidityData {
 #[cfg(not(target_os = "lumos"))]
 impl PubkeyValidityProofContext {
     fn new_transcript(&self) -> Transcript {
-        let mut transcript = Transcript::new(b"PubkeyProof");
-        transcript.append_pubkey(b"pubkey", &self.pubkey);
+        let mut transcript = Transcript::new(b"pubkey-validity-instruction");
+        transcript.append_message(b"pubkey", bytes_of(&self.pubkey));
         transcript
     }
 }
@@ -97,7 +96,7 @@ mod test {
     fn test_pubkey_validity_instruction_correctness() {
         let keypair = ElGamalKeypair::new_rand();
 
-        let pubkey_validity_data = PubkeyValidityData::new(&keypair).unwrap();
+        let pubkey_validity_data = PubkeyValidityProofData::new(&keypair).unwrap();
         assert!(pubkey_validity_data.verify_proof().is_ok());
     }
 }

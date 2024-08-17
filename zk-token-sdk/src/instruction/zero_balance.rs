@@ -18,7 +18,9 @@ use {
 use {
     crate::{
         instruction::{ProofType, ZkProofData},
-        zk_token_elgamal::pod,
+        //zk_token_elgamal::pod,
+        //gaokanxu 2024.08.17
+        pod,
     },
     bytemuck::{Pod, Zeroable},
 };
@@ -42,10 +44,10 @@ pub struct ZeroBalanceProofData {
 #[repr(C)]
 pub struct ZeroBalanceProofContext {
     /// The source account ElGamal pubkey
-    pub pubkey: pod::ElGamalPubkey, // 32 bytes
+    pub pubkey: pod::PodElGamalPubkey, // 32 bytes
 
     /// The source account available balance in encrypted form
-    pub ciphertext: pod::ElGamalCiphertext, // 64 bytes
+    pub ciphertext: pod::PodElGamalCiphertext, // 64 bytes
 }
 
 #[cfg(not(target_os = "lumos"))]
@@ -54,8 +56,8 @@ impl ZeroBalanceProofData {
         keypair: &ElGamalKeypair,
         ciphertext: &ElGamalCiphertext,
     ) -> Result<Self, ProofGenerationError> {
-        let pod_pubkey = pod::ElGamalPubkey(keypair.pubkey().to_bytes());
-        let pod_ciphertext = pod::ElGamalCiphertext(ciphertext.to_bytes());
+        let pod_pubkey = pod::PodElGamalPubkey(keypair.pubkey().to_bytes());
+        let pod_ciphertext = pod::PodElGamalCiphertext(ciphertext.to_bytes());
 
         let context = ZeroBalanceProofContext {
             pubkey: pod_pubkey,

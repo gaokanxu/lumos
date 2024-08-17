@@ -5,7 +5,9 @@ use crate::{
         scalar::PodScalar,
     },
     */
-    zk_token_elgamal::pod,
+    //zk_token_elgamal::pod,
+    //gaokanxu 2024.08.17
+    pod,
 };
 //gaokanxu 2024.08.17 begin
 use lumos_curve25519::{
@@ -23,9 +25,9 @@ const G: PodRistrettoPoint = PodRistrettoPoint([
 
 /// Add two ElGamal ciphertexts
 pub fn add(
-    left_ciphertext: &pod::ElGamalCiphertext,
-    right_ciphertext: &pod::ElGamalCiphertext,
-) -> Option<pod::ElGamalCiphertext> {
+    left_ciphertext: &pod::PodElGamalCiphertext,
+    right_ciphertext: &pod::PodElGamalCiphertext,
+) -> Option<pod::PodElGamalCiphertext> {
     let (left_commitment, left_handle): (pod::PedersenCommitment, pod::DecryptHandle) =
         (*left_ciphertext).into();
     let (right_commitment, right_handle): (pod::PedersenCommitment, pod::DecryptHandle) =
@@ -42,8 +44,8 @@ pub fn add(
 /// Multiply an ElGamal ciphertext by a scalar
 pub fn multiply(
     scalar: &PodScalar,
-    ciphertext: &pod::ElGamalCiphertext,
-) -> Option<pod::ElGamalCiphertext> {
+    ciphertext: &pod::PodElGamalCiphertext,
+) -> Option<pod::PodElGamalCiphertext> {
     let (commitment, handle): (pod::PedersenCommitment, pod::DecryptHandle) = (*ciphertext).into();
 
     let commitment_point: PodRistrettoPoint = commitment.into();
@@ -58,10 +60,10 @@ pub fn multiply(
 
 /// Compute `left_ciphertext + (right_ciphertext_lo + 2^16 * right_ciphertext_hi)`
 pub fn add_with_lo_hi(
-    left_ciphertext: &pod::ElGamalCiphertext,
-    right_ciphertext_lo: &pod::ElGamalCiphertext,
-    right_ciphertext_hi: &pod::ElGamalCiphertext,
-) -> Option<pod::ElGamalCiphertext> {
+    left_ciphertext: &pod::PodElGamalCiphertext,
+    right_ciphertext_lo: &pod::PodElGamalCiphertext,
+    right_ciphertext_hi: &pod::PodElGamalCiphertext,
+) -> Option<pod::PodElGamalCiphertext> {
     let shift_scalar = to_scalar(1_u64 << SHIFT_BITS);
     let shifted_right_ciphertext_hi = multiply(&shift_scalar, right_ciphertext_hi)?;
     let combined_right_ciphertext = add(right_ciphertext_lo, &shifted_right_ciphertext_hi)?;
@@ -70,9 +72,9 @@ pub fn add_with_lo_hi(
 
 /// Subtract two ElGamal ciphertexts
 pub fn subtract(
-    left_ciphertext: &pod::ElGamalCiphertext,
-    right_ciphertext: &pod::ElGamalCiphertext,
-) -> Option<pod::ElGamalCiphertext> {
+    left_ciphertext: &pod::PodElGamalCiphertext,
+    right_ciphertext: &pod::PodElGamalCiphertext,
+) -> Option<pod::PodElGamalCiphertext> {
     let (left_commitment, left_handle): (pod::PedersenCommitment, pod::DecryptHandle) =
         (*left_ciphertext).into();
     let (right_commitment, right_handle): (pod::PedersenCommitment, pod::DecryptHandle) =
@@ -88,10 +90,10 @@ pub fn subtract(
 
 /// Compute `left_ciphertext - (right_ciphertext_lo + 2^16 * right_ciphertext_hi)`
 pub fn subtract_with_lo_hi(
-    left_ciphertext: &pod::ElGamalCiphertext,
-    right_ciphertext_lo: &pod::ElGamalCiphertext,
-    right_ciphertext_hi: &pod::ElGamalCiphertext,
-) -> Option<pod::ElGamalCiphertext> {
+    left_ciphertext: &pod::PodElGamalCiphertext,
+    right_ciphertext_lo: &pod::PodElGamalCiphertext,
+    right_ciphertext_hi: &pod::PodElGamalCiphertext,
+) -> Option<pod::PodElGamalCiphertext> {
     let shift_scalar = to_scalar(1_u64 << SHIFT_BITS);
     let shifted_right_ciphertext_hi = multiply(&shift_scalar, right_ciphertext_hi)?;
     let combined_right_ciphertext = add(right_ciphertext_lo, &shifted_right_ciphertext_hi)?;
@@ -99,7 +101,7 @@ pub fn subtract_with_lo_hi(
 }
 
 /// Add a constant amount to a ciphertext
-pub fn add_to(ciphertext: &pod::ElGamalCiphertext, amount: u64) -> Option<pod::ElGamalCiphertext> {
+pub fn add_to(ciphertext: &pod::PodElGamalCiphertext, amount: u64) -> Option<pod::PodElGamalCiphertext> {
     let amount_scalar = to_scalar(amount);
     let amount_point = multiply_ristretto(&amount_scalar, &G)?;
 
@@ -113,9 +115,9 @@ pub fn add_to(ciphertext: &pod::ElGamalCiphertext, amount: u64) -> Option<pod::E
 
 /// Subtract a constant amount to a ciphertext
 pub fn subtract_from(
-    ciphertext: &pod::ElGamalCiphertext,
+    ciphertext: &pod::PodElGamalCiphertext,
     amount: u64,
-) -> Option<pod::ElGamalCiphertext> {
+) -> Option<pod::PodElGamalCiphertext> {
     let amount_scalar = to_scalar(amount);
     let amount_point = multiply_ristretto(&amount_scalar, &G)?;
 
@@ -170,11 +172,11 @@ mod tests {
         // homomorphism should work like any other ciphertext
         let open = PedersenOpening::new_rand();
         let transfer_amount_ct = public.encrypt_with(55_u64, &open);
-        let transfer_amount_pod: pod::ElGamalCiphertext = transfer_amount_ct.into();
+        let transfer_amount_pod: pod::PodElGamalCiphertext = transfer_amount_ct.into();
 
         let sum = ops::add(&spendable_balance, &transfer_amount_pod).unwrap();
 
-        let expected: pod::ElGamalCiphertext = public.encrypt_with(55_u64, &open).into();
+        let expected: pod::PodElGamalCiphertext = public.encrypt_with(55_u64, &open).into();
         assert_eq!(expected, sum);
     }
 
@@ -186,7 +188,7 @@ mod tests {
 
         let keypair = ElGamalKeypair::new_rand();
         let public = keypair.pubkey();
-        let expected: pod::ElGamalCiphertext = public
+        let expected: pod::PodElGamalCiphertext = public
             .encrypt_with(55_u64, &PedersenOpening::default())
             .into();
 
@@ -199,11 +201,11 @@ mod tests {
         let keypair = ElGamalKeypair::new_rand();
         let public = keypair.pubkey();
         let open = PedersenOpening::new_rand();
-        let encrypted_amount: pod::ElGamalCiphertext = public.encrypt_with(amount, &open).into();
+        let encrypted_amount: pod::PodElGamalCiphertext = public.encrypt_with(amount, &open).into();
 
         let subtracted_ct = ops::subtract_from(&encrypted_amount, 55).unwrap();
 
-        let expected: pod::ElGamalCiphertext = public.encrypt_with(22_u64, &open).into();
+        let expected: pod::PodElGamalCiphertext = public.encrypt_with(22_u64, &open).into();
 
         assert_eq!(expected, subtracted_ct);
     }
@@ -244,33 +246,33 @@ mod tests {
         let source_open = PedersenOpening::new_rand();
         let dest_open = PedersenOpening::new_rand();
 
-        let source_spendable_ct: pod::ElGamalCiphertext =
+        let source_spendable_ct: pod::PodElGamalCiphertext =
             source_pk.encrypt_with(77_u64, &source_open).into();
-        let dest_pending_ct: pod::ElGamalCiphertext =
+        let dest_pending_ct: pod::PodElGamalCiphertext =
             dest_pk.encrypt_with(77_u64, &dest_open).into();
 
         // program arithmetic for the source account
-        let source_lo_ct: pod::ElGamalCiphertext = (comm_lo, handle_source_lo).into();
-        let source_hi_ct: pod::ElGamalCiphertext = (comm_hi, handle_source_hi).into();
+        let source_lo_ct: pod::PodElGamalCiphertext = (comm_lo, handle_source_lo).into();
+        let source_hi_ct: pod::PodElGamalCiphertext = (comm_hi, handle_source_hi).into();
 
         let final_source_spendable =
             ops::subtract_with_lo_hi(&source_spendable_ct, &source_lo_ct, &source_hi_ct).unwrap();
 
         let final_source_open =
             source_open - (open_lo.clone() + open_hi.clone() * Scalar::from(TWO_16));
-        let expected_source: pod::ElGamalCiphertext =
+        let expected_source: pod::PodElGamalCiphertext =
             source_pk.encrypt_with(22_u64, &final_source_open).into();
         assert_eq!(expected_source, final_source_spendable);
 
         // program arithmetic for the destination account
-        let dest_lo_ct: pod::ElGamalCiphertext = (comm_lo, handle_dest_lo).into();
-        let dest_hi_ct: pod::ElGamalCiphertext = (comm_hi, handle_dest_hi).into();
+        let dest_lo_ct: pod::PodElGamalCiphertext = (comm_lo, handle_dest_lo).into();
+        let dest_hi_ct: pod::PodElGamalCiphertext = (comm_hi, handle_dest_hi).into();
 
         let final_dest_pending =
             ops::add_with_lo_hi(&dest_pending_ct, &dest_lo_ct, &dest_hi_ct).unwrap();
 
         let final_dest_open = dest_open + (open_lo + open_hi * Scalar::from(TWO_16));
-        let expected_dest_ct: pod::ElGamalCiphertext =
+        let expected_dest_ct: pod::PodElGamalCiphertext =
             dest_pk.encrypt_with(132_u64, &final_dest_open).into();
         assert_eq!(expected_dest_ct, final_dest_pending);
     }

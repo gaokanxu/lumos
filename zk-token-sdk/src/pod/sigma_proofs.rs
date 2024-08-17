@@ -10,7 +10,10 @@ use crate::sigma_proofs::{
     pubkey_proof::PubkeyValidityProof as DecodedPubkeyValidityProof,
     zero_balance_proof::ZeroBalanceProof as DecodedZeroBalanceProof,
 };
-use crate::zk_token_elgamal::pod::{Pod, Zeroable};
+//use crate::pod::{Pod, Zeroable};
+//gaokanxu 2024.08.17
+use crate::pod::{Pod, Zeroable};
+
 
 /// Byte length of a ciphertext-commitment equality proof
 const CIPHERTEXT_COMMITMENT_EQUALITY_PROOF_LEN: usize = 192;
@@ -102,16 +105,16 @@ impl TryFrom<GroupedCiphertext2HandlesValidityProof>
     }
 }
 
-/// The `BatchedGroupedCiphertext2HandlesValidityProof` type as a `Pod`.
+/// The `PodBatchedGroupedCiphertext2HandlesValidityProof` type as a `Pod`.
 #[derive(Clone, Copy)]
 #[repr(transparent)]
-pub struct BatchedGroupedCiphertext2HandlesValidityProof(
+pub struct PodBatchedGroupedCiphertext2HandlesValidityProof(
     pub [u8; BATCHED_GROUPED_CIPHERTEXT_2_HANDLES_VALIDITY_PROOF_LEN],
 );
 
 #[cfg(not(target_os = "lumos"))]
 impl From<DecodedBatchedGroupedCiphertext2HandlesValidityProof>
-    for BatchedGroupedCiphertext2HandlesValidityProof
+    for PodBatchedGroupedCiphertext2HandlesValidityProof
 {
     fn from(decoded_proof: DecodedBatchedGroupedCiphertext2HandlesValidityProof) -> Self {
         Self(decoded_proof.to_bytes())
@@ -119,7 +122,7 @@ impl From<DecodedBatchedGroupedCiphertext2HandlesValidityProof>
 }
 
 #[cfg(not(target_os = "lumos"))]
-impl TryFrom<BatchedGroupedCiphertext2HandlesValidityProof>
+impl TryFrom<PodBatchedGroupedCiphertext2HandlesValidityProof>
     for DecodedBatchedGroupedCiphertext2HandlesValidityProof
 {
     type Error = ValidityProofVerificationError;
@@ -206,8 +209,8 @@ unsafe impl Pod for CiphertextCiphertextEqualityProof {}
 unsafe impl Zeroable for GroupedCiphertext2HandlesValidityProof {}
 unsafe impl Pod for GroupedCiphertext2HandlesValidityProof {}
 
-unsafe impl Zeroable for BatchedGroupedCiphertext2HandlesValidityProof {}
-unsafe impl Pod for BatchedGroupedCiphertext2HandlesValidityProof {}
+unsafe impl Zeroable for PodBatchedGroupedCiphertext2HandlesValidityProof {}
+unsafe impl Pod for PodBatchedGroupedCiphertext2HandlesValidityProof {}
 
 unsafe impl Zeroable for ZeroBalanceProof {}
 unsafe impl Pod for ZeroBalanceProof {}

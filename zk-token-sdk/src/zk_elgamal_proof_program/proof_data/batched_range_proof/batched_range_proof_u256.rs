@@ -1,59 +1,69 @@
-//! The 128-bit batched range proof instruction.
+//! The 256-bit batched range proof instruction.
 
 #[cfg(not(target_os = "lumos"))]
 use {
     crate::{
         encryption::pedersen::{PedersenCommitment, PedersenOpening},
-        errors::{ProofGenerationError, ProofVerificationError},
-        instruction::batched_range_proof::MAX_COMMITMENTS,
         range_proof::RangeProof,
+        zk_elgamal_proof_program::{
+            errors::{ProofGenerationError, ProofVerificationError},
+            proof_data::batched_range_proof::{MAX_COMMITMENTS, MAX_SINGLE_BIT_LENGTH},
+        },
     },
     std::convert::TryInto,
 };
 use {
     crate::{
-        instruction::{batched_range_proof::BatchedRangeProofContext, ProofType, ZkProofData},
-        //zk_token_elgamal::pod,
-        //gaokanxu 2024.08.17
-        pod,
+        range_proof::pod::PodRangeProofU256,
+        zk_elgamal_proof_program::proof_data::{
+            batched_range_proof::BatchedRangeProofContext, ProofType, ZkProofData,
+        },
     },
-    bytemuck::{Pod, Zeroable},
+    bytemuck_derive::{Pod, Zeroable},
 };
 
+#[cfg(not(target_os = "lumos"))]
+const BATCHED_RANGE_PROOF_U256_BIT_LENGTH: usize = 256;
+
 /// The instruction data that is needed for the
-/// `ProofInstruction::VerifyBatchedRangeProofU128` instruction.
+/// `ProofInstruction::BatchedRangeProofU256Data` instruction.
 ///
 /// It includes the cryptographic proof as well as the context data information needed to verify
 /// the proof.
 #[derive(Clone, Copy, Pod, Zeroable)]
 #[repr(C)]
-pub struct BatchedRangeProofU128Data {
+pub struct BatchedRangeProofU256Data {
     /// The context data for a batched range proof
     pub context: BatchedRangeProofContext,
 
     /// The batched range proof
-    pub proof: pod::RangeProofU128,
+    pub proof: PodRangeProofU256,
 }
 
 #[cfg(not(target_os = "lumos"))]
-impl BatchedRangeProofU128Data {
+impl BatchedRangeProofU256Data {
     pub fn new(
         commitments: Vec<&PedersenCommitment>,
         amounts: Vec<u64>,
         bit_lengths: Vec<usize>,
         openings: Vec<&PedersenOpening>,
     ) -> Result<Self, ProofGenerationError> {
-        // the sum of the bit lengths must be 128
+        // Range proof on 256 bit length could potentially result in an unexpected behavior and
+        // therefore, restrict the bit length to be at most 128. This check is not needed for the
+        // `BatchedRangeProofU64` or `BatchedRangeProofU128`.
+        if bit_lengths
+            .iter()
+            .any(|length| *length > MAX_SINGLE_BIT_LENGTH)
+        {
+            return Err(ProofGenerationError::IllegalCommitmentLength);
+        }
+
+        // the sum of the bit lengths must be 256
         let batched_bit_length = bit_lengths
             .iter()
             .try_fold(0_usize, |acc, &x| acc.checked_add(x))
             .ok_or(ProofGenerationError::IllegalAmountBitLength)?;
-
-        // `u128::BITS` is 128, which fits in a single byte and should not overflow to `usize` for
-        // an overwhelming number of platforms. However, to be extra cautious, use `try_from` and
-        // `unwrap` here. A simple case `u128::BITS as usize` can silently overflow.
-        let expected_bit_length = usize::try_from(u128::BITS).unwrap();
-        if batched_bit_length != expected_bit_length {
+        if batched_bit_length != BATCHED_RANGE_PROOF_U256_BIT_LENGTH {
             return Err(ProofGenerationError::IllegalAmountBitLength);
         }
 
@@ -61,17 +71,16 @@ impl BatchedRangeProofU128Data {
             BatchedRangeProofContext::new(&commitments, &amounts, &bit_lengths, &openings)?;
 
         let mut transcript = context.new_transcript();
-        let proof: pod::RangeProofU128 =
-            RangeProof::new(amounts, bit_lengths, openings, &mut transcript)?
-                .try_into()
-                .map_err(|_| ProofGenerationError::ProofLength)?;
+        let proof = RangeProof::new(amounts, bit_lengths, openings, &mut transcript)?
+            .try_into()
+            .map_err(|_| ProofGenerationError::ProofLength)?;
 
         Ok(Self { context, proof })
     }
 }
 
-impl ZkProofData<BatchedRangeProofContext> for BatchedRangeProofU128Data {
-    const PROOF_TYPE: ProofType = ProofType::BatchedRangeProofU128;
+impl ZkProofData<BatchedRangeProofContext> for BatchedRangeProofU256Data {
+    const PROOF_TYPE: ProofType = ProofType::BatchedRangeProofU256;
 
     fn context_data(&self) -> &BatchedRangeProofContext {
         &self.context
@@ -81,6 +90,13 @@ impl ZkProofData<BatchedRangeProofContext> for BatchedRangeProofU128Data {
     fn verify_proof(&self) -> Result<(), ProofVerificationError> {
         let (commitments, bit_lengths) = self.context.try_into()?;
         let num_commitments = commitments.len();
+
+        if bit_lengths
+            .iter()
+            .any(|length| *length > MAX_SINGLE_BIT_LENGTH)
+        {
+            return Err(ProofVerificationError::IllegalCommitmentLength);
+        }
 
         if num_commitments > MAX_COMMITMENTS || num_commitments != bit_lengths.len() {
             return Err(ProofVerificationError::IllegalCommitmentLength);
@@ -100,14 +116,14 @@ mod test {
     use {
         super::*,
         crate::{
-            encryption::pedersen::Pedersen, errors::ProofVerificationError,
-            range_proof::errors::RangeProofVerificationError,
+            encryption::pedersen::Pedersen, range_proof::errors::RangeProofVerificationError,
+            zk_elgamal_proof_program::errors::ProofVerificationError,
         },
     };
 
     #[test]
-    fn test_batched_range_proof_u128_instruction_correctness() {
-        let amount_1 = 65535_u64;
+    fn test_batched_range_proof_256_instruction_correctness() {
+        let amount_1 = 4294967295_u64;
         let amount_2 = 77_u64;
         let amount_3 = 99_u64;
         let amount_4 = 99_u64;
@@ -125,7 +141,7 @@ mod test {
         let (commitment_7, opening_7) = Pedersen::new(amount_7);
         let (commitment_8, opening_8) = Pedersen::new(amount_8);
 
-        let proof_data = BatchedRangeProofU128Data::new(
+        let proof_data = BatchedRangeProofU256Data::new(
             vec![
                 &commitment_1,
                 &commitment_2,
@@ -139,7 +155,7 @@ mod test {
             vec![
                 amount_1, amount_2, amount_3, amount_4, amount_5, amount_6, amount_7, amount_8,
             ],
-            vec![16, 16, 16, 16, 16, 16, 16, 16],
+            vec![32, 32, 32, 32, 32, 32, 32, 32],
             vec![
                 &opening_1, &opening_2, &opening_3, &opening_4, &opening_5, &opening_6, &opening_7,
                 &opening_8,
@@ -149,7 +165,7 @@ mod test {
 
         assert!(proof_data.verify_proof().is_ok());
 
-        let amount_1 = 65536_u64; // not representable as an 8-bit number
+        let amount_1 = 4294967296_u64; // not representable as a 32-bit number
         let amount_2 = 77_u64;
         let amount_3 = 99_u64;
         let amount_4 = 99_u64;
@@ -167,7 +183,7 @@ mod test {
         let (commitment_7, opening_7) = Pedersen::new(amount_7);
         let (commitment_8, opening_8) = Pedersen::new(amount_8);
 
-        let proof_data = BatchedRangeProofU128Data::new(
+        let proof_data = BatchedRangeProofU256Data::new(
             vec![
                 &commitment_1,
                 &commitment_2,
@@ -181,7 +197,7 @@ mod test {
             vec![
                 amount_1, amount_2, amount_3, amount_4, amount_5, amount_6, amount_7, amount_8,
             ],
-            vec![16, 16, 16, 16, 16, 16, 16, 16],
+            vec![32, 32, 32, 32, 32, 32, 32, 32],
             vec![
                 &opening_1, &opening_2, &opening_3, &opening_4, &opening_5, &opening_6, &opening_7,
                 &opening_8,

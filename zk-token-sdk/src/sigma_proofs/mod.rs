@@ -14,6 +14,11 @@ pub mod grouped_ciphertext_validity_proof;
 pub mod pubkey_proof;
 pub mod zero_balance_proof;
 
+//gaokanxu 2024.08.18 2 lines
+pub mod percentage_with_cap;
+pub mod pubkey_validity;
+pub mod zero_ciphertext;
+
 #[cfg(not(target_os = "lumos"))]
 use {
     crate::{sigma_proofs::errors::SigmaProofVerificationError, RISTRETTO_POINT_LEN, SCALAR_LEN},
@@ -61,3 +66,5 @@ fn canonical_scalar_from_optional_slice(
         
         .ok_or(SigmaProofVerificationError::Deserialization)
 }
+
+
