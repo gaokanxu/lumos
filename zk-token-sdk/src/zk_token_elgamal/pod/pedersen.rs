@@ -14,7 +14,9 @@ use {
 };
 
 /// Byte length of a Pedersen commitment
-pub(crate) const PEDERSEN_COMMITMENT_LEN: usize = RISTRETTO_POINT_LEN;
+//pub(crate) const PEDERSEN_COMMITMENT_LEN: usize = RISTRETTO_POINT_LEN;
+//gaokanxu 2024.08.17
+pub const PEDERSEN_COMMITMENT_LEN: usize = RISTRETTO_POINT_LEN;
 
 /// The `PedersenCommitment` type as a `Pod`.
 #[derive(Clone, Copy, Default, Pod, Zeroable, PartialEq, Eq)]

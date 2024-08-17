@@ -1,8 +1,13 @@
 mod auth_encryption;
-mod elgamal;
+
+//mod elgamal;
+//mod pedersen;
+//gaokanxu 2024.08.17 2 lines
+pub mod elgamal;
+pub mod pedersen;
+
 mod grouped_elgamal;
 mod instruction;
-mod pedersen;
 mod range_proof;
 mod sigma_proofs;
 
@@ -81,7 +86,9 @@ impl TryFrom<PodProofType> for ProofType {
 
 #[derive(Clone, Copy, Pod, Zeroable, PartialEq, Eq)]
 #[repr(transparent)]
-pub struct CompressedRistretto(pub [u8; 32]);
+//pub struct CompressedRistretto(pub [u8; 32]);
+pub struct CompressedRistrettoInPod(pub [u8; 32]);
+
 
 macro_rules! impl_from_str {
     (TYPE = $type:ident, BYTES_LEN = $bytes_len:expr, BASE64_LEN = $base64_len:expr) => {

@@ -1,10 +1,18 @@
 use crate::{
+    /* gaokanxu 2024.08.17 erase lines
     curve25519::{
         ristretto::{add_ristretto, multiply_ristretto, subtract_ristretto, PodRistrettoPoint},
         scalar::PodScalar,
     },
+    */
     zk_token_elgamal::pod,
 };
+//gaokanxu 2024.08.17 begin
+use lumos_curve25519::{
+    ristretto::{add_ristretto, multiply_ristretto, subtract_ristretto, PodRistrettoPoint},
+    scalar::PodScalar,
+};
+//gaokanxu 2024.08.17 end
 
 const SHIFT_BITS: usize = 16;
 

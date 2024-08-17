@@ -1,6 +1,11 @@
 #![allow(dead_code)]
 
-use {super::pod, crate::curve25519::ristretto::PodRistrettoPoint};
+//use {super::pod, crate::curve25519::ristretto::PodRistrettoPoint};
+//gaokanxu 2024.08.17 begin
+use super::pod;
+use lumos_curve25519::ristretto::PodRistrettoPoint;
+//use lumos_curve25519::scalar::MyPodScalar;
+//gaokanxu 2024.08.17 end
 
 impl From<(pod::PedersenCommitment, pod::DecryptHandle)> for pod::ElGamalCiphertext {
     fn from((commitment, handle): (pod::PedersenCommitment, pod::DecryptHandle)) -> Self {
@@ -51,49 +56,26 @@ impl From<PodRistrettoPoint> for pod::DecryptHandle {
 mod target_arch {
     use {
         super::pod,
-        crate::{curve25519::scalar::PodScalar, encryption::elgamal::ElGamalError},
-        curve25519_dalek::{ristretto::CompressedRistretto, scalar::Scalar},
-        std::convert::TryFrom,
+        //crate::{curve25519::scalar::PodScalar, encryption::elgamal::ElGamalError},
+        //gaokanxu 2024.08.17 begin
+        //lumos_curve25519::scalar::PodScalar,
+        //crate::encryption::elgamal::ElGamalError,
+        //gaokanxu 2024.08.17 end
+        
+        curve25519_dalek::{ristretto::CompressedRistretto},
+        //std::convert::TryFrom,
     };
 
-    impl From<Scalar> for PodScalar {
-        fn from(scalar: Scalar) -> Self {
-            Self(scalar.to_bytes())
-        }
-    }
-
-    /*
-    impl TryFrom<PodScalar> for Scalar {
-        type Error = ElGamalError;
-
-        fn try_from(pod: PodScalar) -> Result<Self, Self::Error> {
-            Scalar::from_canonical_bytes(pod.0).ok_or(ElGamalError::CiphertextDeserialization)
-        }
-    }
-    */
-    //gaokanxu 2024.08.15 begin
-    impl TryFrom<PodScalar> for Scalar {
-    type Error = ElGamalError;
-
-    fn try_from(pod: PodScalar) -> Result<Self, Self::Error> {
-            if let Some(scalar) = Scalar::from_canonical_bytes(pod.0).into() {
-                Ok(scalar)
-            } else {
-                Err(ElGamalError::CiphertextDeserialization)
-            }
-        }
-    }
-    //gaokanxu 2024.08.15 end
-
-
-    impl From<CompressedRistretto> for pod::CompressedRistretto {
+    
+    impl From<CompressedRistretto> for pod::CompressedRistrettoInPod {
         fn from(cr: CompressedRistretto) -> Self {
             Self(cr.to_bytes())
         }
     }
+    
 
-    impl From<pod::CompressedRistretto> for CompressedRistretto {
-        fn from(pod: pod::CompressedRistretto) -> Self {
+    impl From<pod::CompressedRistrettoInPod> for CompressedRistretto {
+        fn from(pod: pod::CompressedRistrettoInPod) -> Self {
             Self(pod.0)
         }
     }

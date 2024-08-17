@@ -45,7 +45,9 @@ const CIPHERTEXT_LEN: usize = 24;
 
 /// Byte length of a complete authenticated encryption ciphertext component that includes the
 /// ciphertext and nonce components
-const AE_CIPHERTEXT_LEN: usize = 36;
+//const AE_CIPHERTEXT_LEN: usize = 36;
+//gaokanxu 2024.08.17
+pub const AE_CIPHERTEXT_LEN: usize = 36;
 
 #[derive(Error, Clone, Debug, Eq, PartialEq)]
 pub enum AuthenticatedEncryptionError {
