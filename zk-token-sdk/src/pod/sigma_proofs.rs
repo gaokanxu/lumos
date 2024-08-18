@@ -3,6 +3,10 @@
 #[cfg(not(target_os = "lumos"))]
 use crate::sigma_proofs::{
     batched_grouped_ciphertext_validity_proof::BatchedGroupedCiphertext2HandlesValidityProof as DecodedBatchedGroupedCiphertext2HandlesValidityProof,
+    
+    //gaokanxu 2024.08.19 add 1 line
+    batched_grouped_ciphertext_validity_proof::BatchedGroupedCiphertext3HandlesValidityProof as DecodedBatchedGroupedCiphertext3HandlesValidityProof,
+    
     ciphertext_ciphertext_equality_proof::CiphertextCiphertextEqualityProof as DecodedCiphertextCiphertextEqualityProof,
     ciphertext_commitment_equality_proof::CiphertextCommitmentEqualityProof as DecodedCiphertextCommitmentEqualityProof,
     errors::*, fee_proof::FeeSigmaProof as DecodedFeeSigmaProof,
@@ -10,9 +14,11 @@ use crate::sigma_proofs::{
     pubkey_proof::PubkeyValidityProof as DecodedPubkeyValidityProof,
     zero_balance_proof::ZeroBalanceProof as DecodedZeroBalanceProof,
 };
+
+
 //use crate::pod::{Pod, Zeroable};
 //gaokanxu 2024.08.17
-use crate::pod::{Pod, Zeroable};
+use crate::pod::{self, Pod, Zeroable};
 
 
 /// Byte length of a ciphertext-commitment equality proof
@@ -25,7 +31,7 @@ const CIPHERTEXT_CIPHERTEXT_EQUALITY_PROOF_LEN: usize = 224;
 const GROUPED_CIPHERTEXT_2_HANDLES_VALIDITY_PROOF_LEN: usize = 160;
 
 /// Byte length of a batched grouped ciphertext for 2 handles validity proof
-const BATCHED_GROUPED_CIPHERTEXT_2_HANDLES_VALIDITY_PROOF_LEN: usize = 160;
+pub const BATCHED_GROUPED_CIPHERTEXT_2_HANDLES_VALIDITY_PROOF_LEN: usize = 160;
 
 /// Byte length of a zero-balance proof
 const ZERO_BALANCE_PROOF_LEN: usize = 96;
@@ -128,7 +134,8 @@ impl TryFrom<PodBatchedGroupedCiphertext2HandlesValidityProof>
     type Error = ValidityProofVerificationError;
 
     fn try_from(
-        pod_proof: BatchedGroupedCiphertext2HandlesValidityProof,
+        //pod_proof: BatchedGroupedCiphertext2HandlesValidityProof,
+        pod_proof: PodBatchedGroupedCiphertext2HandlesValidityProof,
     ) -> Result<Self, Self::Error> {
         Self::from_bytes(&pod_proof.0)
     }
@@ -202,21 +209,23 @@ impl TryFrom<PubkeyValidityProof> for DecodedPubkeyValidityProof {
 #[derive(Clone, Copy)]
 #[repr(transparent)]
 pub struct PodBatchedGroupedCiphertext3HandlesValidityProof(
-    pub(crate) [u8; BATCHED_GROUPED_CIPHERTEXT_3_HANDLES_VALIDITY_PROOF_LEN],
+    //pub(crate) [u8; BATCHED_GROUPED_CIPHERTEXT_3_HANDLES_VALIDITY_PROOF_LEN],
+    //gaokanxu 2024.08.19
+    pub(crate) [u8; pod::BATCHED_GROUPED_CIPHERTEXT_3_HANDLES_VALIDITY_PROOF_LEN],
 );
 
 #[cfg(not(target_os = "lumos"))]
-impl From<BatchedGroupedCiphertext3HandlesValidityProof>
+impl From<DecodedBatchedGroupedCiphertext3HandlesValidityProof>
     for PodBatchedGroupedCiphertext3HandlesValidityProof
 {
-    fn from(decoded_proof: BatchedGroupedCiphertext3HandlesValidityProof) -> Self {
+    fn from(decoded_proof: DecodedBatchedGroupedCiphertext3HandlesValidityProof) -> Self {
         Self(decoded_proof.to_bytes())
     }
 }
 
 #[cfg(not(target_os = "lumos"))]
 impl TryFrom<PodBatchedGroupedCiphertext3HandlesValidityProof>
-    for BatchedGroupedCiphertext3HandlesValidityProof
+    for DecodedBatchedGroupedCiphertext3HandlesValidityProof
 {
     type Error = ValidityProofVerificationError;
 

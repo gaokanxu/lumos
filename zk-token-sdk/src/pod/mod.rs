@@ -132,4 +132,10 @@ pub use crate::pod::grouped_elgamal::PodGroupedElGamalCiphertext3Handles;
 pub use crate::pod::sigma_proofs::PodBatchedGroupedCiphertext3HandlesValidityProof;
 //gaokanxu 2024.08.17 end
 
+//gaokanxu 2024.08.19 begin
+pub const BATCHED_GROUPED_CIPHERTEXT_2_HANDLES_VALIDITY_PROOF_LEN: usize = 160;
+pub const BATCHED_GROUPED_CIPHERTEXT_3_HANDLES_VALIDITY_PROOF_LEN: usize = 192;
 
+pub const GROUPED_CIPHERTEXT_2_HANDLES_VALIDITY_PROOF_LEN: usize = 160;
+pub const GROUPED_CIPHERTEXT_3_HANDLES_VALIDITY_PROOF_LEN: usize = 192;
+//gaokanxu 2024.08.19 end

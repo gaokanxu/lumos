@@ -300,7 +300,9 @@ pub struct TransferProof {
     pub equality_proof: pod::CiphertextCommitmentEqualityProof,
 
     /// Associated ciphertext validity proof
-    pub validity_proof: pod::BatchedGroupedCiphertext2HandlesValidityProof,
+    //pub validity_proof: pod::BatchedGroupedCiphertext2HandlesValidityProof,
+    //gaokanxu 2024.08.19
+    pub validity_proof: pod::PodBatchedGroupedCiphertext2HandlesValidityProof,
 
     // Associated range proof
     pub range_proof: pod::RangeProofU128,
