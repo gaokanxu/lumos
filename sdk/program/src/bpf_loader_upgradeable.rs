@@ -22,7 +22,7 @@ use crate::{
     system_instruction, sysvar,
 };
 
-crate::declare_id!("BPFLoaderUpgradeab1e11111111111111111111111");
+crate::declare_id!("unknown111111111111111111111111111111111111");
 
 /// Upgradeable loader account states
 #[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Clone, Copy, AbiExample)]

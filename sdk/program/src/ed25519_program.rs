@@ -2,4 +2,4 @@
 //!
 //! [np]: https://docs.lumoslabs.com/runtime/programs#ed25519-program
 
-crate::declare_id!("Ed25519SigVerify111111111111111111111111111");
+crate::declare_id!("unknown111111111111111111111111111111111111");

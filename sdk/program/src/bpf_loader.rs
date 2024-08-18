@@ -21,4 +21,4 @@
 //! [`entrypoint_deprecated`]: mod@crate::entrypoint_deprecated
 //! [ubpfl]: crate::bpf_loader_upgradeable
 
-crate::declare_id!("BPFLoader2111111111111111111111111111111111");
+crate::declare_id!("unknown111111111111111111111111111111111111");

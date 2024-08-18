@@ -6,22 +6,22 @@ use lumos_sdk::{
 };
 
 mod lpl_token {
-    lumos_sdk::declare_id!("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA");
+    lumos_sdk::declare_id!("unknown111111111111111111111111111111111111");
 }
 mod lpl_token_2022 {
-    lumos_sdk::declare_id!("TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb");
+    lumos_sdk::declare_id!("unknown111111111111111111111111111111111111");
 }
 mod lpl_memo_1_0 {
-    lumos_sdk::declare_id!("Memo1UhkJRfHyvLMcVucJwxXeuD728EqVDDwQDxFMNo");
+    lumos_sdk::declare_id!("unknown111111111111111111111111111111111111");
 }
 mod lpl_memo_3_0 {
-    lumos_sdk::declare_id!("MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr");
+    lumos_sdk::declare_id!("unknown111111111111111111111111111111111111");
 }
 mod lpl_associated_token_account {
-    lumos_sdk::declare_id!("ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL");
+    lumos_sdk::declare_id!("unknown111111111111111111111111111111111111");
 }
 
-static SPL_PROGRAMS: &[(Pubkey, Pubkey, &[u8])] = &[
+static LPL_PROGRAMS: &[(Pubkey, Pubkey, &[u8])] = &[
     (
         lpl_token::ID,
         lumos_sdk::bpf_loader::ID,
@@ -50,7 +50,7 @@ static SPL_PROGRAMS: &[(Pubkey, Pubkey, &[u8])] = &[
 ];
 
 pub fn lpl_programs(rent: &Rent) -> Vec<(Pubkey, AccountSharedData)> {
-    SPL_PROGRAMS
+    LPL_PROGRAMS
         .iter()
         .flat_map(|(program_id, loader_id, elf)| {
             let mut accounts = vec![];

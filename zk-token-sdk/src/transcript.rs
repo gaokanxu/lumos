@@ -50,7 +50,7 @@ pub trait TranscriptProtocol {
     fn append_grouped_ciphertext_2_handles(
         &mut self,
         label: &'static [u8],
-        point: &pod::GroupedElGamalCiphertext2Handles,
+        point: &pod::PodGroupedElGamalCiphertext2Handles,
     );
 
     /// Append a Pedersen commitment with the given `label`.
@@ -160,7 +160,7 @@ impl TranscriptProtocol for Transcript {
     fn append_grouped_ciphertext_2_handles(
         &mut self,
         label: &'static [u8],
-        grouped_ciphertext: &pod::GroupedElGamalCiphertext2Handles,
+        grouped_ciphertext: &pod::PodGroupedElGamalCiphertext2Handles,
     ) {
         self.append_message(label, &grouped_ciphertext.0);
     }

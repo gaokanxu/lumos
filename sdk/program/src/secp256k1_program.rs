@@ -7,4 +7,4 @@
 //!
 //! [`lumos_sdk::secp256k1_instruction`]: https://docs.rs/lumos-sdk/latest/lumos_sdk/secp256k1_instruction/index.html
 
-crate::declare_id!("KeccakSecp256k11111111111111111111111111111");
+crate::declare_id!("unknown111111111111111111111111111111111111");

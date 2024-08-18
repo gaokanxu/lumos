@@ -147,7 +147,7 @@ fn create_executable_environment(
 
     program_cache.fork_graph = Some(Arc::new(RwLock::new(MockForkGraph {})));
 
-    // Inform SVM of the registered builins
+    // Inform LVM of the registered builins
     let registered_built_ins = vec![bpf_loader::id()];
     (program_cache, registered_built_ins)
 }
@@ -221,7 +221,7 @@ fn prepare_transactions(
 }
 
 #[test]
-fn svm_integration() {
+fn lvm_integration() {
     let mut mock_bank = MockBankCallback::default();
     let (transactions, mut check_results) = prepare_transactions(&mut mock_bank);
     let (program_cache, builtins) = create_executable_environment(&mut mock_bank);

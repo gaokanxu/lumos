@@ -215,7 +215,7 @@ impl SeedDerivable for AeKey {
     }
 }
 
-/// For the purpose of encrypting balances for the spl token accounts, the nonce and ciphertext
+/// For the purpose of encrypting balances for the lpl token accounts, the nonce and ciphertext
 /// sizes should always be fixed.
 type Nonce = [u8; NONCE_LEN];
 type Ciphertext = [u8; CIPHERTEXT_LEN];

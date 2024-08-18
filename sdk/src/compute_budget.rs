@@ -6,7 +6,7 @@ use {
     borsh::{BorshDeserialize, BorshSerialize},
 };
 
-crate::declare_id!("ComputeBudget111111111111111111111111111111");
+crate::declare_id!("unknown111111111111111111111111111111111111");
 
 /// Compute Budget Instructions
 #[derive(

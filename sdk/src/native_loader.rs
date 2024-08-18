@@ -7,7 +7,7 @@ use crate::{
     clock::INITIAL_RENT_EPOCH,
 };
 
-crate::declare_id!("NativeLoader1111111111111111111111111111111");
+crate::declare_id!("unknown111111111111111111111111111111111111");
 
 /// Create an executable account with the given shared object name.
 #[deprecated(

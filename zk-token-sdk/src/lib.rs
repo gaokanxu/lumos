@@ -31,19 +31,16 @@ mod sigma_proofs;
 #[cfg(not(target_os = "lumos"))]
 mod transcript;
 
-// TODO: re-organize visibility
-//gaokanxu 2024.08.17
-//pub mod curve25519;
 
 pub mod instruction;
 pub mod zk_token_elgamal;
-pub mod zk_token_proof_instruction;
+//pub mod zk_token_proof_instruction;
 pub mod zk_token_proof_program;
-pub mod zk_token_proof_state;
+//pub mod zk_token_proof_state;
 
 //gaokanxu 2024.08.17 add 1 line
 pub mod pod;
-pub mod zk_elgamal_proof_program;
+//pub mod zk_elgamal_proof_program;
 
 
 /// Byte length of a compressed Ristretto point or scalar in Curve255519

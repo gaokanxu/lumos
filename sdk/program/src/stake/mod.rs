@@ -13,7 +13,7 @@ mod deprecated;
 pub use deprecated::*;
 
 pub mod program {
-    crate::declare_id!("Stake11111111111111111111111111111111111111");
+    crate::declare_id!("unknown111111111111111111111111111111111111");
 }
 
 /// The minimum number of epochs before stake account that is delegated to a delinquent vote

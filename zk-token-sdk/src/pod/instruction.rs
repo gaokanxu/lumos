@@ -1,7 +1,7 @@
 //use crate::pod::{
 //gaokanxu 2024.08.17
 use crate::pod::{
-    GroupedElGamalCiphertext2Handles, GroupedElGamalCiphertext3Handles, Pod, PodU16, PodU64,
+    PodGroupedElGamalCiphertext2Handles, PodGroupedElGamalCiphertext3Handles, Pod, PodU16, PodU64,
     Zeroable,
 };
 #[cfg(not(target_os = "lumos"))]
@@ -9,7 +9,7 @@ use crate::{encryption::elgamal::ElGamalError, instruction::transfer as decoded}
 
 #[derive(Clone, Copy, Pod, Zeroable)]
 #[repr(C)]
-pub struct TransferAmountCiphertext(pub GroupedElGamalCiphertext3Handles);
+pub struct TransferAmountCiphertext(pub PodGroupedElGamalCiphertext3Handles);
 
 #[cfg(not(target_os = "lumos"))]
 impl From<decoded::TransferAmountCiphertext> for TransferAmountCiphertext {
@@ -29,7 +29,7 @@ impl TryFrom<TransferAmountCiphertext> for decoded::TransferAmountCiphertext {
 
 #[derive(Clone, Copy, Pod, Zeroable)]
 #[repr(C)]
-pub struct FeeEncryption(pub GroupedElGamalCiphertext2Handles);
+pub struct FeeEncryption(pub PodGroupedElGamalCiphertext2Handles);
 
 #[cfg(not(target_os = "lumos"))]
 impl From<decoded::FeeEncryption> for FeeEncryption {

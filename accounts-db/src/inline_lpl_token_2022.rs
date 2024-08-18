@@ -1,7 +1,7 @@
-/// Partial SPL Token declarations inlined to avoid an external dependency on the spl-token-2022 crate
+/// Partial LPL Token declarations inlined to avoid an external dependency on the lpl-token-2022 crate
 use crate::inline_lpl_token::{self, GenericTokenAccount};
 
-lumos_sdk::declare_id!("TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb");
+lumos_sdk::declare_id!("unknown111111111111111111111111111111111111");
 
 // `lpl_token_program_2022::extension::AccountType::Account` ordinal value
 pub const ACCOUNTTYPE_ACCOUNT: u8 = 2;

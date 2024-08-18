@@ -12,7 +12,10 @@ mod range_proof;
 mod sigma_proofs;
 
 use {
-    crate::zk_token_proof_instruction::ProofType,
+    //gaokanxu 2024.08.18 erase 1 line
+    //crate::zk_token_proof_instruction::ProofType,
+    
+    
     num_traits::{FromPrimitive, ToPrimitive},
     lumos_program::instruction::InstructionError,
     thiserror::Error,
@@ -24,12 +27,14 @@ pub use {
     //gaokanxu 2024.08.17
     elgamal::{DecryptHandle, PodElGamalCiphertext, PodElGamalPubkey},
     
-    grouped_elgamal::{GroupedElGamalCiphertext2Handles, GroupedElGamalCiphertext3Handles},
+    //gaokanxu 2024.08.18 erase 1 line
+    //grouped_elgamal::{GroupedElGamalCiphertext2Handles, GroupedElGamalCiphertext3Handles},
+    
     instruction::{FeeEncryption, FeeParameters, TransferAmountCiphertext},
     pedersen::PedersenCommitment,
     range_proof::{RangeProofU128, RangeProofU256, RangeProofU64},
     sigma_proofs::{
-        BatchedGroupedCiphertext2HandlesValidityProof, CiphertextCiphertextEqualityProof,
+        PodBatchedGroupedCiphertext2HandlesValidityProof, CiphertextCiphertextEqualityProof,
         CiphertextCommitmentEqualityProof, FeeSigmaProof, GroupedCiphertext2HandlesValidityProof,
         PubkeyValidityProof, ZeroBalanceProof,
     },
@@ -121,6 +126,10 @@ pub(crate) use impl_from_str;
 pub use crate::pod::elgamal::DECRYPT_HANDLE_LEN;
 pub use crate::pod::elgamal::ELGAMAL_CIPHERTEXT_LEN;
 pub use crate::pod::pedersen::PEDERSEN_COMMITMENT_LEN;
+
+pub use crate::pod::grouped_elgamal::PodGroupedElGamalCiphertext2Handles;
+pub use crate::pod::grouped_elgamal::PodGroupedElGamalCiphertext3Handles;
+pub use crate::pod::sigma_proofs::PodBatchedGroupedCiphertext3HandlesValidityProof;
 //gaokanxu 2024.08.17 end
 
 

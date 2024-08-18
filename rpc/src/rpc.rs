@@ -16,7 +16,7 @@ use {
     lumos_accounts_db::{
         accounts::AccountAddressFilter,
         accounts_index::{AccountIndex, AccountSecondaryIndexes, IndexKey, ScanConfig},
-        inline_lpl_token::{SPL_TOKEN_ACCOUNT_MINT_OFFSET, SPL_TOKEN_ACCOUNT_OWNER_OFFSET},
+        inline_lpl_token::{SPL_TOKEN_ACCOUNT_MINT_OFFSET, LPL_TOKEN_ACCOUNT_OWNER_OFFSET},
         inline_lpl_token_2022::{self, ACCOUNTTYPE_ACCOUNT},
     },
     lumos_client::connection_cache::{ConnectionCache, Protocol},
@@ -2076,7 +2076,7 @@ impl JsonRpcRequestProcessor {
         }
     }
 
-    /// Get an iterator of spl-token accounts by owner address
+    /// Get an iterator of lpl-token accounts by owner address
     fn get_filtered_lpl_token_accounts_by_owner(
         &self,
         bank: &Bank,
@@ -2093,7 +2093,7 @@ impl JsonRpcRequestProcessor {
         filters.push(RpcFilterType::TokenAccountState);
         // Filter on Owner address
         filters.push(RpcFilterType::Memcmp(Memcmp::new_raw_bytes(
-            SPL_TOKEN_ACCOUNT_OWNER_OFFSET,
+            LPL_TOKEN_ACCOUNT_OWNER_OFFSET,
             owner_key.to_bytes().into(),
         )));
 
@@ -2127,7 +2127,7 @@ impl JsonRpcRequestProcessor {
         }
     }
 
-    /// Get an iterator of spl-token accounts by mint address
+    /// Get an iterator of lpl-token accounts by mint address
     fn get_filtered_lpl_token_accounts_by_mint(
         &self,
         bank: &Bank,
@@ -2144,7 +2144,7 @@ impl JsonRpcRequestProcessor {
         filters.push(RpcFilterType::TokenAccountState);
         // Filter on Mint address
         filters.push(RpcFilterType::Memcmp(Memcmp::new_raw_bytes(
-            SPL_TOKEN_ACCOUNT_MINT_OFFSET,
+            LPL_TOKEN_ACCOUNT_MINT_OFFSET,
             mint_key.to_bytes().into(),
         )));
         if self
@@ -2366,7 +2366,7 @@ fn encode_account<T: ReadableAccount>(
     }
 }
 
-/// Analyze custom filters to determine if the result will be a subset of spl-token accounts by
+/// Analyze custom filters to determine if the result will be a subset of lpl-token accounts by
 /// owner.
 /// NOTE: `optimize_filters()` should almost always be called before using this method because of
 /// the strict match on `MemcmpEncodedBytes::Bytes`.
@@ -2396,7 +2396,7 @@ fn get_lpl_token_owner_filter(program_id: &Pubkey, filters: &[RpcFilterType]) ->
                 offset,
                 bytes: MemcmpEncodedBytes::Bytes(bytes),
                 ..
-            }) if *offset == SPL_TOKEN_ACCOUNT_OWNER_OFFSET => {
+            }) if *offset == LPL_TOKEN_ACCOUNT_OWNER_OFFSET => {
                 if bytes.len() == PUBKEY_BYTES {
                     owner_key = Pubkey::try_from(&bytes[..]).ok();
                 } else {
@@ -2424,7 +2424,7 @@ fn get_lpl_token_owner_filter(program_id: &Pubkey, filters: &[RpcFilterType]) ->
     }
 }
 
-/// Analyze custom filters to determine if the result will be a subset of spl-token accounts by
+/// Analyze custom filters to determine if the result will be a subset of lpl-token accounts by
 /// mint.
 /// NOTE: `optimize_filters()` should almost always be called before using this method because of
 /// the strict match on `MemcmpEncodedBytes::Bytes`.
@@ -2454,7 +2454,7 @@ fn get_lpl_token_mint_filter(program_id: &Pubkey, filters: &[RpcFilterType]) -> 
                 offset,
                 bytes: MemcmpEncodedBytes::Bytes(bytes),
                 ..
-            }) if *offset == SPL_TOKEN_ACCOUNT_MINT_OFFSET => {
+            }) if *offset == LPL_TOKEN_ACCOUNT_MINT_OFFSET => {
                 if bytes.len() == PUBKEY_BYTES {
                     mint = Pubkey::try_from(&bytes[..]).ok();
                 } else {
@@ -3019,7 +3019,7 @@ pub mod rpc_accounts {
             block: Slot,
         ) -> Result<RpcBlockCommitment<BlockCommitmentArray>>;
 
-        // SPL Token-specific RPC endpoints
+        // LPL Token-specific RPC endpoints
         // See https://github.com/lumos-labs/lumos-program-library/releases/tag/token-v2.0.0 for
         // program details
 
@@ -3149,7 +3149,7 @@ pub mod rpc_accounts_scan {
             config: Option<RpcSupplyConfig>,
         ) -> Result<RpcResponse<RpcSupply>>;
 
-        // SPL Token-specific RPC endpoints
+        // LPL Token-specific RPC endpoints
         // See https://github.com/lumos-labs/lumos-program-library/releases/tag/token-v2.0.0 for
         // program details
 

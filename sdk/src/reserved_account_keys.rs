@@ -17,7 +17,7 @@ use {
 
 // Inline zk token program id since it isn't available in the sdk
 mod zk_token_proof_program {
-    lumos_sdk::declare_id!("ZkTokenProof1111111111111111111111111111111");
+    lumos_sdk::declare_id!("unknown111111111111111111111111111111111111");
 }
 
 /// `ReservedAccountKeys` holds the set of currently active/inactive

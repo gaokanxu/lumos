@@ -1,10 +1,10 @@
-/// Partial SPL Token declarations inlined to avoid an external dependency on the spl-token crate
+/// Partial LPL Token declarations inlined to avoid an external dependency on the lpl-token crate
 use lumos_sdk::pubkey::{Pubkey, PUBKEY_BYTES};
 
-lumos_sdk::declare_id!("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA");
+lumos_sdk::declare_id!("unknown111111111111111111111111111111111111");
 
 pub mod program_v3_4_0 {
-    lumos_sdk::declare_id!("NToK4t5AQzxPNpUA84DkxgfXaVDbDQQjpHKCqsbY46B");
+    lumos_sdk::declare_id!("unknown111111111111111111111111111111111111");
 }
 
 /*
@@ -19,21 +19,21 @@ pub mod program_v3_4_0 {
         close_authority: COption<Pubkey>,
     }
 */
-pub const SPL_TOKEN_ACCOUNT_MINT_OFFSET: usize = 0;
-pub const SPL_TOKEN_ACCOUNT_OWNER_OFFSET: usize = 32;
-const SPL_TOKEN_ACCOUNT_LENGTH: usize = 165;
+pub const LPL_TOKEN_ACCOUNT_MINT_OFFSET: usize = 0;
+pub const LPL_TOKEN_ACCOUNT_OWNER_OFFSET: usize = 32;
+const LPL_TOKEN_ACCOUNT_LENGTH: usize = 165;
 
 pub trait GenericTokenAccount {
     fn valid_account_data(account_data: &[u8]) -> bool;
 
     // Call after account length has already been verified
     fn unpack_account_owner_unchecked(account_data: &[u8]) -> &Pubkey {
-        Self::unpack_pubkey_unchecked(account_data, SPL_TOKEN_ACCOUNT_OWNER_OFFSET)
+        Self::unpack_pubkey_unchecked(account_data, LPL_TOKEN_ACCOUNT_OWNER_OFFSET)
     }
 
     // Call after account length has already been verified
     fn unpack_account_mint_unchecked(account_data: &[u8]) -> &Pubkey {
-        Self::unpack_pubkey_unchecked(account_data, SPL_TOKEN_ACCOUNT_MINT_OFFSET)
+        Self::unpack_pubkey_unchecked(account_data, LPL_TOKEN_ACCOUNT_MINT_OFFSET)
     }
 
     // Call after account length has already been verified
@@ -61,18 +61,18 @@ pub trait GenericTokenAccount {
 pub struct Account;
 impl Account {
     pub fn get_packed_len() -> usize {
-        SPL_TOKEN_ACCOUNT_LENGTH
+        LPL_TOKEN_ACCOUNT_LENGTH
     }
 }
 
 impl GenericTokenAccount for Account {
     fn valid_account_data(account_data: &[u8]) -> bool {
-        account_data.len() == SPL_TOKEN_ACCOUNT_LENGTH
+        account_data.len() == LPL_TOKEN_ACCOUNT_LENGTH
     }
 }
 
 pub mod native_mint {
-    lumos_sdk::declare_id!("So11111111111111111111111111111111111111112");
+    lumos_sdk::declare_id!("unknown111111111111111111111111111111111111");
 
     /*
         Mint {

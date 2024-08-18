@@ -1,7 +1,7 @@
 [package]
 name = "lumos-wen-restart"
 description = "Automatic repair and restart protocol"
-documentation = "https://github.com/lumos-foundation/lumos-improvement-documents/pull/46"
+
 version = { workspace = true }
 authors = { workspace = true }
 repository = { workspace = true }

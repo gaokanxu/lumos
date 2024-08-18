@@ -16,12 +16,12 @@ use {
     std::str::FromStr,
 };
 
-// Returns all known SPL Token program ids
+// Returns all known LPL Token program ids
 pub fn lpl_token_ids() -> Vec<Pubkey> {
     vec![lpl_token::id(), lpl_token_2022::id()]
 }
 
-// Check if the provided program id as a known SPL Token program id
+// Check if the provided program id as a known LPL Token program id
 pub fn is_known_lpl_token_id(program_id: &Pubkey) -> bool {
     *program_id == lpl_token::id() || *program_id == lpl_token_2022::id()
 }
@@ -64,7 +64,7 @@ pub fn parse_token(
     if let Ok(account) = StateWithExtensions::<Account>::unpack(data) {
         let decimals = mint_decimals.ok_or_else(|| {
             ParseAccountError::AdditionalDataMissing(
-                "no mint_decimals provided to parse spl-token account".to_string(),
+                "no mint_decimals provided to parse lpl-token account".to_string(),
             )
         })?;
         let extension_types = account.get_extension_types().unwrap_or_default();

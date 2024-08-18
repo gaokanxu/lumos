@@ -11,4 +11,4 @@
 //! deployed to this BPF loader must build against the deprecated entrypoint
 //! version located in `entrypoint_deprecated.rs`.
 
-crate::declare_id!("BPFLoader1111111111111111111111111111111111");
+crate::declare_id!("unknown111111111111111111111111111111111111");

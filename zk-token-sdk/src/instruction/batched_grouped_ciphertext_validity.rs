@@ -6,7 +6,7 @@
 //! grouped-ciphertext validity proofs.
 //!
 //! Currently, the batched grouped-ciphertext validity proof is restricted to ciphertexts with two
-//! handles. In accordance with the SPL Token program application, the first decryption handle
+//! handles. In accordance with the LPL Token program application, the first decryption handle
 //! associated with the proof is referred to as the "destination" handle and the second decryption
 //! handle is referred to as the "auditor" handle. Furthermore, the first grouped ciphertext is
 //! referred to as the "lo" ciphertext and the second grouped ciphertext is referred to as the "hi"
@@ -45,7 +45,9 @@ use {
 pub struct BatchedGroupedCiphertext2HandlesValidityProofData {
     pub context: BatchedGroupedCiphertext2HandlesValidityProofContext,
 
-    pub proof: pod::BatchedGroupedCiphertext2HandlesValidityProof,
+    //pub proof: pod::BatchedGroupedCiphertext2HandlesValidityProof,
+    //gaokanxu 2024.08.18
+    pub proof: pod::PodBatchedGroupedCiphertext2HandlesValidityProof,
 }
 
 #[derive(Clone, Copy, Pod, Zeroable)]
@@ -57,9 +59,11 @@ pub struct BatchedGroupedCiphertext2HandlesValidityProofContext {
     pub destination_pubkey: pod::PodElGamalPubkey, // 32 bytes
     pub auditor_pubkey: pod::PodElGamalPubkey, // 32 bytes
 
-    pub grouped_ciphertext_lo: pod::GroupedElGamalCiphertext2Handles, // 96 bytes
-
-    pub grouped_ciphertext_hi: pod::GroupedElGamalCiphertext2Handles, // 96 bytes
+    //pub grouped_ciphertext_lo: pod::GroupedElGamalCiphertext2Handles, // 96 bytes
+    //pub grouped_ciphertext_hi: pod::GroupedElGamalCiphertext2Handles, // 96 bytes
+    //gaokanxu 2024.08.18
+    pub grouped_ciphertext_lo: pod::PodGroupedElGamalCiphertext2Handles, // 96 bytes
+    pub grouped_ciphertext_hi: pod::PodGroupedElGamalCiphertext2Handles, // 96 bytes
 }
 
 #[cfg(not(target_os = "lumos"))]

@@ -197,6 +197,38 @@ impl TryFrom<PubkeyValidityProof> for DecodedPubkeyValidityProof {
     }
 }
 
+
+/// The `BatchedGroupedCiphertext3HandlesValidityProof` type as a `Pod`.
+#[derive(Clone, Copy)]
+#[repr(transparent)]
+pub struct PodBatchedGroupedCiphertext3HandlesValidityProof(
+    pub(crate) [u8; BATCHED_GROUPED_CIPHERTEXT_3_HANDLES_VALIDITY_PROOF_LEN],
+);
+
+#[cfg(not(target_os = "lumos"))]
+impl From<BatchedGroupedCiphertext3HandlesValidityProof>
+    for PodBatchedGroupedCiphertext3HandlesValidityProof
+{
+    fn from(decoded_proof: BatchedGroupedCiphertext3HandlesValidityProof) -> Self {
+        Self(decoded_proof.to_bytes())
+    }
+}
+
+#[cfg(not(target_os = "lumos"))]
+impl TryFrom<PodBatchedGroupedCiphertext3HandlesValidityProof>
+    for BatchedGroupedCiphertext3HandlesValidityProof
+{
+    type Error = ValidityProofVerificationError;
+
+    fn try_from(
+        pod_proof: PodBatchedGroupedCiphertext3HandlesValidityProof,
+    ) -> Result<Self, Self::Error> {
+        Self::from_bytes(&pod_proof.0)
+    }
+}
+
+
+
 // The sigma proof pod types are wrappers for byte arrays, which are both `Pod` and `Zeroable`. However,
 // the marker traits `bytemuck::Pod` and `bytemuck::Zeroable` can only be derived for power-of-two
 // length byte arrays. Directly implement these traits for the sigma proof pod types.
@@ -214,3 +246,6 @@ unsafe impl Pod for PodBatchedGroupedCiphertext2HandlesValidityProof {}
 
 unsafe impl Zeroable for ZeroBalanceProof {}
 unsafe impl Pod for ZeroBalanceProof {}
+
+unsafe impl Zeroable for PodBatchedGroupedCiphertext3HandlesValidityProof {}
+unsafe impl Pod for PodBatchedGroupedCiphertext3HandlesValidityProof {}

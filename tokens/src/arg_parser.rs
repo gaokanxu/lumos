@@ -282,7 +282,7 @@ where
         )
         .subcommand(
             SubCommand::with_name("distribute-spl-tokens")
-                .about("Distribute SPL tokens")
+                .about("Distribute LPL tokens")
                 .arg(
                     Arg::with_name("db_path")
                         .long("db-path")
@@ -314,7 +314,7 @@ where
                         .takes_value(true)
                         .value_name("AMOUNT")
                         .validator(is_amount)
-                        .help("The amount of SPL tokens to send to each recipient"),
+                        .help("The amount of LPL tokens to send to each recipient"),
                 )
                 .arg(
                     Arg::with_name("output_path")
@@ -366,7 +366,7 @@ where
         )
         .subcommand(
             SubCommand::with_name("spl-token-balances")
-                .about("Balance of SPL token associated accounts")
+                .about("Balance of LPL token associated accounts")
                 .arg(
                     Arg::with_name("input_csv")
                         .long("input-csv")

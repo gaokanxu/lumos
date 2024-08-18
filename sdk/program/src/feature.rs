@@ -16,7 +16,7 @@ use crate::{
     pubkey::Pubkey, rent::Rent, system_instruction,
 };
 
-crate::declare_id!("Feature111111111111111111111111111111111111");
+crate::declare_id!("unknown111111111111111111111111111111111111");
 
 #[derive(Default, Debug, Serialize, Deserialize, PartialEq, Eq)]
 pub struct Feature {

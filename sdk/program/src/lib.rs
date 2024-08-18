@@ -556,7 +556,7 @@ pub use wasm_bindgen::prelude::wasm_bindgen;
 /// [np]: https://docs.lumoslabs.com/runtime/programs#config-program
 pub mod config {
     pub mod program {
-        crate::declare_id!("Config1111111111111111111111111111111111111");
+        crate::declare_id!("unknown111111111111111111111111111111111111");
     }
 }
 

@@ -161,7 +161,7 @@ macro_rules! declare_deprecated_sysvar_id(
 );
 
 // Owner pubkey for sysvar accounts
-crate::declare_id!("Sysvar1111111111111111111111111111111111111");
+crate::declare_id!("unknown111111111111111111111111111111111111");
 
 /// A type that holds sysvar data and has an associated sysvar `Pubkey`.
 pub trait SysvarId {
@@ -251,7 +251,7 @@ mod tests {
     struct TestSysvar {
         something: Pubkey,
     }
-    crate::declare_id!("TestSysvar111111111111111111111111111111111");
+    crate::declare_id!("unknown111111111111111111111111111111111111");
     impl crate::sysvar::SysvarId for TestSysvar {
         fn id() -> crate::pubkey::Pubkey {
             id()

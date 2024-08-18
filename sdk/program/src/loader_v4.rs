@@ -9,7 +9,7 @@ use crate::{
     system_instruction,
 };
 
-crate::declare_id!("LoaderV411111111111111111111111111111111111");
+crate::declare_id!("unknown111111111111111111111111111111111111");
 
 /// Cooldown before a program can be un-/redeployed again
 pub const DEPLOYMENT_COOLDOWN_IN_SLOTS: u64 = 750;

@@ -13,4 +13,4 @@ pub mod proof_data;
 pub mod state;
 
 // Program Id of the ZK ElGamal Proof program
-lumos_program::declare_id!("ZkE1Gama1Proof11111111111111111111111111111");
+lumos_program::declare_id!("unknown111111111111111111111111111111111111");

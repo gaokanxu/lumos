@@ -6,7 +6,7 @@
 //! associated with the grouped ciphertext's commitment.
 //!
 //! Currently, the grouped-ciphertext validity proof is restricted to ciphertexts with two handles.
-//! In accordance with the SPL Token program application, the first decryption handle associated
+//! In accordance with the LPL Token program application, the first decryption handle associated
 //! with the proof is referred to as the "destination" handle and the second decryption handle is
 //! referred to as the "auditor" handle.
 
@@ -53,7 +53,9 @@ pub struct GroupedCiphertext2HandlesValidityProofContext {
 
     pub auditor_pubkey: pod::PodElGamalPubkey, // 32 bytes
 
-    pub grouped_ciphertext: pod::GroupedElGamalCiphertext2Handles, // 96 bytes
+    //pub grouped_ciphertext: pod::GroupedElGamalCiphertext2Handles, // 96 bytes
+    //gaokanxu 2024.08.18
+    pub grouped_ciphertext: pod::PodGroupedElGamalCiphertext2Handles, // 96 bytes
 }
 
 #[cfg(not(target_os = "lumos"))]

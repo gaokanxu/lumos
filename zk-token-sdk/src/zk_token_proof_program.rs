@@ -8,4 +8,4 @@
 //! [`ZK Token proof`]: https://docs.lumoslabs.com/runtime/zk-token-proof
 
 // Program Id of the ZkToken Proof program
-lumos_program::declare_id!("ZkTokenProof1111111111111111111111111111111");
+lumos_program::declare_id!("unknown111111111111111111111111111111111111");

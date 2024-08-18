@@ -460,9 +460,17 @@ pub struct TransferWithFeeProof {
     pub new_source_commitment: pod::PedersenCommitment,
     pub claimed_commitment: pod::PedersenCommitment,
     pub equality_proof: pod::CiphertextCommitmentEqualityProof,
-    pub ciphertext_amount_validity_proof: pod::BatchedGroupedCiphertext2HandlesValidityProof,
+    
+    //pub ciphertext_amount_validity_proof: pod::BatchedGroupedCiphertext2HandlesValidityProof,
+    //gaokanxu 2024.08.18
+    pub ciphertext_amount_validity_proof: pod::PodBatchedGroupedCiphertext2HandlesValidityProof,
+    
     pub fee_sigma_proof: pod::FeeSigmaProof,
-    pub fee_ciphertext_validity_proof: pod::BatchedGroupedCiphertext2HandlesValidityProof,
+    
+    //pub fee_ciphertext_validity_proof: pod::BatchedGroupedCiphertext2HandlesValidityProof,
+    //gaokanxu 2024.08.18
+    pub fee_ciphertext_validity_proof: pod::PodBatchedGroupedCiphertext2HandlesValidityProof,
+    
     pub range_proof: pod::RangeProofU256,
 }
 

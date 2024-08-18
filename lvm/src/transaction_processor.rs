@@ -518,7 +518,7 @@ impl<FG: ForkGraph> TransactionBatchProcessor<FG> {
                         && limit_to_load_programs
                     {
                         // This branch is taken when there is an error in assigning a program to a
-                        // cache slot. It is not possible to mock this error for SVM unit
+                        // cache slot. It is not possible to mock this error for LVM unit
                         // tests purposes.
                         let mut ret = LoadedProgramsForTxBatch::new(
                             self.slot,
@@ -552,7 +552,7 @@ impl<FG: ForkGraph> TransactionBatchProcessor<FG> {
                 // missing programs inside the tx batch again.
                 let _new_cookie = task_waiter.wait(task_cookie);
 
-                // This branch is not tested in the SVM because it requires concurrent threads.
+                // This branch is not tested in the LVM because it requires concurrent threads.
                 // In addition, one of them must be holding the mutex while the other must be
                 // trying to lock it.
             }

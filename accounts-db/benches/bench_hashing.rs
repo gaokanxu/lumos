@@ -13,7 +13,7 @@ const MB: usize = KB * KB;
 
 const DATA_SIZES: [usize; 6] = [
     0,       // the smallest account
-    165,     // the size of an spl token account
+    165,     // the size of an lpl token account
     200,     // the size of a stake account
     KB,      // a medium sized account
     MB,      // a large sized account

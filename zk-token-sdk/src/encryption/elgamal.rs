@@ -229,7 +229,7 @@ impl ElGamalKeypair {
     /// and an ElGamal keypair separately. Instead, a user can derive the ElGamal keypair
     /// on-the-fly whenever encryption/decryption is needed.
     ///
-    /// For the spl-token-2022 confidential extension, the ElGamal public key is specified in a
+    /// For the lpl-token-2022 confidential extension, the ElGamal public key is specified in a
     /// token account. A natural way to derive an ElGamal keypair is to define it from the hash of
     /// a Lumos keypair and a Lumos address as the public seed. However, for general hardware
     /// wallets, the signing key is not exposed in the API. Therefore, this function uses a signer

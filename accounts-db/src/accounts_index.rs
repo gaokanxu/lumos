@@ -2065,8 +2065,8 @@ pub mod tests {
         }
 
         (
-            SPL_TOKEN_ACCOUNT_OWNER_OFFSET,
-            SPL_TOKEN_ACCOUNT_OWNER_OFFSET + PUBKEY_BYTES,
+            LPL_TOKEN_ACCOUNT_OWNER_OFFSET,
+            LPL_TOKEN_ACCOUNT_OWNER_OFFSET + PUBKEY_BYTES,
             lpl_token_owner_index_enabled(),
         )
     }

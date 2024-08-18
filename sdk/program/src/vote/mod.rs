@@ -8,5 +8,5 @@ pub mod instruction;
 pub mod state;
 
 pub mod program {
-    crate::declare_id!("Vote111111111111111111111111111111111111111");
+    crate::declare_id!("unknown111111111111111111111111111111111111");
 }
