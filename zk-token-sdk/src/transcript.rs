@@ -45,6 +45,12 @@ pub trait TranscriptProtocol {
     //fn append_ciphertext(&mut self, label: &'static [u8], point: &pod::PodElGamalCiphertext);
     //gaokanxu 2024.08.18
     fn append_ciphertext(&mut self, label: &'static [u8], point: &pod::PodElGamalCiphertext);
+    
+    
+    /// Append a domain separator for zero-ciphertext proof.
+    //gaokanxu 2024.08.19
+    fn zero_ciphertext_proof_domain_separator(&mut self);
+    
 
     /// Append a grouped ElGamal ciphertext with the given `label`.
     fn append_grouped_ciphertext_2_handles(
@@ -66,13 +72,25 @@ pub trait TranscriptProtocol {
     fn zero_balance_proof_domain_separator(&mut self);
 
     /// Append a domain separator for grouped ciphertext validity proof.
-    fn grouped_ciphertext_validity_proof_domain_separator(&mut self);
+    //fn grouped_ciphertext_validity_proof_domain_separator(&mut self);
+    //gaokanxu 2024.08.19
+    fn grouped_ciphertext_validity_proof_domain_separator(&mut self, handles: u64);
 
     /// Append a domain separator for batched grouped ciphertext validity proof.
-    fn batched_grouped_ciphertext_validity_proof_domain_separator(&mut self);
+    //fn batched_grouped_ciphertext_validity_proof_domain_separator(&mut self);
+    //gaokanxu 2024.08.19
+    fn batched_grouped_ciphertext_validity_proof_domain_separator(&mut self, handles: u64);
+    
+    /// Append a domain separator for percentage with cap proof.
+    fn percentage_with_cap_proof_domain_separator(&mut self);
+
 
     /// Append a domain separator for fee sigma proof.
     fn fee_sigma_proof_domain_separator(&mut self);
+    
+
+    
+    
 
     /// Append a domain separator for public-key proof.
     fn pubkey_proof_domain_separator(&mut self);
@@ -151,8 +169,6 @@ impl TranscriptProtocol for Transcript {
         self.append_message(label, &pubkey.0);
     }
 
-    //fn append_ciphertext(&mut self, label: &'static [u8], ciphertext: &pod::PodElGamalCiphertext) {
-    //gaokanxu 2024.08.18
     fn append_ciphertext(&mut self, label: &'static [u8], ciphertext: &pod::PodElGamalCiphertext) {
         self.append_message(label, &ciphertext.0);
     }
@@ -181,13 +197,36 @@ impl TranscriptProtocol for Transcript {
         self.append_message(b"dom-sep", b"zero-balance-proof")
     }
 
+    /*
     fn grouped_ciphertext_validity_proof_domain_separator(&mut self) {
         self.append_message(b"dom-sep", b"validity-proof")
     }
+    */
+    //gaokanxu 2024.08.19
+    fn grouped_ciphertext_validity_proof_domain_separator(&mut self, handles: u64) {
+        self.append_message(b"dom-sep", b"validity-proof");
+        self.append_u64(b"handles", handles);
+    }
 
+    /*
     fn batched_grouped_ciphertext_validity_proof_domain_separator(&mut self) {
         self.append_message(b"dom-sep", b"batched-validity-proof")
     }
+    */
+    //gaokanxu 2024.08.19 begin
+    fn batched_grouped_ciphertext_validity_proof_domain_separator(&mut self, handles: u64) {
+        self.append_message(b"dom-sep", b"batched-validity-proof");
+        self.append_u64(b"handles", handles);
+    }
+    
+    fn percentage_with_cap_proof_domain_separator(&mut self) {
+        self.append_message(b"dom-sep", b"percentage-with-cap-proof")
+    }
+    
+    fn zero_ciphertext_proof_domain_separator(&mut self) {
+        self.append_message(b"dom-sep", b"zero-ciphertext-proof")
+    }
+    //gaokanxu 2024.08.19 end
 
     fn fee_sigma_proof_domain_separator(&mut self) {
         self.append_message(b"dom-sep", b"fee-sigma-proof")

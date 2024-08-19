@@ -31,11 +31,13 @@ use {
 };
 
 /// Byte length of a zero-ciphertext proof.
+#[allow(dead_code)]
 const ZERO_CIPHERTEXT_PROOF_LEN: usize = UNIT_LEN * 3;
 
 /// Zero-ciphertext proof.
 ///
 /// Contains all the elliptic curve and scalar components that make up the sigma protocol.
+#[allow(dead_code)]
 #[allow(non_snake_case)]
 #[derive(Clone)]
 pub struct ZeroCiphertextProof {
@@ -44,6 +46,7 @@ pub struct ZeroCiphertextProof {
     z: Scalar,
 }
 
+#[allow(dead_code)]
 #[allow(non_snake_case)]
 #[cfg(not(target_os = "lumos"))]
 impl ZeroCiphertextProof {

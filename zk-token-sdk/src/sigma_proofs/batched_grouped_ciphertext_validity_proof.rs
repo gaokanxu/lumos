@@ -29,8 +29,8 @@ use {
     
     //curve25519_dalek::scalar::Scalar,
     //gaokanxu 2024.08.19 2 lines
-    curve25519_dalek::{ristretto::CompressedRistretto, RistrettoPoint, scalar::Scalar},
-    rand_core::OsRng,
+    curve25519_dalek::{scalar::Scalar},
+    //rand_core::OsRng,
 
     
     
@@ -66,7 +66,9 @@ impl BatchedGroupedCiphertext2HandlesValidityProof {
         (opening_lo, opening_hi): (&PedersenOpening, &PedersenOpening),
         transcript: &mut Transcript,
     ) -> Self {
-        transcript.batched_grouped_ciphertext_validity_proof_domain_separator();
+        //transcript.batched_grouped_ciphertext_validity_proof_domain_separator();
+        //gaokanxu 2024.08.19
+        transcript.batched_grouped_ciphertext_validity_proof_domain_separator(2);
 
         let t = transcript.challenge_scalar(b"t");
 
@@ -94,7 +96,9 @@ impl BatchedGroupedCiphertext2HandlesValidityProof {
         (auditor_handle_lo, auditor_handle_hi): (&DecryptHandle, &DecryptHandle),
         transcript: &mut Transcript,
     ) -> Result<(), ValidityProofVerificationError> {
-        transcript.batched_grouped_ciphertext_validity_proof_domain_separator();
+        //transcript.batched_grouped_ciphertext_validity_proof_domain_separator();
+        //gaokanxu 2024.08.19
+        transcript.batched_grouped_ciphertext_validity_proof_domain_separator(2);
 
         let t = transcript.challenge_scalar(b"t");
 

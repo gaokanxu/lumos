@@ -30,11 +30,13 @@ use {
 };
 
 /// Byte length of a public key validity proof.
+#[allow(dead_code)]
 const PUBKEY_VALIDITY_PROOF_LEN: usize = UNIT_LEN * 2;
 
 /// Public-key proof.
 ///
 /// Contains all the elliptic curve and scalar components that make up the sigma protocol.
+#[allow(dead_code)]
 #[allow(non_snake_case)]
 #[derive(Clone)]
 pub struct PubkeyValidityProof {
@@ -59,6 +61,7 @@ impl PubkeyValidityProof {
     /// * `elgamal_keypair` = The ElGamal keypair that pertains to the ElGamal public key to be
     ///   proved
     /// * `transcript` - The transcript that does the bookkeeping for the Fiat-Shamir heuristic
+    #[allow(dead_code)]
     pub fn new(elgamal_keypair: &ElGamalKeypair, transcript: &mut Transcript) -> Self {
         transcript.pubkey_proof_domain_separator();
 
@@ -88,6 +91,7 @@ impl PubkeyValidityProof {
     ///
     /// * `elgamal_pubkey` - The ElGamal public key to be proved
     /// * `transcript` - The transcript that does the bookkeeping for the Fiat-Shamir heuristic
+    #[allow(dead_code)]
     pub fn verify(
         self,
         elgamal_pubkey: &ElGamalPubkey,
@@ -119,7 +123,8 @@ impl PubkeyValidityProof {
             Err(SigmaProofVerificationError::AlgebraicRelation.into())
         }
     }
-
+    
+    #[allow(dead_code)]
     pub fn to_bytes(&self) -> [u8; PUBKEY_VALIDITY_PROOF_LEN] {
         let mut buf = [0_u8; PUBKEY_VALIDITY_PROOF_LEN];
         let mut chunks = buf.chunks_mut(UNIT_LEN);
@@ -128,6 +133,7 @@ impl PubkeyValidityProof {
         buf
     }
 
+    #[allow(dead_code)]
     pub fn from_bytes(bytes: &[u8]) -> Result<Self, PubkeyValidityProofVerificationError> {
         let mut chunks = bytes.chunks(UNIT_LEN);
         let Y = ristretto_point_from_optional_slice(chunks.next())?;

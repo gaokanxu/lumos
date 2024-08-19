@@ -79,7 +79,9 @@ impl GroupedCiphertext2HandlesValidityProof {
         opening: &PedersenOpening,
         transcript: &mut Transcript,
     ) -> Self {
-        transcript.grouped_ciphertext_validity_proof_domain_separator();
+        //transcript.grouped_ciphertext_validity_proof_domain_separator();
+        //gaokanxu 2024.08.19
+        transcript.grouped_ciphertext_validity_proof_domain_separator(2);
 
         // extract the relevant scalar and Ristretto points from the inputs
         let P_dest = destination_pubkey.get_point();
@@ -134,7 +136,9 @@ impl GroupedCiphertext2HandlesValidityProof {
         (destination_handle, auditor_handle): (&DecryptHandle, &DecryptHandle),
         transcript: &mut Transcript,
     ) -> Result<(), ValidityProofVerificationError> {
-        transcript.grouped_ciphertext_validity_proof_domain_separator();
+        //transcript.grouped_ciphertext_validity_proof_domain_separator();
+        //gaokanxu 2024.08.19
+        transcript.grouped_ciphertext_validity_proof_domain_separator(2);
 
         // include Y_0, Y_1, Y_2 to transcript and extract challenges
         transcript.validate_and_append_point(b"Y_0", &self.Y_0)?;
@@ -175,9 +179,8 @@ impl GroupedCiphertext2HandlesValidityProof {
                 &self.z_r,           // z_r
                 &self.z_x,           // z_x
                 &(-&c),              // -c
-                //&-(&Scalar::one()),  // -identity
-                //gaokanxu 2024.08.15
-                &-(&Scalar::from_bytes_mod_order([1u8; 32])),
+                &-(&Scalar::one()),  // -identity
+               
 
                 &(&w * &self.z_r),   // w * z_r
                 &(&w_negated * &c),  // -w * c

@@ -8,9 +8,8 @@ pub struct VecPoly1(pub Vec<Scalar>, pub Vec<Scalar>);
 
 impl VecPoly1 {
     pub fn zero(n: usize) -> Self {
-        //VecPoly1(vec![Scalar::zero(); n], vec![Scalar::zero(); n])
-        //gaokanxu 2024.08.14
-        VecPoly1(vec![Scalar::default(); n], vec![Scalar::default(); n])
+        VecPoly1(vec![Scalar::zero(); n], vec![Scalar::zero(); n])
+        
     }
 
     pub fn inner_product(&self, rhs: &VecPoly1) -> Option<Poly2> {
@@ -31,9 +30,8 @@ impl VecPoly1 {
 
     pub fn eval(&self, x: Scalar) -> Vec<Scalar> {
         let n = self.0.len();
-        //let mut out = vec![Scalar::zero(); n];
-        //gaokanxu 2024.08.14
-        let mut out = vec![Scalar::default(); n];
+        let mut out = vec![Scalar::zero(); n];
+       
         
         #[allow(clippy::needless_range_loop)]
         for i in 0..n {
@@ -76,9 +74,8 @@ impl Iterator for ScalarExp {
 
 /// Return an iterator of the powers of `x`.
 pub fn exp_iter(x: Scalar) -> ScalarExp {
-    //let next_exp_x = Scalar::one();
-    //gaokanxu 2024.08.14
-    let next_exp_x = Scalar::from_bytes_mod_order([1u8; 32]);
+    let next_exp_x = Scalar::one();
+    
     
     ScalarExp { x, next_exp_x }
 }
@@ -88,9 +85,8 @@ pub fn add_vec(a: &[Scalar], b: &[Scalar]) -> Vec<Scalar> {
         // throw some error
         //println!("lengths of vectors don't match for vector addition");
     }
-    //let mut out = vec![Scalar::zero(); b.len()];
-    //gaokanxu 2024.08.14
-    let mut out = vec![Scalar::default(); b.len()];
+    let mut out = vec![Scalar::zero(); b.len()];
+    
     
     for i in 0..a.len() {
         out[i] = a[i] + b[i];
@@ -111,9 +107,9 @@ pub fn read32(data: &[u8]) -> [u8; 32] {
 /// \\]
 /// Errors if the lengths of \\(\mathbf{a}\\) and \\(\mathbf{b}\\) are not equal.
 pub fn inner_product(a: &[Scalar], b: &[Scalar]) -> Option<Scalar> {
-    //let mut out = Scalar::zero();
-    //gaokanxu 2024.08.14
-    let mut out = Scalar::default();
+    
+    let mut out = Scalar::zero();
+    
     
     if a.len() != b.len() {
         return None;
@@ -136,9 +132,8 @@ pub fn sum_of_powers(x: &Scalar, n: usize) -> Scalar {
         return Scalar::from(n as u64);
     }
     let mut m = n;
-    //let mut result = Scalar::one() + x;
-    //gaokanxu 2024.08.14
-    let mut result = Scalar::from_bytes_mod_order([1u8; 32]) + x;
+    let mut result = Scalar::one() + x;
+    
     
     let mut factor = *x;
     while m > 2 {

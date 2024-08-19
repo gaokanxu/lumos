@@ -14,11 +14,16 @@ mod sigma_proofs;
 use {
     //gaokanxu 2024.08.18 erase 1 line
     //crate::zk_token_proof_instruction::ProofType,
-    
+   
+ 
     
     num_traits::{FromPrimitive, ToPrimitive},
     lumos_program::instruction::InstructionError,
     thiserror::Error,
+    
+    //gaokanxu 2024.08.19
+    crate::instruction::ProofType,
+    
 };
 pub use {
     auth_encryption::AeCiphertext,

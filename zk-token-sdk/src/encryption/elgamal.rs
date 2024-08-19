@@ -370,7 +370,9 @@ impl ElGamalPubkey {
         //gaokanxu 2024.08.12
         //assert!(s != &Scalar::from_bytes_mod_order([0u8; 32]));
         //gaokanxu 2024.08.14
-        assert!(s.0 != Scalar::from_bytes_mod_order([0u8; 32]));
+        //assert!(s.0 != Scalar::from_bytes_mod_order([0u8; 32]));
+        //gaokanxu 2024.08.19
+        assert!(s.0 != Scalar::zero());
 
 
         //ElGamalPubkey(s.invert() * &(*H))
