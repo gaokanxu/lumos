@@ -60,7 +60,9 @@ pub trait TranscriptProtocol {
     );
 
     /// Append a Pedersen commitment with the given `label`.
-    fn append_commitment(&mut self, label: &'static [u8], point: &pod::PedersenCommitment);
+    //fn append_commitment(&mut self, label: &'static [u8], point: &pod::PedersenCommitment);
+    //gaokanxu 2024.08.21
+    fn append_commitment(&mut self, label: &'static [u8], point: &pod::pedersen::PodPedersenCommitment);
 
     /// Append an ElGamal decryption handle with the given `label`.
     fn append_handle(&mut self, label: &'static [u8], point: &pod::DecryptHandle);
@@ -181,7 +183,9 @@ impl TranscriptProtocol for Transcript {
         self.append_message(label, &grouped_ciphertext.0);
     }
 
-    fn append_commitment(&mut self, label: &'static [u8], commitment: &pod::PedersenCommitment) {
+    //fn append_commitment(&mut self, label: &'static [u8], commitment: &pod::PedersenCommitment) {
+    //gaokanxu 2024.08.21
+    fn append_commitment(&mut self, label: &'static [u8], commitment: &pod::PodPedersenCommitment) {
         self.append_message(label, &commitment.0);
     }
 

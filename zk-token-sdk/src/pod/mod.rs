@@ -36,7 +36,10 @@ pub use {
     //grouped_elgamal::{GroupedElGamalCiphertext2Handles, GroupedElGamalCiphertext3Handles},
     
     instruction::{FeeEncryption, FeeParameters, TransferAmountCiphertext},
-    pedersen::PedersenCommitment,
+    
+    //gaokanxu 2024.08.21
+    //pedersen::PedersenCommitment,
+    
     range_proof::{RangeProofU128, RangeProofU256, RangeProofU64},
     sigma_proofs::{
         PodBatchedGroupedCiphertext2HandlesValidityProof,

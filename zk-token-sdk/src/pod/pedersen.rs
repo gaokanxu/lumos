@@ -26,10 +26,13 @@ use {
 //gaokanxu 2024.08.17
 pub const PEDERSEN_COMMITMENT_LEN: usize = RISTRETTO_POINT_LEN;
 
+//gaokanxu 2024.08.21
+/*
 /// The `PedersenCommitment` type as a `Pod`.
 #[derive(Clone, Copy, Default, Pod, Zeroable, PartialEq, Eq)]
 #[repr(transparent)]
 pub struct PedersenCommitment(pub [u8; PEDERSEN_COMMITMENT_LEN]);
+*/
 
 impl fmt::Debug for PedersenCommitment {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
