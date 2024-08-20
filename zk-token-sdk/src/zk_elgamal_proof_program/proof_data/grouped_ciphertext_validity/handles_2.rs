@@ -10,7 +10,11 @@ use {
         pod::{
             elgamal::PodElGamalPubkey, grouped_elgamal::PodGroupedElGamalCiphertext2Handles,
         },
-        pod::PodGroupedCiphertext2HandlesValidityProof,
+        
+        //pod::PodGroupedCiphertext2HandlesValidityProof,
+        //gaokanxu 2024.08.20
+        pod::sigma_proofs::PodGroupedCiphertext2HandlesValidityProof,
+        
         zk_elgamal_proof_program::proof_data::{ProofType, ZkProofData},
     },
     bytemuck_derive::{Pod, Zeroable},

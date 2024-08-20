@@ -1,5 +1,5 @@
 //! Errors related to proving and verifying proofs.
-use {
+pub use {
     crate::{
         encryption::elgamal::ElGamalError,
         range_proof::errors::{RangeProofGenerationError, RangeProofVerificationError},

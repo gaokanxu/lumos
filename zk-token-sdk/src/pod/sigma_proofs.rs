@@ -20,12 +20,21 @@ use crate::sigma_proofs::{
 //gaokanxu 2024.08.17
 use crate::pod::{self, Pod, Zeroable};
 
+//gaokanxu 2024.08.20
+use crate::CIPHERTEXT_CIPHERTEXT_EQUALITY_PROOF_LEN;
+use crate::PERCENTAGE_WITH_CAP_PROOF_LEN;
+use crate::ZERO_CIPHERTEXT_PROOF_LEN;
+use crate::pod::GROUPED_CIPHERTEXT_3_HANDLES_VALIDITY_PROOF_LEN;
+use crate::sigma_proofs::grouped_ciphertext_validity_proof::GroupedCiphertext3HandlesValidityProof;
+use crate::sigma_proofs::percentage_with_cap::PercentageWithCapProof;
+use crate::sigma_proofs::zero_ciphertext::ZeroCiphertextProof;
+
+
+
 
 /// Byte length of a ciphertext-commitment equality proof
 const CIPHERTEXT_COMMITMENT_EQUALITY_PROOF_LEN: usize = 192;
 
-/// Byte length of a ciphertext-ciphertext equality proof
-const CIPHERTEXT_CIPHERTEXT_EQUALITY_PROOF_LEN: usize = 224;
 
 /// Byte length of a grouped ciphertext for 2 handles validity proof
 const GROUPED_CIPHERTEXT_2_HANDLES_VALIDITY_PROOF_LEN: usize = 160;
@@ -63,23 +72,23 @@ impl TryFrom<CiphertextCommitmentEqualityProof> for DecodedCiphertextCommitmentE
     }
 }
 
-/// The `CiphertextCiphertextEqualityProof` type as a `Pod`.
+/// The `PodCiphertextCiphertextEqualityProof` type as a `Pod`.
 #[derive(Clone, Copy)]
 #[repr(transparent)]
-pub struct CiphertextCiphertextEqualityProof(pub [u8; CIPHERTEXT_CIPHERTEXT_EQUALITY_PROOF_LEN]);
+pub struct PodCiphertextCiphertextEqualityProof(pub [u8; CIPHERTEXT_CIPHERTEXT_EQUALITY_PROOF_LEN]);
 
 #[cfg(not(target_os = "lumos"))]
-impl From<DecodedCiphertextCiphertextEqualityProof> for CiphertextCiphertextEqualityProof {
+impl From<DecodedCiphertextCiphertextEqualityProof> for PodCiphertextCiphertextEqualityProof {
     fn from(decoded_proof: DecodedCiphertextCiphertextEqualityProof) -> Self {
         Self(decoded_proof.to_bytes())
     }
 }
 
 #[cfg(not(target_os = "lumos"))]
-impl TryFrom<CiphertextCiphertextEqualityProof> for DecodedCiphertextCiphertextEqualityProof {
+impl TryFrom<PodCiphertextCiphertextEqualityProof> for DecodedCiphertextCiphertextEqualityProof {
     type Error = EqualityProofVerificationError;
 
-    fn try_from(pod_proof: CiphertextCiphertextEqualityProof) -> Result<Self, Self::Error> {
+    fn try_from(pod_proof: PodCiphertextCiphertextEqualityProof) -> Result<Self, Self::Error> {
         Self::from_bytes(&pod_proof.0)
     }
 }
@@ -237,6 +246,151 @@ impl TryFrom<PodBatchedGroupedCiphertext3HandlesValidityProof>
 }
 
 
+//gaokanxu 2024.08.20 begin
+
+/// The `CiphertextCommitmentEqualityProof` type as a `Pod`.
+#[derive(Clone, Copy)]
+#[repr(transparent)]
+pub struct PodCiphertextCommitmentEqualityProof(
+    pub(crate) [u8; CIPHERTEXT_COMMITMENT_EQUALITY_PROOF_LEN],
+);
+
+#[cfg(not(target_os = "lumos"))]
+impl From<CiphertextCommitmentEqualityProof> for PodCiphertextCommitmentEqualityProof {
+    fn from(decoded_proof: CiphertextCommitmentEqualityProof) -> Self {
+        Self(decoded_proof.to_bytes())
+    }
+}
+
+#[cfg(not(target_os = "lumos"))]
+impl TryFrom<PodCiphertextCommitmentEqualityProof> for CiphertextCommitmentEqualityProof {
+    type Error = EqualityProofVerificationError;
+
+    fn try_from(pod_proof: PodCiphertextCommitmentEqualityProof) -> Result<Self, Self::Error> {
+        Self::from_bytes(&pod_proof.0)
+    }
+}
+
+
+/// The `GroupedCiphertext2HandlesValidityProof` type as a `Pod`.
+#[derive(Clone, Copy)]
+#[repr(transparent)]
+pub struct PodGroupedCiphertext2HandlesValidityProof(
+    pub(crate) [u8; GROUPED_CIPHERTEXT_2_HANDLES_VALIDITY_PROOF_LEN],
+);
+
+#[cfg(not(target_os = "lumos"))]
+impl From<GroupedCiphertext2HandlesValidityProof> for PodGroupedCiphertext2HandlesValidityProof {
+    fn from(decoded_proof: GroupedCiphertext2HandlesValidityProof) -> Self {
+        Self(decoded_proof.to_bytes())
+    }
+}
+#[cfg(not(target_os = "lumos"))]
+
+impl TryFrom<PodGroupedCiphertext2HandlesValidityProof> for GroupedCiphertext2HandlesValidityProof {
+    type Error = ValidityProofVerificationError;
+
+    fn try_from(pod_proof: PodGroupedCiphertext2HandlesValidityProof) -> Result<Self, Self::Error> {
+        Self::from_bytes(&pod_proof.0)
+    }
+}
+
+
+/// The `GroupedCiphertext3HandlesValidityProof` type as a `Pod`.
+#[derive(Clone, Copy)]
+#[repr(transparent)]
+pub struct PodGroupedCiphertext3HandlesValidityProof(
+    pub(crate) [u8; GROUPED_CIPHERTEXT_3_HANDLES_VALIDITY_PROOF_LEN],
+);
+
+#[cfg(not(target_os = "lumos"))]
+impl From<GroupedCiphertext3HandlesValidityProof> for PodGroupedCiphertext3HandlesValidityProof {
+    fn from(decoded_proof: GroupedCiphertext3HandlesValidityProof) -> Self {
+        Self(decoded_proof.to_bytes())
+    }
+}
+
+#[cfg(not(target_os = "lumos"))]
+impl TryFrom<PodGroupedCiphertext3HandlesValidityProof> for GroupedCiphertext3HandlesValidityProof {
+    type Error = ValidityProofVerificationError;
+
+    fn try_from(pod_proof: PodGroupedCiphertext3HandlesValidityProof) -> Result<Self, Self::Error> {
+        Self::from_bytes(&pod_proof.0)
+    }
+}
+
+
+/// The `PercentageWithCapProof` type as a `Pod`.
+#[derive(Clone, Copy, bytemuck_derive::Pod, bytemuck_derive::Zeroable)]
+#[repr(transparent)]
+pub struct PodPercentageWithCapProof(pub(crate) [u8; PERCENTAGE_WITH_CAP_PROOF_LEN]);
+
+#[cfg(not(target_os = "lumos"))]
+impl From<PercentageWithCapProof> for PodPercentageWithCapProof {
+    fn from(decoded_proof: PercentageWithCapProof) -> Self {
+        Self(decoded_proof.to_bytes())
+    }
+}
+
+#[cfg(not(target_os = "lumos"))]
+impl TryFrom<PodPercentageWithCapProof> for PercentageWithCapProof {
+    type Error = PercentageWithCapProofVerificationError;
+
+    fn try_from(pod_proof: PodPercentageWithCapProof) -> Result<Self, Self::Error> {
+        Self::from_bytes(&pod_proof.0)
+    }
+}
+
+
+/// The `PubkeyValidityProof` type as a `Pod`.
+#[derive(Clone, Copy, bytemuck_derive::Pod, bytemuck_derive::Zeroable)]
+#[repr(transparent)]
+pub struct PodPubkeyValidityProof(pub(crate) [u8; PUBKEY_VALIDITY_PROOF_LEN]);
+
+#[cfg(not(target_os = "lumos"))]
+impl From<PubkeyValidityProof> for PodPubkeyValidityProof {
+    fn from(decoded_proof: PubkeyValidityProof) -> Self {
+        Self(decoded_proof.to_bytes())
+    }
+}
+
+#[cfg(not(target_os = "lumos"))]
+impl TryFrom<PodPubkeyValidityProof> for PubkeyValidityProof {
+    type Error = PubkeyValidityProofVerificationError;
+
+    fn try_from(pod_proof: PodPubkeyValidityProof) -> Result<Self, Self::Error> {
+        Self::from_bytes(&pod_proof.0)
+    }
+}
+
+
+/// The `ZeroCiphertextProof` type as a `Pod`.
+#[derive(Clone, Copy)]
+#[repr(transparent)]
+pub struct PodZeroCiphertextProof(pub(crate) [u8; ZERO_CIPHERTEXT_PROOF_LEN]);
+
+#[cfg(not(target_os = "lumos"))]
+impl From<ZeroCiphertextProof> for PodZeroCiphertextProof {
+    fn from(decoded_proof: ZeroCiphertextProof) -> Self {
+        Self(decoded_proof.to_bytes())
+    }
+}
+
+#[cfg(not(target_os = "lumos"))]
+impl TryFrom<PodZeroCiphertextProof> for ZeroCiphertextProof {
+    type Error = ZeroCiphertextProofVerificationError;
+
+    fn try_from(pod_proof: PodZeroCiphertextProof) -> Result<Self, Self::Error> {
+        Self::from_bytes(&pod_proof.0)
+    }
+}
+
+
+//gaokanxu 2024.08.20 end
+
+
+
+
 
 // The sigma proof pod types are wrappers for byte arrays, which are both `Pod` and `Zeroable`. However,
 // the marker traits `bytemuck::Pod` and `bytemuck::Zeroable` can only be derived for power-of-two
@@ -244,8 +398,8 @@ impl TryFrom<PodBatchedGroupedCiphertext3HandlesValidityProof>
 unsafe impl Zeroable for CiphertextCommitmentEqualityProof {}
 unsafe impl Pod for CiphertextCommitmentEqualityProof {}
 
-unsafe impl Zeroable for CiphertextCiphertextEqualityProof {}
-unsafe impl Pod for CiphertextCiphertextEqualityProof {}
+unsafe impl Zeroable for PodCiphertextCiphertextEqualityProof {}
+unsafe impl Pod for PodCiphertextCiphertextEqualityProof {}
 
 unsafe impl Zeroable for GroupedCiphertext2HandlesValidityProof {}
 unsafe impl Pod for GroupedCiphertext2HandlesValidityProof {}
@@ -258,3 +412,17 @@ unsafe impl Pod for ZeroBalanceProof {}
 
 unsafe impl Zeroable for PodBatchedGroupedCiphertext3HandlesValidityProof {}
 unsafe impl Pod for PodBatchedGroupedCiphertext3HandlesValidityProof {}
+
+//gaokanxu 2024.08.20 begin
+unsafe impl Zeroable for PodCiphertextCommitmentEqualityProof {}
+unsafe impl Pod for PodCiphertextCommitmentEqualityProof {}
+
+unsafe impl Zeroable for PodGroupedCiphertext2HandlesValidityProof {}
+unsafe impl Pod for PodGroupedCiphertext2HandlesValidityProof {}
+
+unsafe impl Zeroable for PodGroupedCiphertext3HandlesValidityProof {}
+unsafe impl Pod for PodGroupedCiphertext3HandlesValidityProof {}
+
+unsafe impl Zeroable for PodZeroCiphertextProof {}
+unsafe impl Pod for PodZeroCiphertextProof {}
+//gaokanxu 2024.08.20 end

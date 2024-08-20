@@ -40,7 +40,12 @@ pub mod zk_token_proof_program;
 
 //gaokanxu 2024.08.17 add 1 line
 pub mod pod;
-//pub mod zk_elgamal_proof_program;
+pub mod zk_elgamal_proof_program;
+
+//gaokanxu 2024.08.20
+/// Byte length of a zero-ciphertext proof
+pub const ZERO_CIPHERTEXT_PROOF_LEN: usize = 96;
+
 
 
 /// Byte length of a compressed Ristretto point or scalar in Curve255519
@@ -49,3 +54,11 @@ const UNIT_LEN: usize = 32;
 const RISTRETTO_POINT_LEN: usize = UNIT_LEN;
 /// Byte length of a scalar in Curve25519
 const SCALAR_LEN: usize = UNIT_LEN;
+
+
+//gaokanxu 2024.08.20
+/// Byte length of a ciphertext-ciphertext equality proof
+const CIPHERTEXT_CIPHERTEXT_EQUALITY_PROOF_LEN: usize = 224;
+
+/// Byte length of a percentage-with-cap proof.
+pub const PERCENTAGE_WITH_CAP_PROOF_LEN: usize = 256;

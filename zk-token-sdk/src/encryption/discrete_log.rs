@@ -5,7 +5,7 @@
 //! of Ristretto points that is independent of a discrete log instance. The online phase computes
 //! the final discrete log solution using the discrete log instance and the pre-computed hash
 //! table. More details on the baby-step giant-step algorithm and the implementation can be found
-//! in the [spl documentation](https://spl.lumos.com).
+//! in the [lpl documentation]
 //!
 //! The implementation is NOT intended to run in constant-time. There are some measures to prevent
 //! straightforward timing attacks. For instance, it does not short-circuit the search when a

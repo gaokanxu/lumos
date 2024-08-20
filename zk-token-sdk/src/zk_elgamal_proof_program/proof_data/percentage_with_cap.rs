@@ -21,7 +21,11 @@ use {
     crate::{
         pod::pedersen::PodPedersenCommitment,
         pod::PodU64,
-        pod::PodPercentageWithCapProof,
+        
+        //pod::PodPercentageWithCapProof,
+        //gaokanxu 2024.08.20
+        pod::sigma_proofs::PodPercentageWithCapProof,
+        
         zk_elgamal_proof_program::proof_data::{ProofType, ZkProofData},
     },
     bytemuck_derive::{Pod, Zeroable},

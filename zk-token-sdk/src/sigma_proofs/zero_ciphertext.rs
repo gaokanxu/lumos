@@ -21,6 +21,8 @@ use {
     crate::{
         sigma_proofs::errors::{SigmaProofVerificationError, ZeroCiphertextProofVerificationError},
         transcript::TranscriptProtocol,
+        //gaokanxu 2024.08.20
+        ZERO_CIPHERTEXT_PROOF_LEN,
     },
     curve25519_dalek::{
         ristretto::{CompressedRistretto, RistrettoPoint},
@@ -28,11 +30,9 @@ use {
         traits::IsIdentity,
     },
     merlin::Transcript,
+    
+    
 };
-
-/// Byte length of a zero-ciphertext proof.
-#[allow(dead_code)]
-const ZERO_CIPHERTEXT_PROOF_LEN: usize = UNIT_LEN * 3;
 
 /// Zero-ciphertext proof.
 ///

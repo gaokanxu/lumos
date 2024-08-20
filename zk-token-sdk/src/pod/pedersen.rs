@@ -3,6 +3,7 @@
 #[cfg(not(target_os = "lumos"))]
 use {
     crate::encryption::{elgamal::ElGamalError, pedersen as decoded},
+    
     curve25519_dalek::ristretto::CompressedRistretto,
 };
 use {
@@ -10,6 +11,10 @@ use {
         //pod::{Pod, Zeroable},
         //gaokanxu 2024.08.17
         pod::{Pod, Zeroable},
+        
+        sigma_proofs::ciphertext_ciphertext_equality_proof::CiphertextCiphertextEqualityProof,
+        sigma_proofs::errors::EqualityProofVerificationError,
+
         
         RISTRETTO_POINT_LEN,
     },
@@ -55,3 +60,80 @@ impl TryFrom<PedersenCommitment> for decoded::PedersenCommitment {
         Self::from_bytes(&pod_commitment.0).ok_or(ElGamalError::CiphertextDeserialization)
     }
 }
+
+//gaokanxu 2024.08.20 begin
+
+/// The `PedersenCommitment` type as a `Pod`.
+#[derive(Clone, Copy, Default, Pod, Zeroable, PartialEq, Eq)]
+#[repr(transparent)]
+pub struct PodPedersenCommitment(pub(crate) [u8; PEDERSEN_COMMITMENT_LEN]);
+
+impl fmt::Debug for PodPedersenCommitment {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "{:?}", self.0)
+    }
+}
+
+#[cfg(not(target_os = "lumos"))]
+impl From<PedersenCommitment> for PodPedersenCommitment {
+    fn from(decoded_commitment: PedersenCommitment) -> Self {
+        Self(decoded_commitment.to_bytes())
+    }
+}
+
+// For proof verification, interpret pod::PedersenCommitment directly as CompressedRistretto
+#[cfg(not(target_os = "lumos"))]
+impl From<PodPedersenCommitment> for CompressedRistretto {
+    fn from(pod_commitment: PodPedersenCommitment) -> Self {
+        Self(pod_commitment.0)
+    }
+}
+
+#[cfg(not(target_os = "lumos"))]
+impl TryFrom<PodPedersenCommitment> for PedersenCommitment {
+    type Error = ElGamalError;
+
+    fn try_from(pod_commitment: PodPedersenCommitment) -> Result<Self, Self::Error> {
+        Self::from_bytes(&pod_commitment.0).ok_or(ElGamalError::CiphertextDeserialization)
+    }
+}
+
+
+/// The `CiphertextCiphertextEqualityProof` type as a `Pod`.
+#[derive(Clone, Copy)]
+#[repr(transparent)]
+pub struct PodCiphertextCiphertextEqualityProof(
+    pub(crate) [u8; crate::CIPHERTEXT_CIPHERTEXT_EQUALITY_PROOF_LEN],
+);
+
+#[cfg(not(target_os = "lumos"))]
+impl From<CiphertextCiphertextEqualityProof> for PodCiphertextCiphertextEqualityProof {
+    fn from(decoded_proof: CiphertextCiphertextEqualityProof) -> Self {
+        Self(decoded_proof.to_bytes())
+    }
+}
+
+#[cfg(not(target_os = "lumos"))]
+impl TryFrom<PodCiphertextCiphertextEqualityProof> for CiphertextCiphertextEqualityProof {
+    type Error = EqualityProofVerificationError;
+
+    fn try_from(pod_proof: PodCiphertextCiphertextEqualityProof) -> Result<Self, Self::Error> {
+        Self::from_bytes(&pod_proof.0)
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+unsafe impl Zeroable for PodCiphertextCiphertextEqualityProof {}
+unsafe impl Pod for PodCiphertextCiphertextEqualityProof {}
+//gaokanxu 2024.08.20 end
+
+

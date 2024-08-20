@@ -30,8 +30,13 @@ use {
     crate::{
         sigma_proofs::errors::{
             PercentageWithCapProofVerificationError, SigmaProofVerificationError,
+            
         },
         transcript::TranscriptProtocol,
+        
+        //gaokanxu 2024.08.20
+        PERCENTAGE_WITH_CAP_PROOF_LEN,
+
     },
     curve25519_dalek::{
         ristretto::{CompressedRistretto, RistrettoPoint},
@@ -42,8 +47,6 @@ use {
     subtle::{Choice, ConditionallySelectable, ConstantTimeGreater},
 };
 
-/// Byte length of a percentage-with-cap proof.
-const PERCENTAGE_WITH_CAP_PROOF_LEN: usize = UNIT_LEN * 8;
 
 /// Percentage-with-cap proof.
 ///

@@ -37,12 +37,16 @@ use {
 ///
 /// It includes the cryptographic proof as well as the context data information needed to verify
 /// the proof.
-#[derive(Clone, Copy, Pod, Zeroable)]
+//#[derive(Clone, Copy, Pod, Zeroable)]
+//gaokanxu 2024.08.21
+#[derive(Clone, Pod, Zeroable)]
 #[repr(C)]
 pub struct CiphertextCiphertextEqualityProofData {
     pub context: CiphertextCiphertextEqualityProofContext,
 
-    pub proof: pod::CiphertextCiphertextEqualityProof,
+    //pub proof: pod::CiphertextCiphertextEqualityProof,
+    pub proof: CiphertextCiphertextEqualityProof,
+    
 }
 
 /// The context data needed to verify a ciphertext-ciphertext equality proof.

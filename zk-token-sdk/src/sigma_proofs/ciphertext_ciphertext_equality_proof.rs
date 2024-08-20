@@ -30,8 +30,7 @@ use {
     merlin::Transcript,
 };
 
-/// Byte length of a ciphertext-ciphertext equality proof.
-const CIPHERTEXT_CIPHERTEXT_EQUALITY_PROOF_LEN: usize = UNIT_LEN * 7;
+
 
 /// The ciphertext-ciphertext equality proof.
 ///
@@ -230,8 +229,8 @@ impl CiphertextCiphertextEqualityProof {
         }
     }
 
-    pub fn to_bytes(&self) -> [u8; CIPHERTEXT_CIPHERTEXT_EQUALITY_PROOF_LEN] {
-        let mut buf = [0_u8; CIPHERTEXT_CIPHERTEXT_EQUALITY_PROOF_LEN];
+    pub fn to_bytes(&self) -> [u8; crate::CIPHERTEXT_CIPHERTEXT_EQUALITY_PROOF_LEN] {
+        let mut buf = [0_u8; crate::CIPHERTEXT_CIPHERTEXT_EQUALITY_PROOF_LEN];
         let mut chunks = buf.chunks_mut(UNIT_LEN);
 
         chunks.next().unwrap().copy_from_slice(self.Y_0.as_bytes());

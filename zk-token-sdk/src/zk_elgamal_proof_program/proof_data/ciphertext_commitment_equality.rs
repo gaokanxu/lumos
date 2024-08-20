@@ -11,7 +11,10 @@ use {
             elgamal::{PodElGamalCiphertext, PodElGamalPubkey},
             pedersen::PodPedersenCommitment,
         },
-        pod::PodCiphertextCommitmentEqualityProof,
+        //pod::PodCiphertextCommitmentEqualityProof,
+        //gaokanxu 2024.08.20 
+        pod::sigma_proofs::PodCiphertextCommitmentEqualityProof,
+        
         zk_elgamal_proof_program::proof_data::{ProofType, ZkProofData},
     },
     bytemuck_derive::{Pod, Zeroable},

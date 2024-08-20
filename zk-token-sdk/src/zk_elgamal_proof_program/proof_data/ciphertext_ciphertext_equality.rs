@@ -8,7 +8,10 @@
 use {
     crate::{
         pod::elgamal::{PodElGamalCiphertext, PodElGamalPubkey},
-        pod::PodCiphertextCiphertextEqualityProof,
+        //pod::PodCiphertextCiphertextEqualityProof,
+        //gaokanxu 2024.08.20
+        pod::pedersen::PodCiphertextCiphertextEqualityProof,
+        
         zk_elgamal_proof_program::proof_data::{ProofType, ZkProofData},
     },
     bytemuck_derive::{Pod, Zeroable},

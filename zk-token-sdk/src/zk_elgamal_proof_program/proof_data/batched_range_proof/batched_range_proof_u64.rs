@@ -14,7 +14,8 @@ use {
 };
 use {
     crate::{
-        range_proof::pod::PodRangeProofU64,
+        //range_proof::pod::PodRangeProofU64,
+        pod::range_proof::PodRangeProofU64,
         zk_elgamal_proof_program::proof_data::{
             batched_range_proof::BatchedRangeProofContext, ProofType, ZkProofData,
         },

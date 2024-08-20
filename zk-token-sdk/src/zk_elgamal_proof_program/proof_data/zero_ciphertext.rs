@@ -18,7 +18,11 @@ use {
 use {
     crate::{
         pod::elgamal::{PodElGamalCiphertext, PodElGamalPubkey},
-        pod::PodZeroCiphertextProof,
+        
+        //pod::PodZeroCiphertextProof,
+        //gaokanxu 2024.08.20
+        pod::sigma_proofs::PodZeroCiphertextProof,
+        
         zk_elgamal_proof_program::proof_data::{ProofType, ZkProofData},
     },
     bytemuck_derive::{Pod, Zeroable},

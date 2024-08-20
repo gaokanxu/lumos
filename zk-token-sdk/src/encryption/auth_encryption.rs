@@ -1,6 +1,6 @@
 //! Authenticated encryption implementation.
 //!
-//! This module is a simple wrapper of the `Aes128GcmSiv` implementation specialized for SPL
+//! This module is a simple wrapper of the `Aes128GcmSiv` implementation specialized for LPL
 //! token-2022 where the plaintext is always `u64`.
 #[cfg(not(target_os = "lumos"))]
 use {

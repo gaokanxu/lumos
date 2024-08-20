@@ -1,15 +1,13 @@
 mod auth_encryption;
 
-//mod elgamal;
-//mod pedersen;
-//gaokanxu 2024.08.17 2 lines
+
+//gaokanxu 2024.08.20 6 lines
 pub mod elgamal;
 pub mod pedersen;
-
-mod grouped_elgamal;
-mod instruction;
-mod range_proof;
-mod sigma_proofs;
+pub mod grouped_elgamal;
+pub mod instruction;
+pub mod range_proof;
+pub mod sigma_proofs;
 
 use {
     //gaokanxu 2024.08.18 erase 1 line
@@ -26,6 +24,8 @@ use {
     
 };
 pub use {
+
+
     auth_encryption::AeCiphertext,
     bytemuck::{Pod, Zeroable},
     //elgamal::{DecryptHandle, ElGamalCiphertext, ElGamalPubkey},
@@ -39,7 +39,7 @@ pub use {
     pedersen::PedersenCommitment,
     range_proof::{RangeProofU128, RangeProofU256, RangeProofU64},
     sigma_proofs::{
-        PodBatchedGroupedCiphertext2HandlesValidityProof, CiphertextCiphertextEqualityProof,
+        PodBatchedGroupedCiphertext2HandlesValidityProof,
         CiphertextCommitmentEqualityProof, FeeSigmaProof, GroupedCiphertext2HandlesValidityProof,
         PubkeyValidityProof, ZeroBalanceProof,
     },
