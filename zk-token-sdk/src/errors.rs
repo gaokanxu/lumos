@@ -1,5 +1,5 @@
 //! Errors related to proving and verifying proofs.
-pub use {
+use {
     crate::{
         encryption::elgamal::ElGamalError,
         range_proof::errors::{RangeProofGenerationError, RangeProofVerificationError},
@@ -40,6 +40,11 @@ pub enum ProofVerificationError {
     IllegalCommitmentLength,
     #[error("illegal amount bit length")]
     IllegalAmountBitLength,
+    
+    //gaokanxu 2024.08.21
+    #[error("ciphertext ciphertext equality proof error")]
+    CiphertextCiphertextEqualityProofError,
+    
 }
 
 #[derive(Clone, Debug, Eq, PartialEq)]

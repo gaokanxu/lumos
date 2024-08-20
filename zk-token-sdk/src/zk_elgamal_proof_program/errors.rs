@@ -2,7 +2,8 @@
 use crate::range_proof::errors::RangeProofGenerationError;
 use {
     crate::{
-        errors::ElGamalError, range_proof::errors::RangeProofVerificationError,
+        //errors::ElGamalError, range_proof::errors::RangeProofVerificationError,
+        encryption::elgamal::ElGamalError, range_proof::errors::RangeProofVerificationError,
         sigma_proofs::errors::*,
     },
     thiserror::Error,

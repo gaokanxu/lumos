@@ -25,11 +25,15 @@ use {
 use {
     crate::{
         instruction::{ProofType, ZkProofData},
+        
         //zk_token_elgamal::pod,
         //gaokanxu 2024.08.17
         pod,
+        
     },
     bytemuck::{Pod, Zeroable},
+    
+
 };
 
 /// The instruction data that is needed for the
@@ -39,7 +43,7 @@ use {
 /// the proof.
 //#[derive(Clone, Copy, Pod, Zeroable)]
 //gaokanxu 2024.08.21
-#[derive(Clone, Pod, Zeroable)]
+#[derive(Clone)]
 #[repr(C)]
 pub struct CiphertextCiphertextEqualityProofData {
     pub context: CiphertextCiphertextEqualityProofContext,
@@ -114,7 +118,10 @@ impl ZkProofData<CiphertextCiphertextEqualityProofContext>
         let destination_pubkey = self.context.destination_pubkey.try_into()?;
         let source_ciphertext = self.context.source_ciphertext.try_into()?;
         let destination_ciphertext = self.context.destination_ciphertext.try_into()?;
-        let proof: CiphertextCiphertextEqualityProof = self.proof.try_into()?;
+        
+        //gaokanxu 2024.08.21
+        //let proof: CiphertextCiphertextEqualityProof = self.proof.try_into()?;
+        let proof: CiphertextCiphertextEqualityProof = self.proof.try_into().map_err(|_| crate::errors::ProofVerificationError::CiphertextCiphertextEqualityProofError)?;
 
         proof
             .verify(
