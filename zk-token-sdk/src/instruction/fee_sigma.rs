@@ -50,13 +50,19 @@ pub struct FeeSigmaProofData {
 #[repr(C)]
 pub struct FeeSigmaProofContext {
     /// The Pedersen commitment to the transfer fee
-    pub fee_commitment: pod::PedersenCommitment,
+    //pub fee_commitment: pod::PedersenCommitment,
+    //gaokanxu 2024.08.21
+    pub fee_commitment: pod::pedersen::PodPedersenCommitment,
 
     /// The Pedersen commitment to the real delta fee.
-    pub delta_commitment: pod::PedersenCommitment,
+    //pub delta_commitment: pod::PedersenCommitment,
+    //gaokanxu 2024.08.21
+    pub delta_commitment: pod::pedersen::PodPedersenCommitment,
 
     /// The Pedersen commitment to the claimed delta fee.
-    pub claimed_commitment: pod::PedersenCommitment,
+    //pub claimed_commitment: pod::PedersenCommitment,
+    //gaokanxu 2024.08.21
+    pub claimed_commitment: pod::pedersen::PodPedersenCommitment,
 
     /// The maximum cap for a transfer fee
     pub max_fee: pod::PodU64,
@@ -75,9 +81,17 @@ impl FeeSigmaProofData {
         delta_fee: u64,
         max_fee: u64,
     ) -> Result<Self, ProofGenerationError> {
+        /*
         let pod_fee_commitment = pod::PedersenCommitment(fee_commitment.to_bytes());
         let pod_delta_commitment = pod::PedersenCommitment(delta_commitment.to_bytes());
         let pod_claimed_commitment = pod::PedersenCommitment(claimed_commitment.to_bytes());
+        */
+        //gaokanxu 2024.08.21 3 lines
+        let pod_fee_commitment = pod::pedersen::PodPedersenCommitment(fee_commitment.to_bytes());
+        let pod_delta_commitment = pod::pedersen::PodPedersenCommitment(delta_commitment.to_bytes());
+        let pod_claimed_commitment = pod::pedersen::PodPedersenCommitment(claimed_commitment.to_bytes());
+        
+        
         let pod_max_fee = max_fee.into();
 
         let context = FeeSigmaProofContext {

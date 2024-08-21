@@ -51,7 +51,9 @@ pub struct CiphertextCommitmentEqualityProofContext {
     pub ciphertext: pod::PodElGamalCiphertext, // 64 bytes
 
     /// The Pedersen commitment
-    pub commitment: pod::PedersenCommitment, // 32 bytes
+    //pub commitment: pod::PedersenCommitment, // 32 bytes
+    //gaokanxu 2024.08.21
+    pub commitment: pod::pedersen::PodPedersenCommitment, // 32 bytes
 }
 
 #[cfg(not(target_os = "lumos"))]
@@ -66,7 +68,10 @@ impl CiphertextCommitmentEqualityProofData {
         let context = CiphertextCommitmentEqualityProofContext {
             pubkey: pod::PodElGamalPubkey(keypair.pubkey().to_bytes()),
             ciphertext: pod::PodElGamalCiphertext(ciphertext.to_bytes()),
-            commitment: pod::PedersenCommitment(commitment.to_bytes()),
+            
+            //commitment: pod::PedersenCommitment(commitment.to_bytes()),
+            //gaokanxu 2024.08.21
+            commitment: pod::pedersen::PodPedersenCommitment(commitment.to_bytes()),
         };
         let mut transcript = context.new_transcript();
         let proof = CiphertextCommitmentEqualityProof::new(

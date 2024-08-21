@@ -294,7 +294,9 @@ impl TransferProofContext {
 #[repr(C)]
 pub struct TransferProof {
     /// New Pedersen commitment for the remaining balance in source
-    pub new_source_commitment: pod::PedersenCommitment,
+    //pub new_source_commitment: pod::PedersenCommitment,
+    //gaokanxu 2024.08.21
+    pub new_source_commitment: pod::pedersen::PodPedersenCommitment,
 
     /// Associated equality proof
     pub equality_proof: pod::CiphertextCommitmentEqualityProof,
@@ -323,7 +325,10 @@ impl TransferProof {
         // generate a Pedersen commitment for the remaining balance in source
         let (new_source_commitment, source_opening) = Pedersen::new(source_new_balance);
 
-        let pod_new_source_commitment: pod::PedersenCommitment = new_source_commitment.into();
+        //let pod_new_source_commitment: pod::PedersenCommitment = new_source_commitment.into();
+        //gaokanxu 2024.08.21
+        let pod_new_source_commitment: pod::pedersen::PodPedersenCommitment = new_source_commitment.into();
+        
         transcript.append_commitment(b"commitment-new-source", &pod_new_source_commitment);
 
         // generate equality_proof

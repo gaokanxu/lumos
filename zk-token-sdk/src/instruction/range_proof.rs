@@ -29,7 +29,9 @@ use {
 #[derive(Clone, Copy, Pod, Zeroable)]
 #[repr(C)]
 pub struct RangeProofContext {
-    pub commitment: pod::PedersenCommitment, // 32 bytes
+    //pub commitment: pod::PedersenCommitment, // 32 bytes
+    //gaokanxu 2024.08.21
+    pub commitment: pod::pedersen::PodPedersenCommitment, // 32 bytes
 }
 
 /// The instruction data that is needed for the `ProofInstruction::VerifyRangeProofU64` instruction.
@@ -53,7 +55,9 @@ impl RangeProofU64Data {
         amount: u64,
         opening: &PedersenOpening,
     ) -> Result<Self, ProofGenerationError> {
-        let pod_commitment = pod::PedersenCommitment(commitment.to_bytes());
+        //let pod_commitment = pod::PedersenCommitment(commitment.to_bytes());
+        //gaokanxu 2024.08.21
+        let pod_commitment = pod::pedersen::PodPedersenCommitment(commitment.to_bytes());
 
         let context = RangeProofContext {
             commitment: pod_commitment,

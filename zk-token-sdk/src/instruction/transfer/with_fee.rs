@@ -457,8 +457,12 @@ impl TransferWithFeeProofContext {
 #[repr(C)]
 #[derive(Clone, Copy, Pod, Zeroable)]
 pub struct TransferWithFeeProof {
-    pub new_source_commitment: pod::PedersenCommitment,
-    pub claimed_commitment: pod::PedersenCommitment,
+    //pub new_source_commitment: pod::PedersenCommitment,
+    //pub claimed_commitment: pod::PedersenCommitment,
+    //gaokanxu 2024.08.18
+    pub new_source_commitment: pod::pedersen::PodPedersenCommitment,
+    pub claimed_commitment: pod::pedersen::PodPedersenCommitment,
+    
     pub equality_proof: pod::CiphertextCommitmentEqualityProof,
     
     //pub ciphertext_amount_validity_proof: pod::BatchedGroupedCiphertext2HandlesValidityProof,
@@ -498,7 +502,10 @@ impl TransferWithFeeProof {
 
         // generate a Pedersen commitment for the remaining balance in source
         let (new_source_commitment, opening_source) = Pedersen::new(source_new_balance);
-        let pod_new_source_commitment: pod::PedersenCommitment = new_source_commitment.into();
+        
+        //let pod_new_source_commitment: pod::PedersenCommitment = new_source_commitment.into();
+        //gaokanxu 2024.08.21
+        let pod_new_source_commitment: pod::pedersen::PodPedersenCommitment = new_source_commitment.into();
 
         transcript.append_commitment(b"commitment-new-source", &pod_new_source_commitment);
 
@@ -521,7 +528,11 @@ impl TransferWithFeeProof {
 
         // compute claimed delta commitment
         let (claimed_commitment, opening_claimed) = Pedersen::new(delta_fee);
-        let pod_claimed_commitment: pod::PedersenCommitment = claimed_commitment.into();
+        
+        //let pod_claimed_commitment: pod::PedersenCommitment = claimed_commitment.into();
+        //gaokanxu 2024.08.21
+        let pod_claimed_commitment: pod::pedersen::PodPedersenCommitment = claimed_commitment.into();
+        
         transcript.append_commitment(b"commitment-claimed", &pod_claimed_commitment);
 
         let combined_commitment = try_combine_lo_hi_commitments(
@@ -553,7 +564,11 @@ impl TransferWithFeeProof {
             (&combined_fee_commitment, &combined_fee_opening),
             fee_parameters.fee_rate_basis_points,
         );
-        let pod_delta_commitment: pod::PedersenCommitment = delta_commitment.into();
+        
+        //let pod_delta_commitment: pod::PedersenCommitment = delta_commitment.into();
+        //gaokanxu 2024.08.21
+        let pod_delta_commitment: pod::pedersen::PodPedersenCommitment = delta_commitment.into();
+        
         transcript.append_commitment(b"commitment-delta", &pod_delta_commitment);
 
         // generate fee sigma proof
@@ -719,7 +734,10 @@ impl TransferWithFeeProof {
             fee_parameters.fee_rate_basis_points,
         );
 
-        let pod_delta_commitment: pod::PedersenCommitment = delta_commitment.into();
+         //let pod_delta_commitment: pod::PedersenCommitment = delta_commitment.into();
+         //gaokanxu 2024.08.21
+        let pod_delta_commitment: pod::pedersen::PodPedersenCommitment = delta_commitment.into();
+        
         transcript.append_commitment(b"commitment-delta", &pod_delta_commitment);
 
         // verify fee sigma proof

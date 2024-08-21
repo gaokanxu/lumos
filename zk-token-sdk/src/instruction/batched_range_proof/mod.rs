@@ -54,7 +54,11 @@ const MAX_SINGLE_BIT_LENGTH: usize = 128;
 #[derive(Clone, Copy, Pod, Zeroable)]
 #[repr(C)]
 pub struct BatchedRangeProofContext {
-    pub commitments: [pod::PedersenCommitment; MAX_COMMITMENTS],
+
+    //pub commitments: [pod::PedersenCommitment; MAX_COMMITMENTS],
+    //gaokanxu 2024.08.21
+    pub commitments: [pod::pedersen::PodPedersenCommitment; MAX_COMMITMENTS],
+    
     pub bit_lengths: [u8; MAX_COMMITMENTS],
 }
 
@@ -84,13 +88,18 @@ impl BatchedRangeProofContext {
             return Err(ProofGenerationError::IllegalCommitmentLength);
         }
 
-        let mut pod_commitments = [pod::PedersenCommitment::zeroed(); MAX_COMMITMENTS];
+        //let mut pod_commitments = [pod::PedersenCommitment::zeroed(); MAX_COMMITMENTS];
+        //gaokanxu 2024.08.21
+        let mut pod_commitments = [pod::pedersen::PodPedersenCommitment::zeroed(); MAX_COMMITMENTS];
+        
         for (i, commitment) in commitments.iter().enumerate() {
             // all-zero commitment is invalid
             if commitment.get_point().is_identity() {
                 return Err(ProofGenerationError::InvalidCommitment);
             }
-            pod_commitments[i] = pod::PedersenCommitment(commitment.to_bytes());
+            //pod_commitments[i] = pod::PedersenCommitment(commitment.to_bytes());
+            //gaokanxu 2024.08.21
+            pod_commitments[i] = pod::pedersen::PodPedersenCommitment(commitment.to_bytes());
         }
 
         let mut pod_bit_lengths = [0; MAX_COMMITMENTS];
@@ -115,7 +124,11 @@ impl TryInto<(Vec<PedersenCommitment>, Vec<usize>)> for BatchedRangeProofContext
         let commitments = self
             .commitments
             .into_iter()
-            .take_while(|commitment| *commitment != pod::PedersenCommitment::zeroed())
+            
+            //.take_while(|commitment| *commitment != pod::PedersenCommitment::zeroed())
+            //gaokanxu 2024.08.21
+            .take_while(|commitment| *commitment != pod::pedersen::PodPedersenCommitment::zeroed())
+            
             .map(|commitment| commitment.try_into())
             .collect::<Result<Vec<PedersenCommitment>, _>>()
             .map_err(|_| ProofVerificationError::ProofContext)?;

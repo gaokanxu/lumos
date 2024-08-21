@@ -125,7 +125,9 @@ impl WithdrawProofContext {
 #[allow(non_snake_case)]
 pub struct WithdrawProof {
     /// New Pedersen commitment
-    pub commitment: pod::PedersenCommitment,
+    //pub commitment: pod::PedersenCommitment,
+    //gaokanxu 2024.08.21
+    pub commitment: pod::pedersen::PodPedersenCommitment,
 
     /// Associated equality proof
     pub equality_proof: pod::CiphertextCommitmentEqualityProof,
@@ -145,7 +147,10 @@ impl WithdrawProof {
     ) -> Result<Self, ProofGenerationError> {
         // generate a Pedersen commitment for `final_balance`
         let (commitment, opening) = Pedersen::new(final_balance);
-        let pod_commitment: pod::PedersenCommitment = commitment.into();
+        
+        //let pod_commitment: pod::PedersenCommitment = commitment.into();
+        //gaokanxu 2024.08.21
+        let pod_commitment: pod::pedersen::PodPedersenCommitment = commitment.into();
 
         transcript.append_commitment(b"commitment", &pod_commitment);
 

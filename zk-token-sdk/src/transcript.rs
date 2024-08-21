@@ -185,7 +185,7 @@ impl TranscriptProtocol for Transcript {
 
     //fn append_commitment(&mut self, label: &'static [u8], commitment: &pod::PedersenCommitment) {
     //gaokanxu 2024.08.21
-    fn append_commitment(&mut self, label: &'static [u8], commitment: &pod::PodPedersenCommitment) {
+    fn append_commitment(&mut self, label: &'static [u8], commitment: &pod::pedersen::PodPedersenCommitment) {
         self.append_message(label, &commitment.0);
     }
 
