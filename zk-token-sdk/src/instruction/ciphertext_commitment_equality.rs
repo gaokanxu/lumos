@@ -37,7 +37,7 @@ use {
 #[repr(C)]
 pub struct CiphertextCommitmentEqualityProofData {
     pub context: CiphertextCommitmentEqualityProofContext,
-    pub proof: pod::CiphertextCommitmentEqualityProof,
+    pub proof: pod::PodCiphertextCommitmentEqualityProof,
 }
 
 /// The context data needed to verify a ciphertext-commitment equality proof.

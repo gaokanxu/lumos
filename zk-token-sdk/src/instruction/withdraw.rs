@@ -1,6 +1,10 @@
 #[cfg(not(target_os = "lumos"))]
 use {
     crate::{
+        instruction::{ProofType, ZkProofData},
+
+        pod::{PodCiphertextCommitmentEqualityProof, PodElGamalPubkey, PodElGamalCiphertext, PodPedersenCommitment},
+        
         encryption::{
             elgamal::{ElGamal, ElGamalCiphertext, ElGamalKeypair, ElGamalPubkey},
             pedersen::{Pedersen, PedersenCommitment},
@@ -12,15 +16,8 @@ use {
     },
     merlin::Transcript,
     std::convert::TryInto,
-};
-use {
-    crate::{
-        instruction::{ProofType, ZkProofData},
-        //zk_token_elgamal::pod,
-        //gaokanxu 2024.08.17
-        pod,
-    },
     bytemuck::{Pod, Zeroable},
+
 };
 
 #[cfg(not(target_os = "lumos"))]
@@ -45,11 +42,11 @@ pub struct WithdrawData {
 #[repr(C)]
 pub struct WithdrawProofContext {
     /// The source account ElGamal pubkey
-    pub pubkey: pod::PodElGamalPubkey, // 32 bytes
+    pub pubkey: PodElGamalPubkey, // 32 bytes
 
     /// The source account available balance *after* the withdraw (encrypted by
     /// `source_pk`
-    pub final_ciphertext: pod::PodElGamalCiphertext, // 64 bytes
+    pub final_ciphertext: PodElGamalCiphertext, // 64 bytes
 }
 
 #[cfg(not(target_os = "lumos"))]
@@ -71,8 +68,8 @@ impl WithdrawData {
         // current source balance
         let final_ciphertext = current_ciphertext - &ElGamal::encode(amount);
 
-        let pod_pubkey = pod::PodElGamalPubkey(keypair.pubkey().to_bytes());
-        let pod_final_ciphertext: pod::PodElGamalCiphertext = final_ciphertext.into();
+        let pod_pubkey = PodElGamalPubkey(keypair.pubkey().to_bytes());
+        let pod_final_ciphertext: PodElGamalCiphertext = final_ciphertext.into();
 
         let context = WithdrawProofContext {
             pubkey: pod_pubkey,
@@ -127,10 +124,10 @@ pub struct WithdrawProof {
     /// New Pedersen commitment
     //pub commitment: pod::PedersenCommitment,
     //gaokanxu 2024.08.21
-    pub commitment: pod::pedersen::PodPedersenCommitment,
+    pub commitment: PodPedersenCommitment,
 
     /// Associated equality proof
-    pub equality_proof: pod::CiphertextCommitmentEqualityProof,
+    pub equality_proof: PodCiphertextCommitmentEqualityProof,
 
     /// Associated range proof
     pub range_proof: pod::RangeProofU64, // 672 bytes
@@ -150,7 +147,7 @@ impl WithdrawProof {
         
         //let pod_commitment: pod::PedersenCommitment = commitment.into();
         //gaokanxu 2024.08.21
-        let pod_commitment: pod::pedersen::PodPedersenCommitment = commitment.into();
+        let pod_commitment: PodPedersenCommitment = commitment.into();
 
         transcript.append_commitment(b"commitment", &pod_commitment);
 

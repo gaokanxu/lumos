@@ -299,7 +299,9 @@ pub struct TransferProof {
     pub new_source_commitment: pod::pedersen::PodPedersenCommitment,
 
     /// Associated equality proof
-    pub equality_proof: pod::CiphertextCommitmentEqualityProof,
+    //pub equality_proof: pod::CiphertextCommitmentEqualityProof,
+    //gaokanxu 2024.08.21
+    pub equality_proof: pod::PodCiphertextCommitmentEqualityProof,
 
     /// Associated ciphertext validity proof
     //pub validity_proof: pod::BatchedGroupedCiphertext2HandlesValidityProof,

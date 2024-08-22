@@ -51,23 +51,26 @@ const FEE_SIGMA_PROOF_LEN: usize = 256;
 /// Byte length of a public key validity proof
 const PUBKEY_VALIDITY_PROOF_LEN: usize = 64;
 
+
 /// The `CiphertextCommitmentEqualityProof` type as a `Pod`.
 #[derive(Clone, Copy)]
 #[repr(transparent)]
-pub struct CiphertextCommitmentEqualityProof(pub [u8; CIPHERTEXT_COMMITMENT_EQUALITY_PROOF_LEN]);
+pub struct PodCiphertextCommitmentEqualityProof(
+    pub(crate) [u8; CIPHERTEXT_COMMITMENT_EQUALITY_PROOF_LEN],
+);
 
 #[cfg(not(target_os = "lumos"))]
-impl From<DecodedCiphertextCommitmentEqualityProof> for CiphertextCommitmentEqualityProof {
+impl From<DecodedCiphertextCommitmentEqualityProof> for PodCiphertextCommitmentEqualityProof {
     fn from(decoded_proof: DecodedCiphertextCommitmentEqualityProof) -> Self {
         Self(decoded_proof.to_bytes())
     }
 }
 
 #[cfg(not(target_os = "lumos"))]
-impl TryFrom<CiphertextCommitmentEqualityProof> for DecodedCiphertextCommitmentEqualityProof {
+impl TryFrom<PodCiphertextCommitmentEqualityProof> for DecodedCiphertextCommitmentEqualityProof {
     type Error = EqualityProofVerificationError;
 
-    fn try_from(pod_proof: CiphertextCommitmentEqualityProof) -> Result<Self, Self::Error> {
+    fn try_from(pod_proof: PodCiphertextCommitmentEqualityProof) -> Result<Self, Self::Error> {
         Self::from_bytes(&pod_proof.0)
     }
 }
@@ -248,28 +251,8 @@ impl TryFrom<PodBatchedGroupedCiphertext3HandlesValidityProof>
 
 //gaokanxu 2024.08.20 begin
 
-/// The `CiphertextCommitmentEqualityProof` type as a `Pod`.
-#[derive(Clone, Copy)]
-#[repr(transparent)]
-pub struct PodCiphertextCommitmentEqualityProof(
-    pub(crate) [u8; CIPHERTEXT_COMMITMENT_EQUALITY_PROOF_LEN],
-);
 
-#[cfg(not(target_os = "lumos"))]
-impl From<CiphertextCommitmentEqualityProof> for PodCiphertextCommitmentEqualityProof {
-    fn from(decoded_proof: CiphertextCommitmentEqualityProof) -> Self {
-        Self(decoded_proof.to_bytes())
-    }
-}
 
-#[cfg(not(target_os = "lumos"))]
-impl TryFrom<PodCiphertextCommitmentEqualityProof> for CiphertextCommitmentEqualityProof {
-    type Error = EqualityProofVerificationError;
-
-    fn try_from(pod_proof: PodCiphertextCommitmentEqualityProof) -> Result<Self, Self::Error> {
-        Self::from_bytes(&pod_proof.0)
-    }
-}
 
 
 /// The `GroupedCiphertext2HandlesValidityProof` type as a `Pod`.
@@ -414,8 +397,6 @@ unsafe impl Zeroable for PodBatchedGroupedCiphertext3HandlesValidityProof {}
 unsafe impl Pod for PodBatchedGroupedCiphertext3HandlesValidityProof {}
 
 //gaokanxu 2024.08.20 begin
-unsafe impl Zeroable for PodCiphertextCommitmentEqualityProof {}
-unsafe impl Pod for PodCiphertextCommitmentEqualityProof {}
 
 unsafe impl Zeroable for PodGroupedCiphertext2HandlesValidityProof {}
 unsafe impl Pod for PodGroupedCiphertext2HandlesValidityProof {}

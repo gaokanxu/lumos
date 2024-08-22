@@ -34,43 +34,6 @@ pub const PEDERSEN_COMMITMENT_LEN: usize = RISTRETTO_POINT_LEN;
 pub struct PedersenCommitment(pub [u8; PEDERSEN_COMMITMENT_LEN]);
 */
 
-impl fmt::Debug for PedersenCommitment {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "{:?}", self.0)
-    }
-}
-
-#[cfg(not(target_os = "lumos"))]
-impl From<decoded::PedersenCommitment> for PedersenCommitment {
-    fn from(decoded_commitment: decoded::PedersenCommitment) -> Self {
-        Self(decoded_commitment.to_bytes())
-    }
-}
-
-// For proof verification, interpret pod::PedersenCommitment directly as CompressedRistretto
-#[cfg(not(target_os = "lumos"))]
-impl From<PedersenCommitment> for CompressedRistretto {
-    fn from(pod_commitment: PedersenCommitment) -> Self {
-        Self(pod_commitment.0)
-    }
-}
-
-#[cfg(not(target_os = "lumos"))]
-impl TryFrom<PedersenCommitment> for decoded::PedersenCommitment {
-    type Error = ElGamalError;
-
-    fn try_from(pod_commitment: PedersenCommitment) -> Result<Self, Self::Error> {
-        Self::from_bytes(&pod_commitment.0).ok_or(ElGamalError::CiphertextDeserialization)
-    }
-}
-
-//gaokanxu 2024.08.20 begin
-
-/// The `PedersenCommitment` type as a `Pod`.
-#[derive(Clone, Copy, Default, Pod, Zeroable, PartialEq, Eq)]
-#[repr(transparent)]
-pub struct PodPedersenCommitment(pub(crate) [u8; PEDERSEN_COMMITMENT_LEN]);
-
 impl fmt::Debug for PodPedersenCommitment {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(f, "{:?}", self.0)
@@ -78,8 +41,8 @@ impl fmt::Debug for PodPedersenCommitment {
 }
 
 #[cfg(not(target_os = "lumos"))]
-impl From<PedersenCommitment> for PodPedersenCommitment {
-    fn from(decoded_commitment: PedersenCommitment) -> Self {
+impl From<decoded::PedersenCommitment> for PodPedersenCommitment {
+    fn from(decoded_commitment: decoded::PedersenCommitment) -> Self {
         Self(decoded_commitment.to_bytes())
     }
 }
@@ -93,13 +56,21 @@ impl From<PodPedersenCommitment> for CompressedRistretto {
 }
 
 #[cfg(not(target_os = "lumos"))]
-impl TryFrom<PodPedersenCommitment> for PedersenCommitment {
+impl TryFrom<PodPedersenCommitment> for decoded::PedersenCommitment {
     type Error = ElGamalError;
 
     fn try_from(pod_commitment: PodPedersenCommitment) -> Result<Self, Self::Error> {
         Self::from_bytes(&pod_commitment.0).ok_or(ElGamalError::CiphertextDeserialization)
     }
 }
+
+
+/// The `PedersenCommitment` type as a `Pod`.
+#[derive(Clone, Copy, Default, Pod, Zeroable, PartialEq, Eq)]
+#[repr(transparent)]
+pub struct PodPedersenCommitment(pub(crate) [u8; PEDERSEN_COMMITMENT_LEN]);
+
+
 
 
 /// The `CiphertextCiphertextEqualityProof` type as a `Pod`.

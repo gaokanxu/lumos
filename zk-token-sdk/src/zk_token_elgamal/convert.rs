@@ -7,8 +7,13 @@ use lumos_curve25519::ristretto::PodRistrettoPoint;
 //use lumos_curve25519::scalar::MyPodScalar;
 //gaokanxu 2024.08.17 end
 
-impl From<(pod::PedersenCommitment, pod::DecryptHandle)> for pod::PodElGamalCiphertext {
-    fn from((commitment, handle): (pod::PedersenCommitment, pod::DecryptHandle)) -> Self {
+
+//impl From<(pod::PedersenCommitment, pod::DecryptHandle)> for pod::PodElGamalCiphertext {
+    //fn from((commitment, handle): (pod::PedersenCommitment, pod::DecryptHandle)) -> Self {
+//gaokanxu 2024.08.21 2 lin3s
+impl From<(pod::pedersen::PodPedersenCommitment, pod::DecryptHandle)> for pod::PodElGamalCiphertext {
+    fn from((commitment, handle): (pod::pedersen::PodPedersenCommitment, pod::DecryptHandle)) -> Self {
+    
         let mut buf = [0_u8; 64];
         buf[..32].copy_from_slice(&commitment.0);
         buf[32..].copy_from_slice(&handle.0);
@@ -16,27 +21,42 @@ impl From<(pod::PedersenCommitment, pod::DecryptHandle)> for pod::PodElGamalCiph
     }
 }
 
-impl From<pod::PodElGamalCiphertext> for (pod::PedersenCommitment, pod::DecryptHandle) {
+//impl From<pod::PodElGamalCiphertext> for (pod::PedersenCommitment, pod::DecryptHandle) {
+//gaokanxu 2024.08.21
+impl From<pod::PodElGamalCiphertext> for (pod::pedersen::PodPedersenCommitment, pod::DecryptHandle) {
+
     fn from(ciphertext: pod::PodElGamalCiphertext) -> Self {
         let commitment: [u8; 32] = ciphertext.0[..32].try_into().unwrap();
         let handle: [u8; 32] = ciphertext.0[32..].try_into().unwrap();
 
         (
-            pod::PedersenCommitment(commitment),
+            //pod::PedersenCommitment(commitment),
+            //gaokanxu 2024.08.21
+            pod::pedersen::PodPedersenCommitment(commitment),
+            
             pod::DecryptHandle(handle),
         )
     }
 }
 
-impl From<pod::PedersenCommitment> for PodRistrettoPoint {
-    fn from(commitment: pod::PedersenCommitment) -> Self {
+//impl From<pod::PedersenCommitment> for PodRistrettoPoint {
+    //fn from(commitment: pod::PedersenCommitment) -> Self {
+//gaokanxu 2024.08.21
+impl From<pod::pedersen::PodPedersenCommitment> for PodRistrettoPoint {
+    fn from(commitment: pod::pedersen::PodPedersenCommitment) -> Self {
+        
         PodRistrettoPoint(commitment.0)
     }
 }
 
-impl From<PodRistrettoPoint> for pod::PedersenCommitment {
+//impl From<PodRistrettoPoint> for pod::PedersenCommitment {
+//gaokanxu 2024.08.21
+impl From<PodRistrettoPoint> for pod::pedersen::PodPedersenCommitment {
+
     fn from(point: PodRistrettoPoint) -> Self {
-        pod::PedersenCommitment(point.0)
+        //pod::PedersenCommitment(point.0)
+        //gaokanxu 2024.08.21
+        pod::pedersen::PodPedersenCommitment(point.0)
     }
 }
 

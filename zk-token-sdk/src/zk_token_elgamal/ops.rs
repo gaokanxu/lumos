@@ -28,12 +28,23 @@ pub fn add(
     left_ciphertext: &pod::PodElGamalCiphertext,
     right_ciphertext: &pod::PodElGamalCiphertext,
 ) -> Option<pod::PodElGamalCiphertext> {
-    let (left_commitment, left_handle): (pod::PedersenCommitment, pod::DecryptHandle) =
+
+    //let (left_commitment, left_handle): (pod::PedersenCommitment, pod::DecryptHandle) =
+    //gaokanxu 2024.08.21
+    let (left_commitment, left_handle): (pod::pedersen::PodPedersenCommitment, pod::DecryptHandle) =
+    
         (*left_ciphertext).into();
-    let (right_commitment, right_handle): (pod::PedersenCommitment, pod::DecryptHandle) =
+        
+    //let (right_commitment, right_handle): (pod::PedersenCommitment, pod::DecryptHandle) =
+    //gaokanxu 2024.08.21
+    let (right_commitment, right_handle): (pod::pedersen::PodPedersenCommitment, pod::DecryptHandle) =
+    
         (*right_ciphertext).into();
 
-    let result_commitment: pod::PedersenCommitment =
+    //let result_commitment: pod::PedersenCommitment =
+    //gaokanxu 2024.08.21
+    let result_commitment: pod::pedersen::PodPedersenCommitment =
+    
         add_ristretto(&left_commitment.into(), &right_commitment.into())?.into();
     let result_handle: pod::DecryptHandle =
         add_ristretto(&left_handle.into(), &right_handle.into())?.into();
@@ -46,12 +57,18 @@ pub fn multiply(
     scalar: &PodScalar,
     ciphertext: &pod::PodElGamalCiphertext,
 ) -> Option<pod::PodElGamalCiphertext> {
-    let (commitment, handle): (pod::PedersenCommitment, pod::DecryptHandle) = (*ciphertext).into();
+
+    //let (commitment, handle): (pod::PedersenCommitment, pod::DecryptHandle) = (*ciphertext).into();
+    //gaokanxu 2024.08.21
+    let (commitment, handle): (pod::pedersen::PodPedersenCommitment, pod::DecryptHandle) = (*ciphertext).into();
 
     let commitment_point: PodRistrettoPoint = commitment.into();
     let handle_point: PodRistrettoPoint = handle.into();
 
-    let result_commitment: pod::PedersenCommitment =
+    //let result_commitment: pod::PedersenCommitment =
+    //gaokanxu 2024.08.21
+    let result_commitment: pod::pedersen::PodPedersenCommitment =
+    
         multiply_ristretto(scalar, &commitment_point)?.into();
     let result_handle: pod::DecryptHandle = multiply_ristretto(scalar, &handle_point)?.into();
 
@@ -75,13 +92,25 @@ pub fn subtract(
     left_ciphertext: &pod::PodElGamalCiphertext,
     right_ciphertext: &pod::PodElGamalCiphertext,
 ) -> Option<pod::PodElGamalCiphertext> {
+
+    /*
     let (left_commitment, left_handle): (pod::PedersenCommitment, pod::DecryptHandle) =
         (*left_ciphertext).into();
     let (right_commitment, right_handle): (pod::PedersenCommitment, pod::DecryptHandle) =
         (*right_ciphertext).into();
-
     let result_commitment: pod::PedersenCommitment =
         subtract_ristretto(&left_commitment.into(), &right_commitment.into())?.into();
+    */ 
+    //gaokanxu 2024.08.21 begin
+    let (left_commitment, left_handle): (pod::pedersen::PodPedersenCommitment, pod::DecryptHandle) =
+        (*left_ciphertext).into();
+    let (right_commitment, right_handle): (pod::pedersen::PodPedersenCommitment, pod::DecryptHandle) =
+        (*right_ciphertext).into();
+    let result_commitment: pod::pedersen::PodPedersenCommitment =
+        subtract_ristretto(&left_commitment.into(), &right_commitment.into())?.into();
+    //gaokanxu 2024.08.21 end
+    
+        
     let result_handle: pod::DecryptHandle =
         subtract_ristretto(&left_handle.into(), &right_handle.into())?.into();
 
@@ -105,10 +134,16 @@ pub fn add_to(ciphertext: &pod::PodElGamalCiphertext, amount: u64) -> Option<pod
     let amount_scalar = to_scalar(amount);
     let amount_point = multiply_ristretto(&amount_scalar, &G)?;
 
-    let (commitment, handle): (pod::PedersenCommitment, pod::DecryptHandle) = (*ciphertext).into();
+    //let (commitment, handle): (pod::PedersenCommitment, pod::DecryptHandle) = (*ciphertext).into();
+    //gaokanxu 2024.08.21
+    let (commitment, handle): (pod::pedersen::PodPedersenCommitment, pod::DecryptHandle) = (*ciphertext).into();
+    
     let commitment_point: PodRistrettoPoint = commitment.into();
 
-    let result_commitment: pod::PedersenCommitment =
+    //let result_commitment: pod::PedersenCommitment =
+    //gaokanxu 2024.08.21
+    let result_commitment: pod::pedersen::PodPedersenCommitment =
+    
         add_ristretto(&commitment_point, &amount_point)?.into();
     Some((result_commitment, handle).into())
 }
@@ -121,10 +156,16 @@ pub fn subtract_from(
     let amount_scalar = to_scalar(amount);
     let amount_point = multiply_ristretto(&amount_scalar, &G)?;
 
-    let (commitment, handle): (pod::PedersenCommitment, pod::DecryptHandle) = (*ciphertext).into();
+    //let (commitment, handle): (pod::PedersenCommitment, pod::DecryptHandle) = (*ciphertext).into();
+    //gaokanxu 2024.08.21
+    let (commitment, handle): (pod::pedersen::PodPedersenCommitment, pod::DecryptHandle) = (*ciphertext).into();
+    
     let commitment_point: PodRistrettoPoint = commitment.into();
 
-    let result_commitment: pod::PedersenCommitment =
+    //let result_commitment: pod::PedersenCommitment =
+    //gaokanxu 2024.08.21
+    let result_commitment: pod::pedersen::PodPedersenCommitment =
+    
         subtract_ristretto(&commitment_point, &amount_point)?.into();
     Some((result_commitment, handle).into())
 }

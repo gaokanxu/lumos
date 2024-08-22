@@ -12,24 +12,19 @@ pub mod sigma_proofs;
 use {
     //gaokanxu 2024.08.18 erase 1 line
     //crate::zk_token_proof_instruction::ProofType,
-   
- 
-    
+       
     num_traits::{FromPrimitive, ToPrimitive},
     lumos_program::instruction::InstructionError,
     thiserror::Error,
+    bytemuck::{Pod, Zeroable},
     
     //gaokanxu 2024.08.19
     crate::instruction::ProofType,
     
+    
 };
 pub use {
-
-
     auth_encryption::AeCiphertext,
-    bytemuck::{Pod, Zeroable},
-    //elgamal::{DecryptHandle, ElGamalCiphertext, ElGamalPubkey},
-    //gaokanxu 2024.08.17
     elgamal::{DecryptHandle, PodElGamalCiphertext, PodElGamalPubkey},
     
     //gaokanxu 2024.08.18 erase 1 line
@@ -38,14 +33,19 @@ pub use {
     instruction::{FeeEncryption, FeeParameters, TransferAmountCiphertext},
     
     //gaokanxu 2024.08.21
-    //pedersen::PedersenCommitment,
-    
-    range_proof::{RangeProofU128, RangeProofU256, RangeProofU64},
-    sigma_proofs::{
-        PodBatchedGroupedCiphertext2HandlesValidityProof,
-        CiphertextCommitmentEqualityProof, FeeSigmaProof, GroupedCiphertext2HandlesValidityProof,
-        PubkeyValidityProof, ZeroBalanceProof,
+    crate::pod::{
+        pedersen::PodPedersenCommitment,
+        range_proof::{PodRangeProofU64, PodRangeProofU128, PodRangeProofU256},
+        sigma_proofs::{
+            PodBatchedGroupedCiphertext2HandlesValidityProof,
+            PodCiphertextCommitmentEqualityProof, 
+            FeeSigmaProof, 
+            GroupedCiphertext2HandlesValidityProof,
+            PubkeyValidityProof, ZeroBalanceProof,
+        },
     },
+    
+    
 };
 
 #[derive(Error, Debug, Clone, PartialEq, Eq)]

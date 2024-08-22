@@ -2,22 +2,17 @@
 
 #[cfg(not(target_os = "lumos"))]
 use {
+    std::convert::TryInto,
+    bytemuck::{Pod, Zeroable},
     crate::{
         encryption::pedersen::{PedersenCommitment, PedersenOpening},
         errors::{ProofGenerationError, ProofVerificationError},
-        instruction::batched_range_proof::MAX_COMMITMENTS,
+        instruction::batched_range_proof::{BatchedRangeProofContext, MAX_COMMITMENTS},
+        instruction::{ProofType, ZkProofData},
         range_proof::RangeProof,
+        pod::{PodRangeProofU64, PodRangeProofU128, PodRangeProofU256},
     },
-    std::convert::TryInto,
-};
-use {
-    crate::{
-        instruction::{batched_range_proof::BatchedRangeProofContext, ProofType, ZkProofData},
-        //zk_token_elgamal::pod,
-        //gaokanxu 2024.08.17
-        pod,
-    },
-    bytemuck::{Pod, Zeroable},
+    
 };
 
 /// The instruction data that is needed for the
