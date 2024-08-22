@@ -11,7 +11,7 @@ use {
             elgamal::PodElGamalPubkey, grouped_elgamal::PodGroupedElGamalCiphertext2Handles,
         },
         pod::PodBatchedGroupedCiphertext2HandlesValidityProof,
-        zk_elgamal_proof_program::proof_data::{ProofType, ZkProofData},
+        proof_data::{ProofType, ZkProofData},
     },
     bytemuck_derive::{Pod, Zeroable},
 };

@@ -9,7 +9,7 @@
 
 pub mod errors;
 pub mod instruction;
-pub mod proof_data;
+//pub mod proof_data;
 pub mod state;
 
 // Program Id of the ZK ElGamal Proof program

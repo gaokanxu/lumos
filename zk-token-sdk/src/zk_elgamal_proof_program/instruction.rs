@@ -33,7 +33,7 @@
 //! [`context-state`]: https://docs.lumoslabs.com/runtime/zk-token-proof#context-data
 
 use {
-    crate::zk_elgamal_proof_program::proof_data::ZkProofData,
+    crate::proof_data::ZkProofData,
     bytemuck::{bytes_of, Pod},
     num_derive::{FromPrimitive, ToPrimitive},
     num_traits::{FromPrimitive, ToPrimitive},

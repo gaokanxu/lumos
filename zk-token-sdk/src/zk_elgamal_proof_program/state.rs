@@ -1,5 +1,9 @@
 use {
-    crate::zk_elgamal_proof_program::proof_data::{pod::PodProofType, ProofType},
+    //crate::proof_data::{pod::PodProofType, ProofType},
+    //gaokanxu 2024.08.23
+    crate::pod::{PodProofType, ProofType},
+    
+    
     bytemuck::{bytes_of, Pod, Zeroable},
     num_traits::ToPrimitive,
     lumos_program::{

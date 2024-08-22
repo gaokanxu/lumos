@@ -41,6 +41,8 @@ pub mod zk_token_proof_program;
 //gaokanxu 2024.08.17 add 1 line
 pub mod pod;
 pub mod zk_elgamal_proof_program;
+pub mod proof_data;
+
 
 //gaokanxu 2024.08.20
 /// Byte length of a zero-ciphertext proof

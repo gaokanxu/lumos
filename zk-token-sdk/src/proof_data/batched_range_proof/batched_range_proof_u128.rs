@@ -7,8 +7,8 @@ use {
         range_proof::RangeProof,
         zk_elgamal_proof_program::{
             errors::{ProofGenerationError, ProofVerificationError},
-            proof_data::batched_range_proof::MAX_COMMITMENTS,
         },
+        proof_data::batched_range_proof::MAX_COMMITMENTS,
     },
     std::convert::TryInto,
 };
