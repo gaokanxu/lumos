@@ -1,7 +1,7 @@
 //! Plain Old Data types for the AES128-GCM-SIV authenticated encryption scheme.
 
 #[cfg(not(target_os = "lumos"))]
-use crate::encryption::auth_encryption::{self as decoded, AuthenticatedEncryptionError};
+use crate::proof_data::auth_encryption::{self as decoded, AuthenticatedEncryptionError};
 use {
     //crate::pod::{impl_from_str, Pod, Zeroable},
     //gaokanxu 2024.08.17
@@ -70,7 +70,7 @@ impl TryFrom<AeCiphertext> for decoded::AeCiphertext {
 
 #[cfg(test)]
 mod tests {
-    use {super::*, crate::encryption::auth_encryption::AeKey, std::str::FromStr};
+    use {super::*, crate::proof_data::auth_encryption::AeKey, std::str::FromStr};
 
     #[test]
     fn ae_ciphertext_fromstr() {

@@ -9,7 +9,7 @@
 #[cfg(not(target_os = "lumos"))]
 use {
     crate::{
-        encryption::pedersen::{PedersenCommitment, PedersenOpening},
+        proof_data::pedersen::{PedersenCommitment, PedersenOpening},
         sigma_proofs::percentage_with_cap::PercentageWithCapProof,
         zk_elgamal_proof_program::errors::{ProofGenerationError, ProofVerificationError},
     },

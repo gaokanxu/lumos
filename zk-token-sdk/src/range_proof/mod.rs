@@ -12,14 +12,15 @@
 
 #[cfg(not(target_os = "lumos"))]
 use {
-    crate::encryption::pedersen::{Pedersen, PedersenCommitment, PedersenOpening},
+    crate::proof_data::pedersen::{Pedersen, PedersenCommitment, PedersenOpening},
+    
     curve25519_dalek::traits::MultiscalarMul,
     rand::rngs::OsRng,
     subtle::{Choice, ConditionallySelectable},
 };
 use {
     crate::{
-        encryption::pedersen::{G, H},
+        proof_data::pedersen::{G, H},
         range_proof::{
             errors::{RangeProofGenerationError, RangeProofVerificationError},
             generators::BulletproofGens,

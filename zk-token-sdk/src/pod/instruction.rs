@@ -5,7 +5,7 @@ use crate::pod::{
     Zeroable,
 };
 #[cfg(not(target_os = "lumos"))]
-use crate::{encryption::elgamal::ElGamalError, instruction::transfer as decoded};
+use crate::{proof_data::elgamal::ElGamalError, proof_data::transfer as decoded};
 
 #[derive(Clone, Copy, Pod, Zeroable)]
 #[repr(C)]

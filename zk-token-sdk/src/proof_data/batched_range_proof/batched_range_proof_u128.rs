@@ -3,7 +3,7 @@
 #[cfg(not(target_os = "lumos"))]
 use {
     crate::{
-        encryption::pedersen::{PedersenCommitment, PedersenOpening},
+        proof_data::pedersen::{PedersenCommitment, PedersenOpening},
         range_proof::RangeProof,
         zk_elgamal_proof_program::{
             errors::{ProofGenerationError, ProofVerificationError},
@@ -18,8 +18,7 @@ use {
         //gaokanxu 2024.08.20
         pod::range_proof::PodRangeProofU128,
         
-        
-        zk_elgamal_proof_program::proof_data::{
+        proof_data::{
             batched_range_proof::BatchedRangeProofContext, ProofType, ZkProofData,
         },
     },
@@ -106,7 +105,7 @@ mod test {
     use {
         super::*,
         crate::{
-            encryption::pedersen::Pedersen, range_proof::errors::RangeProofVerificationError,
+            proof_data::pedersen::Pedersen, range_proof::errors::RangeProofVerificationError,
             zk_elgamal_proof_program::errors::ProofVerificationError,
         },
     };

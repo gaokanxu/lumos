@@ -1,15 +1,15 @@
 #[cfg(not(target_os = "lumos"))]
 use {
     crate::{
-        encryption::{
+        proof_data::{
             elgamal::{ElGamalCiphertext, ElGamalKeypair, ElGamalPubkey, ElGamalSecretKey},
             pedersen::{Pedersen, PedersenCommitment, PedersenOpening},
         },
         errors::{ProofGenerationError, ProofVerificationError},
-        instruction::{
+        proof_data::{
             errors::InstructionError,
             transfer::{
-                encryption::{FeeEncryption, TransferAmountCiphertext},
+                proof_data::{FeeEncryption, TransferAmountCiphertext},
                 try_combine_lo_hi_ciphertexts, try_combine_lo_hi_commitments,
                 try_combine_lo_hi_openings, try_combine_lo_hi_u64, try_split_u64, FeeParameters,
                 Role,
@@ -31,7 +31,7 @@ use {
 };
 use {
     crate::{
-        instruction::{ProofType, ZkProofData},
+        proof_data::{ProofType, ZkProofData},
         //zk_token_elgamal::pod,
         //gaokanxu 2024.08.17
         pod,

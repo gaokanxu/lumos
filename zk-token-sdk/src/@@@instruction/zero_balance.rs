@@ -7,7 +7,7 @@
 #[cfg(not(target_os = "lumos"))]
 use {
     crate::{
-        encryption::elgamal::{ElGamalCiphertext, ElGamalKeypair},
+        proof_data::elgamal::{ElGamalCiphertext, ElGamalKeypair},
         errors::{ProofGenerationError, ProofVerificationError},
         sigma_proofs::zero_balance_proof::ZeroBalanceProof,
         transcript::TranscriptProtocol,
@@ -17,7 +17,7 @@ use {
 };
 use {
     crate::{
-        instruction::{ProofType, ZkProofData},
+        proof_data::{ProofType, ZkProofData},
         //zk_token_elgamal::pod,
         //gaokanxu 2024.08.17
         pod,

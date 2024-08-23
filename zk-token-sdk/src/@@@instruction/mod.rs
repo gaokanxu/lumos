@@ -3,7 +3,7 @@
 //! [`ZK Token proof`]: https://docs.lumoslabs.com/runtime/zk-token-proof
 
 pub mod batched_grouped_ciphertext_validity;
-pub mod batched_range_proof;
+//pub mod batched_range_proof;
 pub mod ciphertext_ciphertext_equality;
 pub mod ciphertext_commitment_equality;
 pub mod errors;

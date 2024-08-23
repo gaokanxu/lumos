@@ -15,7 +15,7 @@
 
 use {
     crate::{
-        encryption::{
+        proof_data::{
             discrete_log::DiscreteLog,
             pedersen::{
                 Pedersen, PedersenCommitment, PedersenOpening, G, H, PEDERSEN_COMMITMENT_LEN,

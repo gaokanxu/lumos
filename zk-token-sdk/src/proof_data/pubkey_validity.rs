@@ -8,7 +8,7 @@
 #[cfg(not(target_os = "lumos"))]
 use {
     crate::{
-        encryption::elgamal::ElGamalKeypair,
+        proof_data::elgamal::ElGamalKeypair,
         sigma_proofs::pubkey_validity::PubkeyValidityProof,
         zk_elgamal_proof_program::errors::{ProofGenerationError, ProofVerificationError},
     },

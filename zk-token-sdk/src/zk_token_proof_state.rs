@@ -6,7 +6,7 @@ use {
     bytemuck::{bytes_of, Pod, Zeroable},
     num_traits::ToPrimitive,
     lumos_program::{
-        instruction::{InstructionError, InstructionError::InvalidAccountData},
+        proof_data::{InstructionError, InstructionError::InvalidAccountData},
         pubkey::Pubkey,
     },
     std::mem::size_of,

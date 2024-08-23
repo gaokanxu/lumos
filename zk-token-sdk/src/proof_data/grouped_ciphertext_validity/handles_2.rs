@@ -22,7 +22,7 @@ use {
 #[cfg(not(target_os = "lumos"))]
 use {
     crate::{
-        encryption::{
+        proof_data::{
             elgamal::ElGamalPubkey, grouped_elgamal::GroupedElGamalCiphertext,
             pedersen::PedersenOpening,
         },

@@ -33,13 +33,14 @@
 //! [`context-state`]: https://docs.lumoslabs.com/runtime/zk-token-proof#context-data
 
 use {
-    crate::proof_data::ZkProofData,
     bytemuck::{bytes_of, Pod},
     num_derive::{FromPrimitive, ToPrimitive},
     num_traits::{FromPrimitive, ToPrimitive},
-    lumos_program::{
-        instruction::{AccountMeta, Instruction},
-        pubkey::Pubkey,
+    
+    lumos_program::pubkey::Pubkey,
+    
+    crate::{
+        proof_data::{AccountMeta, Instruction, ZkProofData},
     },
 };
 

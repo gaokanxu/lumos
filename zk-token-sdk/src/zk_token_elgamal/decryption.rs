@@ -1,6 +1,6 @@
 #[cfg(not(target_os = "lumos"))]
 use crate::{
-    encryption::elgamal::{ElGamalCiphertext, ElGamalSecretKey},
+    proof_data::elgamal::{ElGamalCiphertext, ElGamalSecretKey},
     //zk_token_elgamal::pod,
     //gaokanxu 2024.08.17
     pod,

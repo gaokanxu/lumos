@@ -181,11 +181,11 @@ fn to_scalar(amount: u64) -> PodScalar {
 mod tests {
     use {
         crate::{
-            encryption::{
+            proof_data::{
                 elgamal::{ElGamalCiphertext, ElGamalKeypair},
                 pedersen::{Pedersen, PedersenOpening},
             },
-            instruction::transfer::try_split_u64,
+            proof_data::transfer::try_split_u64,
             zk_token_elgamal::{ops, pod},
         },
         bytemuck::Zeroable,

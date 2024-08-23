@@ -2,7 +2,7 @@
 
 #[cfg(not(target_os = "lumos"))]
 use {
-    crate::encryption::elgamal::{self as decoded, ElGamalError},
+    crate::proof_data::elgamal::{self as decoded, ElGamalError},
     curve25519_dalek::ristretto::CompressedRistretto,
 };
 use {
@@ -161,7 +161,7 @@ impl TryFrom<DecryptHandle> for decoded::DecryptHandle {
 
 #[cfg(test)]
 mod tests {
-    use {super::*, crate::encryption::elgamal::ElGamalKeypair, std::str::FromStr};
+    use {super::*, crate::proof_data::elgamal::ElGamalKeypair, std::str::FromStr};
 
     #[test]
     fn elgamal_pubkey_fromstr() {

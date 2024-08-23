@@ -11,7 +11,7 @@
 #[cfg(not(target_os = "lumos"))]
 use {
     crate::{
-        encryption::{
+        proof_data::{
             elgamal::{ElGamalCiphertext, ElGamalKeypair, ElGamalPubkey},
             pedersen::PedersenOpening,
         },
@@ -24,7 +24,7 @@ use {
 };
 use {
     crate::{
-        instruction::{ProofType, ZkProofData},
+        proof_data::{ProofType, ZkProofData},
         
         //zk_token_elgamal::pod,
         //gaokanxu 2024.08.17

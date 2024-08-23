@@ -20,19 +20,20 @@
 #[cfg(not(target_os = "lumos"))]
 #[macro_use]
 pub(crate) mod macros;
-#[cfg(not(target_os = "lumos"))]
-pub mod encryption;
+
 #[cfg(not(target_os = "lumos"))]
 pub mod errors;
+
 #[cfg(not(target_os = "lumos"))]
 mod range_proof;
 #[cfg(not(target_os = "lumos"))]
 mod sigma_proofs;
 #[cfg(not(target_os = "lumos"))]
 mod transcript;
+#[cfg(not(target_os = "lumos"))]
+mod pedersen;
 
-
-pub mod instruction;
+//pub mod instruction;
 pub mod zk_token_elgamal;
 //pub mod zk_token_proof_instruction;
 pub mod zk_token_proof_program;

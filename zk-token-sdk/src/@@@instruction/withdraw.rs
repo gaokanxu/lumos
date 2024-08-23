@@ -1,11 +1,11 @@
 #[cfg(not(target_os = "lumos"))]
 use {
     crate::{
-        instruction::{ProofType, ZkProofData},
+        proof_data::{ProofType, ZkProofData},
 
         pod::{PodCiphertextCommitmentEqualityProof, PodElGamalPubkey, PodElGamalCiphertext, PodPedersenCommitment},
         
-        encryption::{
+        proof_data::{
             elgamal::{ElGamal, ElGamalCiphertext, ElGamalKeypair, ElGamalPubkey},
             pedersen::{Pedersen, PedersenCommitment},
         },

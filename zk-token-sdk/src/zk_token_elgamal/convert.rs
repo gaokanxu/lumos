@@ -76,7 +76,7 @@ impl From<PodRistrettoPoint> for pod::DecryptHandle {
 mod target_arch {
     use {
         super::pod,
-        //crate::{curve25519::scalar::PodScalar, encryption::elgamal::ElGamalError},
+        //crate::{curve25519::scalar::PodScalar, proof_data::elgamal::ElGamalError},
         //gaokanxu 2024.08.17 begin
         //lumos_curve25519::scalar::PodScalar,
         //crate::encryption::elgamal::ElGamalError,
@@ -109,7 +109,7 @@ mod target_arch {}
 mod tests {
     use {
         super::*,
-        crate::{encryption::pedersen::Pedersen, range_proof::RangeProof},
+        crate::{proof_data::pedersen::Pedersen, range_proof::RangeProof},
         merlin::Transcript,
         std::convert::TryInto,
     };

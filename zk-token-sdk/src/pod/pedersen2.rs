@@ -1,13 +1,13 @@
 //! Plain Old Data type for the Pedersen commitment scheme.
 
 use {
-    crate::encryption::PEDERSEN_COMMITMENT_LEN,
+    crate::proof_data::PEDERSEN_COMMITMENT_LEN,
     bytemuck_derive::{Pod, Zeroable},
     std::fmt,
 };
 #[cfg(not(target_os = "lumos"))]
 use {
-    crate::{encryption::pedersen::PedersenCommitment, errors::ElGamalError},
+    crate::{proof_data::pedersen::PedersenCommitment, errors::ElGamalError},
     curve25519_dalek::ristretto::CompressedRistretto,
 };
 

@@ -13,7 +13,7 @@
 #[cfg(not(target_os = "lumos"))]
 use {
     crate::{
-        encryption::pedersen::{PedersenCommitment, PedersenOpening, G, H},
+        proof_data::pedersen::{PedersenCommitment, PedersenOpening, G, H},
         sigma_proofs::{canonical_scalar_from_optional_slice, ristretto_point_from_optional_slice},
         UNIT_LEN,
     },

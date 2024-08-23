@@ -9,7 +9,7 @@
 //! zero-knowledge in the random oracle model.
 
 #[cfg(not(target_os = "lumos"))]
-use crate::encryption::{
+use crate::proof_data::{
     elgamal::{DecryptHandle, ElGamalPubkey},
     pedersen::{PedersenCommitment, PedersenOpening},
 };

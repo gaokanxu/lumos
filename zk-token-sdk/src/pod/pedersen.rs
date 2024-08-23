@@ -2,7 +2,7 @@
 
 #[cfg(not(target_os = "lumos"))]
 use {
-    crate::encryption::{elgamal::ElGamalError, pedersen as decoded},
+    crate::proof_data::{elgamal::ElGamalError, pedersen as decoded},
     
     curve25519_dalek::ristretto::CompressedRistretto,
 };

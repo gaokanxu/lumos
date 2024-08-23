@@ -1,7 +1,7 @@
 //! Errors related to proving and verifying proofs.
 use {
     crate::{
-        encryption::elgamal::ElGamalError,
+        zk_elgamal_proof_program::errors::ElGamalError,
         range_proof::errors::{RangeProofGenerationError, RangeProofVerificationError},
         sigma_proofs::errors::*,
     },
@@ -89,4 +89,18 @@ impl From<PubkeyValidityProofVerificationError> for ProofVerificationError {
     fn from(err: PubkeyValidityProofVerificationError) -> Self {
         Self::SigmaProof(SigmaProofType::PubkeyValidityProof, err.0)
     }
+}
+
+
+#[derive(Error, Clone, Debug, Eq, PartialEq)]
+#[cfg(not(target_os = "lumos"))]
+pub enum InstructionError {
+    #[error("decryption error")]
+    Decryption,
+    #[error("missing ciphertext")]
+    MissingCiphertext,
+    #[error("illegal amount bit length")]
+    IllegalAmountBitLength,
+    #[error("arithmetic overflow")]
+    Overflow,
 }

@@ -11,7 +11,7 @@
 #[cfg(not(target_os = "lumos"))]
 use {
     crate::{
-        encryption::pedersen::{PedersenCommitment, PedersenOpening},
+        proof_data::pedersen::{PedersenCommitment, PedersenOpening},
         errors::{ProofGenerationError, ProofVerificationError},
         sigma_proofs::fee_proof::FeeSigmaProof,
         transcript::TranscriptProtocol,
@@ -21,7 +21,7 @@ use {
 };
 use {
     crate::{
-        instruction::{ProofType, ZkProofData},
+        proof_data::{ProofType, ZkProofData},
         //zk_token_elgamal::pod,
         //gaokanxu 2024.08.17
         pod,

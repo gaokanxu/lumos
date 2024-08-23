@@ -24,7 +24,7 @@ use crate::pod::pedersen::PodPedersenCommitment;
 #[cfg(not(target_os = "lumos"))]
 use {
     crate::{
-        encryption::pedersen::{PedersenCommitment, PedersenOpening},
+        proof_data::pedersen::{PedersenCommitment, PedersenOpening},
         zk_elgamal_proof_program::errors::{ProofGenerationError, ProofVerificationError},
     },
     bytemuck::{bytes_of, Zeroable},

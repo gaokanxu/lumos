@@ -10,29 +10,15 @@ pub mod range_proof;
 pub mod sigma_proofs;
 
 use {
-    //gaokanxu 2024.08.18 erase 1 line
-    //crate::zk_token_proof_instruction::ProofType,
-       
     num_traits::{FromPrimitive, ToPrimitive},
-    lumos_program::instruction::InstructionError,
     thiserror::Error,
     bytemuck::{Pod, Zeroable},
-    
-    //gaokanxu 2024.08.19
-    crate::instruction::ProofType,
-    
-    
-};
-pub use {
     auth_encryption::AeCiphertext,
     elgamal::{DecryptHandle, PodElGamalCiphertext, PodElGamalPubkey},
-    
-    //gaokanxu 2024.08.18 erase 1 line
-    //grouped_elgamal::{GroupedElGamalCiphertext2Handles, GroupedElGamalCiphertext3Handles},
-    
-    instruction::{FeeEncryption, FeeParameters, TransferAmountCiphertext},
-    
-    //gaokanxu 2024.08.21
+
+
+    crate::errors::InstructionError,
+    crate::proof_data::{FeeEncryption, FeeParameters, TransferAmountCiphertext, ProofType},
     crate::pod::{
         pedersen::PodPedersenCommitment,
         range_proof::{PodRangeProofU64, PodRangeProofU128, PodRangeProofU256},
@@ -43,9 +29,7 @@ pub use {
             GroupedCiphertext2HandlesValidityProof,
             PubkeyValidityProof, ZeroBalanceProof,
         },
-    },
-    
-    
+    },    
 };
 
 #[derive(Error, Debug, Clone, PartialEq, Eq)]

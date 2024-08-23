@@ -5,17 +5,17 @@ mod without_fee;
 #[cfg(not(target_os = "lumos"))]
 use {
     crate::{
-        encryption::{
+        proof_data::{
             elgamal::ElGamalCiphertext,
             pedersen::{PedersenCommitment, PedersenOpening},
         },
-        instruction::errors::InstructionError,
+        proof_data::errors::InstructionError,
     },
     curve25519_dalek::scalar::Scalar,
 };
 #[cfg(not(target_os = "lumos"))]
 pub use {
-    encryption::{FeeEncryption, TransferAmountCiphertext},
+    proof_data::{FeeEncryption, TransferAmountCiphertext},
     with_fee::TransferWithFeePubkeys,
     without_fee::TransferPubkeys,
 };

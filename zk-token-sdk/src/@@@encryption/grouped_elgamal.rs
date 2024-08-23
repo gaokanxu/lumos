@@ -13,7 +13,7 @@
 
 use {
     crate::{
-        encryption::{
+        proof_data::{
             discrete_log::DiscreteLog,
             elgamal::{DecryptHandle, ElGamalCiphertext, ElGamalPubkey, ElGamalSecretKey},
             pedersen::{Pedersen, PedersenCommitment, PedersenOpening},

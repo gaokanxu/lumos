@@ -1,7 +1,7 @@
 //! Plain Old Data types for the Grouped ElGamal encryption scheme.
 
 #[cfg(not(target_os = "lumos"))]
-use crate::encryption::{elgamal::ElGamalError, grouped_elgamal::GroupedElGamalCiphertext};
+use crate::proof_data::{elgamal::ElGamalError, grouped_elgamal::GroupedElGamalCiphertext};
 use {
     //crate::pod::{
     //gaokanxu 2024.08.17
