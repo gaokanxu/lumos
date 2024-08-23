@@ -481,7 +481,7 @@ impl TransferProof {
 
 #[cfg(test)]
 mod test {
-    use {super::*, crate::encryption::elgamal::ElGamalKeypair};
+    use {super::*, crate::proof_data::elgamal::ElGamalKeypair};
 
     #[test]
     fn test_transfer_correctness() {

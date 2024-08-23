@@ -20,7 +20,7 @@ impl pod::PodElGamalCiphertext {
 
 #[cfg(test)]
 mod tests {
-    use {super::*, crate::encryption::elgamal::ElGamalKeypair};
+    use {super::*, crate::proof_data::elgamal::ElGamalKeypair};
 
     #[test]
     fn test_pod_decryption() {

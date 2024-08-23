@@ -34,7 +34,7 @@ use {
 //gaokanxu 2024.08.10 3lines
 use serde::{Serialize, Deserialize};
 //use curve25519_dalek::ristretto::RistrettoPoint;
-//use crate::encryption::ristretto_point_serde;
+//use crate::proof_data::ristretto_point_serde;
 
 
 const TWO16: u64 = 65536; // 2^16

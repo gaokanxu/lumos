@@ -9,12 +9,16 @@ pub mod batched_grouped_ciphertext_validity;
 pub mod batched_range_proof;
 pub mod ciphertext_ciphertext_equality;
 pub mod ciphertext_commitment_equality;
-pub mod errors;
 pub mod grouped_ciphertext_validity;
 pub mod percentage_with_cap;
-pub mod pod;
 pub mod pubkey_validity;
 pub mod zero_ciphertext;
+pub mod pedersen;
+pub mod elgamal;
+pub mod ristretto_serde;
+pub mod auth_encryption;
+pub mod grouped_elgamal;
+pub mod transfer;
 
 pub use {
     batched_grouped_ciphertext_validity::{

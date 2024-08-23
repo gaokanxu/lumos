@@ -1,5 +1,5 @@
 #[cfg(not(target_os = "lumos"))]
-use crate::encryption::{
+use crate::proof_data::{
     elgamal::{DecryptHandle, ElGamalPubkey},
     grouped_elgamal::{GroupedElGamal, GroupedElGamalCiphertext},
     pedersen::{PedersenCommitment, PedersenOpening},

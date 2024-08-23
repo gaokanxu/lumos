@@ -248,7 +248,7 @@ impl CiphertextCommitmentEqualityProof {
 mod test {
     use {
         super::*,
-        crate::encryption::{elgamal::ElGamalSecretKey, pedersen::Pedersen},
+        crate::proof_data::{elgamal::ElGamalSecretKey, pedersen::Pedersen},
     };
 
     #[test]

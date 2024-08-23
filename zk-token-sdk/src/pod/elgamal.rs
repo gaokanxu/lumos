@@ -86,8 +86,6 @@ impl TryFrom<PodElGamalCiphertext> for decoded::ElGamalCiphertext {
 /// The `ElGamalPubkey` type as a `Pod`.
 #[derive(Clone, Copy, Default, Pod, Zeroable, PartialEq, Eq)]
 #[repr(transparent)]
-//pub struct ElGamalPubkey(pub [u8; ELGAMAL_PUBKEY_LEN]);
-//gaokanxu 2024.08.17 
 pub struct PodElGamalPubkey(pub [u8; ELGAMAL_PUBKEY_LEN]);
 
 impl fmt::Debug for PodElGamalPubkey {

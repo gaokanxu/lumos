@@ -110,7 +110,7 @@ impl RangeProofContext {
 
 #[cfg(test)]
 mod test {
-    use {super::*, crate::encryption::pedersen::Pedersen};
+    use {super::*, crate::proof_data::pedersen::Pedersen};
 
     #[test]
     fn test_range_proof_64_instruction_correctness() {

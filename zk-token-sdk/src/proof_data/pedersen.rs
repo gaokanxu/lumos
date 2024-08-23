@@ -1,7 +1,8 @@
 //! Pedersen commitment implementation using the Ristretto prime-order group.
 
 use {
-    crate::encryption::{PEDERSEN_COMMITMENT_LEN, PEDERSEN_OPENING_LEN},
+    crate::pod::{PEDERSEN_COMMITMENT_LEN, PEDERSEN_OPENING_LEN},
+    
     core::ops::{Add, Mul, Sub},
     curve25519_dalek::{
         constants::{RISTRETTO_BASEPOINT_COMPRESSED, RISTRETTO_BASEPOINT_POINT},

@@ -171,7 +171,7 @@ impl BatchedGroupedCiphertext2HandlesValidityProofContext {
 mod test {
     use {
         super::*,
-        crate::encryption::{elgamal::ElGamalKeypair, grouped_elgamal::GroupedElGamal},
+        crate::proof_data::{elgamal::ElGamalKeypair, grouped_elgamal::GroupedElGamal},
     };
 
     #[test]

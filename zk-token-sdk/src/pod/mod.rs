@@ -15,10 +15,17 @@ use {
     bytemuck::{Pod, Zeroable},
     auth_encryption::AeCiphertext,
     elgamal::{DecryptHandle, PodElGamalCiphertext, PodElGamalPubkey},
-
+    
 
     crate::errors::InstructionError,
-    crate::proof_data::{FeeEncryption, FeeParameters, TransferAmountCiphertext, ProofType},
+    crate::proof_data::{
+            ProofType,
+            proof_data::transfer::{
+                    FeeParameters, 
+                    TransferAmountCiphertext,
+                    encryption::FeeEncryption,
+                    },
+        
     crate::pod::{
         pedersen::PodPedersenCommitment,
         range_proof::{PodRangeProofU64, PodRangeProofU128, PodRangeProofU256},

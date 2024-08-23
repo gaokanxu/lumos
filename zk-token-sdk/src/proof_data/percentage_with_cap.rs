@@ -157,7 +157,7 @@ impl PercentageWithCapProofContext {
 
 #[cfg(test)]
 mod test {
-    use {super::*, crate::encryption::pedersen::Pedersen, curve25519_dalek::scalar::Scalar};
+    use {super::*, crate::proof_data::pedersen::Pedersen, curve25519_dalek::scalar::Scalar};
 
     #[test]
     fn test_percentage_with_cap_instruction_correctness() {

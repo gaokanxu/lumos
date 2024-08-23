@@ -523,7 +523,7 @@ fn conditional_select_ristretto(
 
 #[cfg(test)]
 mod test {
-    use {super::*, crate::encryption::pedersen::Pedersen};
+    use {super::*, crate::proof_data::pedersen::Pedersen};
 
     #[test]
     fn test_fee_above_max_proof() {

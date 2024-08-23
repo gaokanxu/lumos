@@ -201,7 +201,7 @@ impl<const N: usize> GroupedElGamalCiphertext<N> {
 
 #[cfg(test)]
 mod tests {
-    use {super::*, crate::encryption::elgamal::ElGamalKeypair};
+    use {super::*, crate::proof_data::elgamal::ElGamalKeypair};
 
     #[test]
     fn test_grouped_elgamal_encrypt_decrypt_correctness() {

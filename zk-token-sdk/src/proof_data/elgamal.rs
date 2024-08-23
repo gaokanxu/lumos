@@ -62,8 +62,7 @@ use {
     },
 };
 
-//gaokanxu 2024.08.14
-use crate::encryption::ristretto_serde::{serialize, deserialize};
+use crate::proof_data::ristretto_serde::{serialize, deserialize};
 use zeroize::DefaultIsZeroes;
 
 
@@ -865,7 +864,7 @@ define_mul_variants!(LHS = Scalar, RHS = DecryptHandle, Output = DecryptHandle);
 mod tests {
     use {
         super::*,
-        crate::encryption::pedersen::Pedersen,
+        crate::proof_data::pedersen::Pedersen,
         bip39::{Language, Mnemonic, MnemonicType, Seed},
         lumos_sdk::{pubkey::Pubkey, signature::Keypair, signer::null_signer::NullSigner},
         std::fs::{self, File},

@@ -31,7 +31,7 @@ mod sigma_proofs;
 #[cfg(not(target_os = "lumos"))]
 mod transcript;
 #[cfg(not(target_os = "lumos"))]
-mod pedersen;
+
 
 //pub mod instruction;
 pub mod zk_token_elgamal;

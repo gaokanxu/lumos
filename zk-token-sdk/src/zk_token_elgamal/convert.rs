@@ -79,7 +79,7 @@ mod target_arch {
         //crate::{curve25519::scalar::PodScalar, proof_data::elgamal::ElGamalError},
         //gaokanxu 2024.08.17 begin
         //lumos_curve25519::scalar::PodScalar,
-        //crate::encryption::elgamal::ElGamalError,
+        //crate::proof_data::elgamal::ElGamalError,
         //gaokanxu 2024.08.17 end
         
         curve25519_dalek::{ristretto::CompressedRistretto},

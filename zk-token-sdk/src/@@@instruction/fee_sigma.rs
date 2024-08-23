@@ -159,7 +159,7 @@ impl FeeSigmaProofContext {
 
 #[cfg(test)]
 mod test {
-    use {super::*, crate::encryption::pedersen::Pedersen, curve25519_dalek::scalar::Scalar};
+    use {super::*, crate::proof_data::pedersen::Pedersen, curve25519_dalek::scalar::Scalar};
 
     #[test]
     fn test_fee_sigma_instruction_correctness() {

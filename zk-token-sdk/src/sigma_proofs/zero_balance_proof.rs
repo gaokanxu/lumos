@@ -182,7 +182,7 @@ impl ZeroBalanceProof {
 mod test {
     use {
         super::*,
-        crate::encryption::{
+        crate::proof_data::{
             elgamal::{DecryptHandle, ElGamalKeypair},
             pedersen::{Pedersen, PedersenCommitment, PedersenOpening},
         },
