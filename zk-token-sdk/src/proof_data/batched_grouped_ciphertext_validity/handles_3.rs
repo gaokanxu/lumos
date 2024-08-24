@@ -6,14 +6,16 @@
 //! grouped-ciphertext validity proofs.
 
 use {
+    bytemuck_derive::{Pod, Zeroable},
     crate::{
         pod::{
+            PodBatchedGroupedCiphertext3HandlesValidityProof,
             elgamal::PodElGamalPubkey, grouped_elgamal::PodGroupedElGamalCiphertext3Handles,
         },
-        pod::PodBatchedGroupedCiphertext3HandlesValidityProof,
-        zk_elgamal_proof_program::proof_data::{ProofType, ZkProofData},
+    
+        proof_data::{ProofType, ZkProofData},
     },
-    bytemuck_derive::{Pod, Zeroable},
+    
 };
 #[cfg(not(target_os = "lumos"))]
 use {

@@ -1,22 +1,22 @@
 ---
-title: Using Ledger Nano Hardware Wallets in the Solana CLI
-pagination_label: "Hardware Wallets in the Solana CLI: Ledger Nano"
+title: Using Ledger Nano Hardware Wallets in the Lumos CLI
+pagination_label: "Hardware Wallets in the Lumos CLI: Ledger Nano"
 sidebar_label: Ledger Nano
 ---
 
 This page describes how to use a Ledger Nano S, Nano S Plus, or Nano X to
-interact with Solana using the command line tools.
+interact with Lumos using the command line tools.
 
 ## Before You Begin
 
-- [Set up a Nano with the Solana App](https://support.ledger.com/hc/en-us/articles/360016265659-Solana-SOL-?docs=true)
-- [Install the Solana command-line tools](../../install.md)
+- [Set up a Nano with the Lumos App](https://support.ledger.com/hc/en-us/articles/360016265659-Lumos-SOL-?docs=true)
+- [Install the Lumos command-line tools](../../install.md)
 
-## Use Ledger Nano with Solana CLI
+## Use Ledger Nano with Lumos CLI
 
 1. Ensure the Ledger Live application is closed
 2. Plug your Nano into your computer's USB port
-3. Enter your pin and start the Solana app on the Nano
+3. Enter your pin and start the Lumos app on the Nano
 4. Ensure the screen reads "Application is ready"
 
 ### View your Wallet ID
@@ -24,11 +24,11 @@ interact with Solana using the command line tools.
 On your computer, run:
 
 ```bash
-solana-keygen pubkey usb://ledger
+lumos-keygen pubkey usb://ledger
 ```
 
 This confirms your Ledger device is connected properly and in the correct state
-to interact with the Solana CLI. The command returns your Ledger's unique
+to interact with the Lumos CLI. The command returns your Ledger's unique
 _wallet ID_. When you have multiple Nano devices connected to the same computer,
 you can use your wallet ID to specify which Ledger hardware wallet you want to
 use. If you only plan to use a single Nano on your computer at a time, you don't
@@ -39,7 +39,7 @@ specific Ledger, see
 ### View your Wallet Addresses
 
 Your Nano supports an arbitrary number of valid wallet addresses and signers. To
-view any address, use the `solana-keygen pubkey` command, as shown below,
+view any address, use the `lumos-keygen pubkey` command, as shown below,
 followed by a valid [keypair URL](./index.md#specify-a-keypair-url).
 
 Multiple wallet addresses can be useful if you want to transfer tokens between
@@ -50,17 +50,17 @@ All of the following commands will display different addresses, associated with
 the keypair path given. Try them out!
 
 ```bash
-solana-keygen pubkey usb://ledger
-solana-keygen pubkey usb://ledger?key=0
-solana-keygen pubkey usb://ledger?key=1
-solana-keygen pubkey usb://ledger?key=2
+lumos-keygen pubkey usb://ledger
+lumos-keygen pubkey usb://ledger?key=0
+lumos-keygen pubkey usb://ledger?key=1
+lumos-keygen pubkey usb://ledger?key=2
 ```
 
 - NOTE: keypair url parameters are ignored in **zsh**
   &nbsp;[see troubleshooting for more info](#troubleshooting)
 
 You can use other values for the number after `key=` as well. Any of the
-addresses displayed by these commands are valid Solana wallet addresses. The
+addresses displayed by these commands are valid Lumos wallet addresses. The
 private portion associated with each address is stored securely on the Nano, and
 is used to sign transactions from this address. Just make a note of which
 keypair URL you used to derive any address you will be using to receive tokens.
@@ -70,7 +70,7 @@ easy-to-remember path might be to use the address at `key=0`. View this address
 with:
 
 ```bash
-solana-keygen pubkey usb://ledger?key=0
+lumos-keygen pubkey usb://ledger?key=0
 ```
 
 Now you have a wallet address (or multiple addresses), you can share any of
@@ -80,26 +80,26 @@ associated keypair URL as the signer for transactions from that address.
 ### View your Balance
 
 To view the balance of any account, regardless of which wallet it uses, use the
-`solana balance` command:
+`lumos balance` command:
 
 ```bash
-solana balance SOME_WALLET_ADDRESS
+lumos balance SOME_WALLET_ADDRESS
 ```
 
 For example, if your address is `7cvkjYAkUYs4W8XcXsca7cBrEGFeSUjeZmKoNBvEwyri`,
 then enter the following command to view the balance:
 
 ```bash
-solana balance 7cvkjYAkUYs4W8XcXsca7cBrEGFeSUjeZmKoNBvEwyri
+lumos balance 7cvkjYAkUYs4W8XcXsca7cBrEGFeSUjeZmKoNBvEwyri
 ```
 
 You can also view the balance of any account address on the Accounts tab in the
-[Explorer](https://explorer.solana.com/accounts) and paste the address in the
+[Explorer](https://explorer.lumos.com/accounts) and paste the address in the
 box to view the balance in your web browser.
 
 Note: Any address with a balance of 0 SOL, such as a newly created one on your
 Ledger, will show as "Not Found" in the explorer. Empty accounts and
-non-existent accounts are treated the same in Solana. This will change when your
+non-existent accounts are treated the same in Lumos. This will change when your
 account address has some SOL in it.
 
 ### Send SOL from a Nano
@@ -107,16 +107,16 @@ account address has some SOL in it.
 To send some tokens from an address controlled by your Nano, you will need to
 use the device to sign a transaction, using the same keypair URL you used to
 derive the address. To do this, make sure your Nano is plugged in, unlocked with
-the PIN, Ledger Live is not running, and the Solana App is open on the device,
+the PIN, Ledger Live is not running, and the Lumos App is open on the device,
 showing "Application is Ready".
 
-The `solana transfer` command is used to specify to which address to send
+The `lumos transfer` command is used to specify to which address to send
 tokens, how many tokens to send, and uses the `--keypair` argument to specify
 which keypair is sending the tokens, which will sign the transaction, and the
 balance from the associated address will decrease.
 
 ```bash
-solana transfer RECIPIENT_ADDRESS AMOUNT --keypair KEYPAIR_URL_OF_SENDER
+lumos transfer RECIPIENT_ADDRESS AMOUNT --keypair KEYPAIR_URL_OF_SENDER
 ```
 
 Below is a full example. First, an address is viewed at a certain keypair URL.
@@ -129,13 +129,13 @@ transaction details. If they look correct, click both buttons on the "Approve"
 screen, otherwise push both buttons on the "Reject" screen.
 
 ```bash
-~$ solana-keygen pubkey usb://ledger?key=42
+~$ lumos-keygen pubkey usb://ledger?key=42
 CjeqzArkZt6xwdnZ9NZSf8D1CNJN1rjeFiyd8q7iLWAV
 
-~$ solana balance CjeqzArkZt6xwdnZ9NZSf8D1CNJN1rjeFiyd8q7iLWAV
+~$ lumos balance CjeqzArkZt6xwdnZ9NZSf8D1CNJN1rjeFiyd8q7iLWAV
 1.000005 SOL
 
-~$ solana transfer 7cvkjYAkUYs4W8XcXsca7cBrEGFeSUjeZmKoNBvEwyri 1 --keypair usb://ledger?key=42
+~$ lumos transfer 7cvkjYAkUYs4W8XcXsca7cBrEGFeSUjeZmKoNBvEwyri 1 --keypair usb://ledger?key=42
 Waiting for your approval on Ledger hardware wallet usb://ledger/2JT2Xvy6T8hSmT8g6WdeDbHUgoeGdj6bE2VueCZUJmyN
 ✅ Approved
 
@@ -145,9 +145,9 @@ Signature: kemu9jDEuPirKNRKiHan7ycybYsZp7pFefAdvWZRq5VRHCLgXTXaFVw3pfh87MQcWX4kQ
 After approving the transaction on your device, the program will display the
 transaction signature, and wait for the maximum number of confirmations (32)
 before returning. This only takes a few seconds, and then the transaction is
-finalized on the Solana network. You can view details of this or any other
+finalized on the Lumos network. You can view details of this or any other
 transaction by going to the Transaction tab in the
-[Explorer](https://explorer.solana.com/transactions) and paste in the
+[Explorer](https://explorer.lumos.com/transactions) and paste in the
 transaction signature.
 
 ## Advanced Operations
@@ -156,16 +156,16 @@ transaction signature.
 
 It is sometimes useful to sign a transaction with keys from multiple hardware
 wallets. Signing with multiple wallets requires _fully qualified keypair URLs_.
-When the URL is not fully qualified, the Solana CLI will prompt you with the
+When the URL is not fully qualified, the Lumos CLI will prompt you with the
 fully qualified URLs of all connected hardware wallets, and ask you to choose
 which wallet to use for each signature.
 
 Instead of using the interactive prompts, you can generate fully qualified URLs
-using the Solana CLI `resolve-signer` command. For example, try connecting a
+using the Lumos CLI `resolve-signer` command. For example, try connecting a
 Nano to USB, unlock it with your pin, and running the following command:
 
 ```text
-solana resolve-signer usb://ledger?key=0/0
+lumos resolve-signer usb://ledger?key=0/0
 ```
 
 You will see output similar to:
@@ -178,7 +178,7 @@ but where `BsNsvfXqQTtJnagwFWdBS7FBXgnsK8VZ5CmuznN85swK` is your `WALLET_ID`.
 
 With your fully qualified URL, you can connect multiple hardware wallets to the
 same computer and uniquely identify a keypair from any of them. Use the output
-from the `resolve-signer` command anywhere a `solana` command expects a
+from the `resolve-signer` command anywhere a `lumos` command expects a
 `<KEYPAIR>` entry to use that resolved path as the signer for that part of the
 given transaction.
 
@@ -205,13 +205,13 @@ character, you can disable it explicitly with a backslash in your keypair URLs.
 For example:
 
 ```bash
-solana-keygen pubkey usb://ledger\?key=0
+lumos-keygen pubkey usb://ledger\?key=0
 ```
 
 ## Support
 
 You can find additional support and get help on the
-[Solana StackExchange](https://solana.stackexchange.com).
+[Lumos StackExchange](https://lumos.stackexchange.com).
 
 Read more about [sending and receiving tokens](../../examples/transfer-tokens.md) and
 [delegating stake](../../examples/delegate-stake.md). You can use your Ledger keypair

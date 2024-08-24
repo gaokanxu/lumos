@@ -1,11 +1,11 @@
 ---
-title: Setup a Solana Validator
+title: Setup a Lumos Validator
 sidebar_label: Setup a Validator
 sidebar_position: 5
 ---
 
-This is a guide for getting your validator setup on the Solana testnet cluster
-for the first time. Testnet is a Solana cluster that is used for performance
+This is a guide for getting your validator setup on the Lumos testnet cluster
+for the first time. Testnet is a Lumos cluster that is used for performance
 testing of the software before the software is used on mainnet. Since testnet is
 stress tested daily, it is a good cluster to practice validator operations.
 
@@ -29,47 +29,47 @@ locate the terminal program on your _trusted computer_.
 - on Ubuntu, you can type `CTRL + Alt + T`.
 - on Windows, you will have to open the command prompt as an Administrator.
 
-## Install The Solana CLI Locally
+## Install The Lumos CLI Locally
 
 To create your validator vote account, you need to install the
-[Solana command line interface](../cli/index.md) on your local computer.
+[Lumos command line interface](../cli/index.md) on your local computer.
 
 You can either use
-[Solana's Install Tool](../cli/install.md#use-solanas-install-tool) section from
+[Lumos's Install Tool](../cli/install.md#use-lumoss-install-tool) section from
 the within these docs to install the CLI, or alternatively, you can also
 [build from source](../cli/install.md#build-from-source).
 
 > Building from source is a great option for those that want a more secure and
 > potentially more performant executable.
 
-Once the Solana CLI is installed, you can return to this document once you are
+Once the Lumos CLI is installed, you can return to this document once you are
 able to run the following command and get an answer on your terminal:
 
 ```
-solana --version
+lumos --version
 ```
 
 You should see an output that looks similar to this (note your version number
 may be higher):
 
 ```
-solana-cli 1.14.17 (src:b29a37cf; feat:3488713414)
+lumos-cli 1.14.17 (src:b29a37cf; feat:3488713414)
 ```
 
 Once you have successfully installed the cli, the next step is to change your
 config so that it is making requests to the `testnet` cluster:
 
 ```
-solana config set --url https://api.testnet.solana.com
+lumos config set --url https://api.testnet.lumos.com
 ```
 
 To verify that your config has change run:
 
 ```
-solana config get
+lumos config get
 ```
 
-You should see a line that says: `RPC URL: https://api.testnet.solana.com`
+You should see a line that says: `RPC URL: https://api.testnet.lumos.com`
 
 ## Create Keys
 
@@ -81,15 +81,15 @@ validator ([docs for reference](./guides/validator-start.md#generate-identity)):
 > ([docs for reference](./guides/validator-start.md#vanity-keypair)).
 
 ```
-solana-keygen new -o validator-keypair.json
+lumos-keygen new -o validator-keypair.json
 ```
 
 ```
-solana-keygen new -o vote-account-keypair.json
+lumos-keygen new -o vote-account-keypair.json
 ```
 
 ```
-solana-keygen new -o authorized-withdrawer-keypair.json
+lumos-keygen new -o authorized-withdrawer-keypair.json
 ```
 
 > **IMPORTANT** the `authorized-withdrawer-keypair.json` should be considered
@@ -103,34 +103,34 @@ solana-keygen new -o authorized-withdrawer-keypair.json
 
 ## Create a Vote Account
 
-Before you can create your vote account, you need to configure the Solana
+Before you can create your vote account, you need to configure the Lumos
 command line tool a bit more.
 
-The below command sets the default keypair that the Solana CLI uses to the
+The below command sets the default keypair that the Lumos CLI uses to the
 `validator-keypair.json` file that you just created in the terminal:
 
 ```
-solana config set --keypair ./validator-keypair.json
+lumos config set --keypair ./validator-keypair.json
 ```
 
 Now verify your account balance of `0`:
 
 ```
-solana balance
+lumos balance
 ```
 
 Next, you need to deposit some SOL into that keypair account in order create a
 transaction (in this case, making your vote account):
 
 ```
-solana airdrop 1
+lumos airdrop 1
 ```
 
 > **NOTE** The `airdrop` sub command does not work on mainnet, so you will have
 > to acquire SOL and transfer it into this keypair's account if you are setting
 > up a mainnet validator.
 
-Now, use the Solana cluster to create a vote account.
+Now, use the Lumos cluster to create a vote account.
 
 As a reminder, all commands mentioned so far **should be done on your trusted
 computer** and **NOT** on a server where you intend to run your validator. It is
@@ -138,7 +138,7 @@ especially important that the following command is done on a **trusted
 computer**:
 
 ```
-solana create-vote-account -ut \
+lumos create-vote-account -ut \
     --fee-payer ./validator-keypair.json \
     ./vote-account-keypair.json \
     ./validator-keypair.json \
@@ -147,7 +147,7 @@ solana create-vote-account -ut \
 
 > Note `-ut` tells the cli command that we would like to use the testnet
 > cluster. `--fee-payer` specifies the keypair that will be used to pay the
-> transaction fees. Both flags are not necessary if you configured the solana
+> transaction fees. Both flags are not necessary if you configured the lumos
 > cli properly above but they are useful to ensure you're using the intended
 > cluster and keypair.
 
@@ -307,7 +307,7 @@ not start without the settings below.
 #### **Optimize sysctl knobs**
 
 ```bash
-sudo bash -c "cat >/etc/sysctl.d/21-solana-validator.conf <<EOF
+sudo bash -c "cat >/etc/sysctl.d/21-lumos-validator.conf <<EOF
 # Increase UDP buffer sizes
 net.core.rmem_default = 134217728
 net.core.rmem_max = 134217728
@@ -323,7 +323,7 @@ EOF"
 ```
 
 ```bash
-sudo sysctl -p /etc/sysctl.d/21-solana-validator.conf
+sudo sysctl -p /etc/sysctl.d/21-lumos-validator.conf
 ```
 
 #### **Increase systemd and session file limits**
@@ -348,7 +348,7 @@ sudo systemctl daemon-reload
 ```
 
 ```bash
-sudo bash -c "cat >/etc/security/limits.d/90-solana-nofiles.conf <<EOF
+sudo bash -c "cat >/etc/security/limits.d/90-lumos-nofiles.conf <<EOF
 # Increase process file descriptor count limit
 * - nofile 1000000
 EOF"
@@ -381,11 +381,11 @@ On the validator server, switch to the `sol` user:
 su - sol
 ```
 
-## Install The Solana CLI on Remote Machine
+## Install The Lumos CLI on Remote Machine
 
-Your remote machine will need the Solana cli installed to run the validator
+Your remote machine will need the Lumos cli installed to run the validator
 software. Refer again to
-[Solana's Install Tool](../cli/install.md#use-solanas-install-tool) or
+[Lumos's Install Tool](../cli/install.md#use-lumoss-install-tool) or
 [build from source](../cli/install.md#build-from-source). It is best for
 operators to build from source rather than using the pre built binaries.
 
@@ -409,7 +409,7 @@ nano /home/sol/bin/validator.sh
 Copy and paste the following contents into `validator.sh` then save the file:
 
 ```
-exec solana-validator \
+exec lumos-validator \
     --identity validator-keypair.json \
     --vote-account vote-account-keypair.json \
     --known-validator 5D1fNXzvv5NjV1ysLjirC4WY92RNsVH18vjmcszZd8on \
@@ -417,19 +417,19 @@ exec solana-validator \
     --known-validator Ft5fbkqNa76vnsjYNwjDZUXoTWpP7VYm3mtsaQckQADN \
     --known-validator 9QxCLckBiJc783jnMvXZubK4wH86Eqqvashtrwvcsgkv \
     --only-known-rpc \
-    --log /home/sol/solana-validator.log \
+    --log /home/sol/lumos-validator.log \
     --ledger /mnt/ledger \
     --rpc-port 8899 \
     --dynamic-port-range 8000-8020 \
-    --entrypoint entrypoint.testnet.solana.com:8001 \
-    --entrypoint entrypoint2.testnet.solana.com:8001 \
-    --entrypoint entrypoint3.testnet.solana.com:8001 \
+    --entrypoint entrypoint.testnet.lumos.com:8001 \
+    --entrypoint entrypoint2.testnet.lumos.com:8001 \
+    --entrypoint entrypoint3.testnet.lumos.com:8001 \
     --expected-genesis-hash 4uhcVJyU9pJkvQyS88uRDiswHXSCkY3zQawwpjk2NsNY \
     --wal-recovery-mode skip_any_corrupted_record \
     --limit-ledger-size
 ```
 
-Refer to `solana-validator --help` for more information on what each flag is
+Refer to `lumos-validator --help` for more information on what each flag is
 doing in this script. Also refer to the section on
 [best practices for operating a validator](./best-practices/general.md).
 
@@ -442,14 +442,14 @@ Test that your `validator.sh` file is running properly by executing the
 /home/sol/bin/validator.sh
 ```
 
-The script should execute the `solana-validator` process. In a new terminal
+The script should execute the `lumos-validator` process. In a new terminal
 window, shh into your server, then verify that the process is running:
 
 ```
-ps aux | grep solana-validator
+ps aux | grep lumos-validator
 ```
 
-You should see a line in the output that includes `solana-validator` with all
+You should see a line in the output that includes `lumos-validator` with all
 the flags that were added to your `validator.sh` script.
 
 Next, we need to look at the logs to make sure everything is operating properly.
@@ -464,7 +464,7 @@ In a new terminal window, ssh into your validator machine, switch users to the
 
 ```
 su - sol
-tail -f solana-validator.log
+tail -f lumos-validator.log
 ```
 
 The `tail` command will continue to display the output of a file as the file
@@ -475,7 +475,7 @@ Assuming you do not see any error messages, exit out of the command.
 
 ### Gossip Protocol
 
-Gossip is a protocol used in the Solana clusters to communicate between
+Gossip is a protocol used in the Lumos clusters to communicate between
 validator nodes. For more information on gossip, see
 [Gossip Service](../validator/gossip.md). To verify that your validator is
 running properly, make sure that the validator has registered itself with the
@@ -485,15 +485,15 @@ In a new terminal window, connect to your server via ssh. Identify your
 validator's pubkey:
 
 ```
-solana-keygen pubkey ~/validator-keypair.json
+lumos-keygen pubkey ~/validator-keypair.json
 ```
 
-The command `solana gossip` lists all validators that have registered with the
+The command `lumos gossip` lists all validators that have registered with the
 protocol. To check that the newly setup validator is in gossip, we will `grep`
 for our pubkey in the output:
 
 ```
-solana gossip | grep <pubkey>
+lumos gossip | grep <pubkey>
 ```
 
 After running the command, you should see a single line that looks like this:
@@ -506,15 +506,15 @@ If you do not see any output after grep-ing the output of gossip, your validator
 may be having startup problems. If that is the case, start debugging by looking
 through the validator log output.
 
-### Solana Validators
+### Lumos Validators
 
 After you have verified that your validator is in gossip, you can verify that
-your validator has joined the network using the `solana validators` command. The
+your validator has joined the network using the `lumos validators` command. The
 command lists all validators in the network, but like before, we can `grep` the
 output for the validator we care about:
 
 ```
-solana validators | grep <pubkey>
+lumos validators | grep <pubkey>
 ```
 
 You should see a line of output that looks like this:
@@ -523,10 +523,10 @@ You should see a line of output that looks like this:
 5D1fNXzvv5NjV1ysLjirC4WY92RNsVH18vjmcszZd8on  FX6NNbS5GHc2kuzgTZetup6GZX6ReaWyki8Z8jC7rbNG  100%  197434166 (  0)  197434133 (  0)   2.11%   323614  1.14.17   2450110.588302720 SOL (1.74%)
 ```
 
-### Solana Catchup
+### Lumos Catchup
 
-The `solana catchup` command is a useful tool for seeing how quickly your
-validator is processing blocks. The Solana network has the capability to produce
+The `lumos catchup` command is a useful tool for seeing how quickly your
+validator is processing blocks. The Lumos network has the capability to produce
 many transactions per second. Since your validator is new to the network, it has
 to ask another validator (listed as a `--known-validator` in your startup
 script) for a recent snapshot of the ledger. By the time you receive the
@@ -535,16 +535,16 @@ processed and finalized in that time. In order for your validator to participate
 in consensus, it must _catchup_ to the rest of the network by asking for the
 more recent transactions that it does not have.
 
-The `solana catchup` command is a tool that tells you how far behind the network
+The `lumos catchup` command is a tool that tells you how far behind the network
 your validator is and how quickly you are catching up:
 
 ```
-solana catchup <pubkey>
+lumos catchup <pubkey>
 ```
 
 If you see a message about trying to connect, your validator may not be part of
-the network yet. Make sure to check the logs and double check `solana gossip`
-and `solana validators` to make sure your validator is running properly.
+the network yet. Make sure to check the logs and double check `lumos gossip`
+and `lumos validators` to make sure your validator is running properly.
 
 Once you are happy that the validator can start up without errors, the next step
 is to create a system service to run the `validator.sh` file automatically. Stop
@@ -564,18 +564,18 @@ sudo systemctl enable --now sol
 ```
 
 Now verify that the validator is running properly by tailing the logs and using
-the commands mentioned earlier to check gossip and Solana validators:
+the commands mentioned earlier to check gossip and Lumos validators:
 
 ```
-tail -f /home/sol/solana-validator*.log
+tail -f /home/sol/lumos-validator*.log
 ```
 
 ## Monitoring
 
-`solana-watchtower` is a command you can run on a separate machine to monitor
+`lumos-watchtower` is a command you can run on a separate machine to monitor
 your server. You can read more about handling
-[automatic restarts and monitoring](./best-practices/monitoring.md#solana-watchtower)
-using Solana Watchtower here in the docs.
+[automatic restarts and monitoring](./best-practices/monitoring.md#lumos-watchtower)
+using Lumos Watchtower here in the docs.
 
 ## Common issues
 

@@ -391,11 +391,11 @@ cloud_FetchFile() {
     scp \
       -o "StrictHostKeyChecking=no" \
       -o "UserKnownHostsFile=/dev/null" \
-      -o "User=solana" \
+      -o "User=lumos" \
       -o "IdentityFile=$sshPrivateKey" \
       -o "LogLevel=ERROR" \
       -F /dev/null \
-      "solana@$publicIp:$remoteFile" "$localFile"
+      "lumos@$publicIp:$remoteFile" "$localFile"
   )
 }
 

@@ -58,12 +58,12 @@ case "$clientType" in
 esac
 
 case $clientToRun in
-solana-bench-tps)
+lumos-bench-tps)
   net/scripts/rsync-retry.sh -vPrc \
-    "$entrypointIp":~/solana/config/bench-tps"$clientIndex".yml ./client-accounts.yml
+    "$entrypointIp":~/lumos/config/bench-tps"$clientIndex".yml ./client-accounts.yml
 
   net/scripts/rsync-retry.sh -vPrc \
-    "$entrypointIp":~/solana/config/validator-identity-1.json ./validator-identity.json
+    "$entrypointIp":~/lumos/config/validator-identity-1.json ./validator-identity.json
 
   args=()
 
@@ -77,7 +77,7 @@ solana-bench-tps)
   fi
 
   clientCommand="\
-    solana-bench-tps \
+    lumos-bench-tps \
       --duration 7500 \
       --sustained \
       --threads $threadCount \
@@ -90,7 +90,7 @@ solana-bench-tps)
 idle)
   # Add the faucet keypair to idle clients for convenience
   net/scripts/rsync-retry.sh -vPrc \
-    "$entrypointIp":~/solana/config/faucet.json ~/solana/
+    "$entrypointIp":~/lumos/config/faucet.json ~/lumos/
   exit 0
   ;;
 *)
@@ -99,9 +99,9 @@ idle)
 esac
 
 
-cat > ~/solana/on-reboot <<EOF
+cat > ~/lumos/on-reboot <<EOF
 #!/usr/bin/env bash
-cd ~/solana
+cd ~/lumos
 
 PATH="$HOME"/.cargo/bin:"$PATH"
 export USE_INSTALL=1
@@ -109,7 +109,7 @@ export USE_INSTALL=1
 echo "$(date) | $0 $*" >> client.log
 
 (
-  sudo SOLANA_METRICS_CONFIG="$SOLANA_METRICS_CONFIG" scripts/oom-monitor.sh
+  sudo LUMOS_METRICS_CONFIG="$LUMOS_METRICS_CONFIG" scripts/oom-monitor.sh
 ) > oom-monitor.log 2>&1 &
 echo \$! > oom-monitor.pid
 scripts/fd-monitor.sh > fd-monitor.log 2>&1 &
@@ -128,10 +128,10 @@ tmux new -s "$clientToRun" -d "
   done
 "
 EOF
-chmod +x ~/solana/on-reboot
-echo "@reboot ~/solana/on-reboot" | crontab -
+chmod +x ~/lumos/on-reboot
+echo "@reboot ~/lumos/on-reboot" | crontab -
 
-~/solana/on-reboot
+~/lumos/on-reboot
 
 sleep 1
 tmux capture-pane -t "$clientToRun" -p -S -100

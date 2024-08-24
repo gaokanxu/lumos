@@ -5,8 +5,10 @@ use {
     std::mem::size_of,
     
     crate::pod::{PodProofType, ProofType},
-    crate::proof_data::{InstructionError, InstructionError::InvalidAccountData},
+    crate::errors::InstructionError,
+    
     lumos_program::pubkey::Pubkey,
+    lumos_program::program_error::ProgramError::InvalidAccountData,
     
 };
 

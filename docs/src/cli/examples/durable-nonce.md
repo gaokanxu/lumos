@@ -1,13 +1,13 @@
 ---
-title: Durable Transaction Nonces in the Solana CLI
-pagination_label: "Solana CLI: Durable Transaction Nonces"
+title: Durable Transaction Nonces in the Lumos CLI
+pagination_label: "Lumos CLI: Durable Transaction Nonces"
 sidebar_label: Durable Transaction Nonces
 ---
 
 Durable transaction nonces are a mechanism for getting around the typical short
 lifetime of a transaction's
-[`recent_blockhash`](https://solana.com/docs/core/transactions#recent-blockhash).
-They are implemented as a Solana Program, the mechanics of which can be read
+[`recent_blockhash`](https://lumos.com/docs/core/transactions#recent-blockhash).
+They are implemented as a Lumos Program, the mechanics of which can be read
 about in the [proposal](../../implemented-proposals/durable-tx-nonces.md).
 
 ## Usage Examples
@@ -43,8 +43,8 @@ account on chain
 - Command
 
 ```bash
-solana-keygen new -o nonce-keypair.json
-solana create-nonce-account nonce-keypair.json 1
+lumos-keygen new -o nonce-keypair.json
+lumos create-nonce-account nonce-keypair.json 1
 ```
 
 - Output
@@ -57,7 +57,7 @@ solana create-nonce-account nonce-keypair.json 1
 > [Paper Wallet](../wallets/paper.md) keypair generation
 > [instructions](../wallets/paper.md#seed-phrase-generation) instead
 
-> [Full usage documentation](../usage.md#solana-create-nonce-account)
+> [Full usage documentation](../usage.md#lumos-create-nonce-account)
 
 ### Querying the Stored Nonce Value
 
@@ -68,7 +68,7 @@ presently stored nonce value with
 - Command
 
 ```bash
-solana nonce nonce-keypair.json
+lumos nonce nonce-keypair.json
 ```
 
 - Output
@@ -77,7 +77,7 @@ solana nonce nonce-keypair.json
 8GRipryfxcsxN8mAGjy8zbFo9ezaUsh47TsPzmZbuytU
 ```
 
-> [Full usage documentation](../usage.md#solana-get-nonce)
+> [Full usage documentation](../usage.md#lumos-get-nonce)
 
 ### Advancing the Stored Nonce Value
 
@@ -87,7 +87,7 @@ value can be advanced by
 - Command
 
 ```bash
-solana new-nonce nonce-keypair.json
+lumos new-nonce nonce-keypair.json
 ```
 
 - Output
@@ -96,7 +96,7 @@ solana new-nonce nonce-keypair.json
 44jYe1yPKrjuYDmoFTdgPjg8LFpYyh1PFKJqm5SC1PiSyAL8iw1bhadcAX1SL7KDmREEkmHpYvreKoNv6fZgfvUK
 ```
 
-> [Full usage documentation](../usage.md#solana-new-nonce)
+> [Full usage documentation](../usage.md#lumos-new-nonce)
 
 ### Display Nonce Account
 
@@ -105,7 +105,7 @@ Inspect a nonce account in a more human friendly format with
 - Command
 
 ```bash
-solana nonce-account nonce-keypair.json
+lumos nonce-account nonce-keypair.json
 ```
 
 - Output
@@ -116,7 +116,7 @@ minimum balance required: 0.00136416 SOL
 nonce: DZar6t2EaCFQTbUP4DHKwZ1wT8gCPW2aRfkVWhydkBvS
 ```
 
-> [Full usage documentation](../usage.md#solana-nonce-account)
+> [Full usage documentation](../usage.md#lumos-nonce-account)
 
 ### Withdraw Funds from a Nonce Account
 
@@ -125,7 +125,7 @@ Withdraw funds from a nonce account with
 - Command
 
 ```bash
-solana withdraw-from-nonce-account nonce-keypair.json ~/.config/solana/id.json 0.5
+lumos withdraw-from-nonce-account nonce-keypair.json ~/.config/lumos/id.json 0.5
 ```
 
 - Output
@@ -136,7 +136,7 @@ solana withdraw-from-nonce-account nonce-keypair.json ~/.config/solana/id.json 0
 
 > Close a nonce account by withdrawing the full balance
 
-> [Full usage documentation](../usage.md#solana-withdraw-from-nonce-account)
+> [Full usage documentation](../usage.md#lumos-withdraw-from-nonce-account)
 
 ### Assign a New Authority to a Nonce Account
 
@@ -145,7 +145,7 @@ Reassign the authority of a nonce account after creation with
 - Command
 
 ```bash
-solana authorize-nonce-account nonce-keypair.json nonce-authority.json
+lumos authorize-nonce-account nonce-keypair.json nonce-authority.json
 ```
 
 - Output
@@ -154,7 +154,7 @@ solana authorize-nonce-account nonce-keypair.json nonce-authority.json
 3F9cg4zN9wHxLGx4c3cUKmqpej4oa67QbALmChsJbfxTgTffRiL3iUehVhR9wQmWgPua66jPuAYeL1K2pYYjbNoT
 ```
 
-> [Full usage documentation](../usage.md#solana-authorize-nonce-account)
+> [Full usage documentation](../usage.md#lumos-authorize-nonce-account)
 
 ## Other Commands Supporting Durable Nonces
 
@@ -166,9 +166,9 @@ supported.
 
 The following subcommands have received this treatment so far
 
-- [`pay`](../usage.md#solana-pay)
-- [`delegate-stake`](../usage.md#solana-delegate-stake)
-- [`deactivate-stake`](../usage.md#solana-deactivate-stake)
+- [`pay`](../usage.md#lumos-pay)
+- [`delegate-stake`](../usage.md#lumos-delegate-stake)
+- [`deactivate-stake`](../usage.md#lumos-deactivate-stake)
 
 ### Example Pay Using Durable Nonce
 
@@ -180,9 +180,9 @@ is the same for all subcommands supporting durable nonces
 First we need some accounts for Alice, Alice's nonce and Bob
 
 ```bash
-$ solana-keygen new -o alice.json
-$ solana-keygen new -o nonce.json
-$ solana-keygen new -o bob.json
+$ lumos-keygen new -o alice.json
+$ lumos-keygen new -o nonce.json
+$ lumos-keygen new -o bob.json
 ```
 
 #### - Fund Alice's account
@@ -191,7 +191,7 @@ Alice will need some funds to create a nonce account and send to Bob. Airdrop
 her some SOL
 
 ```bash
-$ solana airdrop -k alice.json 1
+$ lumos airdrop -k alice.json 1
 1 SOL
 ```
 
@@ -203,7 +203,7 @@ Now Alice needs a nonce account. Create one
 > `alice.json` has full authority over the nonce account
 
 ```bash
-$ solana create-nonce-account -k alice.json nonce.json 0.1
+$ lumos create-nonce-account -k alice.json nonce.json 0.1
 3KPZr96BTsL3hqera9up82KAU462Gz31xjqJ6eHUAjF935Yf8i1kmfEbo6SVbNaACKE5z6gySrNjVRvmS8DcPuwV
 ```
 
@@ -213,8 +213,8 @@ Alice attempts to pay Bob, but takes too long to sign. The specified blockhash
 expires and the transaction fails
 
 ```bash
-$ solana transfer -k alice.json --blockhash expiredDTaxfagttWjQweib42b6ZHADSx94Tw8gHx11 bob.json 0.01
-[2020-01-02T18:48:28.462911000Z ERROR solana_cli::cli] Io(Custom { kind: Other, error: "Transaction \"33gQQaoPc9jWePMvDAeyJpcnSPiGUAdtVg8zREWv4GiKjkcGNufgpcbFyRKRrA25NkgjZySEeKue5rawyeH5TzsV\" failed: None" })
+$ lumos transfer -k alice.json --blockhash expiredDTaxfagttWjQweib42b6ZHADSx94Tw8gHx11 bob.json 0.01
+[2020-01-02T18:48:28.462911000Z ERROR lumos_cli::cli] Io(Custom { kind: Other, error: "Transaction \"33gQQaoPc9jWePMvDAeyJpcnSPiGUAdtVg8zREWv4GiKjkcGNufgpcbFyRKRrA25NkgjZySEeKue5rawyeH5TzsV\" failed: None" })
 Error: Io(Custom { kind: Other, error: "Transaction \"33gQQaoPc9jWePMvDAeyJpcnSPiGUAdtVg8zREWv4GiKjkcGNufgpcbFyRKRrA25NkgjZySEeKue5rawyeH5TzsV\" failed: None" })
 ```
 
@@ -227,14 +227,14 @@ blockhash stored there
 > example
 
 ```bash
-$ solana nonce-account nonce.json
+$ lumos nonce-account nonce.json
 balance: 0.1 SOL
 minimum balance required: 0.00136416 SOL
 nonce: F7vmkY3DTaxfagttWjQweib42b6ZHADSx94Tw8gHx3W7
 ```
 
 ```bash
-$ solana transfer -k alice.json --blockhash F7vmkY3DTaxfagttWjQweib42b6ZHADSx94Tw8gHx3W7 --nonce nonce.json bob.json 0.01
+$ lumos transfer -k alice.json --blockhash F7vmkY3DTaxfagttWjQweib42b6ZHADSx94Tw8gHx3W7 --nonce nonce.json bob.json 0.01
 HR1368UKHVZyenmH7yVz5sBAijV6XAPeWbEiXEGVYQorRMcoijeNAbzZqEZiH8cDB8tk65ckqeegFjK8dHwNFgQ
 ```
 
@@ -244,12 +244,12 @@ The transaction succeeds! Bob receives 0.01 SOL from Alice and Alice's stored
 nonce advances to a new value
 
 ```bash
-$ solana balance -k bob.json
+$ lumos balance -k bob.json
 0.01 SOL
 ```
 
 ```bash
-$ solana nonce-account nonce.json
+$ lumos nonce-account nonce.json
 balance: 0.1 SOL
 minimum balance required: 0.00136416 SOL
 nonce: 6bjroqDcZgTv6Vavhqf81oBHTv3aMnX19UTB51YhAZnN

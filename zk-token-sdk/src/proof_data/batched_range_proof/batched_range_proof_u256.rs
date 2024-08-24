@@ -2,29 +2,20 @@
 
 #[cfg(not(target_os = "lumos"))]
 use {
+    bytemuck_derive::{Pod, Zeroable},
     crate::{
-        proof_data::pedersen::{PedersenCommitment, PedersenOpening},
-        range_proof::RangeProof,
+       
+        range_proof::{RangeProof, PodRangeProofU256},
         zk_elgamal_proof_program::{
             errors::{ProofGenerationError, ProofVerificationError},
-            proof_data::batched_range_proof::{MAX_COMMITMENTS, MAX_SINGLE_BIT_LENGTH},
         },
+        proof_data::pedersen::{PedersenCommitment, PedersenOpening},
+        proof_data::batched_range_proof::{MAX_COMMITMENTS, MAX_SINGLE_BIT_LENGTH, BatchedRangeProofContext, ProofType, ZkProofData},
     },
     std::convert::TryInto,
 };
-use {
-    crate::{
-        //range_proof::pod::PodRangeProofU256,
-        //gaokanxu 2024.08.20
-        pod::range_proof::PodRangeProofU256,
-        
-        zk_elgamal_proof_program::proof_data::{
-            batched_range_proof::BatchedRangeProofContext, ProofType, ZkProofData,
-        },
-    },
-    bytemuck_derive::{Pod, Zeroable},
-};
 
+ 
 #[cfg(not(target_os = "lumos"))]
 const BATCHED_RANGE_PROOF_U256_BIT_LENGTH: usize = 256;
 

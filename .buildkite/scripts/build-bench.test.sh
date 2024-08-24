@@ -14,7 +14,7 @@ want=$(
         command: "ci/bench/part1.sh"
         timeout_in_minutes: 30
         agents:
-          queue: "solana"
+          queue: "lumos"
         retry:
           automatic:
             - limit: 3
@@ -22,7 +22,7 @@ want=$(
         command: "ci/bench/part2.sh"
         timeout_in_minutes: 30
         agents:
-          queue: "solana"
+          queue: "lumos"
         retry:
           automatic:
             - limit: 3

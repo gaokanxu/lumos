@@ -19,17 +19,17 @@ validator which will allow your validator the opportunity to produce more blocks
 and earn rewards.
 
 Each staked validator earns inflation rewards from
-[vote credits](https://solana.com/docs/terminology#vote-credit). Vote credits
+[vote credits](https://lumos.com/docs/terminology#vote-credit). Vote credits
 are assigned to validators that vote on
-[blocks](https://solana.com/docs/terminology#block) produced by the
-[leader](https://solana.com/docs/terminology#leader). The vote credits are given
+[blocks](https://lumos.com/docs/terminology#block) produced by the
+[leader](https://lumos.com/docs/terminology#leader). The vote credits are given
 to all validators that successfully vote on blocks that are added to the
 blockchain. Additionally, when the validator is the leader, it can earn
 transaction fees and storage
-[rent fees](https://solana.com/docs/core/accounts#rent) for each block that it
+[rent fees](https://lumos.com/docs/core/accounts#rent) for each block that it
 produces that is added to the blockchain.
 
-Since all votes in Solana happen on the blockchain, a validator incurs a
+Since all votes in Lumos happen on the blockchain, a validator incurs a
 transaction cost for each vote that it makes. These transaction fees amount to
 approximately 1.0 SOL per day.
 
@@ -50,17 +50,17 @@ A voting validator can earn SOL through 2 methods:
 1. Inflationary rewards paid at the end of an epoch. See
    [staking rewards](../implemented-proposals/staking-rewards.md)
 2. Earning 50% of transaction fees for the blocks produced by the validator. See
-   [transaction fee basic economic design](https://solana.com/docs/intro/transaction_fees#basic-economic-design)
+   [transaction fee basic economic design](https://lumos.com/docs/intro/transaction_fees#basic-economic-design)
 
 The following links are community provided resources that discuss the economics
 of running a validator:
 
 - Michael Hubbard wrote an
-  [article](https://laine-sa.medium.com/solana-staking-rewards-validator-economics-how-does-it-work-6718e4cccc4e)
-  that explains the economics of Solana in more depth for stakers and for
+  [article](https://laine-sa.medium.com/lumos-staking-rewards-validator-economics-how-does-it-work-6718e4cccc4e)
+  that explains the economics of Lumos in more depth for stakers and for
   validators.
 - Congent Crypto has written a
-  [blog post](https://medium.com/@Cogent_Crypto/how-to-become-a-validator-on-solana-9dc4288107b7)
+  [blog post](https://medium.com/@Cogent_Crypto/how-to-become-a-validator-on-lumos-9dc4288107b7)
   that discusses economics and getting started.
 - Cogent Crypto also provides a
   [validator profit calculator](https://cogentcrypto.io/ValidatorProfitCalculator)
@@ -72,18 +72,18 @@ participating in voting), there are different motivations for running an RPC
 node.
 
 An RPC operator is providing a service to users who want to interact with the
-Solana blockchain. Because your primary user is often technical, you will have
+Lumos blockchain. Because your primary user is often technical, you will have
 to be able to answer technical questions about performance of RPC calls. This
 option may require more understanding of the
-[core Solana architecture](../clusters/index.md).
+[core Lumos architecture](../clusters/index.md).
 
 If you are operating an RPC node as a business, your job will also involve
 scaling your system to meet the demands of the users. For example, some RPC
 providers create dedicated servers for projects that require a high volume of
 requests to the node. Someone with a background in development operations or
 software engineering will be a very important part of your team. You will need a
-strong understanding of the Solana architecture and the
-[JSON RPC API](https://solana.com/docs/rpc/http).
+strong understanding of the Lumos architecture and the
+[JSON RPC API](https://lumos.com/docs/rpc/http).
 
 Alternatively, you may be a development team that would like to run their own
 infrastructure. In this case, the RPC infrastructure could be a part of your

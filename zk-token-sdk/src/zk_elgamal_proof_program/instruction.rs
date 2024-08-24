@@ -38,10 +38,9 @@ use {
     num_traits::{FromPrimitive, ToPrimitive},
     
     lumos_program::pubkey::Pubkey,
+    lumos_program::instruction::{AccountMeta, Instruction},
+    crate::proof_data::ZkProofData,
     
-    crate::{
-        proof_data::{AccountMeta, Instruction, ZkProofData},
-    },
 };
 
 #[derive(Clone, Copy, Debug, FromPrimitive, ToPrimitive, PartialEq, Eq)]

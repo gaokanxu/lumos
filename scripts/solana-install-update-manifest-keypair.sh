@@ -22,13 +22,13 @@ windows)
   ;;
 esac
 
-SOLANA_INSTALL_UPDATE_MANIFEST_KEYPAIR="SOLANA_INSTALL_UPDATE_MANIFEST_KEYPAIR_${TARGET//-/_}"
+LUMOS_INSTALL_UPDATE_MANIFEST_KEYPAIR="LUMOS_INSTALL_UPDATE_MANIFEST_KEYPAIR_${TARGET//-/_}"
 
 # shellcheck disable=2154 # is referenced but not assigned
-if [[ -z ${!SOLANA_INSTALL_UPDATE_MANIFEST_KEYPAIR} ]]; then
-  echo "$SOLANA_INSTALL_UPDATE_MANIFEST_KEYPAIR not defined"
+if [[ -z ${!LUMOS_INSTALL_UPDATE_MANIFEST_KEYPAIR} ]]; then
+  echo "$LUMOS_INSTALL_UPDATE_MANIFEST_KEYPAIR not defined"
   exit 1
 fi
 
-echo "${!SOLANA_INSTALL_UPDATE_MANIFEST_KEYPAIR}" > update_manifest_keypair.json
+echo "${!LUMOS_INSTALL_UPDATE_MANIFEST_KEYPAIR}" > update_manifest_keypair.json
 ls -l update_manifest_keypair.json

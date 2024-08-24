@@ -33,7 +33,7 @@ ARGS=(
   --jobs "$JOBS"
   --partition hash:"$((INDEX + 1))/$LIMIT"
   --verbose
-  --exclude solana-local-cluster
+  --exclude lumos-local-cluster
 )
 
 _ cargo nextest run "${ARGS[@]}"

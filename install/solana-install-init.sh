@@ -10,25 +10,25 @@
 # except according to those terms.
 
 # This is just a little script that can be downloaded from the internet to
-# install solana-install. It just does platform detection, downloads the installer
+# install lumos-install. It just does platform detection, downloads the installer
 # and runs it.
 
 { # this ensures the entire script is downloaded #
 
-if [ -z "$SOLANA_DOWNLOAD_ROOT" ]; then
-    SOLANA_DOWNLOAD_ROOT="https://github.com/solana-labs/solana/releases/download/"
+if [ -z "$LUMOS_DOWNLOAD_ROOT" ]; then
+    LUMOS_DOWNLOAD_ROOT="https://github.com/lumos-labs/lumos/releases/download/"
 fi
-GH_LATEST_RELEASE="https://api.github.com/repos/solana-labs/solana/releases/latest"
+GH_LATEST_RELEASE="https://api.github.com/repos/lumos-labs/lumos/releases/latest"
 
 set -e
 
 usage() {
     cat 1>&2 <<EOF
-solana-install-init
+lumos-install-init
 initializes a new installation
 
 USAGE:
-    solana-install-init [FLAGS] [OPTIONS] --data_dir <PATH> --pubkey <PUBKEY>
+    lumos-install-init [FLAGS] [OPTIONS] --data_dir <PATH> --pubkey <PUBKEY>
 
 FLAGS:
     -h, --help              Prints help information
@@ -36,7 +36,7 @@ FLAGS:
 
 OPTIONS:
     -d, --data-dir <PATH>    Directory to store install data
-    -u, --url <URL>          JSON RPC URL for the solana cluster
+    -u, --url <URL>          JSON RPC URL for the lumos cluster
     -p, --pubkey <PUBKEY>    Public key of the update manifest
 EOF
 }
@@ -81,13 +81,13 @@ main() {
     esac
     TARGET="${_cputype}-${_ostype}"
 
-    temp_dir="$(mktemp -d 2>/dev/null || ensure mktemp -d -t solana-install-init)"
+    temp_dir="$(mktemp -d 2>/dev/null || ensure mktemp -d -t lumos-install-init)"
     ensure mkdir -p "$temp_dir"
 
-    # Check for SOLANA_RELEASE environment variable override.  Otherwise fetch
+    # Check for LUMOS_RELEASE environment variable override.  Otherwise fetch
     # the latest release tag from github
-    if [ -n "$SOLANA_RELEASE" ]; then
-      release="$SOLANA_RELEASE"
+    if [ -n "$LUMOS_RELEASE" ]; then
+      release="$LUMOS_RELEASE"
     else
       release_file="$temp_dir/release"
       printf 'looking for latest release\n' 1>&2
@@ -101,36 +101,36 @@ main() {
       fi
     fi
 
-    download_url="$SOLANA_DOWNLOAD_ROOT/$release/solana-install-init-$TARGET"
-    solana_install_init="$temp_dir/solana-install-init"
+    download_url="$LUMOS_DOWNLOAD_ROOT/$release/lumos-install-init-$TARGET"
+    lumos_install_init="$temp_dir/lumos-install-init"
 
     printf 'downloading %s installer\n' "$release" 1>&2
 
     ensure mkdir -p "$temp_dir"
-    ensure downloader "$download_url" "$solana_install_init"
-    ensure chmod u+x "$solana_install_init"
-    if [ ! -x "$solana_install_init" ]; then
-        printf '%s\n' "Cannot execute $solana_install_init (likely because of mounting /tmp as noexec)." 1>&2
-        printf '%s\n' "Please copy the file to a location where you can execute binaries and run ./solana-install-init." 1>&2
+    ensure downloader "$download_url" "$lumos_install_init"
+    ensure chmod u+x "$lumos_install_init"
+    if [ ! -x "$lumos_install_init" ]; then
+        printf '%s\n' "Cannot execute $lumos_install_init (likely because of mounting /tmp as noexec)." 1>&2
+        printf '%s\n' "Please copy the file to a location where you can execute binaries and run ./lumos-install-init." 1>&2
         exit 1
     fi
 
     if [ -z "$1" ]; then
       #shellcheck disable=SC2086
-      ignore "$solana_install_init" $SOLANA_INSTALL_INIT_ARGS
+      ignore "$lumos_install_init" $LUMOS_INSTALL_INIT_ARGS
     else
-      ignore "$solana_install_init" "$@"
+      ignore "$lumos_install_init" "$@"
     fi
     retval=$?
 
-    ignore rm "$solana_install_init"
+    ignore rm "$lumos_install_init"
     ignore rm -rf "$temp_dir"
 
     return "$retval"
 }
 
 err() {
-    printf 'solana-install-init: %s\n' "$1" >&2
+    printf 'lumos-install-init: %s\n' "$1" >&2
     exit 1
 }
 

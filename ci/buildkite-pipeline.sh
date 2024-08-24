@@ -114,15 +114,15 @@ command_step() {
     timeout_in_minutes: $3
     artifact_paths: "log-*.txt"
     agents:
-      queue: "${4:-solana}"
+      queue: "${4:-lumos}"
 EOF
 }
 
 
 trigger_secondary_step() {
   cat  >> "$output_file" <<"EOF"
-  - name: "Trigger Build on solana-secondary"
-    trigger: "solana-secondary"
+  - name: "Trigger Build on lumos-secondary"
+    trigger: "lumos-secondary"
     branches: "!pull/*"
     async: true
     soft_fail: true
@@ -187,7 +187,7 @@ all_test_steps() {
     timeout_in_minutes: 35
     artifact_paths: "sbf-dumps.tar.bz2"
     agents:
-      queue: "solana"
+      queue: "lumos"
 EOF
   else
     annotate --style info \
@@ -291,7 +291,7 @@ pull_or_push_steps() {
     # | cat is a no-op. If this pull request is a version bump then grep will output no lines and have an exit code of 1.
     # Piping the output to cat prevents that non-zero exit code from exiting this script
     diff_other_than_version_bump=$(git diff origin/"$BUILDKITE_PULL_REQUEST_BASE_BRANCH"..HEAD | \
-      grep -vE "^ |^@@ |^--- |^\+\+\+ |^index |^diff |^-( \")?solana.*$optional_old_version_number|^\+( \")?solana.*$new_version_number|^-version|^\+version"|cat)
+      grep -vE "^ |^@@ |^--- |^\+\+\+ |^index |^diff |^-( \")?lumos.*$optional_old_version_number|^\+( \")?lumos.*$new_version_number|^-version|^\+version"|cat)
     echo "diff_other_than_version_bump: ->$diff_other_than_version_bump<-"
 
     if [ -z "$diff_other_than_version_bump" ]; then
@@ -315,7 +315,7 @@ if [[ -n $BUILDKITE_TAG ]]; then
   start_pipeline "Tag pipeline for $BUILDKITE_TAG"
 
   annotate --style info --context release-tag \
-    "https://github.com/solana-labs/solana/releases/$BUILDKITE_TAG"
+    "https://github.com/lumos-labs/lumos/releases/$BUILDKITE_TAG"
 
   # Jump directly to the secondary build to publish release artifacts quickly
   trigger_secondary_step
@@ -333,7 +333,7 @@ if [[ $BUILDKITE_BRANCH =~ ^pull ]]; then
 
   # Add helpful link back to the corresponding Github Pull Request
   annotate --style info --context pr-backlink \
-    "Github Pull Request: https://github.com/solana-labs/solana/$BUILDKITE_BRANCH"
+    "Github Pull Request: https://github.com/lumos-labs/lumos/$BUILDKITE_BRANCH"
 
   if [[ $GITHUB_USER = "dependabot[bot]" ]]; then
     command_step dependabot "ci/dependabot-pr.sh" 5

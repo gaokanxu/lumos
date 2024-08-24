@@ -1,5 +1,5 @@
 ---
-title: Solana Validator Operations Best Practices
+title: Lumos Validator Operations Best Practices
 sidebar_label: General Operations
 pagination_label: "Best Practices: Validator Operations"
 ---
@@ -9,7 +9,7 @@ After you have successfully setup and started a
 of your choice), you will want to become familiar with how to operate your
 validator on a day-to-day basis. During daily operations, you will be
 [monitoring your server](./monitoring.md), updating software regularly (both the
-Solana validator software and operating system packages), and managing your vote
+Lumos validator software and operating system packages), and managing your vote
 account and identity account.
 
 All of these skills are critical to practice. Maximizing your validator uptime
@@ -17,25 +17,25 @@ is an important part of being a good operator.
 
 ## Educational Workshops
 
-The Solana validator community holds regular educational workshops. You can
+The Lumos validator community holds regular educational workshops. You can
 watch past workshops through the
-[Solana validator educational workshops playlist](https://www.youtube.com/watch?v=86zySQ5vGW8&list=PLilwLeBwGuK6jKrmn7KOkxRxS9tvbRa5p).
+[Lumos validator educational workshops playlist](https://www.youtube.com/watch?v=86zySQ5vGW8&list=PLilwLeBwGuK6jKrmn7KOkxRxS9tvbRa5p).
 
 ## Help with the validator command line
 
-From within the Solana CLI, you can execute the `solana-validator` command with
+From within the Lumos CLI, you can execute the `lumos-validator` command with
 the `--help` flag to get a better understanding of the flags and sub commands
 available.
 
 ```
-solana-validator --help
+lumos-validator --help
 ```
 
 ## Restarting your validator
 
 There are many operational reasons you may want to restart your validator. As a
 best practice, you should avoid a restart during a leader slot. A
-[leader slot](https://solana.com/docs/terminology#leader-schedule) is the time
+[leader slot](https://lumos.com/docs/terminology#leader-schedule) is the time
 when your validator is expected to produce blocks. For the health of the cluster
 and also for your validator's ability to earn transaction fee rewards, you do
 not want your validator to be offline during an opportunity to produce blocks.
@@ -43,26 +43,26 @@ not want your validator to be offline during an opportunity to produce blocks.
 To see the full leader schedule for an epoch, use the following command:
 
 ```
-solana leader-schedule
+lumos leader-schedule
 ```
 
 Based on the current slot and the leader schedule, you can calculate open time
 windows where your validator is not expected to produce blocks.
 
-Assuming you are ready to restart, you may use the `solana-validator exit`
+Assuming you are ready to restart, you may use the `lumos-validator exit`
 command. The command exits your validator process when an appropriate idle time
 window is reached. Assuming that you have systemd implemented for your validator
 process, the validator should restart automatically after the exit. See the
 below help command for details:
 
 ```
-solana-validator exit --help
+lumos-validator exit --help
 ```
 
 ## Upgrading
 
 There are many ways to upgrade the
-[Solana CLI software](../../cli/install.md). As an operator, you
+[Lumos CLI software](../../cli/install.md). As an operator, you
 will need to upgrade often, so it is important to get comfortable with this
 process.
 
@@ -72,41 +72,41 @@ process.
 
 ### Building From Source
 
-It is a best practice to always build your Solana binaries from source. If you
+It is a best practice to always build your Lumos binaries from source. If you
 build from source, you are certain that the code you are building has not been
 tampered with before the binary was created. You may also be able to optimize
-your `solana-validator` binary to your specific hardware.
+your `lumos-validator` binary to your specific hardware.
 
 If you build from source on the validator machine (or a machine with the same
 CPU), you can target your specific architecture using the `-march` flag. Refer
 to the following doc for
 [instructions on building from source](../../cli/install.md#build-from-source).
 
-### solana-install
+### lumos-install
 
 If you are not comfortable building from source, or you need to quickly install
 a new version to test something out, you could instead try using the
-`solana-install` command.
+`lumos-install` command.
 
-Assuming you want to install Solana version `1.14.17`, you would execute the
+Assuming you want to install Lumos version `1.14.17`, you would execute the
 following:
 
 ```
-solana-install init 1.14.17
+lumos-install init 1.14.17
 ```
 
 This command downloads the executable for `1.14.17` and installs it into a
-`.local` directory. You can also look at `solana-install --help` for more
+`.local` directory. You can also look at `lumos-install --help` for more
 options.
 
-> **Note** this command only works if you already have the solana cli installed.
+> **Note** this command only works if you already have the lumos cli installed.
 > If you do not have the cli installed, refer to
-> [install solana cli tools](../../cli/install.md)
+> [install lumos cli tools](../../cli/install.md)
 
 ### Restart
 
 For all install methods, the validator process will need to be restarted before
-the newly installed version is in use. Use `solana-validator exit` to restart
+the newly installed version is in use. Use `lumos-validator exit` to restart
 your validator process.
 
 ### Verifying version
@@ -132,14 +132,14 @@ have state locally. In other cases such as restarts for upgrades, a snapshot
 download should be avoided.
 
 To avoid downloading a snapshot on restart, add the following flag to the
-`solana-validator` command:
+`lumos-validator` command:
 
 ```
 --no-snapshot-fetch
 ```
 
-If you use this flag with the `solana-validator` command, make sure that you run
-`solana catchup <pubkey>` after your validator starts to make sure that the
+If you use this flag with the `lumos-validator` command, make sure that you run
+`lumos catchup <pubkey>` after your validator starts to make sure that the
 validator is catching up in a reasonable time. After some time (potentially a
 few hours), if it appears that your validator continues to fall behind, then you
 may have to download a new snapshot.
@@ -163,12 +163,12 @@ threshold that you set.
 In the case that there are network troubles with one or more of your known
 validators, then you may have to manually download the snapshot. To manually
 download a snapshot from one of your known validators, first, find the IP
-address of the validator in using the `solana gossip` command. In the example
+address of the validator in using the `lumos gossip` command. In the example
 below, `5D1fNXzvv5NjV1ysLjirC4WY92RNsVH18vjmcszZd8on` is the pubkey of one of my
 known validators:
 
 ```
-solana gossip | grep 5D1fNXzvv5NjV1ysLjirC4WY92RNsVH18vjmcszZd8on
+lumos gossip | grep 5D1fNXzvv5NjV1ysLjirC4WY92RNsVH18vjmcszZd8on
 ```
 
 The IP address of the validators is `139.178.68.207` and the open port on this
@@ -199,15 +199,15 @@ It is important that you do not accidentally run out of funds in your identity
 account, as your node will stop voting. It is also important to note that this
 account keypair is the most vulnerable of the three keypairs in a vote account
 because the keypair for the identity account is stored on your validator when
-running the `solana-validator` software. How much SOL you should store there is
+running the `lumos-validator` software. How much SOL you should store there is
 up to you. As a best practice, make sure to check the account regularly and
 refill or deduct from it as needed. To check the account balance do:
 
 ```
-solana balance validator-keypair.json
+lumos balance validator-keypair.json
 ```
 
-> **Note** `solana-watchtower` can monitor for a minimum validator identity
+> **Note** `lumos-watchtower` can monitor for a minimum validator identity
 > balance. See [monitoring best practices](./monitoring.md) for details.
 
 ## Withdrawing From The Vote Account
@@ -217,20 +217,20 @@ server. It should be stored on a hardware wallet, paper wallet, or multisig
 mitigates the risk of hacking and theft of funds.
 
 To withdraw your funds from your vote account, you will need to run
-`solana withdraw-from-vote-account` on a trusted computer. For example, on a
+`lumos withdraw-from-vote-account` on a trusted computer. For example, on a
 trusted computer, you could withdraw all of the funds from your vote account
 (excluding the rent exempt minimum). The below example assumes you have a
 separate keypair to store your funds called `person-keypair.json`
 
 ```
-solana withdraw-from-vote-account \
+lumos withdraw-from-vote-account \
    vote-account-keypair.json \
    person-keypair.json ALL \
    --authorized-withdrawer authorized-withdrawer-keypair.json
 ```
 
 To get more information on the command, use
-`solana withdraw-from-vote-account --help`.
+`lumos withdraw-from-vote-account --help`.
 
 For a more detailed explanation of the different keypairs and other related
 operations refer to

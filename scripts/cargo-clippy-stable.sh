@@ -17,7 +17,7 @@ source "$here/../ci/rust-version.sh" stable
 
 # temporarily run stable clippy as well to scan the codebase for
 # `redundant_clone`s, which is disabled as nightly clippy is buggy:
-#   https://github.com/solana-labs/solana/issues/31834
+#   https://github.com/lumos-labs/lumos/issues/31834
 #
 # can't use --all-targets:
 #   error[E0554]: `#![feature]` may not be used on the stable release channel

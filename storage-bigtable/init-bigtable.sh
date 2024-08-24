@@ -5,7 +5,7 @@
 
 set -e
 
-instance=solana-ledger
+instance=lumos-ledger
 
 cbt=(
   cbt

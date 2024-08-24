@@ -24,7 +24,7 @@ amortized.
 
 ## Fee Account
 
-The [fee account](https://solana.com/docs/terminology#fee_account) pays for the
+The [fee account](https://lumos.com/docs/terminology#fee_account) pays for the
 transaction to be included in the block. The leader only needs to validate that
 the fee account has the balance to pay for the fee.
 
@@ -92,4 +92,4 @@ dedicated fee account that is not used as Credit-Debit in any instruction.
 Once an account fee is used as Credit-Debit, it will fail the balance check
 until the balance cache is reset.
 
-### Check out the [SIMD here to contribute](https://github.com/solana-foundation/solana-improvement-documents/pull/5)
+### Check out the [SIMD here to contribute](https://github.com/lumos-foundation/lumos-improvement-documents/pull/5)

@@ -1,23 +1,23 @@
 ---
-title: Introduction to the Solana CLI
-pagination_label: Introduction to the Solana CLI
+title: Introduction to the Lumos CLI
+pagination_label: Introduction to the Lumos CLI
 sidebar_label: Introduction
 sidebar_position: 2
 ---
 
-Before running any Solana CLI commands, let's go over some conventions that
-you will see across all commands. First, the Solana CLI is actually a collection
+Before running any Lumos CLI commands, let's go over some conventions that
+you will see across all commands. First, the Lumos CLI is actually a collection
 of different commands for each action you might want to take. You can view the list
 of all possible commands by running:
 
 ```bash
-solana --help
+lumos --help
 ```
 
 To zoom in on how to use a particular command, run:
 
 ```bash
-solana <COMMAND> --help
+lumos <COMMAND> --help
 ```
 
 where you replace the text `<COMMAND>` with the name of the command you want
@@ -40,7 +40,7 @@ For example, the CLI help shows that the way to display any wallet's address
 (also known as the keypair's pubkey), is:
 
 ```bash
-solana-keygen pubkey <KEYPAIR>
+lumos-keygen pubkey <KEYPAIR>
 ```
 
 Below, we show how to resolve what you should put in `<KEYPAIR>` depending
@@ -57,7 +57,7 @@ enter your seed words when you run the command.
 To display the wallet address of a Paper Wallet:
 
 ```bash
-solana-keygen pubkey prompt://
+lumos-keygen pubkey prompt://
 ```
 
 ## File System Wallet
@@ -66,10 +66,10 @@ With a file system wallet, the keypair is stored in a file on your computer.
 Replace `<KEYPAIR>` with the complete file path to the keypair file.
 
 For example, if the file system keypair file location is
-`/home/solana/my_wallet.json`, to display the address, do:
+`/home/lumos/my_wallet.json`, to display the address, do:
 
 ```bash
-solana-keygen pubkey /home/solana/my_wallet.json
+lumos-keygen pubkey /home/lumos/my_wallet.json
 ```
 
 ## Hardware Wallet
@@ -79,5 +79,5 @@ If you chose a hardware wallet, use your
 such as `usb://ledger?key=0`.
 
 ```bash
-solana-keygen pubkey usb://ledger?key=0
+lumos-keygen pubkey usb://ledger?key=0
 ```

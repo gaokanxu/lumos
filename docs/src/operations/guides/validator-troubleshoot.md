@@ -6,16 +6,16 @@ pagination_label: "Validator Guides: Troubleshooting"
 ---
 
 There is a `#validator-support` Discord channel available to reach other
-testnet participants, [https://solana.com/discord](https://solana.com/discord)
+testnet participants, [https://lumos.com/discord](https://lumos.com/discord)
 
 ## Useful Links & Discussion
 
-- [Network Explorer](http://explorer.solana.com/)
-- [Testnet Metrics Dashboard](https://metrics.solana.com:3000/d/monitor-edge/cluster-telemetry-edge?refresh=60s&orgId=2)
-- Validator [Discord](https://solana.com/discord) channels
+- [Network Explorer](http://explorer.lumos.com/)
+- [Testnet Metrics Dashboard](https://metrics.lumos.com:3000/d/monitor-edge/cluster-telemetry-edge?refresh=60s&orgId=2)
+- Validator [Discord](https://lumos.com/discord) channels
   - `#validator-support` --  General support channel for any Validator related queries.
   - `#testnet-announcements` -- The single source of truth for critical information relating Testnet
-- [Core software repo](https://github.com/solana-labs/solana)
+- [Core software repo](https://github.com/lumos-labs/lumos)
 
 ## Blockstore
 

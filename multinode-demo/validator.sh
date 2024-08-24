@@ -64,7 +64,7 @@ while [[ -n $1 ]]; do
     elif [[ $1 = --no-airdrop ]]; then
       airdrops_enabled=0
       shift
-    # solana-validator options
+    # lumos-validator options
     elif [[ $1 = --expected-genesis-hash ]]; then
       args+=("$1" "$2")
       shift 2
@@ -197,7 +197,7 @@ while [[ -n $1 ]]; do
   fi
 done
 
-if [[ "$SOLANA_GPU_MISSING" -eq 1 ]]; then
+if [[ "$LUMOS_GPU_MISSING" -eq 1 ]]; then
   echo "Testnet requires GPUs, but none were found!  Aborting..."
   exit 1
 fi
@@ -210,7 +210,7 @@ if [[ -n $REQUIRE_LEDGER_DIR ]]; then
   if [[ -z $ledger_dir ]]; then
     usage "Error: --ledger not specified"
   fi
-  SOLANA_CONFIG_DIR="$ledger_dir"
+  LUMOS_CONFIG_DIR="$ledger_dir"
 fi
 
 if [[ -n $REQUIRE_KEYPAIRS ]]; then
@@ -226,7 +226,7 @@ if [[ -n $REQUIRE_KEYPAIRS ]]; then
 fi
 
 if [[ -z "$ledger_dir" ]]; then
-  ledger_dir="$SOLANA_CONFIG_DIR/validator$label"
+  ledger_dir="$LUMOS_CONFIG_DIR/validator$label"
 fi
 mkdir -p "$ledger_dir"
 
@@ -269,10 +269,10 @@ if [[ $maybeRequireTower = true ]]; then
   default_arg --require-tower
 fi
 
-if [[ -n $SOLANA_CUDA ]]; then
-  program=$solana_validator_cuda
+if [[ -n $LUMOS_CUDA ]]; then
+  program=$lumos_validator_cuda
 else
-  program=$solana_validator
+  program=$lumos_validator
 fi
 
 set -e
@@ -301,7 +301,7 @@ trap 'kill_node_and_exit' INT TERM ERR
 wallet() {
   (
     set -x
-    $solana_cli --keypair "$identity" --url "$rpc_url" "$@"
+    $lumos_cli --keypair "$identity" --url "$rpc_url" "$@"
   )
 }
 
@@ -317,8 +317,8 @@ setup_validator_accounts() {
       echo "Adding $node_sol to validator identity account:"
       (
         set -x
-        $solana_cli \
-          --keypair "$SOLANA_CONFIG_DIR/faucet.json" --url "$rpc_url" \
+        $lumos_cli \
+          --keypair "$LUMOS_CONFIG_DIR/faucet.json" --url "$rpc_url" \
           transfer --allow-unfunded-recipient "$identity" "$node_sol"
       ) || return $?
     fi
@@ -335,11 +335,11 @@ setup_validator_accounts() {
 }
 
 # shellcheck disable=SC2086
-rpc_url=$($solana_gossip --allow-private-addr rpc-url --timeout 180 --entrypoint "$gossip_entrypoint")
+rpc_url=$($lumos_gossip --allow-private-addr rpc-url --timeout 180 --entrypoint "$gossip_entrypoint")
 
-[[ -r "$identity" ]] || $solana_keygen new --no-passphrase -so "$identity"
-[[ -r "$vote_account" ]] || $solana_keygen new --no-passphrase -so "$vote_account"
-[[ -r "$authorized_withdrawer" ]] || $solana_keygen new --no-passphrase -so "$authorized_withdrawer"
+[[ -r "$identity" ]] || $lumos_keygen new --no-passphrase -so "$identity"
+[[ -r "$vote_account" ]] || $lumos_keygen new --no-passphrase -so "$vote_account"
+[[ -r "$authorized_withdrawer" ]] || $lumos_keygen new --no-passphrase -so "$authorized_withdrawer"
 
 setup_validator_accounts "$node_sol"
 

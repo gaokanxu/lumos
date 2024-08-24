@@ -8,15 +8,15 @@ here=$(dirname "$0")
 # shellcheck source=multinode-demo/common.sh
 source "$here"/common.sh
 
-if [[ "$SOLANA_GPU_MISSING" -eq 1 ]]; then
+if [[ "$LUMOS_GPU_MISSING" -eq 1 ]]; then
   echo "Testnet requires GPUs, but none were found!  Aborting..."
   exit 1
 fi
 
-if [[ -n $SOLANA_CUDA ]]; then
-  program=$solana_validator_cuda
+if [[ -n $LUMOS_CUDA ]]; then
+  program=$lumos_validator_cuda
 else
-  program=$solana_validator
+  program=$lumos_validator
 fi
 
 no_restart=0
@@ -125,10 +125,10 @@ while [[ -n $1 ]]; do
 done
 
 # These keypairs are created by ./setup.sh and included in the genesis config
-identity=$SOLANA_CONFIG_DIR/bootstrap-validator/identity.json
-vote_account="$SOLANA_CONFIG_DIR"/bootstrap-validator/vote-account.json
+identity=$LUMOS_CONFIG_DIR/bootstrap-validator/identity.json
+vote_account="$LUMOS_CONFIG_DIR"/bootstrap-validator/vote-account.json
 
-ledger_dir="$SOLANA_CONFIG_DIR"/bootstrap-validator
+ledger_dir="$LUMOS_CONFIG_DIR"/bootstrap-validator
 [[ -d "$ledger_dir" ]] || {
   echo "$ledger_dir does not exist"
   echo

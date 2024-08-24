@@ -12,7 +12,7 @@ USAGE:
 
 FLAGS:
         --help                Display this help message
-        --no-solana-prefix    Do not require \`solana-\` prefix on PACKAGE_NAME
+        --no-lumos-prefix    Do not require \`lumos-\` prefix on PACKAGE_NAME
         --publish             Upload the reserved package. Without this flag, a
                               dry-run is performed
 
@@ -26,7 +26,7 @@ ARGS:
 EOF
 }
 
-require_solana_prefix=true
+require_lumos_prefix=true
 maybe_publish='--dry-run'
 positional=()
 while [[ -n "$1" ]]; do
@@ -38,8 +38,8 @@ while [[ -n "$1" ]]; do
       display_help
       exit 0
       ;;
-    --no-solana-prefix)
-      require_solana_prefix=false
+    --no-lumos-prefix)
+      require_lumos_prefix=false
       ;;
     --publish)
       maybe_publish=''
@@ -89,9 +89,9 @@ if ! [[ "${package_name}" =~ ^[a-zA-Z0-9_-]{1,64} ]]; then
   exit 1
 fi
 
-if ${require_solana_prefix} && ! [[ "${package_name}" =~ ^solana- ]]; then
+if ${require_lumos_prefix} && ! [[ "${package_name}" =~ ^lumos- ]]; then
   # shellcheck disable=SC2016 # backticks are not a command here
-  echo 'error: PACKAGE_NAME MUST start with `solana-`' 1>&2
+  echo 'error: PACKAGE_NAME MUST start with `lumos-`' 1>&2
   display_help
   exit 1
 fi
@@ -103,10 +103,10 @@ if pushd "${tmpdir}" &>/dev/null; then
 name = "${package_name}"
 version = "0.0.0"
 description = "reserved for future use"
-authors = ["Solana Labs Maintainers <maintainers@solanalabs.com>"]
-repository = "https://github.com/solana-labs/solana"
+authors = ["Lumos Labs Maintainers <maintainers@gaokanxu.com>"]
+repository = "https://github.com/lumos-labs/lumos"
 license = "Apache-2.0"
-homepage = "https://solanalabs.com"
+homepage = "https://gaokanxu.com"
 documentation = "https://docs.rs/${package_name}"
 edition = "2021"
 EOF

@@ -1,12 +1,12 @@
 ---
-title: Gossip Service in a Solana Validator
+title: Gossip Service in a Lumos Validator
 sidebar_position: 5
 sidebar_label: Gossip Service
 pagination_label: Validator Gossip Service
 ---
 
 The Gossip Service acts as a gateway to nodes in the
-[control plane](https://solana.com/docs/terminology#control-plane). Validators
+[control plane](https://lumos.com/docs/terminology#control-plane). Validators
 use the service to ensure information is available to all other nodes in a
 cluster. The service broadcasts information using a
 [gossip protocol](https://en.wikipedia.org/wiki/Gossip_protocol).

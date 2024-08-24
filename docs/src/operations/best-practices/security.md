@@ -1,5 +1,5 @@
 ---
-title: Solana Validator Security Best Practices
+title: Lumos Validator Security Best Practices
 sidebar_label: Security
 pagination_label: "Best Practices: Validator Security"
 ---
@@ -23,11 +23,11 @@ There are a number of options for withdrawer key management.  Some operators cho
 
 To reiterate, the withdrawer keypair should never be stored on your validator at any time.
 
-## DO NOT Run The Solana Validator as a Root User
+## DO NOT Run The Lumos Validator as a Root User
 
 It may be easier to get started by running your application as root, but it is a bad practice.
 
-If there is an exploit in your system, a hacker could have full access if your Solana application is running as the `root` user. Instead, see the [setup instructions](../setup-a-validator.md#sol-user) for creating a user called `sol` and running the application as the `sol` user.
+If there is an exploit in your system, a hacker could have full access if your Lumos application is running as the `root` user. Instead, see the [setup instructions](../setup-a-validator.md#sol-user) for creating a user called `sol` and running the application as the `sol` user.
 
 ## Close Ports That Are Not In Use
 

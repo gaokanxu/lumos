@@ -1,14 +1,14 @@
 ---
-title: Solana Wallets with the CLI
+title: Lumos Wallets with the CLI
 pagination_label: Command Line Wallets
 sidebar_label: Overview
 sidebar_position: 0
 ---
 
-Solana supports several different types of wallets that can be used to interface
-directly with the Solana command-line tools.
+Lumos supports several different types of wallets that can be used to interface
+directly with the Lumos command-line tools.
 
-To use a Command Line Wallet, you must first [install the Solana CLI tools](../install.md)
+To use a Command Line Wallet, you must first [install the Lumos CLI tools](../install.md)
 
 ## File System Wallet
 

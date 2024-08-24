@@ -1,13 +1,13 @@
 ---
-title: Solana Sysvar Cluster Data
+title: Lumos Sysvar Cluster Data
 pagination_label: Runtime Sysvar Cluster Data
 sidebar_label: Sysvar Cluster Data
 ---
 
-Solana exposes a variety of cluster state data to programs via
-[`sysvar`](https://solana.com/docs/terminology#sysvar) accounts. These accounts
+Lumos exposes a variety of cluster state data to programs via
+[`sysvar`](https://lumos.com/docs/terminology#sysvar) accounts. These accounts
 are populated at known addresses published along with the account layouts in the
-[`solana-program` crate](https://docs.rs/solana-program/VERSION_FOR_DOCS_RS/solana_program/sysvar/index.html),
+[`lumos-program` crate](https://docs.rs/lumos-program/VERSION_FOR_DOCS_RS/lumos_program/sysvar/index.html),
 and outlined below.
 
 There are two ways for a program to access a sysvar.
@@ -46,7 +46,7 @@ epoch, and estimated wall-clock Unix timestamp. It is updated every slot.
 
 - Address: `SysvarC1ock11111111111111111111111111111111`
 - Layout:
-  [Clock](https://docs.rs/solana-program/VERSION_FOR_DOCS_RS/solana_program/clock/struct.Clock.html)
+  [Clock](https://docs.rs/lumos-program/VERSION_FOR_DOCS_RS/lumos_program/clock/struct.Clock.html)
 - Fields:
 
   - `slot`: the current slot
@@ -79,11 +79,11 @@ epoch, and estimated wall-clock Unix timestamp. It is updated every slot.
 The EpochSchedule sysvar contains epoch scheduling constants that are set in
 genesis, and enables calculating the number of slots in a given epoch, the epoch
 for a given slot, etc. (Note: the epoch schedule is distinct from the
-[`leader schedule`](https://solana.com/docs/terminology#leader-schedule))
+[`leader schedule`](https://lumos.com/docs/terminology#leader-schedule))
 
 - Address: `SysvarEpochSchedu1e111111111111111111111111`
 - Layout:
-  [EpochSchedule](https://docs.rs/solana-program/VERSION_FOR_DOCS_RS/solana_program/epoch_schedule/struct.EpochSchedule.html)
+  [EpochSchedule](https://docs.rs/lumos-program/VERSION_FOR_DOCS_RS/lumos_program/epoch_schedule/struct.EpochSchedule.html)
 
 ## Fees
 
@@ -92,7 +92,7 @@ every slot, based on the fee-rate governor.
 
 - Address: `SysvarFees111111111111111111111111111111111`
 - Layout:
-  [Fees](https://docs.rs/solana-program/VERSION_FOR_DOCS_RS/solana_program/sysvar/fees/struct.Fees.html)
+  [Fees](https://docs.rs/lumos-program/VERSION_FOR_DOCS_RS/lumos_program/sysvar/fees/struct.Fees.html)
 
 ## Instructions
 
@@ -103,7 +103,7 @@ other instructions in the same transaction. Read more information on
 
 - Address: `Sysvar1nstructions1111111111111111111111111`
 - Layout:
-  [Instructions](https://docs.rs/solana-program/VERSION_FOR_DOCS_RS/solana_program/sysvar/instructions/struct.Instructions.html)
+  [Instructions](https://docs.rs/lumos-program/VERSION_FOR_DOCS_RS/lumos_program/sysvar/instructions/struct.Instructions.html)
 
 ## RecentBlockhashes
 
@@ -114,7 +114,7 @@ and the last entry holds an old block hash.
 
 - Address: `SysvarRecentB1ockHashes11111111111111111111`
 - Layout:
-  [RecentBlockhashes](https://docs.rs/solana-program/VERSION_FOR_DOCS_RS/solana_program/sysvar/recent_blockhashes/struct.RecentBlockhashes.html)
+  [RecentBlockhashes](https://docs.rs/lumos-program/VERSION_FOR_DOCS_RS/lumos_program/sysvar/recent_blockhashes/struct.RecentBlockhashes.html)
 
 ## Rent
 
@@ -123,7 +123,7 @@ in genesis. The Rent burn percentage is modified by manual feature activation.
 
 - Address: `SysvarRent111111111111111111111111111111111`
 - Layout:
-  [Rent](https://docs.rs/solana-program/VERSION_FOR_DOCS_RS/solana_program/rent/struct.Rent.html)
+  [Rent](https://docs.rs/lumos-program/VERSION_FOR_DOCS_RS/lumos_program/rent/struct.Rent.html)
 
 ## SlotHashes
 
@@ -132,7 +132,7 @@ banks. It is updated every slot.
 
 - Address: `SysvarS1otHashes111111111111111111111111111`
 - Layout:
-  [SlotHashes](https://docs.rs/solana-program/VERSION_FOR_DOCS_RS/solana_program/slot_hashes/struct.SlotHashes.html)
+  [SlotHashes](https://docs.rs/lumos-program/VERSION_FOR_DOCS_RS/lumos_program/slot_hashes/struct.SlotHashes.html)
 
 ## SlotHistory
 
@@ -141,7 +141,7 @@ epoch. It is updated every slot.
 
 - Address: `SysvarS1otHistory11111111111111111111111111`
 - Layout:
-  [SlotHistory](https://docs.rs/solana-program/VERSION_FOR_DOCS_RS/solana_program/slot_history/struct.SlotHistory.html)
+  [SlotHistory](https://docs.rs/lumos-program/VERSION_FOR_DOCS_RS/lumos_program/slot_history/struct.SlotHistory.html)
 
 ## StakeHistory
 
@@ -150,7 +150,7 @@ and de-activations per epoch. It is updated at the start of every epoch.
 
 - Address: `SysvarStakeHistory1111111111111111111111111`
 - Layout:
-  [StakeHistory](https://docs.rs/solana-program/VERSION_FOR_DOCS_RS/solana_program/stake_history/struct.StakeHistory.html)
+  [StakeHistory](https://docs.rs/lumos-program/VERSION_FOR_DOCS_RS/lumos_program/stake_history/struct.StakeHistory.html)
 
 ## EpochRewards
 
@@ -165,7 +165,7 @@ determining whether epoch rewards distribution has finished.
 
 - Address: `SysvarEpochRewards1111111111111111111111111`
 - Layout:
-  [EpochRewards](https://docs.rs/solana-program/VERSION_FOR_DOCS_RS/solana_program/epoch_rewards/struct.EpochRewards.html)
+  [EpochRewards](https://docs.rs/lumos-program/VERSION_FOR_DOCS_RS/lumos_program/epoch_rewards/struct.EpochRewards.html)
 
 ## LastRestartSlot
 
@@ -174,4 +174,4 @@ The LastRestartSlot sysvar contains the slot number of the last restart or _0_
 
 - Address: `SysvarLastRestartS1ot1111111111111111111111`
 - Layout:
-  [LastRestartSlot](https://docs.rs/solana-program/VERSION_FOR_DOCS_RS/solana_program/last_restart_slot/struct.LastRestartSlot.html)
+  [LastRestartSlot](https://docs.rs/lumos-program/VERSION_FOR_DOCS_RS/lumos_program/last_restart_slot/struct.LastRestartSlot.html)

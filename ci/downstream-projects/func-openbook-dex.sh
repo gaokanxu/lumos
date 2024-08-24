@@ -5,16 +5,16 @@ openbook_dex() {
     set -x
     rm -rf openbook-dex
     git clone https://github.com/openbook-dex/program.git openbook-dex
-    # copy toolchain file to use solana's rust version
-    cp "$SOLANA_DIR"/rust-toolchain.toml openbook-dex/
+    # copy toolchain file to use lumos's rust version
+    cp "$LUMOS_DIR"/rust-toolchain.toml openbook-dex/
     cd openbook-dex || exit 1
 
-    update_solana_dependencies . "$SOLANA_VER"
-    patch_crates_io_solana Cargo.toml "$SOLANA_DIR"
+    update_lumos_dependencies . "$LUMOS_VER"
+    patch_crates_io_lumos Cargo.toml "$LUMOS_DIR"
     cat >> Cargo.toml <<EOF
 anchor-lang = { git = "https://github.com/coral-xyz/anchor.git", branch = "master" }
 EOF
-    patch_crates_io_solana dex/Cargo.toml "$SOLANA_DIR"
+    patch_crates_io_lumos dex/Cargo.toml "$LUMOS_DIR"
     cat >> dex/Cargo.toml <<EOF
 anchor-lang = { git = "https://github.com/coral-xyz/anchor.git", branch = "master" }
 [workspace]

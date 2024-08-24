@@ -10,7 +10,7 @@ source ../ci/env.sh
 source ../ci/rust-version.sh
 ../ci/docker-run-default-image.sh docs/build-cli-usage.sh
 ../ci/docker-run-default-image.sh docs/convert-ascii-to-svg.sh
-./set-solana-release-tag.sh
+./set-lumos-release-tag.sh
 
 # Get current channel
 eval "$(../ci/channel-info.sh)"

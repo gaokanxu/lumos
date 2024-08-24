@@ -1,19 +1,19 @@
 ---
-title: Deploy a Solana Program with the CLI
-pagination_label: "Solana CLI: Deploy a Program"
+title: Deploy a Lumos Program with the CLI
+pagination_label: "Lumos CLI: Deploy a Program"
 sidebar_label: Deploy a Program
 ---
 
 Developers can deploy on-chain
-[programs](https://solana.com/docs/terminology#program) (often called smart
-contracts elsewhere) with the Solana tools.
+[programs](https://lumos.com/docs/terminology#program) (often called smart
+contracts elsewhere) with the Lumos tools.
 
-To learn about developing and executing programs on Solana, start with the
-[intro to Solana programs](https://solana.com/docs/core/programs) and then dig
+To learn about developing and executing programs on Lumos, start with the
+[intro to Lumos programs](https://lumos.com/docs/core/programs) and then dig
 into the details of
-[developing on-chain programs](https://solana.com/docs/programs).
+[developing on-chain programs](https://lumos.com/docs/programs).
 
-To deploy a program, use the Solana tools to interact with the on-chain loader
+To deploy a program, use the Lumos tools to interact with the on-chain loader
 to:
 
 - Initialize a program account
@@ -31,7 +31,7 @@ To deploy a program, you will need the location of the program's shared object
 (the program binary `.so`):
 
 ```bash
-solana program deploy <PROGRAM_FILEPATH>
+lumos program deploy <PROGRAM_FILEPATH>
 ```
 
 Successful deployment will return the program id of the deployed program, for
@@ -44,7 +44,7 @@ Program Id: 3KS2k14CmtnuVv2fvYcvdrNgC94Y11WETBpMUGgXyWZL
 Specify the keypair in the deploy command to deploy to a specific program id:
 
 ```bash
-solana program deploy --program-id <KEYPAIR_FILEPATH> <PROGRAM_FILEPATH>
+lumos program deploy --program-id <KEYPAIR_FILEPATH> <PROGRAM_FILEPATH>
 ```
 
 If the program id is not specified on the command line the tools will first look
@@ -65,7 +65,7 @@ generated automatically by the program build tools:
 To get information about a deployed program:
 
 ```bash
-solana program show <ACCOUNT_ADDRESS>
+lumos program show <ACCOUNT_ADDRESS>
 ```
 
 An example output looks like:
@@ -89,7 +89,7 @@ Data Length: 5216 (0x1460) bytes
 - `Data Length` is the size of the space reserved for deployments. The actual
   space used by the currently deployed program may be less.
 
-## Redeploy a Solana program
+## Redeploy a Lumos program
 
 A program can be redeployed to the same address to facilitate rapid development,
 bug fixes, or upgrades. If a program id is not provided, the program will be
@@ -99,7 +99,7 @@ keypair is generated during the first program compilation.
 The command looks the same as the deployment command:
 
 ```bash
-solana program deploy <PROGRAM_FILEPATH>
+lumos program deploy <PROGRAM_FILEPATH>
 ```
 
 By default, programs are deployed to accounts that match the size of the
@@ -108,7 +108,7 @@ redeployment will fail. To avoid this, specify a `max_len` that is at least the
 size (in bytes) that the program is expected to become (plus some wiggle room).
 
 ```bash
-solana program deploy --max-len 200000 <PROGRAM_FILEPATH>
+lumos program deploy --max-len 200000 <PROGRAM_FILEPATH>
 ```
 
 ## Extend a program
@@ -118,7 +118,7 @@ If a program has already been deployed, and a redeployment goes beyond the
 redeployment:
 
 ```bash
-solana program extend <PROGRAM_ID> <ADDITIONAL_BYTES>
+lumos program extend <PROGRAM_ID> <ADDITIONAL_BYTES>
 ```
 
 ## Resuming a failed deploy
@@ -134,21 +134,21 @@ needed to recover the generated intermediate buffer's keypair:
 ```
 ==================================================================================
 Recover the intermediate account's ephemeral keypair file with
-`solana-keygen recover` and the following 12-word seed phrase:
+`lumos-keygen recover` and the following 12-word seed phrase:
 ==================================================================================
 valley flat great hockey share token excess clever benefit traffic avocado athlete
 ==================================================================================
 To resume a deploy, pass the recovered keypair as
-the [BUFFER_SIGNER] to `solana program deploy` or `solana program write-buffer'.
+the [BUFFER_SIGNER] to `lumos program deploy` or `lumos program write-buffer'.
 Or to recover the account's lamports, pass it as the
-[BUFFER_ACCOUNT_ADDRESS] argument to `solana program drain`.
+[BUFFER_ACCOUNT_ADDRESS] argument to `lumos program drain`.
 ==================================================================================
 ```
 
 To recover the keypair:
 
 ```bash
-solana-keygen recover -o <KEYPAIR_PATH>
+lumos-keygen recover -o <KEYPAIR_PATH>
 ```
 
 When asked, enter the 12-word seed phrase.
@@ -156,7 +156,7 @@ When asked, enter the 12-word seed phrase.
 Then issue a new `deploy` command and specify the buffer:
 
 ```bash
-solana program deploy --buffer <KEYPAIR_PATH> <PROGRAM_FILEPATH>
+lumos program deploy --buffer <KEYPAIR_PATH> <PROGRAM_FILEPATH>
 ```
 
 ## Closing program and buffer accounts, and reclaiming their lamports
@@ -173,45 +173,45 @@ to list all the open program or buffer accounts that match the default
 authority:
 
 ```bash
-solana program show --programs
-solana program show --buffers
+lumos program show --programs
+lumos program show --buffers
 ```
 
 To specify a different authority:
 
 ```bash
-solana program show --programs --buffer-authority <AUTHORITY_ADDRESS>
-solana program show --buffers --buffer-authority <AUTHORITY_ADDRESS>
+lumos program show --programs --buffer-authority <AUTHORITY_ADDRESS>
+lumos program show --buffers --buffer-authority <AUTHORITY_ADDRESS>
 ```
 
 To close a single account:
 
 ```bash
-solana program close <BADDRESS>
+lumos program close <BADDRESS>
 ```
 
 To close a single account and specify a different authority than the default:
 
 ```bash
-solana program close <ADDRESS> --buffer-authority <KEYPAIR_FILEPATH>
+lumos program close <ADDRESS> --buffer-authority <KEYPAIR_FILEPATH>
 ```
 
 To close a single account and specify a different recipient than the default:
 
 ```bash
-solana program close <ADDRESS> --recipient <RECIPIENT_ADDRESS>
+lumos program close <ADDRESS> --recipient <RECIPIENT_ADDRESS>
 ```
 
 To close all the buffer accounts associated with the current authority:
 
 ```bash
-solana program close --buffers
+lumos program close --buffers
 ```
 
 To show all buffer accounts regardless of the authority
 
 ```bash
-solana program show --buffers --all
+lumos program show --buffers --all
 ```
 
 ## Set a program's upgrade authority
@@ -224,19 +224,19 @@ require an authority to be explicitly specified.
 The authority can be specified during deployment:
 
 ```bash
-solana program deploy --upgrade-authority <UPGRADE_AUTHORITY_SIGNER> <PROGRAM_FILEPATH>
+lumos program deploy --upgrade-authority <UPGRADE_AUTHORITY_SIGNER> <PROGRAM_FILEPATH>
 ```
 
 Or after deployment and using the default keypair as the current authority:
 
 ```bash
-solana program set-upgrade-authority <PROGRAM_ADDRESS> --new-upgrade-authority <NEW_UPGRADE_AUTHORITY>
+lumos program set-upgrade-authority <PROGRAM_ADDRESS> --new-upgrade-authority <NEW_UPGRADE_AUTHORITY>
 ```
 
 Or after deployment and specifying the current authority:
 
 ```bash
-solana program set-upgrade-authority <PROGRAM_ADDRESS> --upgrade-authority <UPGRADE_AUTHORITY_SIGNER> --new-upgrade-authority <NEW_UPGRADE_AUTHORITY>
+lumos program set-upgrade-authority <PROGRAM_ADDRESS> --upgrade-authority <UPGRADE_AUTHORITY_SIGNER> --new-upgrade-authority <NEW_UPGRADE_AUTHORITY>
 ```
 
 By default, `set-upgrade-authority` requires a signature from the new authority.
@@ -251,13 +251,13 @@ A program can be marked immutable, which prevents all further redeployments, by
 specifying the `--final` flag during deployment:
 
 ```bash
-solana program deploy <PROGRAM_FILEPATH> --final
+lumos program deploy <PROGRAM_FILEPATH> --final
 ```
 
 Or anytime after:
 
 ```bash
-solana program set-upgrade-authority <PROGRAM_ADDRESS> --final
+lumos program set-upgrade-authority <PROGRAM_ADDRESS> --final
 ```
 
 ## Dumping a program to a file
@@ -265,7 +265,7 @@ solana program set-upgrade-authority <PROGRAM_ADDRESS> --final
 The deployed program may be dumped back to a local file:
 
 ```bash
-solana program dump <ACCOUNT_ADDRESS> <OUTPUT_FILEPATH>
+lumos program dump <ACCOUNT_ADDRESS> <OUTPUT_FILEPATH>
 ```
 
 The dumped file will be in the same as what was deployed, so in the case of a
@@ -277,7 +277,7 @@ program to ensure it matches a known program binary. The dumped file can be
 zero-truncated, hashed, and compared to the hash of the original program file.
 
 ```bash
-$ solana dump <ACCOUNT_ADDRESS> dump.so
+$ lumos dump <ACCOUNT_ADDRESS> dump.so
 $ cp original.so extended.so
 $ truncate -r dump.so extended.so
 $ sha256sum extended.so dump.so
@@ -292,24 +292,24 @@ verify the intermediary buffer contents and then vote to allow an upgrade using
 it.
 
 ```bash
-solana program write-buffer <PROGRAM_FILEPATH>
+lumos program write-buffer <PROGRAM_FILEPATH>
 ```
 
 Buffer accounts are managed by an authority. To create a buffer and specify a different
 authority than the default:
 
 ```bash
-solana program write-buffer <PROGRAM_FILEPATH> --buffer-authority <BUFFER_AUTHORITY_SIGNER>
+lumos program write-buffer <PROGRAM_FILEPATH> --buffer-authority <BUFFER_AUTHORITY_SIGNER>
 ```
 
 Only the buffer authority may write to the buffer, so the `--buffer-authority` above must be a
 **signer**, and not an address.  This requirement limits usage with offline signers.
 To use an offline address as a buffer authority, the buffer account must be initialized and
 written with an online keypair, and then the buffer authority must be assigned using
-`solana program set-buffer-authority`:
+`lumos program set-buffer-authority`:
 
 ```bash
-solana program set-buffer-authority <BUFFER_ADDRESS> --new-buffer-authority <NEW_BUFFER_AUTHORITY>
+lumos program set-buffer-authority <BUFFER_ADDRESS> --new-buffer-authority <NEW_BUFFER_AUTHORITY>
 ```
 
 Unlike program accounts buffer accounts cannot be marked immutable, so they don't support the `--final` option.
@@ -318,7 +318,7 @@ The buffer account, once entirely written, can be passed to `deploy` to deploy
 the program:
 
 ```bash
-solana program deploy --program-id <PROGRAM_ADDRESS> --buffer <BUFFER_ADDRESS>
+lumos program deploy --program-id <PROGRAM_ADDRESS> --buffer <BUFFER_ADDRESS>
 ```
 
 Note, the buffer's authority must match the program's upgrade authority. During
@@ -351,10 +351,10 @@ The general process is as follows:
 
 ```bash
 # (1) (use online machine) create buffer
-solana program write-buffer <PROGRAM_FILEPATH>
+lumos program write-buffer <PROGRAM_FILEPATH>
 
 # (2) (use online machine) set buffer authority to offline signer
-solana program set-buffer-authority <BUFFER_PUBKEY> --new-buffer-authority <OFFLINE_SIGNER_PUBKEY>
+lumos program set-buffer-authority <BUFFER_PUBKEY> --new-buffer-authority <OFFLINE_SIGNER_PUBKEY>
 ```
 
 (3) (optional) You may verify that the uploaded program matches the built binary. See
@@ -362,10 +362,10 @@ solana program set-buffer-authority <BUFFER_PUBKEY> --new-buffer-authority <OFFL
 
 ```bash
 # (4) (use offline machine) get a signature for your intent to upgrade program
-solana program upgrade <BUFFER_PUBKEY> <PROGRAM_ID> --sign-only --fee-payer <ONLINE_SIGNER_PUBKEY> --upgrade-authority <OFFLINE_SIGNER> --blockhash <VALUE>
+lumos program upgrade <BUFFER_PUBKEY> <PROGRAM_ID> --sign-only --fee-payer <ONLINE_SIGNER_PUBKEY> --upgrade-authority <OFFLINE_SIGNER> --blockhash <VALUE>
 
 # (5) (use online machine) use this signature to build and broadcast the upgrade transaction on-chain
-solana program upgrade <BUFFER_PUBKEY> <PROGRAM_ID> --fee-payer <ONLINE_SIGNER> --upgrade-authority <OFFLINE_SIGNER_PUBKEY> --blockhash <VALUE> --signer <OFFLINE_SIGNER_PUBKEY>:<OFFLINE_SIGNER_SIGNATURE>
+lumos program upgrade <BUFFER_PUBKEY> <PROGRAM_ID> --fee-payer <ONLINE_SIGNER> --upgrade-authority <OFFLINE_SIGNER_PUBKEY> --blockhash <VALUE> --signer <OFFLINE_SIGNER_PUBKEY>:<OFFLINE_SIGNER_SIGNATURE>
 ```
 Note:
 - typically, the output of the previous command(s) will contain some values useful in subsequent commands, e.g.

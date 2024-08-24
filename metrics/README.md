@@ -6,25 +6,25 @@
 
 In order to explore validator specific metrics from mainnet-beta, testnet or devnet you can use Chronograf:
 
-* https://metrics.solana.com:8888/ (production environment)
-* https://metrics.solana.com:8889/ (testing environment)
+* https://metrics.lumos.com:8888/ (production environment)
+* https://metrics.lumos.com:8889/ (testing environment)
 
 For local cluster deployments you should use:
 
-* https://internal-metrics.solana.com:8888/
-* https://internal-metrics.solana.com:8889/
+* https://internal-metrics.lumos.com:8888/
+* https://internal-metrics.lumos.com:8889/
 
 ## Public Grafana Dashboards
 
 There are three main public dashboards for cluster related metrics:
 
-* https://metrics.solana.com/d/monitor-edge/cluster-telemetry
-* https://metrics.solana.com/d/0n54roOVz/fee-market
-* https://metrics.solana.com/d/UpIWbId4k/ping-result
+* https://metrics.lumos.com/d/monitor-edge/cluster-telemetry
+* https://metrics.lumos.com/d/0n54roOVz/fee-market
+* https://metrics.lumos.com/d/UpIWbId4k/ping-result
 
 For local cluster deployments you should use:
 
-* https://internal-metrics.solana.com:3000/
+* https://internal-metrics.lumos.com:3000/
 
 ### Cluster Telemetry
 

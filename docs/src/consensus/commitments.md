@@ -1,10 +1,10 @@
 ---
-title: Solana Commitment Status
+title: Lumos Commitment Status
 sidebar_label: Commitment Status
 pagination_label: Consensus Commitment Status
 description:
   "Processed, confirmed, and finalized. Learn the differences between the
-  different commitment statuses on the Solana blockchain."
+  different commitment statuses on the Lumos blockchain."
 keywords:
   - processed
   - confirmed
@@ -14,7 +14,7 @@ keywords:
   - blockhash
 ---
 
-The [commitment](https://solana.com/docs/terminology#commitment) metric gives
+The [commitment](https://lumos.com/docs/terminology#commitment) metric gives
 clients a standard measure of the network confirmation for the block. Clients
 can then use this information to derive their own measures of commitment.
 

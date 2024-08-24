@@ -17,8 +17,8 @@ if [[ $OSTYPE == darwin* ]]; then
   fi
 fi
 
-SOLANA_ROOT="$("${readlink_cmd}" -f "${here}/..")"
-cargo="${SOLANA_ROOT}/cargo"
+LUMOS_ROOT="$("${readlink_cmd}" -f "${here}/..")"
+cargo="${LUMOS_ROOT}/cargo"
 
 set -e
 
@@ -90,28 +90,28 @@ if [[ $CI_OS_NAME = windows ]]; then
     cargo-build-sbf
     cargo-test-bpf
     cargo-test-sbf
-    solana
-    solana-install
-    solana-install-init
-    solana-keygen
-    solana-stake-accounts
-    solana-test-validator
-    solana-tokens
+    lumos
+    lumos-install
+    lumos-install-init
+    lumos-keygen
+    lumos-stake-accounts
+    lumos-test-validator
+    lumos-tokens
   )
 else
   ./fetch-perf-libs.sh
 
   BINS=(
-    solana
-    solana-bench-tps
-    solana-faucet
-    solana-gossip
-    solana-install
-    solana-keygen
-    solana-ledger-tool
-    solana-log-analyzer
-    solana-net-shaper
-    solana-validator
+    lumos
+    lumos-bench-tps
+    lumos-faucet
+    lumos-gossip
+    lumos-install
+    lumos-keygen
+    lumos-ledger-tool
+    lumos-log-analyzer
+    lumos-net-shaper
+    lumos-validator
     rbpf-cli
   )
 
@@ -122,18 +122,18 @@ else
       cargo-build-sbf
       cargo-test-bpf
       cargo-test-sbf
-      solana-dos
-      solana-install-init
-      solana-stake-accounts
-      solana-test-validator
-      solana-tokens
-      solana-watchtower
+      lumos-dos
+      lumos-install-init
+      lumos-stake-accounts
+      lumos-test-validator
+      lumos-tokens
+      lumos-watchtower
     )
   fi
 
-  #XXX: Ensure `solana-genesis` is built LAST!
-  # See https://github.com/solana-labs/solana/issues/5826
-  BINS+=(solana-genesis)
+  #XXX: Ensure `lumos-genesis` is built LAST!
+  # See https://github.com/lumos-labs/lumos/issues/5826
+  BINS+=(lumos-genesis)
 fi
 
 binArgs=()
@@ -151,12 +151,12 @@ mkdir -p "$installDir/bin"
   # Exclude `spl-token` binary for net.sh builds
   if [[ -z "$validatorOnly" ]]; then
     # shellcheck source=scripts/spl-token-cli-version.sh
-    source "$SOLANA_ROOT"/scripts/spl-token-cli-version.sh
+    source "$LUMOS_ROOT"/scripts/spl-token-cli-version.sh
 
     # the patch-related configs are needed for rust 1.69+ on Windows; see Cargo.toml
     # shellcheck disable=SC2086 # Don't want to double quote $rust_version
     "$cargo" $maybeRustVersion \
-      --config 'patch.crates-io.ntapi.git="https://github.com/solana-labs/ntapi"' \
+      --config 'patch.crates-io.ntapi.git="https://github.com/lumos-labs/ntapi"' \
       --config 'patch.crates-io.ntapi.rev="97ede981a1777883ff86d142b75024b023f04fad"' \
       install --locked spl-token-cli --root "$installDir" $maybeSplTokenCliVersionArg
   fi
@@ -217,7 +217,7 @@ fi
   set -x
   # deps dir can be empty
   shopt -s nullglob
-  for dep in target/"$buildProfile"/deps/libsolana*program.*; do
+  for dep in target/"$buildProfile"/deps/liblumos*program.*; do
     cp -fv "$dep" "$installDir/bin/deps"
   done
 )

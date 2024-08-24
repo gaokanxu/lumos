@@ -1,5 +1,5 @@
 ---
-title: Solana Validator Requirements
+title: Lumos Validator Requirements
 sidebar_position: 3
 sidebar_label: Requirements
 pagination_label: Requirements to Operate a Validator
@@ -7,7 +7,7 @@ pagination_label: Requirements to Operate a Validator
 
 ## Minimum SOL requirements
 
-There is no strict minimum amount of SOL required to run a validator on Solana.
+There is no strict minimum amount of SOL required to run a validator on Lumos.
 
 However in order to participate in consensus, a vote account is required which
 has a rent-exempt reserve of 0.02685864 SOL. Voting also requires sending a vote
@@ -67,7 +67,7 @@ be cost-efficient over the long term.
 
 However, it may be convenient to run non-voting api nodes on VM instances for
 your own internal usage. This use case includes exchanges and services built on
-Solana.
+Lumos.
 
 In fact, the mainnet-beta validators operated by the team are currently
 (Mar. 2021) run on GCE `n2-standard-32` (32 vCPUs, 128 GB memory) instances with
@@ -86,12 +86,12 @@ Docker's containerization overhead and resultant performance degradation unless
 specially configured.
 
 We use Docker only for development purposes. Docker Hub contains images for all
-releases at [solanalabs/solana](https://hub.docker.com/r/solanalabs/solana).
+releases at [gaokanxu/lumos](https://hub.docker.com/r/gaokanxu/lumos).
 
 ## Software
 
 - We build and run on Ubuntu 20.04.
-- See [Installing Solana CLI](../cli/install.md) for the current Solana software release.
+- See [Installing Lumos CLI](../cli/install.md) for the current Lumos software release.
 
 Prebuilt binaries are available for Linux x86_64 on CPUs supporting AVX2 \(Ubuntu 20.04 recommended\).
 MacOS or WSL users may build from source.

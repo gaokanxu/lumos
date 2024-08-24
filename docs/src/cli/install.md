@@ -1,63 +1,63 @@
 ---
-title: Install the Solana CLI
-pagination_label: Install the Solana CLI
+title: Install the Lumos CLI
+pagination_label: Install the Lumos CLI
 sidebar_label: Installation
 sidebar_position: 1
 ---
 
-There are multiple ways to install the Solana tools on your computer depending
+There are multiple ways to install the Lumos tools on your computer depending
 on your preferred workflow:
 
-- [Use Solana's Install Tool (Simplest option)](#use-solanas-install-tool)
+- [Use Lumos's Install Tool (Simplest option)](#use-lumoss-install-tool)
 - [Download Prebuilt Binaries](#download-prebuilt-binaries)
 - [Build from Source](#build-from-source)
 - [Use Homebrew](#use-homebrew)
 
-## Use Solana's Install Tool
+## Use Lumos's Install Tool
 
 ### MacOS & Linux
 
 - Open your favorite Terminal application
 
-- Install the Solana release
-  [LATEST_SOLANA_RELEASE_VERSION](https://github.com/solana-labs/solana/releases/tag/LATEST_SOLANA_RELEASE_VERSION)
+- Install the Lumos release
+  [LATEST_LUMOS_RELEASE_VERSION](https://github.com/lumos-labs/lumos/releases/tag/LATEST_LUMOS_RELEASE_VERSION)
   on your machine by running:
 
 ```bash
-sh -c "$(curl -sSfL https://release.solana.com/LATEST_SOLANA_RELEASE_VERSION/install)"
+sh -c "$(curl -sSfL https://release.lumos.com/LATEST_LUMOS_RELEASE_VERSION/install)"
 ```
 
-- You can replace `LATEST_SOLANA_RELEASE_VERSION` with the release tag matching
+- You can replace `LATEST_LUMOS_RELEASE_VERSION` with the release tag matching
   the software version of your desired release, or use one of the three symbolic
   channel names: `stable`, `beta`, or `edge`.
 
 - The following output indicates a successful update:
 
 ```text
-downloading LATEST_SOLANA_RELEASE_VERSION installer
-Configuration: /home/solana/.config/solana/install/config.yml
-Active release directory: /home/solana/.local/share/solana/install/active_release
-* Release version: LATEST_SOLANA_RELEASE_VERSION
-* Release URL: https://github.com/solana-labs/solana/releases/download/LATEST_SOLANA_RELEASE_VERSION/solana-release-x86_64-unknown-linux-gnu.tar.bz2
+downloading LATEST_LUMOS_RELEASE_VERSION installer
+Configuration: /home/lumos/.config/lumos/install/config.yml
+Active release directory: /home/lumos/.local/share/lumos/install/active_release
+* Release version: LATEST_LUMOS_RELEASE_VERSION
+* Release URL: https://github.com/lumos-labs/lumos/releases/download/LATEST_LUMOS_RELEASE_VERSION/lumos-release-x86_64-unknown-linux-gnu.tar.bz2
 Update successful
 ```
 
 - Depending on your system, the end of the installer messaging may prompt you to
 
 ```bash
-Please update your PATH environment variable to include the solana programs:
+Please update your PATH environment variable to include the lumos programs:
 ```
 
 - If you get the above message, copy and paste the recommended command below it
   to update `PATH`
-- Confirm you have the desired version of `solana` installed by running:
+- Confirm you have the desired version of `lumos` installed by running:
 
 ```bash
-solana --version
+lumos --version
 ```
 
-- After a successful install, `solana-install update` may be used to easily
-  update the Solana software to a newer version at any time.
+- After a successful install, `lumos-install update` may be used to easily
+  update the Lumos software to a newer version at any time.
 
 ---
 
@@ -70,19 +70,19 @@ solana --version
     prompted by a pop-up window asking “Do you want to allow this app to make
     changes to your device?”, click Yes.
 
-- Copy and paste the following command, then press Enter to download the Solana
+- Copy and paste the following command, then press Enter to download the Lumos
   installer into a temporary directory:
 
 ```bash
-cmd /c "curl https://release.solana.com/LATEST_SOLANA_RELEASE_VERSION/solana-install-init-x86_64-pc-windows-msvc.exe --output C:\solana-install-tmp\solana-install-init.exe --create-dirs"
+cmd /c "curl https://release.lumos.com/LATEST_LUMOS_RELEASE_VERSION/lumos-install-init-x86_64-pc-windows-msvc.exe --output C:\lumos-install-tmp\lumos-install-init.exe --create-dirs"
 ```
 
 - Copy and paste the following command, then press Enter to install the latest
-  version of Solana. If you see a security pop-up by your system, please select
+  version of Lumos. If you see a security pop-up by your system, please select
   to allow the program to run.
 
 ```bash
-C:\solana-install-tmp\solana-install-init.exe LATEST_SOLANA_RELEASE_VERSION
+C:\lumos-install-tmp\lumos-install-init.exe LATEST_LUMOS_RELEASE_VERSION
 ```
 
 - When the installer is finished, press Enter.
@@ -91,58 +91,58 @@ C:\solana-install-tmp\solana-install-init.exe LATEST_SOLANA_RELEASE_VERSION
   normal user
   - Search for "Command Prompt" in the search bar, then left click on the
     Command Prompt app icon, no need to run as Administrator)
-- Confirm you have the desired version of `solana` installed by entering:
+- Confirm you have the desired version of `lumos` installed by entering:
 
 ```bash
-solana --version
+lumos --version
 ```
 
-- After a successful install, `solana-install update` may be used to easily
-  update the Solana software to a newer version at any time.
+- After a successful install, `lumos-install update` may be used to easily
+  update the Lumos software to a newer version at any time.
 
 ## Download Prebuilt Binaries
 
-If you would rather not use `solana-install` to manage the install, you can
+If you would rather not use `lumos-install` to manage the install, you can
 manually download and install the binaries.
 
 ### Linux
 
 Download the binaries by navigating to
-[https://github.com/solana-labs/solana/releases/latest](https://github.com/solana-labs/solana/releases/latest),
-download **solana-release-x86_64-unknown-linux-gnu.tar.bz2**, then extract the
+[https://github.com/lumos-labs/lumos/releases/latest](https://github.com/lumos-labs/lumos/releases/latest),
+download **lumos-release-x86_64-unknown-linux-gnu.tar.bz2**, then extract the
 archive:
 
 ```bash
-tar jxf solana-release-x86_64-unknown-linux-gnu.tar.bz2
-cd solana-release/
+tar jxf lumos-release-x86_64-unknown-linux-gnu.tar.bz2
+cd lumos-release/
 export PATH=$PWD/bin:$PATH
 ```
 
 ### MacOS
 
 Download the binaries by navigating to
-[https://github.com/solana-labs/solana/releases/latest](https://github.com/solana-labs/solana/releases/latest),
-download **solana-release-x86_64-apple-darwin.tar.bz2**, then extract the
+[https://github.com/lumos-labs/lumos/releases/latest](https://github.com/lumos-labs/lumos/releases/latest),
+download **lumos-release-x86_64-apple-darwin.tar.bz2**, then extract the
 archive:
 
 ```bash
-tar jxf solana-release-x86_64-apple-darwin.tar.bz2
-cd solana-release/
+tar jxf lumos-release-x86_64-apple-darwin.tar.bz2
+cd lumos-release/
 export PATH=$PWD/bin:$PATH
 ```
 
 ### Windows
 
 - Download the binaries by navigating to
-  [https://github.com/solana-labs/solana/releases/latest](https://github.com/solana-labs/solana/releases/latest),
-  download **solana-release-x86_64-pc-windows-msvc.tar.bz2**, then extract the
+  [https://github.com/lumos-labs/lumos/releases/latest](https://github.com/lumos-labs/lumos/releases/latest),
+  download **lumos-release-x86_64-pc-windows-msvc.tar.bz2**, then extract the
   archive using WinZip or similar.
 
 - Open a Command Prompt and navigate to the directory into which you extracted
   the binaries and run:
 
 ```bash
-cd solana-release/
+cd lumos-release/
 set PATH=%cd%/bin;%PATH%
 ```
 
@@ -230,7 +230,7 @@ Users on Windows 10 or 11 may need to install
 [Windows Subsystem for Linux](https://learn.microsoft.com/en-us/windows/wsl/install)
 (WSL) in order to be able to build from source. WSL provides a Linux environment
 that runs inside your existing Windows installation. You can then run regular
-Linux software, including the Linux versions of Solana CLI.
+Linux software, including the Linux versions of Lumos CLI.
 
 After installed, run `wsl` from your Windows terminal, then continue through the
 [Debian and Other Linux Distributions](#for-debian-and-other-linux-distributions)
@@ -240,9 +240,9 @@ above.
 
 ### Building from Source
 
-After installing the prerequisites, proceed with building Solana from source,
+After installing the prerequisites, proceed with building Lumos from source,
 navigate to
-[Solana's GitHub releases page](https://github.com/solana-labs/solana/releases/latest),
+[Lumos's GitHub releases page](https://github.com/lumos-labs/lumos/releases/latest),
 and download the **Source Code** archive. Extract the code and build the
 binaries with:
 
@@ -255,7 +255,7 @@ You can then run the following command to obtain the same result as with
 prebuilt binaries:
 
 ```bash
-solana-install init
+lumos-install init
 ```
 
 ## Use Homebrew
@@ -265,14 +265,14 @@ your MacOS or Linux machine.
 
 ### MacOS & Linux
 
-- Follow instructions at: https://formulae.brew.sh/formula/solana
+- Follow instructions at: https://formulae.brew.sh/formula/lumos
 
-[Homebrew formulae](https://github.com/Homebrew/homebrew-core/blob/HEAD/Formula/solana.rb)
-is updated after each `solana` release, however it is possible that the Homebrew
+[Homebrew formulae](https://github.com/Homebrew/homebrew-core/blob/HEAD/Formula/lumos.rb)
+is updated after each `lumos` release, however it is possible that the Homebrew
 version is outdated.
 
-- Confirm you have the desired version of `solana` installed by entering:
+- Confirm you have the desired version of `lumos` installed by entering:
 
 ```bash
-solana --version
+lumos --version
 ```

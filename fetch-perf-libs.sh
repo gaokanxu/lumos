@@ -23,18 +23,18 @@ if [[ $VERSION != "$(cat target/perf-libs/.version 2> /dev/null)" ]]; then
     set -x
     cd target/perf-libs
 
-    if [[ -r ~/.cache/solana-perf-$PERF_LIBS_VERSION.tgz ]]; then
-      cp ~/.cache/solana-perf-$PERF_LIBS_VERSION.tgz solana-perf.tgz
+    if [[ -r ~/.cache/lumos-perf-$PERF_LIBS_VERSION.tgz ]]; then
+      cp ~/.cache/lumos-perf-$PERF_LIBS_VERSION.tgz lumos-perf.tgz
     else
-      curl -L --retry 5 --retry-delay 2 --retry-connrefused -o solana-perf.tgz \
-        https://github.com/solana-labs/solana-perf-libs/releases/download/$PERF_LIBS_VERSION/solana-perf.tgz
+      curl -L --retry 5 --retry-delay 2 --retry-connrefused -o lumos-perf.tgz \
+        https://github.com/lumos-labs/lumos-perf-libs/releases/download/$PERF_LIBS_VERSION/lumos-perf.tgz
     fi
-    tar zxvf solana-perf.tgz
+    tar zxvf lumos-perf.tgz
 
-    if [[ ! -r ~/.cache/solana-perf-$PERF_LIBS_VERSION.tgz ]]; then
+    if [[ ! -r ~/.cache/lumos-perf-$PERF_LIBS_VERSION.tgz ]]; then
       # Save it for next time
       mkdir -p ~/.cache
-      mv solana-perf.tgz ~/.cache/solana-perf-$PERF_LIBS_VERSION.tgz
+      mv lumos-perf.tgz ~/.cache/lumos-perf-$PERF_LIBS_VERSION.tgz
     fi
     echo "$VERSION" > .version
   )

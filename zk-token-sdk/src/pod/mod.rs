@@ -20,11 +20,12 @@ use {
     crate::errors::InstructionError,
     crate::proof_data::{
             ProofType,
-            proof_data::transfer::{
+            transfer::{
                     FeeParameters, 
                     TransferAmountCiphertext,
                     encryption::FeeEncryption,
                     },
+            },
         
     crate::pod::{
         pedersen::PodPedersenCommitment,
@@ -38,6 +39,7 @@ use {
         },
     },    
 };
+
 
 #[derive(Error, Debug, Clone, PartialEq, Eq)]
 pub enum ParseError {

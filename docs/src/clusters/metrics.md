@@ -1,12 +1,12 @@
 ---
-title: Solana Cluster Performance Metrics
+title: Lumos Cluster Performance Metrics
 sidebar_label: Performance Metrics
 pagination_label: Cluster Performance Metrics
 ---
 
-Solana cluster performance is measured as average number of transactions per second that the network can sustain \(TPS\). And, how long it takes for a transaction to be confirmed by super majority of the cluster \(Confirmation Time\).
+Lumos cluster performance is measured as average number of transactions per second that the network can sustain \(TPS\). And, how long it takes for a transaction to be confirmed by super majority of the cluster \(Confirmation Time\).
 
-Each cluster node maintains various counters that are incremented on certain events. These counters are periodically uploaded to a cloud based database. Solana's metrics dashboard fetches these counters, and computes the performance metrics and displays it on the dashboard.
+Each cluster node maintains various counters that are incremented on certain events. These counters are periodically uploaded to a cloud based database. Lumos's metrics dashboard fetches these counters, and computes the performance metrics and displays it on the dashboard.
 
 ## TPS
 
@@ -22,6 +22,6 @@ The node assigns a timestamp to every new fork, and computes the time it took to
 
 The validator software is deployed to GCP n1-standard-16 instances with 1TB pd-ssd disk, and 2x Nvidia V100 GPUs. These are deployed in the us-west-1 region.
 
-solana-bench-tps is started after the network converges from a client machine with n1-standard-16 CPU-only instance with the following arguments: `--tx\_count=50000 --thread-batch-sleep 1000`
+lumos-bench-tps is started after the network converges from a client machine with n1-standard-16 CPU-only instance with the following arguments: `--tx\_count=50000 --thread-batch-sleep 1000`
 
 TPS and confirmation metrics are captured from the dashboard numbers over a 5 minute average of when the bench-tps transfer stage begins.

@@ -14,7 +14,7 @@ usage() {
   echo
   echo " Run bench-tps "
   echo
-  echo "   extra args: additional arguments are passed along to solana-bench-tps"
+  echo "   extra args: additional arguments are passed along to lumos-bench-tps"
   echo
   exit 1
 }
@@ -27,6 +27,6 @@ default_arg --duration 90
 default_arg --tx-count 50000
 default_arg --thread-batch-sleep-ms 0
 default_arg --bind-address "127.0.0.1"
-default_arg --client-node-id "${SOLANA_CONFIG_DIR}/bootstrap-validator/identity.json"
+default_arg --client-node-id "${LUMOS_CONFIG_DIR}/bootstrap-validator/identity.json"
 
-$solana_bench_tps "${args[@]}"
+$lumos_bench_tps "${args[@]}"

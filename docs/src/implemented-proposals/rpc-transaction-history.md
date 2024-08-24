@@ -10,13 +10,13 @@ back to the external data store.
 
 The affected RPC endpoints are:
 
-- [getFirstAvailableBlock](https://solana.com/docs/rpc/http/getfirstavailableblock)
-- [getConfirmedBlock](https://solana.com/docs/rpc/deprecated/getconfirmedblock)
-- [getConfirmedBlocks](https://solana.com/docs/rpc/deprecated/getconfirmedblocks)
-- [getConfirmedSignaturesForAddress](https://solana.com/docs/rpc/http/getconfirmedsignaturesforaddress)
-- [getConfirmedTransaction](https://solana.com/docs/rpc/deprecated/getConfirmedTransaction)
-- [getSignatureStatuses](https://solana.com/docs/rpc/http/getsignaturestatuses)
-- [getBlockTime](https://solana.com/docs/rpc/http/getblocktime)
+- [getFirstAvailableBlock](https://lumos.com/docs/rpc/http/getfirstavailableblock)
+- [getConfirmedBlock](https://lumos.com/docs/rpc/deprecated/getconfirmedblock)
+- [getConfirmedBlocks](https://lumos.com/docs/rpc/deprecated/getconfirmedblocks)
+- [getConfirmedSignaturesForAddress](https://lumos.com/docs/rpc/http/getconfirmedsignaturesforaddress)
+- [getConfirmedTransaction](https://lumos.com/docs/rpc/deprecated/getConfirmedTransaction)
+- [getSignatureStatuses](https://lumos.com/docs/rpc/http/getsignaturestatuses)
+- [getBlockTime](https://lumos.com/docs/rpc/http/getblocktime)
 
 Some system design constraints:
 
@@ -68,7 +68,7 @@ the results of BigTable queries more complicated but is not a significant issue.
 ## Data Population
 
 The ongoing population of instance data will occur on an epoch cadence through
-the use of a new `solana-ledger-tool` command that will convert rocksdb data for
+the use of a new `lumos-ledger-tool` command that will convert rocksdb data for
 a given slot range into the instance schema.
 
 The same process will be run once, manually, to backfill the existing ledger
