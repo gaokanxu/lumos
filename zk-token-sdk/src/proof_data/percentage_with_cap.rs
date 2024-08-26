@@ -11,7 +11,7 @@ use {
     crate::{
         proof_data::pedersen::{PedersenCommitment, PedersenOpening},
         sigma_proofs::percentage_with_cap::PercentageWithCapProof,
-        zk_elgamal_proof_program::errors::{ProofGenerationError, ProofVerificationError},
+        errors::{ProofGenerationError, ProofVerificationError},
     },
     bytemuck::bytes_of,
     merlin::Transcript,
@@ -26,7 +26,7 @@ use {
         //gaokanxu 2024.08.20
         pod::sigma_proofs::PodPercentageWithCapProof,
         
-        zk_elgamal_proof_program::proof_data::{ProofType, ZkProofData},
+        proof_data::{ProofType, ZkProofData},
     },
     bytemuck_derive::{Pod, Zeroable},
 };

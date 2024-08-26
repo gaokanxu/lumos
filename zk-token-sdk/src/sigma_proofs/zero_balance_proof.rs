@@ -5,29 +5,24 @@
 
 #[cfg(not(target_os = "lumos"))]
 use {
+    rand::rngs::OsRng,
+    zeroize::Zeroize,
+    merlin::Transcript,
+    curve25519_dalek::{
+        ristretto::{CompressedRistretto, RistrettoPoint, MultiscalarMul},
+        scalar::Scalar,
+        traits::IsIdentity,
+    },
     crate::{
         proof_data::{
             elgamal::{ElGamalCiphertext, ElGamalKeypair, ElGamalPubkey},
             pedersen::H,
         },
         sigma_proofs::{canonical_scalar_from_optional_slice, ristretto_point_from_optional_slice},
-        UNIT_LEN,
-    },
-    curve25519_dalek::traits::MultiscalarMul,
-    rand::rngs::OsRng,
-    zeroize::Zeroize,
-};
-use {
-    crate::{
-        sigma_proofs::errors::{SigmaProofVerificationError, ZeroBalanceProofVerificationError},
+        errors::{SigmaProofVerificationError, ZeroBalanceProofVerificationError},
         transcript::TranscriptProtocol,
-    },
-    curve25519_dalek::{
-        ristretto::{CompressedRistretto, RistrettoPoint},
-        scalar::Scalar,
-        traits::IsIdentity,
-    },
-    merlin::Transcript,
+        UNIT_LEN,
+    },    
 };
 
 /// Byte length of a zero-balance proof.

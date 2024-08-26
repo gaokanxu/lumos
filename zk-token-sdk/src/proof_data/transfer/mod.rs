@@ -9,12 +9,13 @@ use {
             elgamal::ElGamalCiphertext,
             pedersen::{PedersenCommitment, PedersenOpening},
         },
-        proof_data::errors::InstructionError,
+        errors::InstructionError,
     },
     curve25519_dalek::scalar::Scalar,
 };
+
 #[cfg(not(target_os = "lumos"))]
-pub use {
+pub use crate::{
     proof_data::{FeeEncryption, TransferAmountCiphertext},
     with_fee::TransferWithFeePubkeys,
     without_fee::TransferPubkeys,

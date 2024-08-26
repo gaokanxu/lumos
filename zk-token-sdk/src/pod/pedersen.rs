@@ -13,7 +13,7 @@ use {
         pod::{Pod, Zeroable},
         
         sigma_proofs::ciphertext_ciphertext_equality_proof::CiphertextCiphertextEqualityProof,
-        sigma_proofs::errors::EqualityProofVerificationError,
+        errors::EqualityProofVerificationError,
 
         
         RISTRETTO_POINT_LEN,
@@ -22,11 +22,12 @@ use {
 };
 
 /// Byte length of a Pedersen commitment
-//pub(crate) const PEDERSEN_COMMITMENT_LEN: usize = RISTRETTO_POINT_LEN;
-//gaokanxu 2024.08.17
 pub const PEDERSEN_COMMITMENT_LEN: usize = RISTRETTO_POINT_LEN;
 
-//gaokanxu 2024.08.21
+/// Byte length of a Pedersen opening.
+pub const PEDERSEN_OPENING_LEN: usize = SCALAR_LEN;
+
+
 /*
 /// The `PedersenCommitment` type as a `Pod`.
 #[derive(Clone, Copy, Default, Pod, Zeroable, PartialEq, Eq)]

@@ -5,28 +5,24 @@
 
 #[cfg(not(target_os = "lumos"))]
 use {
+    rand::rngs::OsRng,
+    zeroize::Zeroize,
+    merlin::Transcript,
+    curve25519_dalek::{
+        ristretto::{CompressedRistretto, RistrettoPoint},
+        scalar::Scalar,
+        traits::{IsIdentity, VartimeMultiscalarMul},
+    },
     crate::{
         proof_data::{
             elgamal::{ElGamalKeypair, ElGamalPubkey},
             pedersen::H,
         },
         sigma_proofs::{canonical_scalar_from_optional_slice, ristretto_point_from_optional_slice},
+        errors::{PubkeyValidityProofVerificationError, SigmaProofVerificationError},
+        transcript::TranscriptProtocol,
         UNIT_LEN,
     },
-    rand::rngs::OsRng,
-    zeroize::Zeroize,
-};
-use {
-    crate::{
-        sigma_proofs::errors::{PubkeyValidityProofVerificationError, SigmaProofVerificationError},
-        transcript::TranscriptProtocol,
-    },
-    curve25519_dalek::{
-        ristretto::{CompressedRistretto, RistrettoPoint},
-        scalar::Scalar,
-        traits::{IsIdentity, VartimeMultiscalarMul},
-    },
-    merlin::Transcript,
 };
 
 /// Byte length of a public key validity proof.

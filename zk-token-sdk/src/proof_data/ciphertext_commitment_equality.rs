@@ -15,7 +15,7 @@ use {
         //gaokanxu 2024.08.20 
         pod::sigma_proofs::PodCiphertextCommitmentEqualityProof,
         
-        zk_elgamal_proof_program::proof_data::{ProofType, ZkProofData},
+        proof_data::{ProofType, ZkProofData},
     },
     bytemuck_derive::{Pod, Zeroable},
 };
@@ -27,7 +27,7 @@ use {
             pedersen::{PedersenCommitment, PedersenOpening},
         },
         sigma_proofs::ciphertext_commitment_equality_proof::CiphertextCommitmentEqualityProof,
-        zk_elgamal_proof_program::errors::{ProofGenerationError, ProofVerificationError},
+        errors::{ProofGenerationError, ProofVerificationError},
     },
     bytemuck::bytes_of,
     merlin::Transcript,

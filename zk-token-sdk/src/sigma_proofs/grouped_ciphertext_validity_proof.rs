@@ -10,30 +10,25 @@
 
 #[cfg(not(target_os = "lumos"))]
 use {
+    rand::rngs::OsRng,
+    zeroize::Zeroize,
+    merlin::Transcript,
+    curve25519_dalek::{
+        ristretto::{CompressedRistretto, RistrettoPoint},
+        scalar::Scalar,
+        traits::{IsIdentity, VartimeMultiscalarMul, MultiscalarMul},
+    },
     crate::{
         proof_data::{
             elgamal::{DecryptHandle, ElGamalPubkey},
             pedersen::{PedersenCommitment, PedersenOpening, G, H},
         },
         sigma_proofs::{canonical_scalar_from_optional_slice, ristretto_point_from_optional_slice},
+        errors::{SigmaProofVerificationError, ValidityProofVerificationError},
+        transcript::TranscriptProtocol,
+        pod::{GROUPED_CIPHERTEXT_2_HANDLES_VALIDITY_PROOF_LEN, GROUPED_CIPHERTEXT_3_HANDLES_VALIDITY_PROOF_LEN},
         UNIT_LEN,
     },
-    curve25519_dalek::traits::MultiscalarMul,
-    rand::rngs::OsRng,
-    zeroize::Zeroize,
-};
-use {
-    crate::{
-        sigma_proofs::errors::{SigmaProofVerificationError, ValidityProofVerificationError},
-        transcript::TranscriptProtocol,
-        pod::{GROUPED_CIPHERTEXT_2_HANDLES_VALIDITY_PROOF_LEN, GROUPED_CIPHERTEXT_3_HANDLES_VALIDITY_PROOF_LEN}, 
-    },
-    curve25519_dalek::{
-        ristretto::{CompressedRistretto, RistrettoPoint},
-        scalar::Scalar,
-        traits::{IsIdentity, VartimeMultiscalarMul},
-    },
-    merlin::Transcript,
 };
 
 /// Byte length of a grouped ciphertext validity proof for 2 handles

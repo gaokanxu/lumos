@@ -7,7 +7,6 @@
 //!
 //! [`ZK ElGamal proof`]: https://docs.lumoslabs.com/runtime/zk-token-proof
 
-pub mod errors;
 pub mod instruction;
 //pub mod proof_data;
 pub mod state;

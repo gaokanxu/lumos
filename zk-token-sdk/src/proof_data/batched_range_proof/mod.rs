@@ -25,7 +25,7 @@ use crate::pod::pedersen::PodPedersenCommitment;
 use {
     crate::{
         proof_data::pedersen::{PedersenCommitment, PedersenOpening},
-        zk_elgamal_proof_program::errors::{ProofGenerationError, ProofVerificationError},
+        errors::{ProofGenerationError, ProofVerificationError},
     },
     bytemuck::{bytes_of, Zeroable},
     curve25519_dalek::traits::IsIdentity,

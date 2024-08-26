@@ -8,7 +8,6 @@
 pub mod batched_grouped_ciphertext_validity_proof;
 pub mod ciphertext_ciphertext_equality_proof;
 pub mod ciphertext_commitment_equality_proof;
-pub mod errors;
 pub mod fee_proof;
 pub mod grouped_ciphertext_validity_proof;
 pub mod pubkey_proof;
@@ -21,7 +20,7 @@ pub mod zero_ciphertext;
 
 #[cfg(not(target_os = "lumos"))]
 use {
-    crate::{sigma_proofs::errors::SigmaProofVerificationError, RISTRETTO_POINT_LEN, SCALAR_LEN},
+    crate::{errors::SigmaProofVerificationError, RISTRETTO_POINT_LEN, SCALAR_LEN},
     curve25519_dalek::{ristretto::CompressedRistretto, scalar::Scalar},
 };
 

@@ -19,7 +19,7 @@ use {
 };
 use {
     crate::{
-        sigma_proofs::errors::{SigmaProofVerificationError, ZeroCiphertextProofVerificationError},
+        errors::{SigmaProofVerificationError, ZeroCiphertextProofVerificationError},
         transcript::TranscriptProtocol,
         //gaokanxu 2024.08.20
         ZERO_CIPHERTEXT_PROOF_LEN,

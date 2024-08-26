@@ -16,23 +16,19 @@ use {
             pedersen::{PedersenCommitment, PedersenOpening, G, H},
         },
         sigma_proofs::{canonical_scalar_from_optional_slice, ristretto_point_from_optional_slice},
+        errors::{EqualityProofVerificationError, SigmaProofVerificationError},
+        transcript::TranscriptProtocol,
         UNIT_LEN,
     },
-    curve25519_dalek::traits::MultiscalarMul,
     rand::rngs::OsRng,
     zeroize::Zeroize,
-};
-use {
-    crate::{
-        sigma_proofs::errors::{EqualityProofVerificationError, SigmaProofVerificationError},
-        transcript::TranscriptProtocol,
-    },
+    merlin::Transcript,
     curve25519_dalek::{
         ristretto::{CompressedRistretto, RistrettoPoint},
         scalar::Scalar,
-        traits::{IsIdentity, VartimeMultiscalarMul},
+        traits::{IsIdentity, VartimeMultiscalarMul, MultiscalarMul},
     },
-    merlin::Transcript,
+
 };
 
 /// Byte length of a ciphertext-commitment equality proof.

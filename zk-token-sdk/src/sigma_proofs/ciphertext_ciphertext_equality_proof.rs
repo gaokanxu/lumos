@@ -5,29 +5,25 @@
 
 #[cfg(not(target_os = "lumos"))]
 use {
+    rand::rngs::OsRng,
+    zeroize::Zeroize,
+    curve25519_dalek::{
+        ristretto::{CompressedRistretto, RistrettoPoint},
+        scalar::Scalar,
+        traits::{IsIdentity, VartimeMultiscalarMul, MultiscalarMul},
+    },
+    merlin::Transcript,
+    
     crate::{
         proof_data::{
             elgamal::{ElGamalCiphertext, ElGamalKeypair, ElGamalPubkey},
             pedersen::{PedersenOpening, G, H},
         },
+        errors::{EqualityProofVerificationError, SigmaProofVerificationError},
         sigma_proofs::{canonical_scalar_from_optional_slice, ristretto_point_from_optional_slice},
+        transcript::TranscriptProtocol,
         UNIT_LEN,
     },
-    curve25519_dalek::traits::MultiscalarMul,
-    rand::rngs::OsRng,
-    zeroize::Zeroize,
-};
-use {
-    crate::{
-        sigma_proofs::errors::{EqualityProofVerificationError, SigmaProofVerificationError},
-        transcript::TranscriptProtocol,
-    },
-    curve25519_dalek::{
-        ristretto::{CompressedRistretto, RistrettoPoint},
-        scalar::Scalar,
-        traits::{IsIdentity, VartimeMultiscalarMul},
-    },
-    merlin::Transcript,
 };
 
 

@@ -2,27 +2,20 @@
 
 #[cfg(not(target_os = "lumos"))]
 use {
-    crate::{
-        proof_data::pedersen::{PedersenCommitment, PedersenOpening},
-        range_proof::RangeProof,
-        zk_elgamal_proof_program::{
-            errors::{ProofGenerationError, ProofVerificationError},
-        },
-        proof_data::batched_range_proof::MAX_COMMITMENTS,
-    },
     std::convert::TryInto,
-};
-use {
-    crate::{
-        //range_proof::pod::PodRangeProofU128,
-        //gaokanxu 2024.08.20
-        pod::range_proof::PodRangeProofU128,
-        
-        proof_data::{
-            batched_range_proof::BatchedRangeProofContext, ProofType, ZkProofData,
-        },
-    },
     bytemuck_derive::{Pod, Zeroable},
+    crate::{
+        range_proof::RangeProof,
+        pod::range_proof::PodRangeProofU128,
+        proof_data::{
+            batched_range_proof::{BatchedRangeProofContext, MAX_COMMITMENTS},
+            pedersen::{PedersenCommitment, PedersenOpening},
+            ProofType,
+            ZkProofData,
+        },
+        errors::{ProofGenerationError, ProofVerificationError},
+    },
+    
 };
 
 /// The instruction data that is needed for the
@@ -106,7 +99,7 @@ mod test {
         super::*,
         crate::{
             proof_data::pedersen::Pedersen, range_proof::errors::RangeProofVerificationError,
-            zk_elgamal_proof_program::errors::ProofVerificationError,
+            errors::ProofVerificationError,
         },
     };
 

@@ -1,6 +1,7 @@
 //! Plain Old Data types for sigma proofs.
 
 #[cfg(not(target_os = "lumos"))]
+use crate::errors::*; 
 use crate::sigma_proofs::{
     batched_grouped_ciphertext_validity_proof::BatchedGroupedCiphertext2HandlesValidityProof as DecodedBatchedGroupedCiphertext2HandlesValidityProof,
     
@@ -9,7 +10,7 @@ use crate::sigma_proofs::{
     
     ciphertext_ciphertext_equality_proof::CiphertextCiphertextEqualityProof as DecodedCiphertextCiphertextEqualityProof,
     ciphertext_commitment_equality_proof::CiphertextCommitmentEqualityProof as DecodedCiphertextCommitmentEqualityProof,
-    errors::*, fee_proof::FeeSigmaProof as DecodedFeeSigmaProof,
+    fee_proof::FeeSigmaProof as DecodedFeeSigmaProof,
     grouped_ciphertext_validity_proof::GroupedCiphertext2HandlesValidityProof as DecodedGroupedCiphertext2HandlesValidityProof,
     pubkey_proof::PubkeyValidityProof as DecodedPubkeyValidityProof,
     zero_balance_proof::ZeroBalanceProof as DecodedZeroBalanceProof,

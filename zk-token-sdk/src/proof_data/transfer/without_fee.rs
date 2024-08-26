@@ -1,18 +1,18 @@
 #[cfg(not(target_os = "lumos"))]
 use {
     crate::{
+        errors::{ProofGenerationError, ProofVerificationError, InstructionError},
         proof_data::{
             elgamal::{ElGamalCiphertext, ElGamalKeypair, ElGamalPubkey, ElGamalSecretKey},
             pedersen::{Pedersen, PedersenCommitment, PedersenOpening},
-        },
-        errors::{ProofGenerationError, ProofVerificationError},
-        proof_data::{
-            errors::InstructionError,
             transfer::{
-                proof_data::TransferAmountCiphertext, try_combine_lo_hi_ciphertexts, try_split_u64,
+                TransferAmountCiphertext, try_combine_lo_hi_ciphertexts, try_split_u64,
                 Role,
             },
+            ProofType, 
+            ZkProofData,
         },
+        pod,
         range_proof::RangeProof,
         sigma_proofs::{
             batched_grouped_ciphertext_validity_proof::BatchedGroupedCiphertext2HandlesValidityProof,
@@ -20,18 +20,10 @@ use {
         },
         transcript::TranscriptProtocol,
     },
-    bytemuck::bytes_of,
     merlin::Transcript,
     std::convert::TryInto,
-};
-use {
-    crate::{
-        proof_data::{ProofType, ZkProofData},
-        //zk_token_elgamal::pod,
-        //gaokanxu 2024.08.17
-        pod,
-    },
-    bytemuck::{Pod, Zeroable},
+
+    bytemuck::{Pod, Zeroable, bytes_of},
 };
 
 #[cfg(not(target_os = "lumos"))]

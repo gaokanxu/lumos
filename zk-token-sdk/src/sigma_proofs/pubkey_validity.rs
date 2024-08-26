@@ -18,7 +18,7 @@ use {
 };
 use {
     crate::{
-        sigma_proofs::errors::{PubkeyValidityProofVerificationError, SigmaProofVerificationError},
+        errors::{PubkeyValidityProofVerificationError, SigmaProofVerificationError},
         transcript::TranscriptProtocol,
     },
     curve25519_dalek::{

@@ -1,19 +1,21 @@
 #[cfg(not(target_os = "lumos"))]
 use {
     crate::{
+        errors::{ProofGenerationError, ProofVerificationError, InstructionError},
+        
         proof_data::{
             elgamal::{ElGamalCiphertext, ElGamalKeypair, ElGamalPubkey, ElGamalSecretKey},
             pedersen::{Pedersen, PedersenCommitment, PedersenOpening},
-        },
-        errors::{ProofGenerationError, ProofVerificationError},
-        proof_data::{
-            errors::InstructionError,
+            
             transfer::{
-                proof_data::{FeeEncryption, TransferAmountCiphertext},
+                FeeEncryption, 
+                TransferAmountCiphertext,
                 try_combine_lo_hi_ciphertexts, try_combine_lo_hi_commitments,
                 try_combine_lo_hi_openings, try_combine_lo_hi_u64, try_split_u64, FeeParameters,
                 Role,
             },
+            ProofType, 
+            ZkProofData,
         },
         range_proof::RangeProof,
         sigma_proofs::{
@@ -22,21 +24,13 @@ use {
             fee_proof::FeeSigmaProof,
         },
         transcript::TranscriptProtocol,
+        pod,
     },
-    bytemuck::bytes_of,
     curve25519_dalek::scalar::Scalar,
     merlin::Transcript,
     std::convert::TryInto,
     subtle::{ConditionallySelectable, ConstantTimeGreater},
-};
-use {
-    crate::{
-        proof_data::{ProofType, ZkProofData},
-        //zk_token_elgamal::pod,
-        //gaokanxu 2024.08.17
-        pod,
-    },
-    bytemuck::{Pod, Zeroable},
+    bytemuck::{Pod, Zeroable, bytes_of},
 };
 
 #[cfg(not(target_os = "lumos"))]

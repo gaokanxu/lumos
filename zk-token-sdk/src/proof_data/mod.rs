@@ -1,5 +1,5 @@
 #[cfg(not(target_os = "lumos"))]
-use crate::zk_elgamal_proof_program::errors::ProofVerificationError;
+use crate::errors::ProofVerificationError;
 use {
     bytemuck::Pod,
     num_derive::{FromPrimitive, ToPrimitive},
@@ -19,6 +19,7 @@ pub mod ristretto_serde;
 pub mod auth_encryption;
 pub mod grouped_elgamal;
 pub mod transfer;
+pub mod discrete_log;
 
 pub use {
     batched_grouped_ciphertext_validity::{

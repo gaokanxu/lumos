@@ -2,17 +2,20 @@
 
 #[cfg(not(target_os = "lumos"))]
 use {
+    std::convert::TryInto,
     bytemuck_derive::{Pod, Zeroable},
     crate::{
-       
-        range_proof::{RangeProof, PodRangeProofU256},
-        zk_elgamal_proof_program::{
-            errors::{ProofGenerationError, ProofVerificationError},
+        range_proof::RangeProof,
+        pod::PodRangeProofU256,
+        errors::{ProofGenerationError, ProofVerificationError},
+        proof_data::{
+            pedersen::{PedersenCommitment, PedersenOpening},
+            batched_range_proof::{MAX_COMMITMENTS, MAX_SINGLE_BIT_LENGTH, BatchedRangeProofContext},
+            ProofType,
+            ZkProofData,
         },
-        proof_data::pedersen::{PedersenCommitment, PedersenOpening},
-        proof_data::batched_range_proof::{MAX_COMMITMENTS, MAX_SINGLE_BIT_LENGTH, BatchedRangeProofContext, ProofType, ZkProofData},
     },
-    std::convert::TryInto,
+    
 };
 
  
@@ -111,7 +114,7 @@ mod test {
         super::*,
         crate::{
             proof_data::pedersen::Pedersen, range_proof::errors::RangeProofVerificationError,
-            zk_elgamal_proof_program::errors::ProofVerificationError,
+            errors::ProofVerificationError,
         },
     };
 

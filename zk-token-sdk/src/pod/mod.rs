@@ -96,7 +96,7 @@ impl TryFrom<PodProofType> for ProofType {
 #[derive(Clone, Copy, Pod, Zeroable, PartialEq, Eq)]
 #[repr(transparent)]
 //pub struct CompressedRistretto(pub [u8; 32]);
-pub struct CompressedRistrettoInPod(pub [u8; 32]);
+pub struct PodCompressedRistretto(pub [u8; 32]);
 
 
 macro_rules! impl_from_str {
@@ -127,6 +127,8 @@ pub(crate) use impl_from_str;
 pub use crate::pod::elgamal::DECRYPT_HANDLE_LEN;
 pub use crate::pod::elgamal::ELGAMAL_CIPHERTEXT_LEN;
 pub use crate::pod::pedersen::PEDERSEN_COMMITMENT_LEN;
+pub use crate::pod::pedersen::PEDERSEN_OPENING_LEN;
+
 
 pub use crate::pod::grouped_elgamal::PodGroupedElGamalCiphertext2Handles;
 pub use crate::pod::grouped_elgamal::PodGroupedElGamalCiphertext3Handles;
@@ -140,3 +142,5 @@ pub const BATCHED_GROUPED_CIPHERTEXT_3_HANDLES_VALIDITY_PROOF_LEN: usize = 192;
 pub const GROUPED_CIPHERTEXT_2_HANDLES_VALIDITY_PROOF_LEN: usize = 160;
 pub const GROUPED_CIPHERTEXT_3_HANDLES_VALIDITY_PROOF_LEN: usize = 192;
 //gaokanxu 2024.08.19 end
+
+

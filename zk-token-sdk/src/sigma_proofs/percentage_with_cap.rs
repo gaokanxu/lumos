@@ -19,32 +19,24 @@
 
 #[cfg(not(target_os = "lumos"))]
 use {
-    crate::{
-        proof_data::pedersen::{PedersenCommitment, PedersenOpening, G, H},
-        sigma_proofs::{canonical_scalar_from_optional_slice, ristretto_point_from_optional_slice},
-        UNIT_LEN,
-    },
     rand::rngs::OsRng,
-};
-use {
-    crate::{
-        sigma_proofs::errors::{
-            PercentageWithCapProofVerificationError, SigmaProofVerificationError,
-            
-        },
-        transcript::TranscriptProtocol,
-        
-        //gaokanxu 2024.08.20
-        PERCENTAGE_WITH_CAP_PROOF_LEN,
-
-    },
+    merlin::Transcript,
+    subtle::{Choice, ConditionallySelectable, ConstantTimeGreater},
     curve25519_dalek::{
         ristretto::{CompressedRistretto, RistrettoPoint},
         scalar::Scalar,
         traits::{IsIdentity, MultiscalarMul, VartimeMultiscalarMul},
     },
-    merlin::Transcript,
-    subtle::{Choice, ConditionallySelectable, ConstantTimeGreater},
+    crate::{
+        proof_data::pedersen::{PedersenCommitment, PedersenOpening, G, H},
+        sigma_proofs::{canonical_scalar_from_optional_slice, ristretto_point_from_optional_slice},
+        errors::{
+            PercentageWithCapProofVerificationError, SigmaProofVerificationError,
+        },
+        transcript::TranscriptProtocol,
+        UNIT_LEN,
+        PERCENTAGE_WITH_CAP_PROOF_LEN,
+    },
 };
 
 

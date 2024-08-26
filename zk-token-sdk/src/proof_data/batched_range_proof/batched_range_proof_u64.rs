@@ -5,10 +5,8 @@ use {
     crate::{
         proof_data::pedersen::{PedersenCommitment, PedersenOpening},
         range_proof::RangeProof,
-        zk_elgamal_proof_program::{
-            errors::{ProofGenerationError, ProofVerificationError},
-            proof_data::batched_range_proof::MAX_COMMITMENTS,
-        },
+        errors::{ProofGenerationError, ProofVerificationError},
+        proof_data::batched_range_proof::MAX_COMMITMENTS,
     },
     std::convert::TryInto,
 };
@@ -16,7 +14,7 @@ use {
     crate::{
         //range_proof::pod::PodRangeProofU64,
         pod::range_proof::PodRangeProofU64,
-        zk_elgamal_proof_program::proof_data::{
+        proof_data::{
             batched_range_proof::BatchedRangeProofContext, ProofType, ZkProofData,
         },
     },
@@ -103,7 +101,7 @@ mod test {
         super::*,
         crate::{
             proof_data::pedersen::Pedersen, range_proof::errors::RangeProofVerificationError,
-            zk_elgamal_proof_program::errors::ProofVerificationError,
+            errors::ProofVerificationError,
         },
     };
 

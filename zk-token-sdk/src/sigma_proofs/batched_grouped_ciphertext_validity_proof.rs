@@ -15,8 +15,8 @@ use crate::proof_data::{
 };
 use {
     crate::{
-        sigma_proofs::{
-            errors::ValidityProofVerificationError,
+        errors::ValidityProofVerificationError,
+        sigma_proofs::{  
             grouped_ciphertext_validity_proof::{GroupedCiphertext2HandlesValidityProof, GroupedCiphertext3HandlesValidityProof},
         },
         transcript::TranscriptProtocol,
