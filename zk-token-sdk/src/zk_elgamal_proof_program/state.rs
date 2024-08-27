@@ -4,7 +4,8 @@ use {
     num_traits::ToPrimitive,
     std::mem::size_of,
     
-    crate::pod::{PodProofType, ProofType},
+    crate::pod::PodProofType,
+    crate::proof_data::ProofType,
     crate::errors::InstructionError,
     
     lumos_program::pubkey::Pubkey,
