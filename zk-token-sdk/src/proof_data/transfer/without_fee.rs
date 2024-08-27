@@ -6,7 +6,7 @@ use {
             elgamal::{ElGamalCiphertext, ElGamalKeypair, ElGamalPubkey, ElGamalSecretKey},
             pedersen::{Pedersen, PedersenCommitment, PedersenOpening},
             transfer::{
-                TransferAmountCiphertext, try_combine_lo_hi_ciphertexts, try_split_u64,
+                encryption::TransferAmountCiphertext, try_combine_lo_hi_ciphertexts, try_split_u64,
                 Role,
             },
             ProofType, 
@@ -301,7 +301,7 @@ pub struct TransferProof {
     pub validity_proof: pod::PodBatchedGroupedCiphertext2HandlesValidityProof,
 
     // Associated range proof
-    pub range_proof: pod::RangeProofU128,
+    pub range_proof: pod::PodRangeProofU128,
 }
 
 #[allow(non_snake_case)]

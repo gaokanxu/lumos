@@ -8,14 +8,11 @@ use {
 };
 use {
     crate::{
-        //pod::{Pod, Zeroable},
-        //gaokanxu 2024.08.17
         pod::{Pod, Zeroable},
-        
         sigma_proofs::ciphertext_ciphertext_equality_proof::CiphertextCiphertextEqualityProof,
         errors::EqualityProofVerificationError,
 
-        
+        SCALAR_LEN,
         RISTRETTO_POINT_LEN,
     },
     std::fmt,

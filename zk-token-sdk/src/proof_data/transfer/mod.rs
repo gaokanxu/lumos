@@ -4,25 +4,20 @@ mod without_fee;
 
 #[cfg(not(target_os = "lumos"))]
 use {
+    curve25519_dalek::scalar::Scalar,
     crate::{
+        errors::InstructionError,
         proof_data::{
             elgamal::ElGamalCiphertext,
             pedersen::{PedersenCommitment, PedersenOpening},
+            transfer::{
+                with_fee::{TransferWithFeeData, TransferWithFeeProofContext, TransferWithFeePubkeys},
+                without_fee::{TransferData, TransferProofContext, TransferPubkeys},
+                encryption::{FeeEncryption, TransferAmountCiphertext}
+            },
+            
         },
-        errors::InstructionError,
     },
-    curve25519_dalek::scalar::Scalar,
-};
-
-#[cfg(not(target_os = "lumos"))]
-pub use crate::{
-    proof_data::{FeeEncryption, TransferAmountCiphertext},
-    with_fee::TransferWithFeePubkeys,
-    without_fee::TransferPubkeys,
-};
-pub use {
-    with_fee::{TransferWithFeeData, TransferWithFeeProofContext},
-    without_fee::{TransferData, TransferProofContext},
 };
 
 #[cfg(not(target_os = "lumos"))]
@@ -106,7 +101,7 @@ pub fn try_combine_lo_hi_u64(
 }
 
 #[cfg(not(target_os = "lumos"))]
-fn try_combine_lo_hi_ciphertexts(
+pub fn try_combine_lo_hi_ciphertexts(
     ciphertext_lo: &ElGamalCiphertext,
     ciphertext_hi: &ElGamalCiphertext,
     bit_length: usize,

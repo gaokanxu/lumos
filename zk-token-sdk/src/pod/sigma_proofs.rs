@@ -379,14 +379,14 @@ impl TryFrom<PodZeroCiphertextProof> for ZeroCiphertextProof {
 // The sigma proof pod types are wrappers for byte arrays, which are both `Pod` and `Zeroable`. However,
 // the marker traits `bytemuck::Pod` and `bytemuck::Zeroable` can only be derived for power-of-two
 // length byte arrays. Directly implement these traits for the sigma proof pod types.
-unsafe impl Zeroable for CiphertextCommitmentEqualityProof {}
-unsafe impl Pod for CiphertextCommitmentEqualityProof {}
+unsafe impl Zeroable for PodCiphertextCommitmentEqualityProof {}
+unsafe impl Pod for PodCiphertextCommitmentEqualityProof {}
 
 unsafe impl Zeroable for PodCiphertextCiphertextEqualityProof {}
 unsafe impl Pod for PodCiphertextCiphertextEqualityProof {}
 
-unsafe impl Zeroable for GroupedCiphertext2HandlesValidityProof {}
-unsafe impl Pod for GroupedCiphertext2HandlesValidityProof {}
+unsafe impl Zeroable for PodGroupedCiphertext2HandlesValidityProof {}
+unsafe impl Pod for PodGroupedCiphertext2HandlesValidityProof {}
 
 unsafe impl Zeroable for PodBatchedGroupedCiphertext2HandlesValidityProof {}
 unsafe impl Pod for PodBatchedGroupedCiphertext2HandlesValidityProof {}
@@ -397,14 +397,9 @@ unsafe impl Pod for ZeroBalanceProof {}
 unsafe impl Zeroable for PodBatchedGroupedCiphertext3HandlesValidityProof {}
 unsafe impl Pod for PodBatchedGroupedCiphertext3HandlesValidityProof {}
 
-//gaokanxu 2024.08.20 begin
-
-unsafe impl Zeroable for PodGroupedCiphertext2HandlesValidityProof {}
-unsafe impl Pod for PodGroupedCiphertext2HandlesValidityProof {}
-
 unsafe impl Zeroable for PodGroupedCiphertext3HandlesValidityProof {}
 unsafe impl Pod for PodGroupedCiphertext3HandlesValidityProof {}
 
 unsafe impl Zeroable for PodZeroCiphertextProof {}
 unsafe impl Pod for PodZeroCiphertextProof {}
-//gaokanxu 2024.08.20 end
+

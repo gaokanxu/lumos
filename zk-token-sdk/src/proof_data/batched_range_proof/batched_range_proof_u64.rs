@@ -100,7 +100,7 @@ mod test {
     use {
         super::*,
         crate::{
-            proof_data::pedersen::Pedersen, range_proof::errors::RangeProofVerificationError,
+            proof_data::pedersen::Pedersen, errors::RangeProofVerificationError,
             errors::ProofVerificationError,
         },
     };

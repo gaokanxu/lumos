@@ -21,8 +21,8 @@ use {
 use {
     crate::{
         proof_data::pedersen::{G, H},
+        errors::{RangeProofGenerationError, RangeProofVerificationError},
         range_proof::{
-            errors::{RangeProofGenerationError, RangeProofVerificationError},
             generators::BulletproofGens,
             inner_product::InnerProductProof,
         },
@@ -37,7 +37,6 @@ use {
     merlin::Transcript,
 };
 
-pub mod errors;
 pub mod generators;
 pub mod inner_product;
 pub mod util;

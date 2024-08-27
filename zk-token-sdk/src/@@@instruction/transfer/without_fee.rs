@@ -309,7 +309,7 @@ pub struct TransferProof {
     pub validity_proof: pod::PodBatchedGroupedCiphertext2HandlesValidityProof,
 
     // Associated range proof
-    pub range_proof: pod::RangeProofU128,
+    pub range_proof: pod::PodRangeProofU128,
 }
 
 #[allow(non_snake_case)]

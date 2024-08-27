@@ -87,15 +87,15 @@ mod target_arch {
     };
 
     
-    impl From<CompressedRistretto> for pod::CompressedRistrettoInPod {
+    impl From<CompressedRistretto> for pod::PodCompressedRistretto {
         fn from(cr: CompressedRistretto) -> Self {
             Self(cr.to_bytes())
         }
     }
     
 
-    impl From<pod::CompressedRistrettoInPod> for CompressedRistretto {
-        fn from(pod: pod::CompressedRistrettoInPod) -> Self {
+    impl From<pod::PodCompressedRistretto> for CompressedRistretto {
+        fn from(pod: pod::PodCompressedRistretto) -> Self {
             Self(pod.0)
         }
     }
@@ -135,7 +135,7 @@ mod tests {
         let proof =
             RangeProof::new(vec![55], vec![64], vec![&open], &mut transcript_create).unwrap();
 
-        assert!(TryInto::<pod::RangeProofU128>::try_into(proof).is_err());
+        assert!(TryInto::<pod::PodRangeProofU128>::try_into(proof).is_err());
     }
 
     #[test]
@@ -155,7 +155,7 @@ mod tests {
         )
         .unwrap();
 
-        let proof_serialized: pod::RangeProofU128 = proof.try_into().unwrap();
+        let proof_serialized: pod::PodRangeProofU128 = proof.try_into().unwrap();
         let proof_deserialized: RangeProof = proof_serialized.try_into().unwrap();
 
         assert!(proof_deserialized

@@ -9,20 +9,20 @@ use crate::{proof_data::elgamal::ElGamalError, proof_data::transfer as decoded};
 
 #[derive(Clone, Copy, Pod, Zeroable)]
 #[repr(C)]
-pub struct TransferAmountCiphertext(pub PodGroupedElGamalCiphertext3Handles);
+pub struct PodTransferAmountCiphertext(pub PodGroupedElGamalCiphertext3Handles);
 
 #[cfg(not(target_os = "lumos"))]
-impl From<decoded::TransferAmountCiphertext> for TransferAmountCiphertext {
+impl From<decoded::TransferAmountCiphertext> for PodTransferAmountCiphertext {
     fn from(decoded_ciphertext: decoded::TransferAmountCiphertext) -> Self {
         Self(decoded_ciphertext.0.into())
     }
 }
 
 #[cfg(not(target_os = "lumos"))]
-impl TryFrom<TransferAmountCiphertext> for decoded::TransferAmountCiphertext {
+impl TryFrom<PodTransferAmountCiphertext> for decoded::TransferAmountCiphertext {
     type Error = ElGamalError;
 
-    fn try_from(pod_ciphertext: TransferAmountCiphertext) -> Result<Self, Self::Error> {
+    fn try_from(pod_ciphertext: PodTransferAmountCiphertext) -> Result<Self, Self::Error> {
         Ok(Self(pod_ciphertext.0.try_into()?))
     }
 }

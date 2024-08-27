@@ -2,7 +2,7 @@
 
 
 use crate::{
-    range_proof::errors::RangeProofVerificationError,    
+    errors::RangeProofVerificationError,    
     range_proof::RangeProof as DecodedRangeProof,
     
     pod::{Pod, Zeroable},
@@ -120,7 +120,7 @@ impl TryFrom<DecodedRangeProof> for PodRangeProofU256 {
 }
 
 #[cfg(not(target_os = "lumos"))]
-impl TryFrom<RangeProofU256> for DecodedRangeProof {
+impl TryFrom<PodRangeProofU256> for DecodedRangeProof {
     type Error = RangeProofVerificationError;
 
     fn try_from(pod_proof: PodRangeProofU256) -> Result<Self, Self::Error> {

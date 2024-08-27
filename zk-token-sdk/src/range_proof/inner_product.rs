@@ -1,9 +1,7 @@
 use {
     crate::{
-        range_proof::{
-            errors::{RangeProofGenerationError, RangeProofVerificationError},
-            util,
-        },
+        errors::{RangeProofGenerationError, RangeProofVerificationError},
+        range_proof::util,
         transcript::TranscriptProtocol,
     },
     core::iter,

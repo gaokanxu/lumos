@@ -1,5 +1,5 @@
 use {
-    crate::range_proof::errors::RangeProofGeneratorError,
+    crate::errors::RangeProofGeneratorError,
     curve25519_dalek::{
         digest::{ExtendableOutput, Update, XofReader},
         ristretto::RistrettoPoint,

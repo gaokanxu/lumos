@@ -22,8 +22,7 @@ use {
             ProofType,
             transfer::{
                     FeeParameters, 
-                    TransferAmountCiphertext,
-                    encryption::FeeEncryption,
+                    encryption::{TransferAmountCiphertext, FeeEncryption},
                     },
             },
         

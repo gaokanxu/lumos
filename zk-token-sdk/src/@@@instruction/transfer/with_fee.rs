@@ -477,7 +477,7 @@ pub struct TransferWithFeeProof {
     //gaokanxu 2024.08.18
     pub fee_ciphertext_validity_proof: pod::PodBatchedGroupedCiphertext2HandlesValidityProof,
     
-    pub range_proof: pod::RangeProofU256,
+    pub range_proof: pod::PodRangeProofU256,
 }
 
 #[allow(non_snake_case)]
