@@ -1,4 +1,4 @@
-mod encryption;
+pub mod encryption;
 mod with_fee;
 mod without_fee;
 
