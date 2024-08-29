@@ -18,10 +18,12 @@ use {
         proof_data::{
             discrete_log::DiscreteLog,
             pedersen::{
-                Pedersen, PedersenCommitment, PedersenOpening, G, H, PEDERSEN_COMMITMENT_LEN,
+                Pedersen, PedersenCommitment, PedersenOpening, G, H,
             },
         },
-        RISTRETTO_POINT_LEN, SCALAR_LEN,
+        pod::PEDERSEN_COMMITMENT_LEN,
+        RISTRETTO_POINT_LEN,
+        SCALAR_LEN,
     },
     base64::{prelude::BASE64_STANDARD, Engine},
     core::ops::{Add, Mul, Sub},

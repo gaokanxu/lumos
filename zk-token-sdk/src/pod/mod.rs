@@ -14,16 +14,13 @@ use {
     thiserror::Error,
     bytemuck::{Pod, Zeroable},
     auth_encryption::AeCiphertext,
-    elgamal::{DecryptHandle, PodElGamalCiphertext, PodElGamalPubkey},
     
-
     crate::errors::InstructionError,
     crate::proof_data::{
             ProofType,
             transfer::{
                     FeeParameters, 
                     encryption::{TransferAmountCiphertext, FeeEncryption},
-                    },
             },
     },
 };
@@ -38,8 +35,11 @@ pub use {
             GroupedCiphertext2HandlesValidityProof,
             PubkeyValidityProof, ZeroBalanceProof,
         },
-    },    
+        elgamal::{DecryptHandle, PodElGamalCiphertext, PodElGamalPubkey},
+    },
+
 };
+
 
 
 #[derive(Error, Debug, Clone, PartialEq, Eq)]
