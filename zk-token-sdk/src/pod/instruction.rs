@@ -5,21 +5,29 @@ use crate::pod::{
     Zeroable,
 };
 #[cfg(not(target_os = "lumos"))]
-use crate::{proof_data::elgamal::ElGamalError, proof_data::transfer as decoded};
+use crate::{
+    proof_data::elgamal::ElGamalError, 
+    //proof_data::transfer as decoded,
+    proof_data::transfer::{
+        encryption::TransferAmountCiphertext as DecodedTransferAmountCiphertext,
+        encryption::FeeEncryption as DecodedFeeEncryption,
+        FeeParameters as DecodedFeeParameters
+        },
+    };
 
 #[derive(Clone, Copy, Pod, Zeroable)]
 #[repr(C)]
 pub struct PodTransferAmountCiphertext(pub PodGroupedElGamalCiphertext3Handles);
 
 #[cfg(not(target_os = "lumos"))]
-impl From<decoded::TransferAmountCiphertext> for PodTransferAmountCiphertext {
-    fn from(decoded_ciphertext: decoded::TransferAmountCiphertext) -> Self {
+impl From<DecodedTransferAmountCiphertext> for PodTransferAmountCiphertext {
+    fn from(decoded_ciphertext: DecodedTransferAmountCiphertext) -> Self {
         Self(decoded_ciphertext.0.into())
     }
 }
 
 #[cfg(not(target_os = "lumos"))]
-impl TryFrom<PodTransferAmountCiphertext> for decoded::TransferAmountCiphertext {
+impl TryFrom<PodTransferAmountCiphertext> for DecodedTransferAmountCiphertext {
     type Error = ElGamalError;
 
     fn try_from(pod_ciphertext: PodTransferAmountCiphertext) -> Result<Self, Self::Error> {
@@ -29,27 +37,27 @@ impl TryFrom<PodTransferAmountCiphertext> for decoded::TransferAmountCiphertext 
 
 #[derive(Clone, Copy, Pod, Zeroable)]
 #[repr(C)]
-pub struct FeeEncryption(pub PodGroupedElGamalCiphertext2Handles);
+pub struct PodFeeEncryption(pub PodGroupedElGamalCiphertext2Handles);
 
 #[cfg(not(target_os = "lumos"))]
-impl From<decoded::FeeEncryption> for FeeEncryption {
-    fn from(decoded_ciphertext: decoded::FeeEncryption) -> Self {
+impl From<DecodedFeeEncryption> for PodFeeEncryption {
+    fn from(decoded_ciphertext: DecodedFeeEncryption) -> Self {
         Self(decoded_ciphertext.0.into())
     }
 }
 
 #[cfg(not(target_os = "lumos"))]
-impl TryFrom<FeeEncryption> for decoded::FeeEncryption {
+impl TryFrom<PodFeeEncryption> for DecodedFeeEncryption {
     type Error = ElGamalError;
 
-    fn try_from(pod_ciphertext: FeeEncryption) -> Result<Self, Self::Error> {
+    fn try_from(pod_ciphertext: PodFeeEncryption) -> Result<Self, Self::Error> {
         Ok(Self(pod_ciphertext.0.try_into()?))
     }
 }
 
 #[derive(Clone, Copy, Pod, Zeroable)]
 #[repr(C)]
-pub struct FeeParameters {
+pub struct PodFeeParameters {
     /// Fee rate expressed as basis points of the transfer amount, i.e. increments of 0.01%
     pub fee_rate_basis_points: PodU16,
     /// Maximum fee assessed on transfers, expressed as an amount of tokens
@@ -57,9 +65,9 @@ pub struct FeeParameters {
 }
 
 #[cfg(not(target_os = "lumos"))]
-impl From<decoded::FeeParameters> for FeeParameters {
-    fn from(decoded_fee_parameters: decoded::FeeParameters) -> Self {
-        FeeParameters {
+impl From<DecodedFeeParameters> for PodFeeParameters {
+    fn from(decoded_fee_parameters: DecodedFeeParameters) -> Self {
+        PodFeeParameters {
             fee_rate_basis_points: decoded_fee_parameters.fee_rate_basis_points.into(),
             maximum_fee: decoded_fee_parameters.maximum_fee.into(),
         }
@@ -67,9 +75,9 @@ impl From<decoded::FeeParameters> for FeeParameters {
 }
 
 #[cfg(not(target_os = "lumos"))]
-impl From<FeeParameters> for decoded::FeeParameters {
-    fn from(pod_fee_parameters: FeeParameters) -> Self {
-        decoded::FeeParameters {
+impl From<PodFeeParameters> for DecodedFeeParameters {
+    fn from(pod_fee_parameters: PodFeeParameters) -> Self {
+        DecodedFeeParameters {
             fee_rate_basis_points: pod_fee_parameters.fee_rate_basis_points.into(),
             maximum_fee: pod_fee_parameters.maximum_fee.into(),
         }

@@ -81,10 +81,10 @@ pub struct TransferWithFeeData {
 #[repr(C)]
 pub struct TransferWithFeeProofContext {
     /// Group encryption of the low 16 bites of the transfer amount
-    pub ciphertext_lo: pod::TransferAmountCiphertext, // 128 bytes
+    pub ciphertext_lo: pod::PodTransferAmountCiphertext, // 128 bytes
 
     /// Group encryption of the high 48 bits of the transfer amount
-    pub ciphertext_hi: pod::TransferAmountCiphertext, // 128 bytes
+    pub ciphertext_hi: pod::PodTransferAmountCiphertext, // 128 bytes
 
     /// The public encryption keys associated with the transfer: source, dest, and auditor
     pub transfer_with_fee_pubkeys: TransferWithFeePubkeys, // 128 bytes
@@ -93,13 +93,13 @@ pub struct TransferWithFeeProofContext {
     pub new_source_ciphertext: pod::PodElGamalCiphertext, // 64 bytes
 
     // transfer fee encryption of the low 16 bits of the transfer fee amount
-    pub fee_ciphertext_lo: pod::FeeEncryption, // 96 bytes
+    pub fee_ciphertext_lo: pod::PodFeeEncryption, // 96 bytes
 
     // transfer fee encryption of the hi 32 bits of the transfer fee amount
-    pub fee_ciphertext_hi: pod::FeeEncryption, // 96 bytes
+    pub fee_ciphertext_hi: pod::PodFeeEncryption, // 96 bytes
 
     // fee parameters
-    pub fee_parameters: pod::FeeParameters, // 10 bytes
+    pub fee_parameters: pod::PodFeeParameters, // 10 bytes
 }
 
 /// The ElGamal public keys needed for a transfer with fee
@@ -197,11 +197,11 @@ impl TransferWithFeeData {
             auditor: (*auditor_pubkey).into(),
             withdraw_withheld_authority: (*withdraw_withheld_authority_pubkey).into(),
         };
-        let pod_ciphertext_lo: pod::TransferAmountCiphertext = ciphertext_lo.into();
-        let pod_ciphertext_hi: pod::TransferAmountCiphertext = ciphertext_hi.into();
+        let pod_ciphertext_lo: pod::PodTransferAmountCiphertext = ciphertext_lo.into();
+        let pod_ciphertext_hi: pod::PodTransferAmountCiphertext = ciphertext_hi.into();
         let pod_new_source_ciphertext: pod::PodElGamalCiphertext = new_source_ciphertext.into();
-        let pod_fee_ciphertext_lo: pod::FeeEncryption = fee_ciphertext_lo.into();
-        let pod_fee_ciphertext_hi: pod::FeeEncryption = fee_ciphertext_hi.into();
+        let pod_fee_ciphertext_lo: pod::PodFeeEncryption = fee_ciphertext_lo.into();
+        let pod_fee_ciphertext_hi: pod::PodFeeEncryption = fee_ciphertext_hi.into();
 
         let context = TransferWithFeeProofContext {
             ciphertext_lo: pod_ciphertext_lo,

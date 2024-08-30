@@ -35,7 +35,16 @@ pub use {
             GroupedCiphertext2HandlesValidityProof,
             PubkeyValidityProof, ZeroBalanceProof,
         },
-        elgamal::{DecryptHandle, PodElGamalCiphertext, PodElGamalPubkey},
+        elgamal::{
+            DecryptHandle, 
+            PodElGamalCiphertext, 
+            PodElGamalPubkey
+        },
+        instruction::{
+            PodTransferAmountCiphertext, 
+            PodFeeEncryption,
+            PodFeeParameters,
+        },
     },
 
 };
