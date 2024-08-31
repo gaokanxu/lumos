@@ -115,7 +115,7 @@ impl TryFrom<DecodedRangeProof> for PodRangeProofU256 {
         copy_range_proof_modulo_inner_product_proof(&decoded_proof, &mut buf);
         buf[RANGE_PROOF_MODULO_INNER_PRODUCT_PROOF_LEN..RANGE_PROOF_U256_LEN]
             .copy_from_slice(&decoded_proof.ipp_proof.to_bytes());
-        Ok(RangeProofU256(buf))
+        Ok(PodRangeProofU256(buf))
     }
 }
 

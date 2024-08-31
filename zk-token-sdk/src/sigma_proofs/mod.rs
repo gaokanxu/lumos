@@ -5,6 +5,8 @@
 //!
 //! [`ZK Token proof`]: https://docs.lumoslabs.com/runtime/zk-token-proof
 
+
+
 pub mod batched_grouped_ciphertext_validity_proof;
 pub mod ciphertext_ciphertext_equality_proof;
 pub mod ciphertext_commitment_equality_proof;
@@ -17,6 +19,22 @@ pub mod zero_balance_proof;
 pub mod percentage_with_cap;
 pub mod pubkey_validity;
 pub mod zero_ciphertext;
+
+
+pub use {
+    batched_grouped_ciphertext_validity_proof::BatchedGroupedCiphertext2HandlesValidityProof,
+    batched_grouped_ciphertext_validity_proof::BatchedGroupedCiphertext3HandlesValidityProof,
+    ciphertext_ciphertext_equality_proof::CiphertextCiphertextEqualityProof,
+    ciphertext_commitment_equality_proof::CiphertextCommitmentEqualityProof,
+    fee_proof::FeeSigmaProof,
+    grouped_ciphertext_validity_proof::GroupedCiphertext2HandlesValidityProof,
+    percentage_with_cap::PercentageWithCapProof,
+    pubkey_proof::PubkeyValidityProof,
+    zero_balance_proof::ZeroBalanceProof,
+    zero_ciphertext::ZeroCiphertextProof,
+};
+#[allow(unused_imports)]
+pub use grouped_ciphertext_validity_proof::GroupedCiphertext3HandlesValidityProof;
 
 #[cfg(not(target_os = "lumos"))]
 use {

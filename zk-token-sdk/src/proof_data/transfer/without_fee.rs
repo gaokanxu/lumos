@@ -12,7 +12,15 @@ use {
             ProofType, 
             ZkProofData,
         },
-        pod,
+        pod::{
+            PodTransferAmountCiphertext,
+            PodElGamalCiphertext,
+            PodElGamalPubkey,
+            PodPedersenCommitment,
+            PodCiphertextCommitmentEqualityProof,
+            PodBatchedGroupedCiphertext2HandlesValidityProof,
+            PodRangeProofU128
+        },
         range_proof::RangeProof,
         sigma_proofs::{
             batched_grouped_ciphertext_validity_proof::BatchedGroupedCiphertext2HandlesValidityProof,
@@ -60,25 +68,25 @@ pub struct TransferData {
 #[repr(C)]
 pub struct TransferProofContext {
     /// Group encryption of the low 16 bits of the transfer amount
-    pub ciphertext_lo: pod::TransferAmountCiphertext, // 128 bytes
+    pub ciphertext_lo: PodTransferAmountCiphertext, // 128 bytes
 
     /// Group encryption of the high 48 bits of the transfer amount
-    pub ciphertext_hi: pod::TransferAmountCiphertext, // 128 bytes
+    pub ciphertext_hi: PodTransferAmountCiphertext, // 128 bytes
 
     /// The public encryption keys associated with the transfer: source, dest, and auditor
     pub transfer_pubkeys: TransferPubkeys, // 96 bytes
 
     /// The final spendable ciphertext after the transfer
-    pub new_source_ciphertext: pod::PodElGamalCiphertext, // 64 bytes
+    pub new_source_ciphertext: PodElGamalCiphertext, // 64 bytes
 }
 
 /// The ElGamal public keys needed for a transfer
 #[derive(Clone, Copy, Pod, Zeroable)]
 #[repr(C)]
 pub struct TransferPubkeys {
-    pub source: pod::PodElGamalPubkey,
-    pub destination: pod::PodElGamalPubkey,
-    pub auditor: pod::PodElGamalPubkey,
+    pub source: PodElGamalPubkey,
+    pub destination: PodElGamalPubkey,
+    pub auditor: PodElGamalPubkey,
 }
 
 #[cfg(not(target_os = "lumos"))]
@@ -137,9 +145,9 @@ impl TransferData {
             destination: (*destination_pubkey).into(),
             auditor: (*auditor_pubkey).into(),
         };
-        let pod_ciphertext_lo: pod::TransferAmountCiphertext = ciphertext_lo.into();
-        let pod_ciphertext_hi: pod::TransferAmountCiphertext = ciphertext_hi.into();
-        let pod_new_source_ciphertext: pod::PodElGamalCiphertext = new_source_ciphertext.into();
+        let pod_ciphertext_lo: PodTransferAmountCiphertext = ciphertext_lo.into();
+        let pod_ciphertext_hi: PodTransferAmountCiphertext = ciphertext_hi.into();
+        let pod_new_source_ciphertext: PodElGamalCiphertext = new_source_ciphertext.into();
 
         let context = TransferProofContext {
             ciphertext_lo: pod_ciphertext_lo,
@@ -288,20 +296,19 @@ pub struct TransferProof {
     /// New Pedersen commitment for the remaining balance in source
     //pub new_source_commitment: pod::PedersenCommitment,
     //gaokanxu 2024.08.21
-    pub new_source_commitment: pod::pedersen::PodPedersenCommitment,
+    pub new_source_commitment: PodPedersenCommitment,
 
     /// Associated equality proof
     //pub equality_proof: pod::CiphertextCommitmentEqualityProof,
     //gaokanxu 2024.08.21
-    pub equality_proof: pod::PodCiphertextCommitmentEqualityProof,
+    pub equality_proof: PodCiphertextCommitmentEqualityProof,
 
     /// Associated ciphertext validity proof
-    //pub validity_proof: pod::BatchedGroupedCiphertext2HandlesValidityProof,
-    //gaokanxu 2024.08.19
-    pub validity_proof: pod::PodBatchedGroupedCiphertext2HandlesValidityProof,
+    
+    pub validity_proof: PodBatchedGroupedCiphertext2HandlesValidityProof,
 
     // Associated range proof
-    pub range_proof: pod::PodRangeProofU128,
+    pub range_proof: PodRangeProofU128,
 }
 
 #[allow(non_snake_case)]
@@ -321,7 +328,7 @@ impl TransferProof {
 
         //let pod_new_source_commitment: pod::PedersenCommitment = new_source_commitment.into();
         //gaokanxu 2024.08.21
-        let pod_new_source_commitment: pod::pedersen::PodPedersenCommitment = new_source_commitment.into();
+        let pod_new_source_commitment: PodPedersenCommitment = new_source_commitment.into();
         
         transcript.append_commitment(b"commitment-new-source", &pod_new_source_commitment);
 

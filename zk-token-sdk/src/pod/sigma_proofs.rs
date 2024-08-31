@@ -3,22 +3,19 @@
 #[cfg(not(target_os = "lumos"))]
 use crate::errors::*; 
 use crate::sigma_proofs::{
-    batched_grouped_ciphertext_validity_proof::BatchedGroupedCiphertext2HandlesValidityProof as DecodedBatchedGroupedCiphertext2HandlesValidityProof,
-    
-    //gaokanxu 2024.08.19 add 1 line
-    batched_grouped_ciphertext_validity_proof::BatchedGroupedCiphertext3HandlesValidityProof as DecodedBatchedGroupedCiphertext3HandlesValidityProof,
-    
-    ciphertext_ciphertext_equality_proof::CiphertextCiphertextEqualityProof as DecodedCiphertextCiphertextEqualityProof,
-    ciphertext_commitment_equality_proof::CiphertextCommitmentEqualityProof as DecodedCiphertextCommitmentEqualityProof,
-    fee_proof::FeeSigmaProof as DecodedFeeSigmaProof,
-    grouped_ciphertext_validity_proof::GroupedCiphertext2HandlesValidityProof as DecodedGroupedCiphertext2HandlesValidityProof,
-    pubkey_proof::PubkeyValidityProof as DecodedPubkeyValidityProof,
-    zero_balance_proof::ZeroBalanceProof as DecodedZeroBalanceProof,
+    BatchedGroupedCiphertext2HandlesValidityProof as DecodedBatchedGroupedCiphertext2HandlesValidityProof,
+    BatchedGroupedCiphertext3HandlesValidityProof as DecodedBatchedGroupedCiphertext3HandlesValidityProof,
+    CiphertextCiphertextEqualityProof as DecodedCiphertextCiphertextEqualityProof,
+    CiphertextCommitmentEqualityProof as DecodedCiphertextCommitmentEqualityProof,
+    FeeSigmaProof as DecodedFeeSigmaProof,
+    GroupedCiphertext2HandlesValidityProof as DecodedGroupedCiphertext2HandlesValidityProof,
+    PubkeyValidityProof as DecodedPubkeyValidityProof,
+    ZeroBalanceProof as DecodedZeroBalanceProof,
+    ZeroCiphertextProof as DecodedZeroCiphertextProof,
 };
 
 
-//use crate::pod::{Pod, Zeroable};
-//gaokanxu 2024.08.17
+
 use crate::pod::{self, Pod, Zeroable};
 
 //gaokanxu 2024.08.20
@@ -27,8 +24,8 @@ use crate::PERCENTAGE_WITH_CAP_PROOF_LEN;
 use crate::ZERO_CIPHERTEXT_PROOF_LEN;
 use crate::pod::GROUPED_CIPHERTEXT_3_HANDLES_VALIDITY_PROOF_LEN;
 use crate::sigma_proofs::grouped_ciphertext_validity_proof::GroupedCiphertext3HandlesValidityProof;
-use crate::sigma_proofs::percentage_with_cap::PercentageWithCapProof;
-use crate::sigma_proofs::zero_ciphertext::ZeroCiphertextProof;
+use crate::sigma_proofs::PercentageWithCapProof;
+//use crate::sigma_proofs::ZeroCiphertextProof;
 
 
 
@@ -100,29 +97,9 @@ impl TryFrom<PodCiphertextCiphertextEqualityProof> for DecodedCiphertextCipherte
 /// The `GroupedCiphertext2HandlesValidityProof` type as a `Pod`.
 #[derive(Clone, Copy)]
 #[repr(transparent)]
-pub struct GroupedCiphertext2HandlesValidityProof(
+pub struct PodGroupedCiphertext2HandlesValidityProof(
     pub [u8; GROUPED_CIPHERTEXT_2_HANDLES_VALIDITY_PROOF_LEN],
 );
-
-#[cfg(not(target_os = "lumos"))]
-impl From<DecodedGroupedCiphertext2HandlesValidityProof>
-    for GroupedCiphertext2HandlesValidityProof
-{
-    fn from(decoded_proof: DecodedGroupedCiphertext2HandlesValidityProof) -> Self {
-        Self(decoded_proof.to_bytes())
-    }
-}
-
-#[cfg(not(target_os = "lumos"))]
-impl TryFrom<GroupedCiphertext2HandlesValidityProof>
-    for DecodedGroupedCiphertext2HandlesValidityProof
-{
-    type Error = ValidityProofVerificationError;
-
-    fn try_from(pod_proof: GroupedCiphertext2HandlesValidityProof) -> Result<Self, Self::Error> {
-        Self::from_bytes(&pod_proof.0)
-    }
-}
 
 /// The `PodBatchedGroupedCiphertext2HandlesValidityProof` type as a `Pod`.
 #[derive(Clone, Copy)]
@@ -157,20 +134,20 @@ impl TryFrom<PodBatchedGroupedCiphertext2HandlesValidityProof>
 /// The `ZeroBalanceProof` type as a `Pod`.
 #[derive(Clone, Copy)]
 #[repr(transparent)]
-pub struct ZeroBalanceProof(pub [u8; ZERO_BALANCE_PROOF_LEN]);
+pub struct PodZeroBalanceProof(pub [u8; ZERO_BALANCE_PROOF_LEN]);
 
 #[cfg(not(target_os = "lumos"))]
-impl From<DecodedZeroBalanceProof> for ZeroBalanceProof {
+impl From<DecodedZeroBalanceProof> for PodZeroBalanceProof {
     fn from(decoded_proof: DecodedZeroBalanceProof) -> Self {
         Self(decoded_proof.to_bytes())
     }
 }
 
 #[cfg(not(target_os = "lumos"))]
-impl TryFrom<ZeroBalanceProof> for DecodedZeroBalanceProof {
+impl TryFrom<PodZeroBalanceProof> for DecodedZeroBalanceProof {
     type Error = ZeroBalanceProofVerificationError;
 
-    fn try_from(pod_proof: ZeroBalanceProof) -> Result<Self, Self::Error> {
+    fn try_from(pod_proof: PodZeroBalanceProof) -> Result<Self, Self::Error> {
         Self::from_bytes(&pod_proof.0)
     }
 }
@@ -199,20 +176,20 @@ impl TryFrom<FeeSigmaProof> for DecodedFeeSigmaProof {
 /// The `PubkeyValidityProof` type as a `Pod`.
 #[derive(Clone, Copy, Pod, Zeroable)]
 #[repr(transparent)]
-pub struct PubkeyValidityProof(pub [u8; PUBKEY_VALIDITY_PROOF_LEN]);
+pub struct PodPubkeyValidityProof(pub [u8; PUBKEY_VALIDITY_PROOF_LEN]);
 
 #[cfg(not(target_os = "lumos"))]
-impl From<DecodedPubkeyValidityProof> for PubkeyValidityProof {
+impl From<DecodedPubkeyValidityProof> for PodPubkeyValidityProof {
     fn from(decoded_proof: DecodedPubkeyValidityProof) -> Self {
         Self(decoded_proof.to_bytes())
     }
 }
 
 #[cfg(not(target_os = "lumos"))]
-impl TryFrom<PubkeyValidityProof> for DecodedPubkeyValidityProof {
+impl TryFrom<PodPubkeyValidityProof> for DecodedPubkeyValidityProof {
     type Error = PubkeyValidityProofVerificationError;
 
-    fn try_from(pod_proof: PubkeyValidityProof) -> Result<Self, Self::Error> {
+    fn try_from(pod_proof: PodPubkeyValidityProof) -> Result<Self, Self::Error> {
         Self::from_bytes(&pod_proof.0)
     }
 }
@@ -252,26 +229,15 @@ impl TryFrom<PodBatchedGroupedCiphertext3HandlesValidityProof>
 
 //gaokanxu 2024.08.20 begin
 
-
-
-
-
-/// The `GroupedCiphertext2HandlesValidityProof` type as a `Pod`.
-#[derive(Clone, Copy)]
-#[repr(transparent)]
-pub struct PodGroupedCiphertext2HandlesValidityProof(
-    pub(crate) [u8; GROUPED_CIPHERTEXT_2_HANDLES_VALIDITY_PROOF_LEN],
-);
-
 #[cfg(not(target_os = "lumos"))]
-impl From<GroupedCiphertext2HandlesValidityProof> for PodGroupedCiphertext2HandlesValidityProof {
-    fn from(decoded_proof: GroupedCiphertext2HandlesValidityProof) -> Self {
+impl From<DecodedGroupedCiphertext2HandlesValidityProof> for PodGroupedCiphertext2HandlesValidityProof {
+    fn from(decoded_proof: DecodedGroupedCiphertext2HandlesValidityProof) -> Self {
         Self(decoded_proof.to_bytes())
     }
 }
 #[cfg(not(target_os = "lumos"))]
 
-impl TryFrom<PodGroupedCiphertext2HandlesValidityProof> for GroupedCiphertext2HandlesValidityProof {
+impl TryFrom<PodGroupedCiphertext2HandlesValidityProof> for DecodedGroupedCiphertext2HandlesValidityProof {
     type Error = ValidityProofVerificationError;
 
     fn try_from(pod_proof: PodGroupedCiphertext2HandlesValidityProof) -> Result<Self, Self::Error> {
@@ -325,21 +291,15 @@ impl TryFrom<PodPercentageWithCapProof> for PercentageWithCapProof {
     }
 }
 
-
-/// The `PubkeyValidityProof` type as a `Pod`.
-#[derive(Clone, Copy, bytemuck_derive::Pod, bytemuck_derive::Zeroable)]
-#[repr(transparent)]
-pub struct PodPubkeyValidityProof(pub(crate) [u8; PUBKEY_VALIDITY_PROOF_LEN]);
-
 #[cfg(not(target_os = "lumos"))]
-impl From<PubkeyValidityProof> for PodPubkeyValidityProof {
-    fn from(decoded_proof: PubkeyValidityProof) -> Self {
+impl From<DecodedPubkeyValidityProof> for PodPubkeyValidityProof {
+    fn from(decoded_proof: DecodedPubkeyValidityProof) -> Self {
         Self(decoded_proof.to_bytes())
     }
 }
 
 #[cfg(not(target_os = "lumos"))]
-impl TryFrom<PodPubkeyValidityProof> for PubkeyValidityProof {
+impl TryFrom<PodPubkeyValidityProof> for DecodedPubkeyValidityProof {
     type Error = PubkeyValidityProofVerificationError;
 
     fn try_from(pod_proof: PodPubkeyValidityProof) -> Result<Self, Self::Error> {
@@ -354,14 +314,14 @@ impl TryFrom<PodPubkeyValidityProof> for PubkeyValidityProof {
 pub struct PodZeroCiphertextProof(pub(crate) [u8; ZERO_CIPHERTEXT_PROOF_LEN]);
 
 #[cfg(not(target_os = "lumos"))]
-impl From<ZeroCiphertextProof> for PodZeroCiphertextProof {
-    fn from(decoded_proof: ZeroCiphertextProof) -> Self {
+impl From<DecodedZeroCiphertextProof> for PodZeroCiphertextProof {
+    fn from(decoded_proof: DecodedZeroCiphertextProof) -> Self {
         Self(decoded_proof.to_bytes())
     }
 }
 
 #[cfg(not(target_os = "lumos"))]
-impl TryFrom<PodZeroCiphertextProof> for ZeroCiphertextProof {
+impl TryFrom<PodZeroCiphertextProof> for DecodedZeroCiphertextProof {
     type Error = ZeroCiphertextProofVerificationError;
 
     fn try_from(pod_proof: PodZeroCiphertextProof) -> Result<Self, Self::Error> {
@@ -391,8 +351,8 @@ unsafe impl Pod for PodGroupedCiphertext2HandlesValidityProof {}
 unsafe impl Zeroable for PodBatchedGroupedCiphertext2HandlesValidityProof {}
 unsafe impl Pod for PodBatchedGroupedCiphertext2HandlesValidityProof {}
 
-unsafe impl Zeroable for ZeroBalanceProof {}
-unsafe impl Pod for ZeroBalanceProof {}
+unsafe impl Zeroable for PodZeroBalanceProof {}
+unsafe impl Pod for PodZeroBalanceProof {}
 
 unsafe impl Zeroable for PodBatchedGroupedCiphertext3HandlesValidityProof {}
 unsafe impl Pod for PodBatchedGroupedCiphertext3HandlesValidityProof {}

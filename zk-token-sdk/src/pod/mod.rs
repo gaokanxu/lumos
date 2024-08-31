@@ -13,15 +13,11 @@ use {
     num_traits::{FromPrimitive, ToPrimitive},
     thiserror::Error,
     bytemuck::{Pod, Zeroable},
-    auth_encryption::AeCiphertext,
+    
     
     crate::errors::InstructionError,
     crate::proof_data::{
             ProofType,
-            transfer::{
-                    FeeParameters, 
-                    encryption::{TransferAmountCiphertext, FeeEncryption},
-            },
     },
 };
 pub use {
@@ -32,8 +28,9 @@ pub use {
             PodBatchedGroupedCiphertext2HandlesValidityProof,
             PodCiphertextCommitmentEqualityProof, 
             FeeSigmaProof, 
-            GroupedCiphertext2HandlesValidityProof,
-            PubkeyValidityProof, ZeroBalanceProof,
+            PodGroupedCiphertext2HandlesValidityProof,
+            PodPubkeyValidityProof,
+            PodZeroBalanceProof,
         },
         elgamal::{
             DecryptHandle, 

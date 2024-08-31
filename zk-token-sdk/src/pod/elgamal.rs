@@ -2,7 +2,13 @@
 
 #[cfg(not(target_os = "lumos"))]
 use {
-    crate::proof_data::elgamal::{self as decoded, ElGamalError},
+    crate::proof_data::elgamal::{
+            ElGamalCiphertext as DecodedElGamalCiphertext,
+            ElGamalPubkey as DecodedElGamalPubkey,
+            DecryptHandle as DecodedDecryptHandle,
+            ElGamalError
+        },
+    
     curve25519_dalek::ristretto::CompressedRistretto,
 };
 use {
@@ -68,14 +74,14 @@ impl_from_str!(
 );
 
 #[cfg(not(target_os = "lumos"))]
-impl From<decoded::ElGamalCiphertext> for PodElGamalCiphertext {
-    fn from(decoded_ciphertext: decoded::ElGamalCiphertext) -> Self {
+impl From<DecodedElGamalCiphertext> for PodElGamalCiphertext {
+    fn from(decoded_ciphertext: DecodedElGamalCiphertext) -> Self {
         Self(decoded_ciphertext.to_bytes())
     }
 }
 
 #[cfg(not(target_os = "lumos"))]
-impl TryFrom<PodElGamalCiphertext> for decoded::ElGamalCiphertext {
+impl TryFrom<PodElGamalCiphertext> for DecodedElGamalCiphertext {
     type Error = ElGamalError;
 
     fn try_from(pod_ciphertext: PodElGamalCiphertext) -> Result<Self, Self::Error> {
@@ -107,14 +113,14 @@ impl_from_str!(
 );
 
 #[cfg(not(target_os = "lumos"))]
-impl From<decoded::ElGamalPubkey> for PodElGamalPubkey {
-    fn from(decoded_pubkey: decoded::ElGamalPubkey) -> Self {
+impl From<DecodedElGamalPubkey> for PodElGamalPubkey {
+    fn from(decoded_pubkey: DecodedElGamalPubkey) -> Self {
         Self(decoded_pubkey.to_bytes())
     }
 }
 
 #[cfg(not(target_os = "lumos"))]
-impl TryFrom<PodElGamalPubkey> for decoded::ElGamalPubkey {
+impl TryFrom<PodElGamalPubkey> for DecodedElGamalPubkey {
     type Error = ElGamalError;
 
     fn try_from(pod_pubkey: PodElGamalPubkey) -> Result<Self, Self::Error> {
@@ -134,8 +140,8 @@ impl fmt::Debug for DecryptHandle {
 }
 
 #[cfg(not(target_os = "lumos"))]
-impl From<decoded::DecryptHandle> for DecryptHandle {
-    fn from(decoded_handle: decoded::DecryptHandle) -> Self {
+impl From<DecodedDecryptHandle> for DecryptHandle {
+    fn from(decoded_handle: DecodedDecryptHandle) -> Self {
         Self(decoded_handle.to_bytes())
     }
 }
@@ -149,7 +155,7 @@ impl From<DecryptHandle> for CompressedRistretto {
 }
 
 #[cfg(not(target_os = "lumos"))]
-impl TryFrom<DecryptHandle> for decoded::DecryptHandle {
+impl TryFrom<DecryptHandle> for DecodedDecryptHandle {
     type Error = ElGamalError;
 
     fn try_from(pod_handle: DecryptHandle) -> Result<Self, Self::Error> {

@@ -10,12 +10,13 @@ use {
         proof_data::{
             elgamal::ElGamalCiphertext,
             pedersen::{PedersenCommitment, PedersenOpening},
+            /*
             transfer::{
                 with_fee::{TransferWithFeeData, TransferWithFeeProofContext, TransferWithFeePubkeys},
                 without_fee::{TransferData, TransferProofContext, TransferPubkeys},
                 encryption::{FeeEncryption, TransferAmountCiphertext}
             },
-            
+            */
         },
     },
 };
