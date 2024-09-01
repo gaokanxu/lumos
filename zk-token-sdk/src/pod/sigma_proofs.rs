@@ -291,22 +291,6 @@ impl TryFrom<PodPercentageWithCapProof> for PercentageWithCapProof {
     }
 }
 
-#[cfg(not(target_os = "lumos"))]
-impl From<DecodedPubkeyValidityProof> for PodPubkeyValidityProof {
-    fn from(decoded_proof: DecodedPubkeyValidityProof) -> Self {
-        Self(decoded_proof.to_bytes())
-    }
-}
-
-#[cfg(not(target_os = "lumos"))]
-impl TryFrom<PodPubkeyValidityProof> for DecodedPubkeyValidityProof {
-    type Error = PubkeyValidityProofVerificationError;
-
-    fn try_from(pod_proof: PodPubkeyValidityProof) -> Result<Self, Self::Error> {
-        Self::from_bytes(&pod_proof.0)
-    }
-}
-
 
 /// The `ZeroCiphertextProof` type as a `Pod`.
 #[derive(Clone, Copy)]

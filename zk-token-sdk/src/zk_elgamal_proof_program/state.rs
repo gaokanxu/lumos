@@ -9,7 +9,7 @@ use {
     crate::errors::InstructionError,
     
     lumos_program::pubkey::Pubkey,
-    lumos_program::program_error::ProgramError::InvalidAccountData,
+    //lumos_program::program_error::ProgramError,
     
 };
 
@@ -51,8 +51,11 @@ impl<T: Pod> ProofContextState<T> {
     /// in `ProofContextState` without a generic parameter, use
     /// `ProofContextStateMeta::try_from_bytes` instead.
     pub fn try_from_bytes(input: &[u8]) -> Result<&Self, InstructionError> {
-        bytemuck::try_from_bytes(input).map_err(|_| InvalidAccountData)
+        //bytemuck::try_from_bytes(input).map_err(|_| InvalidAccountData)
+        //gaokanxu 2024.08.31
+        bytemuck::try_from_bytes(input).map_err(|_| InstructionError::InvalidAccountData)
     }
+
 }
 
 /// The `ProofContextState` without the proof context itself. This struct exists to facilitate the
@@ -68,9 +71,17 @@ pub struct ProofContextStateMeta {
 
 impl ProofContextStateMeta {
     pub fn try_from_bytes(input: &[u8]) -> Result<&Self, InstructionError> {
+    /*
         input
             .get(..size_of::<ProofContextStateMeta>())
             .and_then(|data| bytemuck::try_from_bytes(data).ok())
             .ok_or(InvalidAccountData)
+    */
+    //gaokanxu 2024.08.31
+    input
+        .get(..size_of::<ProofContextStateMeta>())
+        .and_then(|data| bytemuck::try_from_bytes(data).ok())
+        .ok_or(InstructionError::InvalidAccountData)
+
     }
 }

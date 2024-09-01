@@ -24,9 +24,3 @@
     }
 
 
-
-//gaokanxu 2024.08.17 erase below 2lines, define ElGamalPubkey too in  2 files: ./elgamal.rs ../pod/elgamal.rs
-/*
-#[derive(Clone, Copy, Debug, Default, Eq, PartialEq, Zeroize, Serialize, Deserialize)]
-pub struct ElGamalPubkey(#[serde(serialize_with = "serialize", deserialize_with = "deserialize")] RistrettoPoint);
-*/

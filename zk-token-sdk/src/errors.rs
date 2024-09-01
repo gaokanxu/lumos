@@ -71,6 +71,9 @@ pub enum InstructionError {
     IllegalAmountBitLength,
     #[error("arithmetic overflow")]
     Overflow,
+    #[error("invalid account data")]
+    InvalidAccountData,
+    
 }
 
 

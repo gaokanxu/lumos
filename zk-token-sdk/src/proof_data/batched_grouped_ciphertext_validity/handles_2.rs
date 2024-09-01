@@ -66,8 +66,14 @@ impl BatchedGroupedCiphertext2HandlesValidityProofData {
         opening_lo: &PedersenOpening,
         opening_hi: &PedersenOpening,
     ) -> Result<Self, ProofGenerationError> {
-        let pod_first_pubkey = PodElGamalPubkey(first_pubkey.into());
-        let pod_second_pubkey = PodElGamalPubkey(second_pubkey.into());
+    
+        //let pod_first_pubkey = PodElGamalPubkey(first_pubkey.into());
+        //let pod_second_pubkey = PodElGamalPubkey(second_pubkey.into());
+        //gaokanxu 2024.08.31
+        let pod_first_pubkey = PodElGamalPubkey(first_pubkey.to_bytes());
+        let pod_second_pubkey = PodElGamalPubkey(second_pubkey.to_bytes());
+        
+        
         let pod_grouped_ciphertext_lo = (*grouped_ciphertext_lo).into();
         let pod_grouped_ciphertext_hi = (*grouped_ciphertext_hi).into();
 
@@ -80,6 +86,7 @@ impl BatchedGroupedCiphertext2HandlesValidityProofData {
 
         let mut transcript = context.new_transcript();
 
+        /*
         let proof = BatchedGroupedCiphertext2HandlesValidityProof::new(
             first_pubkey,
             second_pubkey,
@@ -89,7 +96,17 @@ impl BatchedGroupedCiphertext2HandlesValidityProofData {
             opening_hi,
             &mut transcript,
         )
-        .into();
+            .into();
+        */
+        //gaokanxu 2024.08.31
+        let proof = BatchedGroupedCiphertext2HandlesValidityProof::new::<u64>(
+            (first_pubkey, second_pubkey),
+            (amount_lo.into(), amount_hi.into()),
+            (opening_lo, opening_hi),
+            &mut transcript,
+        )
+            .into();
+        
 
         Ok(Self { context, proof })
     }
