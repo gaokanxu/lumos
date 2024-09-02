@@ -106,6 +106,9 @@ pub enum ProofVerificationError {
     IllegalCommitmentLength,
     #[error("illegal amount bit length")]
     IllegalAmountBitLength,
+    
+    #[error("generic error")]
+    GenericError(String),
 }
 
 #[derive(Clone, Debug, Eq, PartialEq)]

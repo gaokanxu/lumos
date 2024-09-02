@@ -127,10 +127,11 @@ impl ZkProofData<BatchedGroupedCiphertext2HandlesValidityProofContext>
 
         let first_pubkey = self.context.first_pubkey.try_into()?;
         let second_pubkey = self.context.second_pubkey.try_into()?;
-        let grouped_ciphertext_lo: GroupedElGamalCiphertext<2> =
-            self.context.grouped_ciphertext_lo.try_into()?;
-        let grouped_ciphertext_hi: GroupedElGamalCiphertext<2> =
-            self.context.grouped_ciphertext_hi.try_into()?;
+        //let grouped_ciphertext_lo: GroupedElGamalCiphertext<2> = self.context.grouped_ciphertext_lo.try_into()?;
+        //let grouped_ciphertext_hi: GroupedElGamalCiphertext<2> = self.context.grouped_ciphertext_hi.try_into()?;
+        //gaokanxu 2024.09.01
+        let grouped_ciphertext_lo: GroupedElGamalCiphertext<2> = self.context.grouped_ciphertext_lo.try_into().map_err(|e| { ProofVerificationError::GenericError(format!("ElGamalError: {:?}", e)) })?;
+        let grouped_ciphertext_hi: GroupedElGamalCiphertext<2> = self.context.grouped_ciphertext_hi.try_into().map_err(|e| { ProofVerificationError::GenericError(format!("ElGamalError: {:?}", e)) })?;
 
         let first_handle_lo = grouped_ciphertext_lo.handles.first().unwrap();
         let second_handle_lo = grouped_ciphertext_lo.handles.get(1).unwrap();
