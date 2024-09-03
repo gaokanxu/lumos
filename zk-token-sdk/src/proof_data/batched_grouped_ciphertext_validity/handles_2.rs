@@ -23,7 +23,7 @@ use {
             pedersen::PedersenOpening,
         },
         sigma_proofs::batched_grouped_ciphertext_validity_proof::BatchedGroupedCiphertext2HandlesValidityProof,
-        errors::{ProofGenerationError, ProofVerificationError},
+        errors::{ProofGenerationError, ProofVerificationError, ElGamalError},
     },
     bytemuck::bytes_of,
     merlin::Transcript,
@@ -125,11 +125,15 @@ impl ZkProofData<BatchedGroupedCiphertext2HandlesValidityProofContext>
     fn verify_proof(&self) -> Result<(), ProofVerificationError> {
         let mut transcript = self.context.new_transcript();
 
-        let first_pubkey = self.context.first_pubkey.try_into()?;
+        //let first_pubkey = self.context.first_pubkey.try_into()?;
         let second_pubkey = self.context.second_pubkey.try_into()?;
         //let grouped_ciphertext_lo: GroupedElGamalCiphertext<2> = self.context.grouped_ciphertext_lo.try_into()?;
         //let grouped_ciphertext_hi: GroupedElGamalCiphertext<2> = self.context.grouped_ciphertext_hi.try_into()?;
         //gaokanxu 2024.09.01
+        let first_pubkey = self.context.first_pubkey.try_into().map_err(|e: ElGamalError| { ProofVerificationError::ElGamalError(e) })?;
+
+        
+        
         let grouped_ciphertext_lo: GroupedElGamalCiphertext<2> = self.context.grouped_ciphertext_lo.try_into().map_err(|e| { ProofVerificationError::GenericError(format!("ElGamalError: {:?}", e)) })?;
         let grouped_ciphertext_hi: GroupedElGamalCiphertext<2> = self.context.grouped_ciphertext_hi.try_into().map_err(|e| { ProofVerificationError::GenericError(format!("ElGamalError: {:?}", e)) })?;
 
@@ -141,6 +145,7 @@ impl ZkProofData<BatchedGroupedCiphertext2HandlesValidityProofContext>
 
         let proof: BatchedGroupedCiphertext2HandlesValidityProof = self.proof.try_into()?;
 
+        /*
         proof
             .verify(
                 &first_pubkey,
@@ -151,6 +156,17 @@ impl ZkProofData<BatchedGroupedCiphertext2HandlesValidityProofContext>
                 first_handle_hi,
                 second_handle_lo,
                 second_handle_hi,
+                &mut transcript,
+            )
+            .map_err(|e| e.into())
+        */
+        //gaokanxu 2024.09.02
+        proof
+            .verify(
+                (&first_pubkey, &second_pubkey),
+                (&grouped_ciphertext_lo.commitment, &grouped_ciphertext_hi.commitment),
+                (first_handle_lo, first_handle_hi),
+                (second_handle_lo, second_handle_hi),
                 &mut transcript,
             )
             .map_err(|e| e.into())

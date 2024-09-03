@@ -6,7 +6,7 @@ use crate::pod::{
 };
 #[cfg(not(target_os = "lumos"))]
 use crate::{
-    proof_data::elgamal::ElGamalError, 
+    errors::ElGamalError, 
     //proof_data::transfer as decoded,
     proof_data::transfer::{
         encryption::TransferAmountCiphertext as DecodedTransferAmountCiphertext,

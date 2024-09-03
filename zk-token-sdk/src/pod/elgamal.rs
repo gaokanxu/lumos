@@ -6,8 +6,9 @@ use {
             ElGamalCiphertext as DecodedElGamalCiphertext,
             ElGamalPubkey as DecodedElGamalPubkey,
             DecryptHandle as DecodedDecryptHandle,
-            ElGamalError
+            
         },
+    crate::errors::ElGamalError,
     
     curve25519_dalek::ristretto::CompressedRistretto,
 };

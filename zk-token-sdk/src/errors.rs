@@ -107,6 +107,9 @@ pub enum ProofVerificationError {
     #[error("illegal amount bit length")]
     IllegalAmountBitLength,
     
+    
+    #[error("elgamal error")]
+    ElGamalError(ElGamalError),
     #[error("generic error")]
     GenericError(String),
 }
@@ -161,6 +164,8 @@ pub enum SigmaProofVerificationError {
     MultiscalarMul,
     #[error("transcript failed to produce a challenge")]
     Transcript(#[from] TranscriptError),
+    
+    
 }
 
 macro_rules! impl_from_transcript_error {
