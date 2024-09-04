@@ -67,8 +67,16 @@ impl CiphertextCiphertextEqualityProofData {
         second_opening: &PedersenOpening,
         amount: u64,
     ) -> Result<Self, ProofGenerationError> {
+        /*
         let pod_first_pubkey = PodElGamalPubkey(first_keypair.pubkey().into());
         let pod_second_pubkey = PodElGamalPubkey(second_pubkey.into());
+        */
+        //gaokanxu 2024.09.03 begin
+        let pod_first_pubkey = PodElGamalPubkey(first_keypair.pubkey().to_bytes());
+        let pod_second_pubkey = PodElGamalPubkey(second_pubkey.to_bytes());
+        //gaokanxu 2024.09.03 end
+        
+        
         let pod_first_ciphertext = PodElGamalCiphertext(first_ciphertext.to_bytes());
         let pod_second_ciphertext = PodElGamalCiphertext(second_ciphertext.to_bytes());
 

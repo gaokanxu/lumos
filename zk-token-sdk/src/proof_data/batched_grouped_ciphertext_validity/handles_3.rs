@@ -71,9 +71,18 @@ impl BatchedGroupedCiphertext3HandlesValidityProofData {
         opening_lo: &PedersenOpening,
         opening_hi: &PedersenOpening,
     ) -> Result<Self, ProofGenerationError> {
+        /*
         let pod_first_pubkey = PodElGamalPubkey(first_pubkey.into());
         let pod_second_pubkey = PodElGamalPubkey(second_pubkey.into());
         let pod_third_pubkey = PodElGamalPubkey(third_pubkey.into());
+        */
+        //gaokanxu 2024.09.03 begin
+        let pod_first_pubkey = PodElGamalPubkey(first_pubkey.to_bytes());
+        let pod_second_pubkey = PodElGamalPubkey(second_pubkey.to_bytes());
+        let pod_third_pubkey = PodElGamalPubkey(third_pubkey.to_bytes());
+        //gaokanxu 2024.09.03 end
+      
+      
         let pod_grouped_ciphertext_lo = (*grouped_ciphertext_lo).into();
         let pod_grouped_ciphertext_hi = (*grouped_ciphertext_hi).into();
 

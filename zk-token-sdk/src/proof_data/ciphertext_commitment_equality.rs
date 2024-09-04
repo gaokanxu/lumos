@@ -69,7 +69,10 @@ impl CiphertextCommitmentEqualityProofData {
         amount: u64,
     ) -> Result<Self, ProofGenerationError> {
         let context = CiphertextCommitmentEqualityProofContext {
-            pubkey: PodElGamalPubkey(keypair.pubkey().into()),
+            //pubkey: PodElGamalPubkey(keypair.pubkey().into()),
+            //gaokanxu 2024.09.03
+            pubkey: PodElGamalPubkey(keypair.pubkey().to_bytes()),
+            
             ciphertext: PodElGamalCiphertext(ciphertext.to_bytes()),
             commitment: PodPedersenCommitment(commitment.to_bytes()),
         };
