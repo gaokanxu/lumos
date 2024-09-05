@@ -440,7 +440,7 @@ impl fmt::Display for ElGamalPubkey {
 
 //gaokanxu 2024.08.14 begin 应对curve25519_dalek::scalar::Scalar的孤儿准则
 #[derive(Copy, Clone, Debug, Serialize, Deserialize, Default)]
-struct ScalarWrapper(Scalar);
+pub struct ScalarWrapper(Scalar);
 
 impl From<ScalarWrapper> for Scalar {
     fn from(wrapper: ScalarWrapper) -> Self {
@@ -449,6 +449,16 @@ impl From<ScalarWrapper> for Scalar {
 }
 impl DefaultIsZeroes for ScalarWrapper {}
 //gaokanxu 2024.08.14 end 
+
+//gaokanxu 2024.09.05 begin
+impl From<&ElGamalPubkey> for ScalarWrapper {
+    fn from(pubkey: &ElGamalPubkey) -> Self {
+        // 实现转换逻辑，比如从pubkey获取相应的Scalar
+        ScalarWrapper(Scalar::from_bytes_mod_order(pubkey.to_bytes()))
+    }
+}
+//gaokanxu 2024.09.05 end
+
 
 
 

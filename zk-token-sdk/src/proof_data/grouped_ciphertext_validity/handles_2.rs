@@ -13,7 +13,7 @@ use {
         
         //pod::PodGroupedCiphertext2HandlesValidityProof,
         //gaokanxu 2024.08.20
-        pod::sigma_proofs::PodGroupedCiphertext2HandlesValidityProof,
+        pod::PodGroupedCiphertext2HandlesValidityProof,
         
         proof_data::{ProofType, ZkProofData},
     },
@@ -83,6 +83,7 @@ impl GroupedCiphertext2HandlesValidityProofData {
 
         let mut transcript = context.new_transcript();
 
+        /*
         let proof = GroupedCiphertext2HandlesValidityProof::new(
             first_pubkey,
             second_pubkey,
@@ -91,7 +92,16 @@ impl GroupedCiphertext2HandlesValidityProofData {
             &mut transcript,
         )
         .into();
-
+        */
+        
+        let proof = GroupedCiphertext2HandlesValidityProof::new(
+            (first_pubkey, second_pubkey),
+            amount,
+            opening,
+            &mut transcript,
+        )
+        .into();
+        
         Ok(Self { context, proof })
     }
 }
