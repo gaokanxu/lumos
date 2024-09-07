@@ -1,7 +1,7 @@
 
 [profile.dev]
 incremental = true
-yes
+
 
 [profile.release]
 incremental = true
