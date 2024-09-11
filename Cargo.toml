@@ -10,9 +10,7 @@ incremental = true
 inherits = "release"
 debug = true
 split-debuginfo = "packed"
-okok
-yesyes
-1111111
+
 
 [workspace]
 authors = ["Gao Kanxu <gaokanxu@gmail.com>"]
