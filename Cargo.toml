@@ -7,6 +7,7 @@ incremental = true
 55555
 66666
 7777
+8888
 [profile.release]
 incremental = true
 
