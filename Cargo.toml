@@ -1,8 +1,7 @@
 
 [profile.dev]
 incremental = true
-9999
-88888
+999
 ddddd
 ggggg
 [profile.release]
